@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns="http://java.sun.com/xml/ns/javaee" 
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" 
+	id="WebApp_ID" version="3.0">
+  <display-name>ZhongheWeiHelperR2</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+  </welcome-file-list>
+  
+<!-- store -->
+     <servlet>
+        <servlet-name>store</servlet-name>
+        <servlet-class>
+            org.springframework.web.servlet.DispatcherServlet
+        </servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>store</servlet-name>
+        <url-pattern>/store/*</url-pattern>
+    </servlet-mapping>
+<!-- ***** --> 
+
+<!-- customer -->
+     <servlet>
+        <servlet-name>customer</servlet-name>
+        <servlet-class>
+            org.springframework.web.servlet.DispatcherServlet
+        </servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>customer</servlet-name>
+        <url-pattern>/customer/*</url-pattern>
+    </servlet-mapping>
+<!-- ******* -->
+
+<!-- security -->
+     <servlet>
+        <servlet-name>security</servlet-name>
+        <servlet-class>
+            org.springframework.web.servlet.DispatcherServlet
+        </servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>security</servlet-name>
+        <url-pattern>/security/*</url-pattern>
+    </servlet-mapping>
+<!-- ******* -->
+</web-app>
+
+ 
