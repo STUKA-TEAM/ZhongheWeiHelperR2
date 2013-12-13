@@ -1,0 +1,206 @@
+* {
+  outline:none !important;
+  -moz-outline: none !important;
+}
+html, body{height:100%}
+body, button, input, select, textarea, h1 ,h2, h3, h4, h5, h6 {
+  font-family: Microsoft YaHei,'宋体' , Tahoma, Helvetica, Arial, "\5b8b\4f53", sans-serif;
+}
+.navbar-static-top {
+  margin-bottom: 0px;
+}
+.navbar-white {
+  background-color: #ffffff;
+  border-color: #e7e7e7;
+}
+.bs-glyphicons {
+  padding-left: 0;
+  padding-bottom: 1px;
+  margin-bottom: 20px;
+  margin-left: 4%;
+  list-style: none;
+  overflow: hidden;
+}
+.bs-glyphicons li {
+  float: left;
+  width: 16%;
+  height: 175px;
+  padding: 10px;
+  margin: 0 -1px -1px 0;
+  font-size: 12px;
+  line-height: 1.4;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+.bs-glyphicons .glyphicon {
+  margin-top: 5px;
+  margin-bottom: 10px;
+  font-size: 24px;
+}
+.bs-glyphicons .glyphicon-class {
+  margin-top: 10px;
+  display: block;
+  text-align: center;
+  font-size: 20px;
+}
+.bs-glyphicons li:hover {
+  background-color: rgba(86,61,124,.1);
+}
+.content {
+  margin-top: 40px;
+  margin-left: 4%;
+  padding-bottom: 20px;
+  width: 100%;
+}
+.content-title {
+  margin-top: 40px;
+  margin-left: 4%;
+  padding-bottom: 20px;
+  width: 100%;
+}
+.content-title p {
+  margin-left: 10%;
+  padding-left: 25px;
+  padding-top: 3px;
+}
+.nav-login {
+  padding-top: 15px;
+}
+.nav-login > li > a {
+  height: 60px;
+}
+.login {
+  font-size: 20px;
+  padding-left: 5px;
+}
+.register {
+  font-size: 20px;
+}
+.navbar-default .navbar-nav > li > a {
+  color: #777777;
+}
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+  color: #1abc9c;
+  border-bottom-style: solid;
+  border-bottom-width: 5px;
+  border-color: #1abc9c;
+  background-color: transparent;
+}
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {
+  color: #1abc9c;
+  border-bottom-style: solid;
+  border-bottom-width: 5px;
+  border-color: #1abc9c;
+  background-color: transparent;
+}
+.navbar-default .navbar-nav > .disabled > a,
+.navbar-default .navbar-nav > .disabled > a:hover,
+.navbar-default .navbar-nav > .disabled > a:focus {
+  color: #cccccc;
+  background-color: transparent;
+}
+.list_carousel {
+  background-color: #ffffff;
+  width: 96%;
+}
+.list_carousel ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: block;
+}
+.list_carousel li {
+  text-align: center;
+  background-color: transparent;
+  width: 240px;
+  height: 426px;
+  padding: 0;
+  margin: 11px;
+  display: block;
+  float: left;
+}
+.carousel-arrow {
+  margin-top: 200px;
+}
+.login-icon {
+  left: 200px;
+  position: absolute;
+  top: 160px;
+  width: 96px;
+}
+.login-icon > img {
+  display: block;
+  margin-bottom: 6px;
+  width: 100%;
+}
+.login-icon > h4 {
+  font-size: 17px;
+  font-weight: 300;
+  line-height: 34px;
+  opacity: 0.95;
+  filter: alpha(opacity=95);
+}
+.login-icon > h4 small {
+  color: inherit;
+  display: block;
+  font-size: inherit;
+  font-weight: 700;
+}
+.login-container {
+  display: none;
+}
+.login-form {
+  background-color: #ffffff;
+  padding: 24px 13px 10px;
+  position: relative;
+  border-radius: 6px;
+}
+.login-form .control-group {
+  margin-bottom: 6px;
+  position: relative;
+}
+.login-form .login-field {
+  border-style: solid;
+  border-color: #1ABC9C;
+  border-left-width: 6px;
+  border-radius: 0px;
+  width: 220px;
+  height: 40px;
+  font-size: 17px;
+  text-indent: 3px;
+}
+.login-form .login-field:focus {
+  border-style: solid;
+  border-color: #1ABC9C;
+  border-left-width: 6px;
+}
+.login-form .login-field:focus + .login-field-icon {
+  color: #1abc9c;
+}
+.login-form .login-field-icon {
+  color: #bfc9ca;
+  font-size: 16px;
+  position: absolute;
+  right: 13px;
+  top: 9px;
+  -webkit-transition: 0.25s;
+  transition: 0.25s;
+}
+.login-link {
+  color: #bfc9ca;
+  display: block;
+  font-size: 13px;
+  margin-top: 15px;
+  text-align: center;
+}
+.modal-dialog {
+  position: relative;
+  z-index: 1050;
+  width: 270px;
+  padding: 10px;
+  margin-right: auto;
+  margin-left: auto;
+}
