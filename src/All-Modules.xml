@@ -31,6 +31,7 @@
 	<import resource="vote/dao/VoteDAO-Beans.xml"/>
 	<import resource="voucher/dao/VoucherDAO-Beans.xml"/>
 	<import resource="weather/dao/WeatherDAO-Beans.xml"/>
-	<import resource="website/dao/WebsiteDAO-Beans.xml"/>	
+	<import resource="website/dao/WebsiteDAO-Beans.xml"/>
+	<import resource="register/dao/RegisterDAO-Beans.xml"/>	
 
 </beans>
