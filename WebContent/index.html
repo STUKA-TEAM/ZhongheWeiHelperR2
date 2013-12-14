@@ -12,10 +12,10 @@
     <link href="./css/store/zhonghe-wechat.css" rel="stylesheet">
     <link rel="shortcut icon" href="./img/favicon.jpg">
     <!-- include jQuery + carouFredSel plugin -->
-		<script type="text/javascript" language="javascript" src="./js/store/jquery-1.10.2.min.js"></script>
-		<script type="text/javascript" language="javascript" src="./js/store/jquery.carouFredSel-6.2.1-packed.js"></script>
+		<script type="text/javascript" src="./js/store/jquery-1.10.2.min.js"></script>
+		<script type="text/javascript" src="./js/store/jquery.carouFredSel-6.2.1-packed.js"></script>
     <!-- fire plugin onDocumentReady -->
-		<script type="text/javascript" language="javascript">
+		<script type="text/javascript">
 			$(function() {
 				//	Scrolled by user interaction
 				$('#case_ul').carouFredSel({
@@ -43,22 +43,16 @@
   </head>
   <body>
     <!-- Fixed navbar -->
-    <div class="navbar navbar-default navbar-white navbar-static-top" role="navigation">
+    <div class="navbar navbar-default navbar-white navbar-static-top">
       <div class="container">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
           <a class="navbar-brand" href="#"><img src="./img/logo.png" alt="Zhonghe Software" /></a>
         </div>
         
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right nav-login">
             <li><a href="#"  rel="popover" data-placement="bottom"><img src="./img/login.png"/><span class="login">登录</span></a></li>
-            <li><a href="#"><span class="register">没有账号？立即加入</span></a></li>
+            <li><a href="./register.html"><span class="register">没有账号？立即加入</span></a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div><!-- container -->
@@ -135,7 +129,6 @@
           <span class="glyphicon-class">微工具</span>
         </li>
       </ul>
-      </div>
     </div> <!-- /container -->
     
     <div class="container">

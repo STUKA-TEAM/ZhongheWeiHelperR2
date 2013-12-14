@@ -8,9 +8,12 @@
   padding-right: 45px;
   padding-top: 8px;
 }
-.sidebar,
+.sidebar {
+  min-height: 760px;
+}
 .manager-content {
   min-height: 760px;
+  background-color: #f5f5f5;
 }
 .nav-pills > li {
   border-bottom-style: solid;
@@ -128,7 +131,16 @@ fieldset[disabled] .btn-user.active {
 .btn-user .caret {
   border-top-color: #fff;
 }
-
 .dropup .btn-user .caret {
   border-bottom-color: #fff;
+}
+.dish-list {
+  list-style: none;
+  margin-left: -50px;
+}
+.dish-list > li {
+  margin: 0px 10px 10px 0px;
+}
+.dish-container {
+  margin-left: 20px;
 }
