@@ -30,7 +30,7 @@ public class RegisterValidation implements Validator{
 			errors.rejectValue("email", "NotValid.NewRegister.email", "请输入合格的邮箱格式");
 		}
 		if(!commonValidationTools.checkPhone(registerInfo.getPhone())){
-			errors.rejectValue("email", "NotValid.NewRegister.phone", "请输入合格的电话格式");
+			errors.rejectValue("phone", "NotValid.NewRegister.phone", "请输入合格的电话格式");
 		}
 	}
 
