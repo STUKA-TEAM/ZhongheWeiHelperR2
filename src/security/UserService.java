@@ -5,11 +5,9 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
 
 import security.dao.UserDAO;
 
-@Service
 public class UserService implements UserDetailsService {		
 	@Override
 	public User loadUserByUsername(final String username) 

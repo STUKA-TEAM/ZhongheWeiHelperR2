@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 18, 2013 at 06:52 AM
+-- Generation Time: Dec 18, 2013 at 05:00 PM
 -- Server version: 5.5.32
 -- PHP Version: 5.4.19
 
@@ -209,7 +209,7 @@ CREATE TABLE IF NOT EXISTS `storeuser` (
   `sid` int(11) NOT NULL AUTO_INCREMENT COMMENT '众合微助手平台账户ID',
   `roleid` int(11) NOT NULL DEFAULT '0' COMMENT '所属角色',
   `username` varchar(20) NOT NULL DEFAULT '' COMMENT '平台账号用户名',
-  `password` varchar(20) NOT NULL DEFAULT '' COMMENT '平台账户密码',
+  `password` varchar(60) NOT NULL DEFAULT '' COMMENT '平台账户密码',
   `createDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建时间',
   `storeName` varchar(40) NOT NULL DEFAULT '' COMMENT '用户名称',
   `email` varchar(40) DEFAULT NULL COMMENT '邮箱',
@@ -224,7 +224,7 @@ CREATE TABLE IF NOT EXISTS `storeuser` (
 --
 
 INSERT INTO `storeuser` (`sid`, `roleid`, `username`, `password`, `createDate`, `storeName`, `email`, `phone`, `cellPhone`, `address`) VALUES
-(1, 1, 'byc', 'byc', '2013-12-16 04:16:00', 'Zhonghe', '1311867063@qq.com', NULL, '13585563683', '浦东新区盛夏路58弄');
+(1, 1, 'byc', '$2a$10$w2a0e8OsEtJ0dPYT//Sc0Oj1NneShu5iXBTppGKi47peA75jtXzVu', '2013-12-16 04:16:00', 'Zhonghe', '1311867063@qq.com', NULL, '13585563683', '浦东新区盛夏路58弄');
 
 -- --------------------------------------------------------
 

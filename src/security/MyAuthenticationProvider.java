@@ -2,20 +2,24 @@ package security;
 
 import java.util.Collection;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.stereotype.Component;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
-@Component("myAuthenticationProvider")
 public class MyAuthenticationProvider implements AuthenticationProvider {
-
-	@Autowired
     private UserService userService;
+    private PasswordEncoder passwordEncoder;
+    
+	public void setUserService(UserService userService){
+		this.userService = userService;
+	}
+	public void setPasswordEncoder(PasswordEncoder passwordEncoder){
+		this.passwordEncoder = passwordEncoder;
+	}
 	
 	@Override
 	public Authentication authenticate(Authentication authentication)
@@ -29,7 +33,7 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
             throw new BadCredentialsException("Username not found.");
         }
  
-        if (!password.equals(user.getPassword())) {
+        if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new BadCredentialsException("Wrong password.");
         }
  
@@ -42,5 +46,4 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
 	public boolean supports(Class<? extends Object> authentication) {
 		return (UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication));
 	}
-
 }

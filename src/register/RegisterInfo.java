@@ -10,6 +10,7 @@ import java.sql.Timestamp;
  * @date 2013年12月08日
  */
 public class RegisterInfo {
+	private int roleid;
 	private String username;
 	private String password;
 	private Timestamp createDate;
@@ -19,6 +20,18 @@ public class RegisterInfo {
 	private String cellPhone;
 	private String address;
 	
+	/**
+	 * @return the roleid
+	 */
+	public int getRoleid() {
+		return roleid;
+	}
+	/**
+	 * @param roleid the roleid to set
+	 */
+	public void setRoleid(int roleid) {
+		this.roleid = roleid;
+	}
 	/**
 	 * @return the username
 	 */
