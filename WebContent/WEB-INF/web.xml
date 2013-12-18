@@ -50,6 +50,20 @@
     </servlet-mapping>
 <!-- ******* -->
 
+<!-- weixin -->
+     <servlet>
+        <servlet-name>weixin</servlet-name>
+        <servlet-class>
+            org.springframework.web.servlet.DispatcherServlet
+        </servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>weixin</servlet-name>
+        <url-pattern>/zhongheapi/*</url-pattern>
+    </servlet-mapping>
+<!-- ******* -->
+
 <!-- charset-filter -->
 	<filter>
 		<filter-name>characterEncodingFilter</filter-name>
