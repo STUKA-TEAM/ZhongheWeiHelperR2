@@ -9,7 +9,6 @@ import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.stereotype.Repository;
 
 import security.Role;
 import security.User;
@@ -21,7 +20,6 @@ import security.User;
  * @author ben
  * @date 2013年12月16日
  */
-@Repository
 public class UserDAO {
 	private DataSource dataSource;
 	private JdbcTemplate jdbcTemplate;

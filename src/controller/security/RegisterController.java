@@ -53,7 +53,7 @@ public class RegisterController {
 		if(result.hasErrors()){		
 			return "register";
 		}else {
-			
+			System.out.println(registerInfo.getPassword());
 			return "registersuccess";
 		}
 	}

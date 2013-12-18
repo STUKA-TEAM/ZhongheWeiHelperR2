@@ -39,13 +39,14 @@ public class RegisterInfoDAO {
 	 */
 	public int insertRegisterInfo(final RegisterInfo registerInfo){
 		int result = 0;
-		final String SQL = "INSERT INTO storeuser VALUES (default, ?, ?, ?, ?, ?, ?, ?, ?)";
+		final String SQL = "INSERT INTO storeuser VALUES (default, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		KeyHolder kHolder = new GeneratedKeyHolder();		
 		result = jdbcTemplate.update(new PreparedStatementCreator() {
 	        public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
 	            PreparedStatement ps =
 	                connection.prepareStatement(SQL,Statement.RETURN_GENERATED_KEYS);
+	            ps.setInt(1, registerInfo.getRoleid());
 	            ps.setString(1, registerInfo.getUsername());
 	            ps.setString(2, registerInfo.getPassword());
 	            ps.setTimestamp(3, registerInfo.getCreateDate());
