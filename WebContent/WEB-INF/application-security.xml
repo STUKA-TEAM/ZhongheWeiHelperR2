@@ -6,8 +6,9 @@
           http://www.springframework.org/schema/security
           http://www.springframework.org/schema/security/spring-security-3.1.xsd">   
 
-    <http pattern="/**/*.css" security="none"/>
-    <http pattern="/**/*.js" security="none"/>
+    <http pattern="/**/css/**" security="none"/>
+    <http pattern="/**/js/**" security="none"/>
+    <http pattern="/**/img/*" security="none"/>
      
     <http auto-config="true" use-expressions="true">
        <intercept-url pattern="/security/*" access="permitAll"/>      
@@ -15,14 +16,10 @@
        <intercept-url pattern="/**" access="hasRole('ROLE_USER')" />      
        <form-login login-page="/security/login" default-target-url="/uploadfile.html" always-use-default-target="false" authentication-failure-url="/security/accessdenied" />
     </http>
-  
+
     <authentication-manager alias="authenticationManager">
-        <authentication-provider>
-            <user-service>
-                <user name="jimi" password="jimpassword" authorities="ROLE_USER, ROLE_ADMIN" />
-                <user name="bob" password="bob" authorities="ROLE_USER" />
-            </user-service>
+        <authentication-provider ref="myAuthenticationProvider">
         </authentication-provider>
     </authentication-manager>
- 
+    
 </beans:beans>

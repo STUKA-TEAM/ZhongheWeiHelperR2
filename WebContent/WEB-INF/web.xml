@@ -83,7 +83,8 @@
 <!-- security-context-loader -->
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>        
+        <param-value> 
+            /WEB-INF/application-context.xml     
             /WEB-INF/application-security.xml
         </param-value>
     </context-param>
