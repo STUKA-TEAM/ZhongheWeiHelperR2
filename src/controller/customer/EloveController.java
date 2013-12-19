@@ -10,9 +10,9 @@ public class EloveController {
 public String story(){
 	return "EloveViews/story";
 }
-@RequestMapping(value = "/elove/wedding", method = RequestMethod.GET)
+@RequestMapping(value = "/elove/info", method = RequestMethod.GET)
 public String wedding(){
-	return "EloveViews/wedding";
+	return "EloveViews/info";
 }
 @RequestMapping(value = "/elove/dress", method = RequestMethod.GET)
 public String dress(){
@@ -22,12 +22,12 @@ public String dress(){
 public String record(){
 	return "EloveViews/record";
 }
-@RequestMapping(value = "/elove/wishmessage", method = RequestMethod.GET)
+@RequestMapping(value = "/elove/wish", method = RequestMethod.GET)
 public String wishMessage(){
-	return "EloveViews/wishMessage";
+	return "EloveViews/wish";
 }
-@RequestMapping(value = "/elove/joinmessage", method = RequestMethod.GET)
+@RequestMapping(value = "/elove/join", method = RequestMethod.GET)
 public String joinMessage(){
-	return "EloveViews/joinMessage";
+	return "EloveViews/join";
 }
 }

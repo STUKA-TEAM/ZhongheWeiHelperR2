@@ -49,16 +49,16 @@ public class WeixinMessageController {
 						
 						elove.setTitle("Elove - 新人专属轻APP");
 						elove.setDescription("分享喜悦，收获祝福！");
-						elove.setPicUrl("http://d.pcs.baidu.com/thumbnail/6c576bd98cad2aa2f114f20e2bf58d9b?fid=3709458387-250528-1913369364&time=1387368885&sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-myE9AXLDkwHaqijHHTOEKJQi4j8%3D&rt=sh&expires=8h&r=833782130&sharesign=unknown&size=c710_u500&quality=100");
+						elove.setPicUrl(MethodUtils.getApplicationPath()+"img/elovecoverpic.jpg");
 						elove.setUrl(MethodUtils.getApplicationPath()+"customer/elove/story");
 					
 						wish.setTitle("查看亲友祝福");
-						wish.setPicUrl("http://d.pcs.baidu.com/thumbnail/4b0570365427633846434ed4dd04d701?fid=3709458387-250528-1787112340&time=1387368958&sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-D8Ol7aRyvlsgXnP6uhAeIy9VkF8%3D&rt=sh&expires=8h&r=687088501&sharesign=unknown&size=c710_u500&quality=100");
-						wish.setUrl(MethodUtils.getApplicationPath()+"customer/elove/wishMessage");
+						wish.setPicUrl(MethodUtils.getApplicationPath()+"img/elovewish.jpg");
+						wish.setUrl(MethodUtils.getApplicationPath()+"customer/elove/wish");
 						//336*163  500*242
 						join.setTitle("查看已登记赴宴亲友");
-						join.setPicUrl("http://d.pcs.baidu.com/thumbnail/300e367f52a27e701b4e5515117887a9?fid=3709458387-250528-3689967681&time=1387368933&sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-D1a%2F9LlwJavF7Pj86hwaoIkSwNU%3D&rt=sh&expires=8h&r=832956862&sharesign=unknown&size=c710_u500&quality=100");
-						join.setUrl(MethodUtils.getApplicationPath()+"customer/elove/joinMessage");
+						join.setPicUrl(MethodUtils.getApplicationPath()+"img/elovejoin.jpg");
+						join.setUrl(MethodUtils.getApplicationPath()+"customer/elove/join");
 					    
 						List<NewsItemToResponse> articles = new ArrayList<NewsItemToResponse>();
 						articles.add(elove);
