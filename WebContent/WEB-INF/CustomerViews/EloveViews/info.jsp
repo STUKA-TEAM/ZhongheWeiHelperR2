@@ -87,7 +87,8 @@ background-position: bottom;">
       
       <input type='checkbox' id='sideToggle'>
       <aside>
-        <ul>
+        <ul class="nav nav-pills">
+          <li></li>
           <li><a href="#"><span class="sidebar-encount">相知相遇</span></a></li>
           <li><a href="#"><span class="sidebar-photo">婚纱剪影</span></a></li>
           <li><a href="#"><span class="sidebar-info">婚礼信息</span></a></li>
