@@ -14,8 +14,10 @@
     <link href="../../css/customer/zhonghe-wed.css" rel="stylesheet">
     <link href="../../css/customer/zhonghe-wed-info.css" rel="stylesheet">
   </head>
-  <body>
-    <div class="title">
+  <body style="min-height:605px;height:100%;background-image: url(../../img/elove/footer_bg.png);
+background-repeat: no-repeat;
+background-position: bottom;">
+    <div class="title" onclick="closeMap()">
       <img src="../../img/elove/info_title.png" />
       <img class="logo" src="../../img/elove/encounter_photo1.png" />
     </div><!-- title -->
@@ -33,15 +35,15 @@
       <ul>
         <li>
           <div class="info-title col-xs-2">
-            <p>婚礼<br>时间</p>
+            <p>婚礼<br/>时间</p>
           </div>
           <div class="info-content col-xs-10">
             <p>2013 - 12 - 12</p>
           </div>
         </li>
-        <li>
+        <li onclick="showMap()">
           <div class="info-title">
-            <p>婚礼<br>地点</p>
+            <p>地点<br/>导航</p>
           </div>
           <div class="info-content">
             <p>上海市长宁区天山路318号 </p>
@@ -49,10 +51,10 @@
         </li>
         <li>
           <div class="info-title">
-            <p>电话</p>
+            <p>联系<br/>电话</p>
           </div>
           <div class="info-content">
-            <p>12345678901</p>
+            <a href="tel:12345678901" style="color:#d8465d;"><p>12345678901</p>  </a>         
           </div>
         </li>
       </ul>
@@ -77,27 +79,54 @@
         
       </div>
       <!-- 弹窗结束-->
-
-<div id="baidumap" style="width:300px;height:300px;"></div>
-
-
-      <div class="footer">
+	<div id="baidumap"></div>
+	
+    <div class="footer">
         <p>Copyright © 2013 zhonghesoftware.com All Rights Reserved. 众合网络科技有限公司 版权所有</p>
       </div><!-- footer -->
+      
+      <input type='checkbox' id='sideToggle'>
+      <aside>
+        <ul>
+          <li><a href="#"><span class="sidebar-encount">相知相遇</span></a></li>
+          <li><a href="#"><span class="sidebar-photo">婚纱剪影</span></a></li>
+          <li><a href="#"><span class="sidebar-info">婚礼信息</span></a></li>
+          <li><a href="#"><span class="sidebar-record">婚礼记录</span></a></li>
+        </ul>
+      </aside>
+      <div id='wrap'>
+        <label id='sideMenuControl' for='sideToggle'><img src="../../img/elove/sidebar_btn.png" /></label>
+      </div>      
+      
     </div><!-- content -->
-    <script src="./js/customer/popup.js"></script>
+    
+    <script src="../../js/customer/popup.js"></script>
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=PWFniUmG9SMyIVlp7Nm24MRC"></script>
-  </body>
   <script type="text/javascript">
-var map = new BMap.Map("baidumap"); 
-map.enableScrollWheelZoom(); 
+// 创建地址解析器实例 
 var myGeo = new BMap.Geocoder();  
 // 将地址解析结果显示在地图上，并调整地图视野
 myGeo.getPoint("上海市长宁区天山路318号", function(point){  
- if (point) {  
+ if (point) { 
+	 var map = new BMap.Map("baidumap");  
    map.centerAndZoom(point, 16);  
    map.addOverlay(new BMap.Marker(point));  
+   map.enableScrollWheelZoom(); 
  }  
-}, "上海市");  
+}, "上海市"); 
 </script>
+ <script type="text/javascript">
+function showMap(){
+var box=document.getElementById("baidumap");
+	box.style.visibility = "visible";
+}
+
+function closeMap(){
+var box=document.getElementById("baidumap");
+	box.style.display ="none";
+	box.style.visibility = "hidden";
+}
+</script>
+  </body>
+   
 </html>

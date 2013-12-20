@@ -45,5 +45,27 @@
         <p>Copyright © 2013 zhonghesoftware.com All Rights Reserved. 众合网络科技有限公司 版权所有</p>
       </div><!-- footer -->
     </div><!-- content -->
+    
+    <div id="audio" onclick="audioSwitch()">
+    </div>
+    <script type="text/javascript">
+    flag="off";
+    function audioSwitch(){
+    	if(flag=="off"){
+    		myAudio = new Audio('../../media/elovedemomusic.mp3'); 
+            myAudio.addEventListener('ended', function() {
+                this.currentTime = 0;
+                this.play();
+            }, false);
+            myAudio.play();
+            flag="on";
+    	}else{
+    		myAudio.pause();
+    		flag="off";
+    	}
+    	
+    }
+    
+    </script>
   </body>
 </html>

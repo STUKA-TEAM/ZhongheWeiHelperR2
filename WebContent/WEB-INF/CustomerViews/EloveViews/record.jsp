@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -21,8 +20,11 @@
       <img src="../../img/elove/records_title.png" />
     </div><!-- title -->
     <div class="content">
+    
       <div class="container">
-        <img class="container-border" src="../../img/elove/records_video.jpg" />
+        <video id="video" width="80%" onclick="playPause()">
+    <source src="../../media/elovedome.webm" type="video/webm">
+  </video>
       </div><!-- video -->
 
       <div class="container">
@@ -40,5 +42,17 @@
         <p>Copyright © 2013 zhonghesoftware.com All Rights Reserved. 众合网络科技有限公司 版权所有</p>
       </div><!-- footer -->
     </div><!-- content -->
+    <script type="text/javascript">
+    	var myVideo=document.getElementById("video"); 
+
+        function playPause()
+        { 
+        if (myVideo.paused) 
+          myVideo.play(); 
+        else 
+          myVideo.pause(); 
+        } 
+    </script>
+    
   </body>
 </html>

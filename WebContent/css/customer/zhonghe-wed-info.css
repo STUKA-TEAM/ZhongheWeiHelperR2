@@ -15,9 +15,6 @@
   padding-top: 40px;
   width: 100%;
   max-width:360px;
-  background-image: url(../../img/elove/footer_bg.png);
-  background-repeat: no-repeat;
-  background-position: bottom;
   margin: 0 auto;
   overflow: hidden;
 }
@@ -119,4 +116,13 @@ ul > li {
   border-color: #ed94ae;
   border-radius: 4px;
   outline-style: none;
+}
+#baidumap{
+width:90%;
+height:80%;
+margin: 0px 5%;
+position:absolute;
+bottom:0px;
+visibility:hidden;
+border-radius:4px;
 }
