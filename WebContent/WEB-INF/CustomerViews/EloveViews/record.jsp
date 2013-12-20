@@ -23,7 +23,7 @@
     
       <div class="container">
         <video id="video" width="80%" onclick="playPause()">
-    <source src="../../media/elovedome.webm" type="video/webm">
+    <source src="../../media/elovedome.ogv" type="video/ogv">
   </video>
       </div><!-- video -->
 
