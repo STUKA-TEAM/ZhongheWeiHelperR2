@@ -44,7 +44,7 @@
             <p>婚礼<br>地点</p>
           </div>
           <div class="info-content">
-            <p>上海杨浦区国和路</p>
+            <p>上海市长宁区天山路318号 </p>
           </div>
         </li>
         <li>
@@ -78,11 +78,26 @@
       </div>
       <!-- 弹窗结束-->
 
+<div id="baidumap" style="width:300px;height:300px;"></div>
+
 
       <div class="footer">
         <p>Copyright © 2013 zhonghesoftware.com All Rights Reserved. 众合网络科技有限公司 版权所有</p>
       </div><!-- footer -->
     </div><!-- content -->
     <script src="./js/customer/popup.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=PWFniUmG9SMyIVlp7Nm24MRC"></script>
   </body>
+  <script type="text/javascript">
+var map = new BMap.Map("baidumap"); 
+map.enableScrollWheelZoom(); 
+var myGeo = new BMap.Geocoder();  
+// 将地址解析结果显示在地图上，并调整地图视野
+myGeo.getPoint("上海市长宁区天山路318号", function(point){  
+ if (point) {  
+   map.centerAndZoom(point, 16);  
+   map.addOverlay(new BMap.Marker(point));  
+ }  
+}, "上海市");  
+</script>
 </html>
