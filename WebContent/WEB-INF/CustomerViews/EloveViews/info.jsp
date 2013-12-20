@@ -21,7 +21,19 @@ background-position: bottom;">
       <img src="../../img/elove/info_title.png" />
       <img class="logo" src="../../img/elove/encounter_photo1.png" />
     </div><!-- title -->
-
+    <input type='checkbox' id='sideToggle'>
+    <aside>
+        <ul class="nav nav-pills">
+          <li></li>
+          <li><a href="#"><span class="sidebar-encount">相知相遇</span></a></li>
+          <li><a href="#"><span class="sidebar-photo">婚纱剪影</span></a></li>
+          <li><a href="#"><span class="sidebar-info">婚礼信息</span></a></li>
+          <li><a href="#"><span class="sidebar-record">婚礼记录</span></a></li>
+        </ul>
+      </aside>
+      <div id='wrap'>
+        <label id='sideMenuControl' for='sideToggle'><img src="../../img/elove/sidebar_btn.png" /></label>
+      </div> 
     <div class="content">
       <div class="container">
         <div class="message-title">
@@ -84,20 +96,9 @@ background-position: bottom;">
     <div class="footer">
         <p>Copyright © 2013 zhonghesoftware.com All Rights Reserved. 众合网络科技有限公司 版权所有</p>
       </div><!-- footer -->
+            
       
-      <input type='checkbox' id='sideToggle'>
-      <aside>
-        <ul class="nav nav-pills">
-          <li></li>
-          <li><a href="#"><span class="sidebar-encount">相知相遇</span></a></li>
-          <li><a href="#"><span class="sidebar-photo">婚纱剪影</span></a></li>
-          <li><a href="#"><span class="sidebar-info">婚礼信息</span></a></li>
-          <li><a href="#"><span class="sidebar-record">婚礼记录</span></a></li>
-        </ul>
-      </aside>
-      <div id='wrap'>
-        <label id='sideMenuControl' for='sideToggle'><img src="../../img/elove/sidebar_btn.png" /></label>
-      </div>      
+           
       
     </div><!-- content -->
     
