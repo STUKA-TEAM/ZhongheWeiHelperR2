@@ -12,6 +12,7 @@ html{
   text-align: center;
   background-color: #ed95ae;
   height:100%;
+  overflow-x: hidden;
 }
 header{
   width:100%;
@@ -28,6 +29,7 @@ body {
   text-align: center;
   margin:0 auto;
   position:relative;
+  overflow-x: hidden;
 }
 img{
   max-width: 100%;
