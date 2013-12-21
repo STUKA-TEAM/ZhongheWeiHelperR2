@@ -8,17 +8,49 @@
     <meta name="description" content="">
     <meta name="author" content="zhonghe">
 
-    <title>众合微喜帖</title>
+    <title>Elove</title>
     
     <!-- 微喜帖css -->
     <link href="../../css/customer/zhonghe-wed.css" rel="stylesheet">
     <link href="../../css/customer/zhonghe-wed-encounter.css" rel="stylesheet">
   </head>
-  <body>
+  <body onload="audioSwitch()">
     <div class="title">
       <img src="../../img/elove/records_title.png" />
     </div><!-- title -->
-
+    <input type='checkbox' id='sideToggle'>
+    <aside>
+        <ul class="nav nav-pills sideul">
+          <li class="sideli"><div id="audio" onclick="audioSwitch()"></div></li>
+          <li class="sideli"><a href="story"><span class="sidebar-encount">相知相遇</span></a></li>
+          <li class="sideli"><a href="dress"><span class="sidebar-photo">婚纱剪影</span></a></li>
+          <li class="sideli"><a href="info"><span class="sidebar-info">婚礼信息</span></a></li>
+          <li class="sideli"><a href="record"><span class="sidebar-record">婚礼纪录</span></a></li>
+        </ul>
+        
+    <script type="text/javascript">
+    flag="off";
+    function audioSwitch(){
+    	if(flag=="off"){
+    		myAudio = new Audio('../../media/elovedemomusic.mp3'); 
+            myAudio.addEventListener('ended', function() {
+                this.currentTime = 0;
+                this.play();
+            }, false);
+            myAudio.play();
+            flag="on";
+    	}else{
+    		myAudio.pause();
+    		flag="off";
+    	}
+    	
+    }
+    
+    </script>
+      </aside>
+      <div id='wrap'>
+        <label id='sideMenuControl' for='sideToggle'><img src="../../img/elove/sidebar_btn.png" /></label>
+      </div> 
     <div class="content">
       <ul class="container">
         <li>
@@ -45,27 +77,5 @@
         <p>Copyright © 2013 zhonghesoftware.com All Rights Reserved. 众合网络科技有限公司 版权所有</p>
       </div><!-- footer -->
     </div><!-- content -->
-    
-    <div id="audio" onclick="audioSwitch()">
-    </div>
-    <script type="text/javascript">
-    flag="off";
-    function audioSwitch(){
-    	if(flag=="off"){
-    		myAudio = new Audio('../../media/elovedemomusic.mp3'); 
-            myAudio.addEventListener('ended', function() {
-                this.currentTime = 0;
-                this.play();
-            }, false);
-            myAudio.play();
-            flag="on";
-    	}else{
-    		myAudio.pause();
-    		flag="off";
-    	}
-    	
-    }
-    
-    </script>
   </body>
 </html>

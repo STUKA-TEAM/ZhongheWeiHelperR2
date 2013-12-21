@@ -7,8 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="zhonghe">
-
-    <title>众合微喜帖</title>
+    <title>Elove</title>
     
     <!-- 微喜帖css -->
     <link href="../../css/customer/zhonghe-wed.css" rel="stylesheet">
@@ -17,24 +16,44 @@
   <body style="min-height:605px;height:100%;background-image: url(../../img/elove/footer_bg.png);
 background-repeat: no-repeat;
 background-position: bottom;">
-    <div class="title" onclick="closeMap()">
+    <div class="title">
       <img src="../../img/elove/info_title.png" />
       <img class="logo" src="../../img/elove/encounter_photo1.png" />
     </div><!-- title -->
     <input type='checkbox' id='sideToggle'>
     <aside>
-        <ul class="nav nav-pills">
-          <li></li>
-          <li><a href="#"><span class="sidebar-encount">相知相遇</span></a></li>
-          <li><a href="#"><span class="sidebar-photo">婚纱剪影</span></a></li>
-          <li><a href="#"><span class="sidebar-info">婚礼信息</span></a></li>
-          <li><a href="#"><span class="sidebar-record">婚礼记录</span></a></li>
+        <ul class="nav nav-pills sideul">
+          <li class="sideli"><div id="audio" onclick="audioSwitch()"></div></li>
+          <li class="sideli"><a href="story"><span class="sidebar-encount">相知相遇</span></a></li>
+          <li class="sideli"><a href="dress"><span class="sidebar-photo">婚纱剪影</span></a></li>
+          <li class="sideli"><a href="info"><span class="sidebar-info">婚礼信息</span></a></li>
+          <li class="sideli"><a href="record"><span class="sidebar-record">婚礼纪录</span></a></li>
         </ul>
+        
+    <script type="text/javascript">
+    flag="off";
+    function audioSwitch(){
+    	if(flag=="off"){
+    		myAudio = new Audio('../../media/elovedemomusic.mp3'); 
+            myAudio.addEventListener('ended', function() {
+                this.currentTime = 0;
+                this.play();
+            }, false);
+            myAudio.play();
+            flag="on";
+    	}else{
+    		myAudio.pause();
+    		flag="off";
+    	}
+    	
+    }
+    
+    </script>
       </aside>
       <div id='wrap'>
         <label id='sideMenuControl' for='sideToggle'><img src="../../img/elove/sidebar_btn.png" /></label>
       </div> 
-    <div class="content">
+    <div class="content" >
       <div class="container">
         <div class="message-title">
           <img src="../../img/elove/message_title.png" />
@@ -53,7 +72,7 @@ background-position: bottom;">
             <p>2013 - 12 - 12</p>
           </div>
         </li>
-        <li onclick="showMap()">
+        <li onclick="mapSwitch()">
           <div class="info-title">
             <p>地点<br/>导航</p>
           </div>
@@ -66,7 +85,7 @@ background-position: bottom;">
             <p>联系<br/>电话</p>
           </div>
           <div class="info-content">
-            <a href="tel:12345678901" style="color:#d8465d;"><p>12345678901</p>  </a>         
+           <p> <a href="tel:12345678901" style="color:#d8465d;">12345678901</a></p>      
           </div>
         </li>
       </ul>
@@ -74,14 +93,14 @@ background-position: bottom;">
       <div class="btn-container">
         <p>
           <a onclick="switchAlert()" class="btn btn-primary">我要赴宴</a>
-          <a  class="btn btn-primary">送上祝福</a>
-          <a data-toggle="modal" data-target="#share" class="btn btn-primary">分享喜帖</a>
+          <a onclick="switchAlert2()" class="btn btn-primary">送上祝福</a>
+          <a onclick="switchGuide()"data-toggle="modal" data-target="#share" class="btn btn-primary">分享喜帖</a>
         </p>
       </div>
       
       <!-- 弹窗开始-->
-      <div id="popupBack"></div>
-      <div id="popupBox">
+      <div id="popupBack" class="popupBackClass"></div>
+      <div id="popupBox" class="popupBoxClass">
         <div class="popup-content">
           <input class="popup-input" type="text" placeholder="称呼" />
           <input class="popup-input" type="text" placeholder="联系方式" />
@@ -91,17 +110,36 @@ background-position: bottom;">
         
       </div>
       <!-- 弹窗结束-->
-	<div id="baidumap"></div>
+      
+      <!-- 弹窗开始-->
+      <div id="popupBack2" class="popupBackClass"></div>
+      <div id="popupBox2" class="popupBoxClass">
+        <div class="popup-content">
+          <input class="popup-input" type="text" placeholder="称呼" />
+          <textarea class="popup-text" rows=4 placeholder="请留下您对我们的祝福吧！" ></textarea>
+          <a class="btn btn-long btn-primary" onclick="closeAlert2()">发送祝福</a>
+        </div>
+        
+      </div>
+      <!-- 弹窗结束-->
+      
+	<div id="guide" onclick="closeGuide()">
+	<img id="guidePic" src="../../img/common/guide.png"/>
+	
+	</div>
 	
     <div class="footer">
         <p>Copyright © 2013 zhonghesoftware.com All Rights Reserved. 众合网络科技有限公司 版权所有</p>
-      </div><!-- footer -->
+    </div><!-- footer -->
             
       
            
       
     </div><!-- content -->
-    
+
+   
+    <div id="baidumap" style="visibility:hidden;"> <div id="pic"></div></div>
+
     <script src="../../js/customer/popup.js"></script>
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=PWFniUmG9SMyIVlp7Nm24MRC"></script>
   <script type="text/javascript">
@@ -118,16 +156,16 @@ myGeo.getPoint("上海市长宁区天山路318号", function(point){
 }, "上海市"); 
 </script>
  <script type="text/javascript">
-function showMap(){
+function mapSwitch(){
 var box=document.getElementById("baidumap");
+if(box.style.visibility == "hidden"){
 	box.style.visibility = "visible";
-}
-
-function closeMap(){
-var box=document.getElementById("baidumap");
-	box.style.display ="none";
+}else{
 	box.style.visibility = "hidden";
 }
+	
+}
+
 </script>
   </body>
    
