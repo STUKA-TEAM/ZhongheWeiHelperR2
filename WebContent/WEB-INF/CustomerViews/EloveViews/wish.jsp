@@ -1,12 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE HTML> 
 <html>
 <head>
 <title>我们的祝福收件箱</title>
 <meta charset='UTF-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0'/> 
-<link href='../../css/customer/elove.css' rel='stylesheet'/>
+<c:set var="request" value="${pageContext.request}" />
+<base href="${fn:replace(request.requestURL, request.requestURI, request.contextPath)}/" />
+<link href='css/customer/elove.css' rel='stylesheet'/>
 </head>
 <body>
 <div id="container">

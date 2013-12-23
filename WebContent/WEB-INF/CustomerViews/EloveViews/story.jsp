@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -7,16 +9,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="zhonghe">
-
+    <c:set var="request" value="${pageContext.request}" />
+    <base href="${fn:replace(request.requestURL, request.requestURI, request.contextPath)}/" />
     <title>Elove</title>
     
     <!-- 微喜帖css -->
-    <link href="../../css/customer/zhonghe-wed.css" rel="stylesheet">
-    <link href="../../css/customer/zhonghe-wed-encounter.css" rel="stylesheet">
+    <link href="css/customer/zhonghe-wed.css" rel="stylesheet">
+    <link href="css/customer/zhonghe-wed-encounter.css" rel="stylesheet">
   </head>
   <body onload="audioSwitch()">
     <div class="title">
-      <img src="../../img/elove/records_title.png" />
+      <img src="img/elove/records_title.png" />
     </div><!-- title -->
     <input type='checkbox' id='sideToggle'>
     <aside>
@@ -32,7 +35,7 @@
     flag="off";
     function audioSwitch(){
     	if(flag=="off"){
-    		myAudio = new Audio('../../media/elovedemomusic.mp3'); 
+    		myAudio = new Audio('media/elovedemomusic.mp3'); 
             myAudio.addEventListener('ended', function() {
                 this.currentTime = 0;
                 this.play();
@@ -49,27 +52,27 @@
     </script>
       </aside>
       <div id='wrap'>
-        <label id='sideMenuControl' for='sideToggle'><img src="../../img/elove/sidebar_btn.png" /></label>
+        <label id='sideMenuControl' for='sideToggle'><img src="img/elove/sidebar_btn.png" /></label>
       </div> 
     <div class="content">
       <ul class="container">
         <li>
-          <img src="../../img/elove/encounter_photo1.png" />
+          <img src="img/elove/encounter_photo1.png" />
         </li>
         <li class="photo-logo">
-          <img src="../../img/elove/encounter_logo.png" />
+          <img src="img/elove/encounter_logo.png" />
         </li>
       </ul><!-- video -->
 
       <ul class="photo-container">
         <li>
-          <img src="../../img/elove/encounter_photo2.jpg" />
+          <img src="img/elove/encounter_photo2.jpg" />
         </li>
         <li>
-            <img src="../../img/elove/encounter_photo3.png" />
+            <img src="img/elove/encounter_photo3.png" />
         </li>
         <li>
-          <img src="../../img/elove/encounter_photo4.png" />
+          <img src="img/elove/encounter_photo4.png" />
         </li>
       </ul><!-- photo -->
       

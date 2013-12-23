@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -7,18 +9,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="zhonghe">
+    <c:set var="request" value="${pageContext.request}" />
+    <base href="${fn:replace(request.requestURL, request.requestURI, request.contextPath)}/" />
     <title>Elove</title>
     
     <!-- 微喜帖css -->
-    <link href="../../css/customer/zhonghe-wed.css" rel="stylesheet">
-    <link href="../../css/customer/zhonghe-wed-info.css" rel="stylesheet">
+    <link href="css/customer/zhonghe-wed.css" rel="stylesheet">
+    <link href="css/customer/zhonghe-wed-info.css" rel="stylesheet">
   </head>
-  <body style="min-height:605px;height:100%;background-image: url(../../img/elove/footer_bg.png);
+  <body style="min-height:605px;height:100%;background-image: url(img/elove/footer_bg.png);
 background-repeat: no-repeat;
 background-position: bottom;">
     <div class="title">
-      <img src="../../img/elove/info_title.png" />
-      <img class="logo" src="../../img/elove/encounter_photo1.png" />
+      <img src="img/elove/info_title.png" />
+      <img class="logo" src="img/elove/encounter_photo1.png" />
     </div><!-- title -->
     <input type='checkbox' id='sideToggle'>
     <aside>
@@ -34,7 +38,7 @@ background-position: bottom;">
     flag="off";
     function audioSwitch(){
     	if(flag=="off"){
-    		myAudio = new Audio('../../media/elovedemomusic.mp3'); 
+    		myAudio = new Audio('media/elovedemomusic.mp3'); 
             myAudio.addEventListener('ended', function() {
                 this.currentTime = 0;
                 this.play();
@@ -51,15 +55,15 @@ background-position: bottom;">
     </script>
       </aside>
       <div id='wrap'>
-        <label id='sideMenuControl' for='sideToggle'><img src="../../img/elove/sidebar_btn.png" /></label>
+        <label id='sideMenuControl' for='sideToggle'><img src="img/elove/sidebar_btn.png" /></label>
       </div> 
     <div class="content" >
       <div class="container">
         <div class="message-title">
-          <img src="../../img/elove/message_title.png" />
+          <img src="img/elove/message_title.png" />
         </div>
         <div class="message-content">
-          <img src="../../img/elove/message_content.png" />
+          <img src="img/elove/message_content.png" />
         </div>
       </div>
 
@@ -124,7 +128,7 @@ background-position: bottom;">
       <!-- 弹窗结束-->
       
 	<div id="guide" onclick="closeGuide()">
-	<img id="guidePic" src="../../img/common/guide.png"/>
+	<img id="guidePic" src="img/common/guide.png"/>
 	
 	</div>
 	
@@ -140,7 +144,7 @@ background-position: bottom;">
    
     <div id="baidumap" style="visibility:hidden;"> <div id="pic"></div></div>
 
-    <script src="../../js/customer/popup.js"></script>
+    <script src="js/customer/popup.js"></script>
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=PWFniUmG9SMyIVlp7Nm24MRC"></script>
   <script type="text/javascript">
 // 创建地址解析器实例 
