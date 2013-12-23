@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 18, 2013 at 05:00 PM
+-- Generation Time: Dec 23, 2013 at 02:49 PM
 -- Server version: 5.5.32
 -- PHP Version: 5.4.19
 
@@ -50,8 +50,6 @@ CREATE TABLE IF NOT EXISTS `application_authority` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `appid` int(11) NOT NULL DEFAULT '0' COMMENT 'UUID',
   `authid` int(11) NOT NULL DEFAULT '0' COMMENT '权限id',
-  `count` int(11) NOT NULL DEFAULT '0' COMMENT '该权限已用数量',
-  `extraCount` int(11) NOT NULL DEFAULT '0' COMMENT '该权限额外添加数量',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -88,6 +86,8 @@ INSERT INTO `authority` (`authid`, `authName`) VALUES
 CREATE TABLE IF NOT EXISTS `elove` (
   `eloveid` int(11) NOT NULL AUTO_INCREMENT,
   `appid` varchar(32) NOT NULL,
+  `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+  `expiredTime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '过期时间',
   `title` varchar(20) NOT NULL COMMENT 'elove标题',
   `password` varchar(20) NOT NULL COMMENT '密码',
   `coverPic` varchar(80) NOT NULL COMMENT '图文消息封面',
@@ -105,7 +105,23 @@ CREATE TABLE IF NOT EXISTS `elove` (
   `weddingSwitch` int(11) NOT NULL COMMENT '是否显示婚礼纪录标签',
   `shareTitle` varchar(40) NOT NULL COMMENT '分享消息标题',
   `shareContent` varchar(200) NOT NULL COMMENT '分享消息描述',
+  `footerText` varchar(80) NOT NULL COMMENT 'Elove底部信息',
+  `sideCorpInfo` varchar(80) NOT NULL COMMENT 'Elove侧边滑栏商户信息',
+  `themeid` int(11) NOT NULL COMMENT 'elove模板id',
   PRIMARY KEY (`eloveid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `elove_consume_record`
+--
+
+CREATE TABLE IF NOT EXISTS `elove_consume_record` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `appid` varchar(32) NOT NULL,
+  `notPayNumber` int(11) NOT NULL COMMENT '未付款数量',
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -154,6 +170,19 @@ CREATE TABLE IF NOT EXISTS `elove_message` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `elove_theme`
+--
+
+CREATE TABLE IF NOT EXISTS `elove_theme` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `themeName` varchar(40) NOT NULL COMMENT '主题名称',
+  `themePath` varchar(100) NOT NULL COMMENT '主题css文件路径',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `elove_video`
 --
 
@@ -162,6 +191,20 @@ CREATE TABLE IF NOT EXISTS `elove_video` (
   `eloveid` int(11) NOT NULL,
   `videoPath` varchar(80) NOT NULL COMMENT '视频路径',
   `videoType` varchar(10) NOT NULL COMMENT '视频分类',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `feedback`
+--
+
+CREATE TABLE IF NOT EXISTS `feedback` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `sid` int(11) NOT NULL COMMENT '商户id',
+  `message` varchar(600) NOT NULL COMMENT '反馈消息',
+  `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
@@ -236,6 +279,20 @@ CREATE TABLE IF NOT EXISTS `storeuser_application` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `sid` int(11) NOT NULL DEFAULT '0' COMMENT '众合微信助手账户id',
   `appid` varchar(32) NOT NULL DEFAULT '' COMMENT '众合微信平台应用id',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `store_auth_price`
+--
+
+CREATE TABLE IF NOT EXISTS `store_auth_price` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `sid` int(11) NOT NULL COMMENT '商户id',
+  `authid` int(11) NOT NULL COMMENT '权限id',
+  `price` decimal(15,2) NOT NULL COMMENT '单价',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
