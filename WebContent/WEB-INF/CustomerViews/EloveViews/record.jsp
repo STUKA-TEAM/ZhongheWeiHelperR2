@@ -16,13 +16,14 @@
     <!-- 微喜帖css -->
     <link href="css/customer/zhonghe-wed.css" rel="stylesheet">
     <link href="css/customer/zhonghe-wed-records.css" rel="stylesheet">
+    
   </head>
   <body>
     <div class="title">
       <img src="img/elove/records_title.png" />
     </div><!-- title -->
     
-        <input type='checkbox' id='sideToggle'>
+    <input type='checkbox' data-spy="affix-bottom" data-offset-top="200" id='sideToggle' />
     <aside>
         <ul class="nav nav-pills sideul">
           <li class="sideli"><div id="audio" onclick="audioSwitch()"></div></li>
@@ -78,16 +79,18 @@
       </div><!-- footer -->
     </div><!-- content -->
     <script type="text/javascript">
-    	var myVideo=document.getElementById("video"); 
+      var myVideo=document.getElementById("video"); 
 
-        function playPause()
-        { 
+      function playPause()
+      { 
         if (myVideo.paused) 
           myVideo.play(); 
         else 
           myVideo.pause(); 
-        } 
+      } 
     </script>
     
+    <script type="text/javascript" src="js/customer/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="js/customer/affix.min.js"></script>
   </body>
 </html>
