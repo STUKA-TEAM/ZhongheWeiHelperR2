@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -8,16 +9,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="zhonghe">
-
+    <c:set var="request" value="${pageContext.request}" />
+    <base href="${fn:replace(request.requestURL, request.requestURI, request.contextPath)}/" />
     <title>Elove</title>
     
     <!-- 微喜帖css -->
-    <link href="../../css/customer/zhonghe-wed.css" rel="stylesheet">
-    <link href="../../css/customer/zhonghe-wed-records.css" rel="stylesheet">
+    <link href="css/customer/zhonghe-wed.css" rel="stylesheet">
+    <link href="css/customer/zhonghe-wed-records.css" rel="stylesheet">
   </head>
   <body>
     <div class="title">
-      <img src="../../img/elove/records_title.png" />
+      <img src="img/elove/records_title.png" />
     </div><!-- title -->
     
         <input type='checkbox' id='sideToggle'>
@@ -34,7 +36,7 @@
     flag="off";
     function audioSwitch(){
     	if(flag=="off"){
-    		myAudio = new Audio('../../media/elovedemomusic.mp3'); 
+    		myAudio = new Audio('media/elovedemomusic.mp3'); 
             myAudio.addEventListener('ended', function() {
                 this.currentTime = 0;
                 this.play();
@@ -50,23 +52,23 @@
     </script>
       </aside>
       <div id='wrap'>
-        <label id='sideMenuControl' for='sideToggle'><img src="../../img/elove/sidebar_btn.png" /></label>
+        <label id='sideMenuControl' for='sideToggle'><img src="img/elove/sidebar_btn.png" /></label>
       </div> 
     <div class="content">
     
       <div class="container">
         <video id="video" width="80%" onclick="playPause()">
-    <source src="../../media/elovedome.webm" type="video/webm">
+    <source src="media/elovedome.webm" type="video/webm">
   </video>
       </div><!-- video -->
 
       <div class="container">
         <div class="photo-title">
-          <img src="../../img/elove/records_photo_title.png" />
+          <img src="img/elove/records_photo_title.png" />
         </div>
         <ul class="photo-container">
           <li>
-            <img class="container-border" src="../../img/elove/records_photo.jpg" />
+            <img class="container-border" src="img/elove/records_photo.jpg" />
           </li>
         </ul>
       </div><!-- photo -->
