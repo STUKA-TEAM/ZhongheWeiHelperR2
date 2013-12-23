@@ -1,28 +1,93 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-<form:form method="Post" action = "${pageContext.request.contextPath}/security/register"
-modelAttribute = "registerInfo">
-用户名：<form:input path = "username"/>
-       <form:errors path="username" ></form:errors>
-<br/>
-密码：<form:input path = "password"/>
-     <form:errors path="password" ></form:errors>
-<br/>
-邮箱：<form:input path = "email"/>
-     <form:errors path="email" ></form:errors>
-<br/>
-电话：<form:input path = "phone"/>
-     <form:errors path="phone" ></form:errors>
-<br/>
-<input type="submit" value="提交" />
-</form:form>
-</body>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="zhonghe">
+
+    <title>众合微信公共账号管理平台</title>
+    <!-- Bootstrap core CSS -->
+    <link href="http://localhost:8080/ZhongheWeiHelperR2/css/store/bootstrap.min.css" rel="stylesheet">
+    <link href="http://localhost:8080/ZhongheWeiHelperR2/css/store/zhonghe-wechat.css" rel="stylesheet">
+    <link rel="shortcut icon" href="http://localhost:8080/ZhongheWeiHelperR2/img/favicon.jpg">
+    <!-- include jQuery + carouFredSel plugin -->
+	<script type="text/javascript" src="http://localhost:8080/ZhongheWeiHelperR2/js/store/jquery-1.10.2.min.js"></script>
+  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div class="navbar navbar-default navbar-white navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#"><img src="http://localhost:8080/ZhongheWeiHelperR2/img/logo.png" alt="Zhonghe Software" /></a>
+        </div>
+      </div><!-- container -->
+    </div><!-- navbar -->
+    
+    <div class="container">
+      <div class="row">
+        <div class="well well-lg col-sm-8 col-sm-offset-2 row">
+          <form:form class="col-sm-10 col-sm-offset-1 form-horizontal" method="Post" action = "${pageContext.request.contextPath}/security/register"
+  modelAttribute = "registerInfo">
+            <div class="form-group">
+              <label for="username" class="col-sm-2 control-label">用户名</label>
+              <div class="col-sm-10">
+                <form:input type="text" class="form-control" id="username_input" path="username" placeholder="用户名"/>
+                <form:errors path="username" class="input-error"></form:errors>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="password" class="col-sm-2 control-label">密码</label>
+              <div class="col-sm-10">
+                <form:input type="password" class="form-control" id="password_input" path="password" placeholder="******"/>
+                <form:errors path="password" class="input-error"></form:errors>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="storename" class="col-sm-2 control-label">店铺名称</label>
+              <div class="col-sm-10">
+                <form:input type="text" class="form-control" id="storename_input" path="storeName" placeholder=""/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="email" class="col-sm-2 control-label">邮箱地址</label>
+              <div class="col-sm-10">
+                <form:input type="email" class="form-control" id="email_input" path="email" placeholder="xxxx@xxx.com"/>
+                <form:errors path="email" class="input-error"></form:errors>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="phone" class="col-sm-2 control-label">电话号码</label>
+              <div class="col-sm-10">
+                <form:input type="text" class="form-control" id="phone_input" path="phone" placeholder=""/>
+                <form:errors path="phone" class="input-error"></form:errors>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="address" class="col-sm-2 control-label">店铺地址</label>
+              <div class="col-sm-10">
+                <form:input type="text" class="form-control" id="address_input" path="address" placeholder=""/>
+              </div>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="col-sm-offset-1 col-sm-5 btn btn-lg btn-success">注册</button>
+                <button id="cancle_register" class="col-sm-offset-1 col-sm-3 btn btn-lg btn-default">重置</button>
+            </div>
+          </form:form>
+        </div>
+      </div><!-- /.row -->
+    </div> <!-- /.container -->
+    
+    <div id="footer">
+      <div class="container" style="text-align:center">
+        <p class="text-muted credit">Copyright ? 2013 zhonghesoftware.com All Rights Reserved. 众合网络科技有限公司 版权所有</p>
+      </div>
+    </div><!-- footer -->
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="http://localhost:8080/ZhongheWeiHelperR2/js/store/bootstrap.min.js"></script>
+  </body>
 </html>

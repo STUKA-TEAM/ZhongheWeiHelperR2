@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import tools.MethodUtils;
 import weixinmessage.response.NewsItemToResponse;
-import weixinmessage.response.TextMessageToResponse;
 import weixintools.WeiXinConstant;
 import weixintools.WeixinMessageUtil;
 
@@ -50,16 +49,16 @@ public class WeixinMessageController {
 						
 						elove.setTitle("Elove - 新人专属轻APP");
 						elove.setDescription("分享喜悦，收获祝福！");
-						elove.setPicUrl("http://d.pcs.baidu.com/thumbnail/6c576bd98cad2aa2f114f20e2bf58d9b?fid=3709458387-250528-1913369364&time=1387304473&sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-sFK%2FhqAnSnHWJ1Stb0BhMTkVDnI%3D&rt=sh&expires=8h&r=372014579&sharesign=unknown&size=c710_u500&quality=100");
-						elove.setUrl(MethodUtils.getApplicationPath()+"elove/story");
+						elove.setPicUrl(MethodUtils.getApplicationPath()+"img/elovecoverpic.jpg");
+						elove.setUrl(MethodUtils.getApplicationPath()+"customer/elove/story");
 					
 						wish.setTitle("查看亲友祝福");
-						wish.setPicUrl("http://d.pcs.baidu.com/thumbnail/4b0570365427633846434ed4dd04d701?fid=3709458387-250528-1787112340&time=1387303258&sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-9nUjv%2FMLMPdJ3Hswvgg8H87zzDw%3D&rt=sh&expires=8h&r=256651708&sharesign=unknown&size=c710_u500&quality=100");
-						wish.setUrl(MethodUtils.getApplicationPath()+"elove/wishMessage");
+						wish.setPicUrl(MethodUtils.getApplicationPath()+"img/elovewish.jpg");
+						wish.setUrl(MethodUtils.getApplicationPath()+"customer/elove/wish");
 						//336*163  500*242
 						join.setTitle("查看已登记赴宴亲友");
-						join.setPicUrl("http://d.pcs.baidu.com/thumbnail/300e367f52a27e701b4e5515117887a9?fid=3709458387-250528-3689967681&time=1387302989&sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-RSCyQUA%2FQS3TkRgm3vDrzLQoqAM%3D&rt=sh&expires=8h&r=907625477&sharesign=unknown&size=c710_u500&quality=100");
-						join.setUrl(MethodUtils.getApplicationPath()+"elove/joinMessage");
+						join.setPicUrl(MethodUtils.getApplicationPath()+"img/elovejoin.jpg");
+						join.setUrl(MethodUtils.getApplicationPath()+"customer/elove/join");
 					    
 						List<NewsItemToResponse> articles = new ArrayList<NewsItemToResponse>();
 						articles.add(elove);

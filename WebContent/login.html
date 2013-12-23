@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="zhonghe">
+
+    <title>众合微信公共账号管理平台</title>
+    <!-- Bootstrap core CSS -->
+    <link href="./css/store/bootstrap.min.css" rel="stylesheet">
+    <link href="./css/store/zhonghe-wechat.css" rel="stylesheet">
+    <link rel="shortcut icon" href="./img/favicon.jpg">
+    <!-- include jQuery + carouFredSel plugin -->
+		<script type="text/javascript" src="./js/store/jquery-1.10.2.min.js"></script>
+  </head>
+  <body>    
+    <div class="container">
+      <div class="row">
+        <div class="well col-sm-5 col-sm-offset-3 row">
+          <form class="col-sm-12 form-horizontal" method="Post" action = "${pageContext.request.contextPath}/security/register"
+  modelAttribute = "registerInfo">
+            <div class="form-group">
+              <label for="username" class="col-sm-3 control-label">用户名</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" id="username_input" name="username" placeholder="用户名"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="password" class="col-sm-3 control-label">密码</label>
+              <div class="col-sm-9">
+                <input type="password" class="form-control" id="password_input" name="password" placeholder="******"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-offset-2">
+              <label>
+                <input id="login_checkbox"  type="checkbox"> 记住我
+              </label>
+              </div>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="col-sm-offset-2 col-sm-9 btn btn-lg btn-success">登录</button>
+            </div>
+            <a class="login-link" href="#">忘记密码?</a>
+          </form>
+        </div>
+      </div><!-- /.row -->
+    </div> <!-- /.container -->
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="./js/store/bootstrap.min.js"></script>
+  </body>
+</html>

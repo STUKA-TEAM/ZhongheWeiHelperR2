@@ -6,28 +6,28 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class EloveController {
-@RequestMapping(value = "/story", method = RequestMethod.GET)
+@RequestMapping(value = "/elove/story", method = RequestMethod.GET)
 public String story(){
 	return "EloveViews/story";
 }
-@RequestMapping(value = "/wedding", method = RequestMethod.GET)
+@RequestMapping(value = "/elove/info", method = RequestMethod.GET)
 public String wedding(){
-	return "EloveViews/wedding";
+	return "EloveViews/info";
 }
-@RequestMapping(value = "/dress", method = RequestMethod.GET)
+@RequestMapping(value = "/elove/dress", method = RequestMethod.GET)
 public String dress(){
 	return "EloveViews/dress";
 }
-@RequestMapping(value = "/record", method = RequestMethod.GET)
+@RequestMapping(value = "/elove/record", method = RequestMethod.GET)
 public String record(){
 	return "EloveViews/record";
 }
-@RequestMapping(value = "/wishmessage", method = RequestMethod.GET)
+@RequestMapping(value = "/elove/wish", method = RequestMethod.GET)
 public String wishMessage(){
-	return "EloveViews/wishMessage";
+	return "EloveViews/wish";
 }
-@RequestMapping(value = "/joinmessage", method = RequestMethod.GET)
+@RequestMapping(value = "/elove/join", method = RequestMethod.GET)
 public String joinMessage(){
-	return "EloveViews/joinMessage";
+	return "EloveViews/join";
 }
 }
