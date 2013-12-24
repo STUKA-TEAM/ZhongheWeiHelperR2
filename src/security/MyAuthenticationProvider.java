@@ -39,7 +39,7 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
  
         Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
  
-        return new UsernamePasswordAuthenticationToken(username, password, authorities);
+        return new UsernamePasswordAuthenticationToken(user, password, authorities);
 	}
 
 	@Override
