@@ -10,7 +10,7 @@ $(document).ready(function(){
 	$(':button').click(function(){
 	    var formData = new FormData($('form')[0]);
 	    $.ajax({
-	        url: '/ZhongheWeiPicture/upload/image',  //Server script to process data
+	        url: '/resources/upload/image',  //Server script to process data
 	        type: 'POST',
 	        xhr: function() {  // Custom XMLHttpRequest
 	            var myXhr = $.ajaxSettings.xhr();
