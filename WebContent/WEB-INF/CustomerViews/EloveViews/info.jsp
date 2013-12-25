@@ -6,9 +6,9 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" container="width=device-width, initial-scale=1.0">
-    <meta name="description" container="">
-    <meta name="author" container="zhonghe">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="zhonghe">
     <c:set var="request" value="${pageContext.request}" />
     <base href="${fn:replace(request.requestURL, request.requestURI, request.contextPath)}/" />
     <title>Elove</title>
