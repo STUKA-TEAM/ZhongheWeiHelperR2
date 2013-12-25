@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 23, 2013 at 02:49 PM
+-- Generation Time: Dec 25, 2013 at 11:06 AM
 -- Server version: 5.5.32
 -- PHP Version: 5.4.19
 
@@ -259,15 +259,20 @@ CREATE TABLE IF NOT EXISTS `storeuser` (
   `phone` varchar(15) DEFAULT NULL COMMENT '座机号',
   `cellPhone` varchar(14) NOT NULL DEFAULT '' COMMENT '手机号',
   `address` varchar(40) NOT NULL DEFAULT '' COMMENT '地址',
+  `majorImage` varchar(80) DEFAULT NULL COMMENT '介绍图片',
+  `corpMoreInfoLink` varchar(80) DEFAULT NULL COMMENT '了解更多链接',
+  `lng` decimal(12,6) NOT NULL COMMENT '地址经度',
+  `lat` decimal(12,6) NOT NULL COMMENT '地址纬度',
   PRIMARY KEY (`sid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='众合微信助手平台账户' AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='众合微信助手平台账户' AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `storeuser`
 --
 
-INSERT INTO `storeuser` (`sid`, `roleid`, `username`, `password`, `createDate`, `storeName`, `email`, `phone`, `cellPhone`, `address`) VALUES
-(1, 1, 'byc', '$2a$10$w2a0e8OsEtJ0dPYT//Sc0Oj1NneShu5iXBTppGKi47peA75jtXzVu', '2013-12-16 04:16:00', 'Zhonghe', '1311867063@qq.com', NULL, '13585563683', '浦东新区盛夏路58弄');
+INSERT INTO `storeuser` (`sid`, `roleid`, `username`, `password`, `createDate`, `storeName`, `email`, `phone`, `cellPhone`, `address`, `majorImage`, `corpMoreInfoLink`, `lng`, `lat`) VALUES
+(1, 1, 'byc', '$2a$10$w2a0e8OsEtJ0dPYT//Sc0Oj1NneShu5iXBTppGKi47peA75jtXzVu', '2013-12-16 04:16:00', 'Zhonghe', '1311867063@qq.com', NULL, '13585563683', '浦东新区盛夏路58弄', NULL, NULL, '0.000000', '0.000000'),
+(2, 1, 'ben', '$2a$10$w2a0e8OsEtJ0dPYT//Sc0Oj1NneShu5iXBTppGKi47peA75jtXzVu', '2013-12-17 16:00:00', 'test', NULL, NULL, '15895906036', '上海浦东新区', NULL, NULL, '0.000000', '0.000000');
 
 -- --------------------------------------------------------
 

@@ -6,17 +6,13 @@
 </head>
 <body>
 <form enctype="multipart/form-data">
-    <input name="file" type="file" accept="image/*"/>
-    <input name="file-upload" value = " " type="hidden" />
-    <input type="button" value="Upload" />
+    <input name="file" type="file" class="image-file" id="test" accept="image/*"/>
+    <input type="button" value="Upload" class="image-upload"/>
 </form>
 <form enctype="multipart/form-data">
-    <input name="file2" type="file" accept="image/*"/>
-    <input name="file2-upload" value = " " type="hidden" />
-    <input type="button" value="Upload" />
+    <input name="file2" type="file" class="image-file" id="test" accept="image/*"/>
+    <input type="button" value="Upload" class="image-upload"/>
 </form>
-<img id="file-upload-img" src=" "/>s
-<progress></progress>
 </body>
 
 <script src="./js/store/jquery-1.10.2.min.js"></script>
