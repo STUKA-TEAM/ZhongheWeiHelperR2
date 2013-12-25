@@ -1,15 +1,16 @@
 package register;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 /**
- * @Title: RegisterInfo
+ * @Title: UserInfo
  * @Description: 用户注册信息
  * @Company: ZhongHe
  * @author ben
  * @date 2013年12月08日
  */
-public class RegisterInfo {
+public class UserInfo {
 	private int roleid;
 	private String username;
 	private String password;
@@ -19,6 +20,10 @@ public class RegisterInfo {
 	private String phone;
 	private String cellPhone;
 	private String address;
+	private String majorImage;
+	private String corpMoreInfoLink;
+	private BigDecimal lng;
+	private BigDecimal lat;
 	
 	/**
 	 * @return the roleid
@@ -127,5 +132,53 @@ public class RegisterInfo {
 	 */
 	public void setAddress(String address) {
 		this.address = address;
+	}
+	/**
+	 * @return the majorImage
+	 */
+	public String getMajorImage() {
+		return majorImage;
+	}
+	/**
+	 * @param majorImage the majorImage to set
+	 */
+	public void setMajorImage(String majorImage) {
+		this.majorImage = majorImage;
+	}
+	/**
+	 * @return the corpMoreInfoLink
+	 */
+	public String getCorpMoreInfoLink() {
+		return corpMoreInfoLink;
+	}
+	/**
+	 * @param corpMoreInfoLink the corpMoreInfoLink to set
+	 */
+	public void setCorpMoreInfoLink(String corpMoreInfoLink) {
+		this.corpMoreInfoLink = corpMoreInfoLink;
+	}
+	/**
+	 * @return the lng
+	 */
+	public BigDecimal getLng() {
+		return lng;
+	}
+	/**
+	 * @param lng the lng to set
+	 */
+	public void setLng(BigDecimal lng) {
+		this.lng = lng;
+	}
+	/**
+	 * @return the lat
+	 */
+	public BigDecimal getLat() {
+		return lat;
+	}
+	/**
+	 * @param lat the lat to set
+	 */
+	public void setLat(BigDecimal lat) {
+		this.lat = lat;
 	}
 }

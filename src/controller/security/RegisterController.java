@@ -7,7 +7,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import register.RegisterInfo;
+import register.UserInfo;
 
 /**
  * @Title: RegisterController
@@ -33,27 +33,27 @@ public class RegisterController {
 	 */
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public String showRegistration(Model model){
-		RegisterInfo registerInfo = new RegisterInfo();
-		model.addAttribute("registerInfo", registerInfo);
+		UserInfo userInfo = new UserInfo();
+		model.addAttribute("userInfo", userInfo);
 		return "register";
 	}
 	
 	/**
 	 * @Description: 处理注册流程
-	 * @param registerInfo
+	 * @param userInfo
 	 * @param result
 	 * @param model
 	 * @return
 	 */
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public String processRegister(RegisterInfo registerInfo, BindingResult result, Model model){
-		registerValidation.validate(registerInfo, result);
-		model.addAttribute("registerInfo", registerInfo);
+	public String processRegister(UserInfo userInfo, BindingResult result, Model model){
+		registerValidation.validate(userInfo, result);
+		model.addAttribute("userInfo", userInfo);
 		
 		if(result.hasErrors()){		
 			return "register";
 		}else {
-			System.out.println(registerInfo.getPassword());
+			System.out.println(userInfo.getPhone());
 			return "registersuccess";
 		}
 	}
