@@ -57,7 +57,7 @@
     <div class="content">
       <ul class="container">
         <li>
-          <img src="img/elove/encounter_photo1.png" />
+          <img src="img/elove/encounter_photo1.jpg" />
         </li>
         <li class="photo-logo">
           <img src="img/elove/encounter_logo.png" />
