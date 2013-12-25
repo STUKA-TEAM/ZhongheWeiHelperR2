@@ -1,0 +1,133 @@
+html, header, body {
+  max-width: 360px;
+  background-color: #ed95ae;
+  font-family:"Microsoft YaHei";
+}
+div {
+  max-width: 360px;
+  text-align:center; 
+}
+.footer {
+  margin: 5px auto;
+  padding-bottom: 5px;
+  width: 80%;
+  text-align: center;
+  color: #ffffff;
+}
+.btn-elove {
+  color: #ffffff;
+  background: -webkit-gradient(linear, left top, left bottom, from(#dc5d72), color-stop(0.4, #d8465d), to(#d31735));
+  border-color: #bb293c;
+}
+.btn-elove:hover,
+.btn-elove:focus,
+.btn-elove:active,
+.btn-elove.active,
+.open .dropdown-toggle.btn-elove {
+  color: #ffffff;
+  background-color: #c53044;
+  border-color: #9c2334;
+}
+.btn-elove:active,
+.btn-elove.active,
+.open .dropdown-toggle.btn-elove {
+  background-image: none;
+}
+.btn-elove.disabled,
+.btn-elove[disabled],
+fieldset[disabled] .btn-elove,
+.btn-elove.disabled:hover,
+.btn-elove[disabled]:hover,
+fieldset[disabled] .btn-elove:hover,
+.btn-elove.disabled:focus,
+.btn-elove[disabled]:focus,
+fieldset[disabled] .btn-elove:focus,
+.btn-elove.disabled:active,
+.btn-elove[disabled]:active,
+fieldset[disabled] .btn-elove:active,
+.btn-elove.disabled.active,
+.btn-elove[disabled].active,
+fieldset[disabled] .btn-elove.active {
+  background-color: #428bca;
+  border-color: #357ebd;
+}
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  display: block;
+  height: 100%;
+  width: 135px;
+  background-color: #f8e9ed;
+  overflow: hidden;
+}
+.nav {
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none;
+}
+.nav > li {
+  position: relative;
+  display: block;
+}
+.nav > li > a {
+  position: relative;
+  display: block;
+  padding: 10px;
+}
+.nav-pills > li {
+  border-bottom-style: solid;
+  border-color: #eeeeee;
+  border-bottom-width: 1px;
+}
+.nav-pills > li > a {
+  margin-bottom: 0px;
+  border-radius: 0px;
+  width: 100%;
+  color: #777777;
+  font-size: 16px;
+}
+.nav-pills > li + li {
+  padding-top: 0px;
+  padding-bottom: 0px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+}
+.nav-pills > li > a:hover,
+.nav-pills > li > a:focus {
+  color: #1ABC9C;
+  border-top-style: none;
+  border-bottom-style: none;
+  border-left-style: solid;
+  border-left-color: #f3a5bd;
+  border-left-width: 5px;
+  background-color: #fef7f9;
+}
+.sidebar-encount,
+.sidebar-photo,
+.sidebar-info,
+.sidebar-record {
+  font-size: 16px;
+  color: #f49cb8;
+  padding: 5px 0 10px 40px;
+}
+.sidebar-encount {
+  background: url(../../img/elove/encount_logo.png) no-repeat;
+}
+.sidebar-photo {
+  background: url(../../img/elove/photo_logo.png) no-repeat;
+}
+.sidebar-info {
+  background: url(../../img/elove/info_logo.png) no-repeat;
+}
+.sidebar-record {
+  background: url(../../img/elove/record_logo.png) no-repeat;
+}
+.sidebar-guide {
+  position: fixed;
+  top: 100px;
+  left: 5px;
+  height: auto;
+  width: 30px;
+}

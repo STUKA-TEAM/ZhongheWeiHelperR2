@@ -6,171 +6,127 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="zhonghe">
+    <meta name="viewport" container="width=device-width, initial-scale=1.0">
+    <meta name="description" container="">
+    <meta name="author" container="zhonghe">
     <c:set var="request" value="${pageContext.request}" />
     <base href="${fn:replace(request.requestURL, request.requestURI, request.contextPath)}/" />
     <title>Elove</title>
     
     <!-- 微喜帖css -->
-    <link href="css/customer/zhonghe-wed.css" rel="stylesheet">
-    <link href="css/customer/zhonghe-wed-info.css" rel="stylesheet">
-  </head>
-  <body style="min-height:605px;height:100%;background-image: url(img/elove/footer_bg.png);
-background-repeat: no-repeat;
-background-position: bottom;">
-    <div class="title">
-      <img src="img/elove/info_title.png" />
-      <img class="logo" src="img/elove/encounter_photo1.png" />
-    </div><!-- title -->
-    <input type='checkbox' id='sideToggle'>
-    <aside>
-        <ul class="nav nav-pills sideul">
-          <li class="sideli"><div id="audio" onclick="audioSwitch()"></div></li>
-          <li class="sideli"><a href="story"><span class="sidebar-encount">相知相遇</span></a></li>
-          <li class="sideli"><a href="dress"><span class="sidebar-photo">婚纱剪影</span></a></li>
-          <li class="sideli"><a href="info"><span class="sidebar-info">婚礼信息</span></a></li>
-          <li class="sideli"><a href="record"><span class="sidebar-record">婚礼纪录</span></a></li>
-        </ul>
-        
-    <script type="text/javascript">
-    flag="off";
-    function audioSwitch(){
-    	if(flag=="off"){
-    		myAudio = new Audio('media/elovedemomusic.mp3'); 
-            myAudio.addEventListener('ended', function() {
-                this.currentTime = 0;
-                this.play();
-            }, false);
-            myAudio.play();
-            flag="on";
-    	}else{
-    		myAudio.pause();
-    		flag="off";
-    	}
-    	
-    }
+    <link href="css/customer/bootstrap.min.css" rel="stylesheet">
+    <link href="css/customer/zhonghe-elove.css" rel="stylesheet">
+    <link href="css/customer/elove-info.css" rel="stylesheet">
     
-    </script>
-      </aside>
-      <div id='wrap'>
-        <label id='sideMenuControl' for='sideToggle'><img src="img/elove/sidebar_btn.png" /></label>
-      </div> 
-    <div class="content" >
-      <div class="container">
-        <div class="message-title">
-          <img src="img/elove/message_title.png" />
-        </div>
-        <div class="message-content">
-          <img src="img/elove/message_content.png" />
-        </div>
+  </head>
+  <body class="body-bg">
+    <div class="container-fulid">
+      <img src="img/elove/info_title.png" class="img-responsive title" alt="title background" />
+      <div class="logo-container">
+        <img src="img/elove/encounter_photo1.png" class="logo" alt="logo" />
       </div>
-
-      <ul>
+    </div>
+    
+    <div class="container-fulid">
+      <div class="message">
+        <img src="img/elove/message_title.png" class="message-title" />
+        <img src="img/elove/message_content.png" class="message-content" />
+      </div>
+    </div>
+    
+    <div class="container-fulid">
+      <ul class="info-list">
         <li>
-          <div class="info-title col-xs-2">
-            <p>婚礼<br/>时间</p>
+          <div class="info-title">
+            <p>婚礼<br>时间</p>
           </div>
-          <div class="info-content col-xs-10">
+          <div class="info-content">
             <p>2013 - 12 - 12</p>
           </div>
         </li>
-        <li onclick="mapSwitch()">
+        <li onclick="map_switch()">
           <div class="info-title">
-            <p>地点<br/>导航</p>
+            <p>婚礼<br>地点</p>
           </div>
           <div class="info-content">
-            <p>上海市长宁区天山路318号 </p>
+            <p>上海杨浦区国和路</p>
           </div>
         </li>
         <li>
           <div class="info-title">
-            <p>联系<br/>电话</p>
+            <p>电话</p>
           </div>
           <div class="info-content">
-           <p> <a href="tel:12345678901" style="color:#d8465d;">12345678901</a></p>      
+            <p><a href="tel:12345678901">12345678901</a></p>
           </div>
         </li>
       </ul>
+    </div>
+    
+    <div class="container-fulid">
+      <p>
+        <a data-toggle="modal" data-target="#attend" class="btn btn-elove">我要赴宴</a>
+        <a data-toggle="modal" data-target="#bless" class="btn btn-elove">送上祝福</a>
+        <a onclick="switch_guide()" class="btn btn-elove">分享喜帖</a>
+      </p>
+    </div>
 
-      <div class="btn-container">
-        <p>
-          <a onclick="switchAlert()" class="btn btn-primary">我要赴宴</a>
-          <a onclick="switchAlert2()" class="btn btn-primary">送上祝福</a>
-          <a onclick="switchGuide()"data-toggle="modal" data-target="#share" class="btn btn-primary">分享喜帖</a>
-        </p>
-      </div>
-      
-      <!-- 弹窗开始-->
-      <div id="popupBack" class="popupBackClass"></div>
-      <div id="popupBox" class="popupBoxClass">
-        <div class="popup-content">
-          <input class="popup-input" type="text" placeholder="称呼" />
-          <input class="popup-input" type="text" placeholder="联系方式" />
-          <input class="popup-input" type="text" placeholder="人数" />
-          <a class="btn btn-long btn-primary" onclick="closeAlert()">确 定</a>
+    <!-- Modal -->
+    <div class="modal fade" id="attend" tabindex="-1" role="dialog" aria-labelledby="attendLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-body">
+            <input class="modal-input" type="text" placeholder="称呼" />
+            <input class="modal-input" type="text" placeholder="联系方式" />
+            <input class="modal-input" type="text" placeholder="人数" />
+            <a class="modal-btn btn btn-elove" data-dismiss="modal" onclick="">确 定</a>
+          </div>
         </div>
-        
       </div>
-      <!-- 弹窗结束-->
-      
-      <!-- 弹窗开始-->
-      <div id="popupBack2" class="popupBackClass"></div>
-      <div id="popupBox2" class="popupBoxClass">
-        <div class="popup-content">
-          <input class="popup-input" type="text" placeholder="称呼" />
-          <textarea class="popup-text" rows=4 placeholder="请留下您对我们的祝福吧！" ></textarea>
-          <a class="btn btn-long btn-primary" onclick="closeAlert2()">发送祝福</a>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="bless" tabindex="-1" role="dialog" aria-labelledby="blessLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-body">
+            <input class="modal-input" type="text" placeholder="称呼" />
+            <textarea class="modal-text" rows=4 placeholder="请留下您对我们的祝福吧！" ></textarea>
+            <a class="modal-btn btn btn-elove" data-dismiss="modal" onclick="">发送祝福</a>
+          </div>
         </div>
-        
       </div>
-      <!-- 弹窗结束-->
-      
-	<div id="guide" onclick="closeGuide()">
-	<img id="guidePic" src="img/common/guide.png"/>
-	
-	</div>
-	
+    </div>
+
+    <div onclick="sidebar()">
+      <img src="img/elove/sidebar_guide.png" class="sidebar-guide" />
+    </div>
+
+    <div id="sidebar_list" class="sidebar hidden" state="down">
+      <ul class="nav nav-pills">
+        <li><img src="img/elove/music_switch.png" id="audio" onclick="audio_switch()" /></li>
+        <li><a href="#"><span class="sidebar-encount">相知相遇</span></a></li>
+        <li><a href="#"><span class="sidebar-photo">婚纱剪影</span></a></li>
+        <li><a href="#"><span class="sidebar-info">婚礼信息</span></a></li>
+        <li><a href="#"><span class="sidebar-record">婚礼记录</span></a></li>
+      </ul>
+    </div>
+
+    <div class="container-fulid">
+      <div id="baidumap"><div id="pic"></div></div>
+    </div>
+
+    <div id="guide_bg" class="guide hidden" onclick="close_guide()">
+      <img id="guide_img" class="guide-pic hidden" src="img/common/guide.png"/>
+    </div>
+
     <div class="footer">
-        <p>Copyright © 2013 zhonghesoftware.com All Rights Reserved. 众合网络科技有限公司 版权所有</p>
+      <p>Copyright © 2013 zhonghesoftware.com All Rights Reserved. 众合网络科技有限公司 版权所有</p>
     </div><!-- footer -->
-            
-      
-           
-      
-    </div><!-- content -->
-
-   
-    <div id="baidumap" style="visibility:hidden;"> <div id="pic"></div></div>
-
-    <script src="js/customer/popup.js"></script>
+    
+    <script type="text/javascript" src="js/customer/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="js/customer/modal.min.js"></script>
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=PWFniUmG9SMyIVlp7Nm24MRC"></script>
-  <script type="text/javascript">
-// 创建地址解析器实例 
-var myGeo = new BMap.Geocoder();  
-// 将地址解析结果显示在地图上，并调整地图视野
-myGeo.getPoint("上海市长宁区天山路318号", function(point){  
- if (point) { 
-	 var map = new BMap.Map("baidumap");  
-   map.centerAndZoom(point, 16);  
-   map.addOverlay(new BMap.Marker(point));  
-   map.enableScrollWheelZoom(); 
- }  
-}, "上海市"); 
-</script>
- <script type="text/javascript">
-function mapSwitch(){
-var box=document.getElementById("baidumap");
-if(box.style.visibility == "hidden"){
-	box.style.visibility = "visible";
-}else{
-	box.style.visibility = "hidden";
-}
-	
-}
-
-</script>
+    <script type="text/javascript" src="js/customer/elove-info.js"></script>
   </body>
-   
 </html>

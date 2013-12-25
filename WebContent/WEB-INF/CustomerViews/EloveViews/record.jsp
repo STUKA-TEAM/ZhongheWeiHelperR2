@@ -6,7 +6,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, height=device-height">
     <meta name="description" content="">
     <meta name="author" content="zhonghe">
     <c:set var="request" value="${pageContext.request}" />
@@ -19,11 +19,11 @@
     
   </head>
   <body>
-    <div class="title">
+    <div class="pinned title">
       <img src="img/elove/records_title.png" />
     </div><!-- title -->
     
-    <input type='checkbox' data-spy="affix-bottom" data-offset-top="200" id='sideToggle' />
+    <input type='checkbox' id='sideToggle' />
     <aside>
         <ul class="nav nav-pills sideul">
           <li class="sideli"><div id="audio" onclick="audioSwitch()"></div></li>
@@ -91,6 +91,10 @@
     </script>
     
     <script type="text/javascript" src="js/customer/jquery-1.10.2.min.js"></script>
-    <script type="text/javascript" src="js/customer/affix.min.js"></script>
+    <script type="text/javascript" src="js/customer/jquery.pin.min.js"></script>
+    <script>
+      $(".pinned").pin();
+    </script>
+    
   </body>
 </html>
