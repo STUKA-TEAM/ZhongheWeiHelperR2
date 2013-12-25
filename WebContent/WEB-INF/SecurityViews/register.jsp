@@ -30,7 +30,7 @@
       <div class="row">
         <div class="well well-lg col-sm-8 col-sm-offset-2 row">
           <form:form class="col-sm-10 col-sm-offset-1 form-horizontal" method="Post" action = "${pageContext.request.contextPath}/security/register"
-  modelAttribute = "registerInfo">
+  modelAttribute = "userInfo">
             <div class="form-group">
               <label for="username" class="col-sm-2 control-label">用户名</label>
               <div class="col-sm-10">
@@ -49,6 +49,7 @@
               <label for="storename" class="col-sm-2 control-label">店铺名称</label>
               <div class="col-sm-10">
                 <form:input type="text" class="form-control" id="storename_input" path="storeName" placeholder=""/>
+                <form:errors path="storeName" class="input-error"></form:errors>
               </div>
             </div>
             <div class="form-group">
@@ -66,9 +67,17 @@
               </div>
             </div>
             <div class="form-group">
+              <label for="cellPhone" class="col-sm-2 control-label">手机号码</label>
+              <div class="col-sm-10">
+                <form:input type="text" class="form-control" id="cellPhone_input" path="cellPhone" placeholder=""/>
+                <form:errors path="cellPhone" class="input-error"></form:errors>
+              </div>
+            </div>
+            <div class="form-group">
               <label for="address" class="col-sm-2 control-label">店铺地址</label>
               <div class="col-sm-10">
                 <form:input type="text" class="form-control" id="address_input" path="address" placeholder=""/>
+                <form:errors path="address" class="input-error"></form:errors>
               </div>
             </div>
             <div class="form-group">

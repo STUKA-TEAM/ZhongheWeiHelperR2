@@ -37,7 +37,8 @@ public class UserDAO {
 	 * @return
 	 */
 	public User loadUserByUsername(final String username) {
-		String SQL = "SELECT R.roleName, S.password, S.username FROM role R, storeuser S WHERE R.id = S.roleid AND S.username = ?";
+		String SQL = "SELECT S.sid, R.roleName, S.password, S.username "
+				+ "FROM role R, storeuser S WHERE R.id = S.roleid AND S.username = ?";
 		User user = null;
 		try {
 			user = jdbcTemplate.queryForObject(SQL, new Object[]{username}, new UserInfoMapper());
@@ -51,6 +52,7 @@ public class UserDAO {
 		@Override
 		public User mapRow(ResultSet rs, int arg1) throws SQLException {
 			User user = new User();
+			user.setSid(rs.getInt("S.sid"));
 			user.setUsername(rs.getString("S.username"));
 			user.setPassword(rs.getString("S.password"));
 			Role role = new Role();                         //默认一个用户对应一个角色

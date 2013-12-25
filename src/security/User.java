@@ -13,6 +13,7 @@ public class User implements UserDetails {
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	private int sid;
 	private String username;
     private String password;
  
@@ -23,7 +24,21 @@ public class User implements UserDetails {
     private boolean credentialsNonExpired = true;
     private boolean enabled = true;
     
-    @Override
+    /**
+	 * @return the sid
+	 */
+	public int getSid() {
+		return sid;
+	}
+
+	/**
+	 * @param sid the sid to set
+	 */
+	public void setSid(int sid) {
+		this.sid = sid;
+	}
+
+	@Override
     public String getUsername() {
         return username;
     }

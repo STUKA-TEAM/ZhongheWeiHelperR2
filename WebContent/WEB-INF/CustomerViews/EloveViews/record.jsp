@@ -26,11 +26,11 @@
     <input type='checkbox' id='sideToggle' />
     <aside>
         <ul class="nav nav-pills sideul">
-          <li class="sideli"><div id="audio" onclick="audioSwitch()"></div></li>
-          <li class="sideli"><a href="story"><span class="sidebar-encount">相知相遇</span></a></li>
-          <li class="sideli"><a href="dress"><span class="sidebar-photo">婚纱剪影</span></a></li>
-          <li class="sideli"><a href="info"><span class="sidebar-info">婚礼信息</span></a></li>
-          <li class="sideli"><a href="record"><span class="sidebar-record">婚礼纪录</span></a></li>
+          <li class="sideli"><div id="customer/elove/audio" onclick="audioSwitch()"></div></li>
+          <li class="sideli"><a href="customer/elove/story"><span class="sidebar-encount">相知相遇</span></a></li>
+          <li class="sideli"><a href="customer/elove/dress"><span class="sidebar-photo">婚纱剪影</span></a></li>
+          <li class="sideli"><a href="customer/elove/info"><span class="sidebar-info">婚礼信息</span></a></li>
+          <li class="sideli"><a href="customer/elove/record"><span class="sidebar-record">婚礼纪录</span></a></li>
         </ul>
         
     <script type="text/javascript">

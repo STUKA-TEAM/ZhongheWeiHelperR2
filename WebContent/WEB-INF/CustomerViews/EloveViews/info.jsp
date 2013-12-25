@@ -19,6 +19,7 @@
     <link href="css/customer/elove-info.css" rel="stylesheet">
     
   </head>
+<<<<<<< HEAD
   <body class="body-bg">
     <div class="container-fulid">
       <img src="img/elove/info_title.png" class="img-responsive title" alt="title background" />
@@ -26,6 +27,42 @@
         <img src="img/elove/encounter_photo1.png" class="logo" alt="logo" />
       </div>
     </div>
+=======
+  <body style="min-height:605px;height:100%;background-image: url(img/elove/footer_bg.png);
+background-repeat: no-repeat;
+background-position: bottom;">
+    <div class="title">
+      <img src="img/elove/info_title.png" />
+      <img class="logo" src="img/elove/encounter_photo1.png" />
+    </div><!-- title -->
+    <input type='checkbox' id='sideToggle'>
+    <aside>
+        <ul class="nav nav-pills sideul">
+          <li class="sideli"><div id="customer/elove/audio" onclick="audioSwitch()"></div></li>
+          <li class="sideli"><a href="customer/elove/story"><span class="sidebar-encount">相知相遇</span></a></li>
+          <li class="sideli"><a href="customer/elove/dress"><span class="sidebar-photo">婚纱剪影</span></a></li>
+          <li class="sideli"><a href="customer/elove/info"><span class="sidebar-info">婚礼信息</span></a></li>
+          <li class="sideli"><a href="customer/elove/record"><span class="sidebar-record">婚礼纪录</span></a></li>
+        </ul>
+        
+    <script type="text/javascript">
+    flag="off";
+    function audioSwitch(){
+    	if(flag=="off"){
+    		myAudio = new Audio('media/elovedemomusic.mp3'); 
+            myAudio.addEventListener('ended', function() {
+                this.currentTime = 0;
+                this.play();
+            }, false);
+            myAudio.play();
+            flag="on";
+    	}else{
+    		myAudio.pause();
+    		flag="off";
+    	}
+    	
+    }
+>>>>>>> d03e18b511fadbe4a60c2bb355159f3064d9fc7e
     
     <div class="container-fulid">
       <div class="message">
