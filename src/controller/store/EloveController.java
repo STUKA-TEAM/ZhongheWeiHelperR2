@@ -1,5 +1,7 @@
 package controller.store;
 
+import java.util.List;
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -10,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import elove.AppInfo;
 import elove.dao.AppInfoDAO;
 import register.UserInfo;
 import register.dao.UserInfoDAO;
@@ -53,7 +56,10 @@ public class EloveController {
 		UserInfo userInfo = userInfoDao.getUserInfo(user.getSid());
 	    model.addAttribute("userInfo", userInfo);
         
-	    
+	    List<AppInfo> appInfoList = appInfoDao.getAppInfoBySid(user.getSid());
+	    if (appInfoList.size() > 0) {
+			
+		}
 		
         return "EloveViews/account";
     }
