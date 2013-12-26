@@ -33,9 +33,10 @@
     <div class="container">
       <div class="row">
         <div class="well well-lg col-sm-8 col-sm-offset-2 row">
-        <form enctype="multipart/form-data" id="register">
-        <input name="file" type="file" class="image-file" accept="image/*"/>
-        <input type="button" value="Upload" class="image-multi"/>
+        <form class="col-sm-10 col-sm-offset-1 form-horizontal" enctype="multipart/form-data" id="register">
+        <label for="image" class="col-sm-2 control-label">用户名</label>
+        <input name="file" type="file" class="col-sm-offset-1 col-sm-3 btn btn-lg btn-success image-file" accept="image/*"/>
+        <input type="button" value="Upload" class="col-sm-offset-1 col-sm-3 btn btn-lg btn-success image-multi"/>
         </form>
         
           <form:form class="col-sm-10 col-sm-offset-1 form-horizontal" method="Post" action = "security/register"
@@ -151,7 +152,7 @@
       var point=new BMap.Point(e.point.lng, e.point.lat);
       document.getElementById("lng").value = point.lng;
       document.getElementById("lat").value = point.lat;  
-      map.centerAndZoom(point, 16);  
+      map.centerAndZoom(point, map.getZoom());  
       map.addOverlay(new BMap.Marker(point)); 
     });
     </script>
