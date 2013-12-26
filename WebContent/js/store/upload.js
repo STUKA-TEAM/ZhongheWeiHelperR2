@@ -1,7 +1,6 @@
 $(document).ready(function(){
 	$('.image-file').change(function(){
 	    var file = this.files[0];
-	    var name = file.name;
 	    var size = file.size;
 	    var type = file.type;
 	    //Your validation
@@ -19,7 +18,7 @@ $(document).ready(function(){
 	    var form = this.parentElement;
 	    var formData = new FormData(form);
 	    $.ajax({
-	        url: '/resources/upload/image',  //Server script to process data
+	        url: '/resources/upload/image/original',  //Server script to process data
 	        type: 'POST',
 	        //Ajax events
 	        beforeSend: function(xhr, settings){
