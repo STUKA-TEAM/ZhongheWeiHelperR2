@@ -1,6 +1,12 @@
 package controller.security;
 
+import java.sql.Timestamp;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -8,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import register.UserInfo;
+import register.dao.UserInfoDAO;
 
 /**
  * @Title: RegisterController
@@ -20,11 +27,8 @@ import register.UserInfo;
 public class RegisterController {
 	@Autowired
 	private RegisterValidation registerValidation;
-	
-	public void setRegisterValidation(
-			RegisterValidation registerValidation){
-		this.registerValidation = registerValidation;
-	}
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	
 	/**
 	 * @Description: 返回注册视图
@@ -52,11 +56,25 @@ public class RegisterController {
 		
 		if(result.hasErrors()){		
 			return "register";
-		}else {
-			System.out.println(userInfo.getMajorImage());
-			System.out.println(userInfo.getLat());
-			System.out.println(userInfo.getLng());
-			return "registersuccess";
+		}
+		else {
+			ApplicationContext context = 
+					new ClassPathXmlApplicationContext("All-Modules.xml");
+			UserInfoDAO userInfoDao = (UserInfoDAO) context.getBean("UserInfoDAO");
+			((ConfigurableApplicationContext)context).close();
+			
+			userInfo.setRoleid(1);   //default 'ROLE_USER'
+			String encoded = passwordEncoder.encode(userInfo.getPassword());
+			userInfo.setPassword(encoded);
+			Timestamp current = new Timestamp(System.currentTimeMillis());
+			userInfo.setCreateDate(current);
+			
+			int sid = userInfoDao.insertUserInfo(userInfo);
+			if (sid > 0 ) {
+				return "registerSuccess";
+			}else {
+				return "registerException";
+			}
 		}
 	}
 }

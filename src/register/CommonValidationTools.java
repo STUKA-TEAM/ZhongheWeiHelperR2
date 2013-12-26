@@ -3,6 +3,12 @@ package register;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import register.dao.UserInfoDAO;
+
 
 public class CommonValidationTools {
 	public boolean checkEmail(String email){
@@ -17,5 +23,19 @@ public class CommonValidationTools {
 		Pattern regex = Pattern.compile(check);
 		Matcher matcher = regex.matcher(phone);		 
 		return matcher.matches();
+	}
+	
+	public boolean checkPassword(String original, String again){
+		return original.equals(again);
+	}
+	
+	public boolean checkUsername(String username){
+		ApplicationContext context = 
+				new ClassPathXmlApplicationContext("All-Modules.xml");
+		UserInfoDAO userInfoDao = (UserInfoDAO) context.getBean("UserInfoDAO");
+		((ConfigurableApplicationContext)context).close();
+		
+		int count = userInfoDao.getUserCount(username);
+		return count == 0;
 	}
 }
