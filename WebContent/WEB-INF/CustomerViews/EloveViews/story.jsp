@@ -6,7 +6,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, height=device-height">
     <meta name="description" content="">
     <meta name="author" content="zhonghe">
     <c:set var="request" value="${pageContext.request}" />
@@ -57,7 +57,7 @@
     <div class="content">
       <ul class="container">
         <li>
-          <img src="img/elove/encounter_photo1.png" />
+          <img src="img/elove/encounter_photo1.jpg" />
         </li>
         <li class="photo-logo">
           <img src="img/elove/encounter_logo.png" />
