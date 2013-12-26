@@ -33,13 +33,14 @@
     <div class="container">
       <div class="row">
         <div class="well well-lg col-sm-8 col-sm-offset-2 row">
-        <form enctype="multipart/form-data">
-        <input name="file" type="file" class="image-file" id="test" accept="image/*"/>
-        <input type="button" value="Upload" class="image-upload"/>
+        <form enctype="multipart/form-data" id="register">
+        <input name="file" type="file" class="image-file" accept="image/*"/>
+        <input type="button" value="Upload" class="image-multi"/>
         </form>
         
           <form:form class="col-sm-10 col-sm-offset-1 form-horizontal" method="Post" action = "security/register"
   modelAttribute = "userInfo">
+            <form:input type="hidden" name="majorImage" path="majorImage" />
             <div class="form-group">
               <label for="username" class="col-sm-2 control-label">用户名</label>
               <div class="col-sm-10">
@@ -104,8 +105,8 @@
                 <button type="button" value="定位" onclick="setPoint()">定位</button> 
               </div>
               <div id="baidumap" style="height:400px; width:400px;"></div>
- 			  <input id="lng" type="hidden" />
- 		      <input id="lat" type="hidden" />
+ 			  <form:input id="lng" name="lng" type="hidden" path="lng"/>
+ 		      <form:input id="lat" name="lat" type="hidden" path="lat"/>
             </div>
             <div class="form-group">
                 <button type="submit" class="col-sm-offset-1 col-sm-5 btn btn-lg btn-success">注册</button>
@@ -125,8 +126,8 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="js/store/bootstrap.min.js"></script>
-<script src="js/store/upload.js"></script>
-     <script type="text/javascript">
+    <script src="js/store/upload.js"></script>
+    <script type="text/javascript">
     var myGeo = new BMap.Geocoder();  
     var map = new BMap.Map("baidumap");
     map.centerAndZoom("上海", 12);  
