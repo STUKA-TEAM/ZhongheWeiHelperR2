@@ -33,11 +33,17 @@
     <div class="container">
       <div class="row">
         <div class="well well-lg col-sm-8 col-sm-offset-2 row">
-        <form class="col-sm-10 col-sm-offset-1 form-horizontal" enctype="multipart/form-data" id="register">
-        <label for="image" class="col-sm-2 control-label">用户名</label>
-        <input name="file" type="file" class="col-sm-offset-1 col-sm-3 btn btn-lg btn-success image-file" accept="image/*"/>
-        <input type="button" value="Upload" class="col-sm-offset-1 col-sm-3 btn btn-lg btn-success image-multi"/>
-        </form>
+          <form class="col-sm-10 col-sm-offset-1 form-horizontal" enctype="multipart/form-data" id="register">
+            <div class="form-group">
+              <label class="col-sm-2 control-label">宣传图片</label>
+              <div class="image-upload">
+                <input type="file" name="file" class="image-file hidden" onchange="ye.value=value" accept="image/*">
+                <input type="text" name=ye class="form-control file-path">
+                <input type=button value="选择文件" onclick="file.click()" class="btn btn-sm btn-success">
+                <button class="image-multi btn btn-sm btn-success">上传</button>
+              </div>
+            </div>
+          </form>
         
           <form:form class="col-sm-10 col-sm-offset-1 form-horizontal" method="Post" action = "security/register"
   modelAttribute = "userInfo">
@@ -91,7 +97,7 @@
                 <form:errors path="cellPhone" class="input-error"></form:errors>
               </div>
             </div>
-             <div class="form-group">
+            <div class="form-group">
               <label for="corpMoreInfoLink" class="col-sm-2 control-label">官网链接</label>
               <div class="col-sm-10">
                 <form:input type="text" class="form-control" id="corpMoreInfoLink_input" path="corpMoreInfoLink" placeholder=""/>
@@ -101,22 +107,22 @@
             <div class="form-group">
               <label for="address" class="col-sm-2 control-label">商户地址</label>
               <div class="col-sm-10">
-                <form:input type="text" class="form-control" id="address_input" path="address" placeholder=""/>
-                <form:errors path="address" class="input-error"></form:errors>
-                <button type="button" value="定位" onclick="setPoint()">定位</button> 
+                <form:input type="text" class="form-control locate-input" id="address_input" path="address" placeholder=""/>
+                <button class="btn btn-sm btn-success locate-btn" onclick="setPoint()">定位</button>
               </div>
-              <div id="baidumap" style="height:400px; width:400px;"></div>
- 			  <form:input id="lng" name="lng" type="hidden" path="lng"/>
- 		      <form:input id="lat" name="lat" type="hidden" path="lat"/>
+              <form:errors path="address" class="input-error"></form:errors>
             </div>
+            <div id="baidumap"></div>
+            <form:input id="lng" name="lng" type="hidden" path="lng"/>
+            <form:input id="lat" name="lat" type="hidden" path="lat"/>
             <div class="form-group">
-                <button type="submit" class="col-sm-offset-1 col-sm-5 btn btn-lg btn-success">注册</button>
-                <button id="cancle_register" class="col-sm-offset-1 col-sm-3 btn btn-lg btn-default">重置</button>
+              <button type="submit" class="col-sm-offset-1 col-sm-5 btn btn-lg btn-success">注册</button>
+              <button id="cancle_register" class="col-sm-offset-1 col-sm-3 btn btn-lg btn-default">重置</button>
             </div>
           </form:form>
         </div>
-      </div><!-- /.row -->
-    </div> <!-- /.container -->
+      </div>
+    </div><!-- /.row -->
     
     <div id="footer">
       <div class="container" style="text-align:center">

@@ -218,3 +218,33 @@ body, button, input, select, textarea, h1 ,h2, h3, h4, h5, h6 {
 .input-error {
   color: #E74C3C
 }
+.image-select {
+  float: left;
+  text-align: center;
+  background: transparent;
+}
+.image-upload {
+  padding-left: 19%;
+}
+.file-path {
+  display: inline;
+  width: 260px;
+}
+.upload-btn {
+  float: left;
+  padding-left: 30px;
+}
+#baidumap {
+  height: 400px;
+  width: 400px;
+  margin: 10px auto;
+}
+.locate-input {
+  float: left;
+  display: inline;
+  width: 80%;
+}
+.locate-btn {
+  margin-left: 5%;
+  width: 15%;
+}
