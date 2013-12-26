@@ -42,7 +42,7 @@ public class UserInfoDAO {
 	public int insertUserInfo(final UserInfo userInfo){
 		int result = 0;
 		final String SQL = "INSERT INTO storeuser VALUES (default, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-		
+	
 		KeyHolder kHolder = new GeneratedKeyHolder();		
 		result = jdbcTemplate.update(new PreparedStatementCreator() {
 	        public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
@@ -101,5 +101,22 @@ public class UserInfoDAO {
 			userInfo.setCorpMoreInfoLink(rs.getString("corpMoreInfoLink"));
 			return userInfo;
 		}
+	}
+	
+	/**
+	 * @Title: getUserCount
+	 * @Description: 查询某用户名是否已被注册 0-未注册 1-已注册
+	 * @param username
+	 * @return
+	 */
+	public int getUserCount(String username){
+		String SQL = "SELECT COUNT(*) FROM storeuser WHERE username = ?";
+		int count = 1;
+		try {
+			count = jdbcTemplate.queryForObject(SQL, Integer.class, username);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return count;
 	}
 }
