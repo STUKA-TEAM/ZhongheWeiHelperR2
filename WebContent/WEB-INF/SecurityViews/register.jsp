@@ -15,7 +15,7 @@
     <!-- Bootstrap core CSS -->
     <link href="css/store/bootstrap.min.css" rel="stylesheet">
     <link href="css/store/zhonghe-wechat.css" rel="stylesheet">
-    <link rel="shortcut icon" href="img/favicon.jpg">
+    <link rel="shortcut icon" href="img/favicon.png">
     <!-- include jQuery + carouFredSel plugin -->
 	<script type="text/javascript" src="js/store/jquery-1.10.2.min.js"></script>
 	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=PWFniUmG9SMyIVlp7Nm24MRC"></script>
@@ -39,8 +39,8 @@
               <div class="image-upload">
                 <input type="file" name="file" class="image-file hidden" onchange="ye.value=value" accept="image/*">
                 <input type="text" name=ye class="form-control file-path">
-                <input type=button value="选择文件" onclick="file.click()" class="btn btn-sm btn-success">
-                <button class="image-multi btn btn-sm btn-success">上传</button>
+                <input type="button" value="选择文件" onclick="file.click()" class="btn btn-sm btn-success">
+                <input type="button" value="上传" class="image-multi btn btn-sm btn-success">
               </div>
             </div>
           </form>
@@ -108,7 +108,7 @@
               <label for="address" class="col-sm-2 control-label">商户地址</label>
               <div class="col-sm-10">
                 <form:input type="text" class="form-control locate-input" id="address_input" path="address" placeholder=""/>
-                <button class="btn btn-sm btn-success locate-btn" onclick="setPoint()">定位</button>
+                <input type="button" value="定位" class="btn btn-sm btn-success locate-btn" onclick="setPoint()">
               </div>
               <form:errors path="address" class="input-error"></form:errors>
             </div>
@@ -116,8 +116,8 @@
             <form:input id="lng" name="lng" type="hidden" path="lng"/>
             <form:input id="lat" name="lat" type="hidden" path="lat"/>
             <div class="form-group">
-              <button type="submit" class="col-sm-offset-1 col-sm-5 btn btn-lg btn-success">注册</button>
-              <button id="cancle_register" class="col-sm-offset-1 col-sm-3 btn btn-lg btn-default">重置</button>
+              <input type="submit" value="注册" class="col-sm-offset-1 col-sm-5 btn btn-lg btn-success">
+              <input type="reset" value="重置" class="col-sm-offset-1 col-sm-3 btn btn-lg btn-default">
             </div>
           </form:form>
         </div>

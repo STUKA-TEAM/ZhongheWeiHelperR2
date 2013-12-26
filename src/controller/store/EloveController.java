@@ -1,6 +1,9 @@
 package controller.store;
 
+import java.util.List;
+
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -9,6 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import elove.AppInfo;
+import elove.dao.AppInfoDAO;
 import register.UserInfo;
 import register.dao.UserInfoDAO;
 import security.User;
@@ -41,6 +46,8 @@ public class EloveController {
 		ApplicationContext context = 
 				new ClassPathXmlApplicationContext("All-Modules.xml");
 		UserInfoDAO userInfoDao = (UserInfoDAO) context.getBean("UserInfoDAO");
+		AppInfoDAO appInfoDao = (AppInfoDAO) context.getBean("AppInfoDAO");
+		((ConfigurableApplicationContext)context).close();
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = (User)auth.getPrincipal();
@@ -49,6 +56,10 @@ public class EloveController {
 		UserInfo userInfo = userInfoDao.getUserInfo(user.getSid());
 	    model.addAttribute("userInfo", userInfo);
         
+	    List<AppInfo> appInfoList = appInfoDao.getAppInfoBySid(user.getSid());
+	    if (appInfoList.size() > 0) {
+			
+		}
 		
         return "EloveViews/account";
     }

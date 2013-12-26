@@ -15,7 +15,7 @@ $(document).ready(function(){
 	});
 	
 	$('.image-multi').click(function(){
-	    var form = this.parentElement;
+	    var form = this.parentElement.parentElement.parentElement;
 	    var formData = new FormData(form);
 	    $.ajax({
 	        url: '/resources/upload/image/multi',  //Server script to process data
