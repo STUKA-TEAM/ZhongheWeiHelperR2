@@ -53,7 +53,9 @@ public class RegisterController {
 		if(result.hasErrors()){		
 			return "register";
 		}else {
-			System.out.println(userInfo.getPhone());
+			System.out.println(userInfo.getMajorImage());
+			System.out.println(userInfo.getLat());
+			System.out.println(userInfo.getLng());
 			return "registersuccess";
 		}
 	}

@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import register.UserInfo;
 import register.dao.UserInfoDAO;
 import security.User;
 
@@ -39,12 +40,17 @@ public class EloveController {
     public String getUserInfo(Model model) {
 		ApplicationContext context = 
 				new ClassPathXmlApplicationContext("All-Modules.xml");
-		UserInfoDAO info = (UserInfoDAO) context.getBean("RegisterInfoDAO");
+		UserInfoDAO userInfoDao = (UserInfoDAO) context.getBean("UserInfoDAO");
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = (User)auth.getPrincipal();
+		model.addAttribute("username", user.getUsername());
 		
-        return "EloveViews/test";
+		UserInfo userInfo = userInfoDao.getUserInfo(user.getSid());
+	    model.addAttribute("userInfo", userInfo);
+        
+		
+        return "EloveViews/account";
     }
 	
 	

@@ -1,7 +1,6 @@
 $(document).ready(function(){
 	$('.image-file').change(function(){
 	    var file = this.files[0];
-	    var name = file.name;
 	    var size = file.size;
 	    var type = file.type;
 	    //Your validation
@@ -15,18 +14,70 @@ $(document).ready(function(){
 	    }
 	});
 	
-	$('.image-upload').click(function(){
+	$('.image-multi').click(function(){
 	    var form = this.parentElement;
 	    var formData = new FormData(form);
 	    $.ajax({
-	        url: '/resources/upload/image',  //Server script to process data
+	        url: '/resources/upload/image/multi',  //Server script to process data
 	        type: 'POST',
 	        //Ajax events
 	        beforeSend: function(xhr, settings){
 	        	beforeSendHandler(xhr, form);
 	        },
 	        success: function(data){
-	        	var id = $('.image-file', form)[0].id;
+	        	var id = form.id;
+	        	completeHandler(id, data);
+	        },
+	        error: function(xhr, status, exception){
+	        	errorHandler(status);
+	        },
+	        // Form data
+	        data: formData,
+	        //Options to tell jQuery not to process data or worry about content-type.
+	        cache: false,
+	        contentType: false,
+	        processData: false
+	    });
+	});
+	
+	$('.image-original').click(function(){
+	    var form = this.parentElement;
+	    var formData = new FormData(form);
+	    $.ajax({
+	        url: '/resources/upload/image/original',  //Server script to process data
+	        type: 'POST',
+	        //Ajax events
+	        beforeSend: function(xhr, settings){
+	        	beforeSendHandler(xhr, form);
+	        },
+	        success: function(data){
+	        	var id = form.id;
+	        	completeHandler(id, data);
+	        },
+	        error: function(xhr, status, exception){
+	        	errorHandler(status);
+	        },
+	        // Form data
+	        data: formData,
+	        //Options to tell jQuery not to process data or worry about content-type.
+	        cache: false,
+	        contentType: false,
+	        processData: false
+	    });
+	});
+	
+	$('.image-square').click(function(){
+	    var form = this.parentElement;
+	    var formData = new FormData(form);
+	    $.ajax({
+	        url: '/resources/upload/image/square',  //Server script to process data
+	        type: 'POST',
+	        //Ajax events
+	        beforeSend: function(xhr, settings){
+	        	beforeSendHandler(xhr, form);
+	        },
+	        success: function(data){
+	        	var id = form.id;
 	        	completeHandler(id, data);
 	        },
 	        error: function(xhr, status, exception){
@@ -59,5 +110,10 @@ $(document).ready(function(){
 	}
 	function errorHandler(status){
 		alert(status);
+	}
+	function successProcess(id, link){
+		if(id == 'register'){
+			$('input[name="majorImage"]').val(link);
+		}
 	}
 });

@@ -14,6 +14,7 @@ public class UserInfo {
 	private int roleid;
 	private String username;
 	private String password;
+	private String confirmPassword;
 	private Timestamp createDate;
 	private String storeName;
 	private String email;
@@ -60,6 +61,18 @@ public class UserInfo {
 	 */
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	/**
+	 * @return the confirmPassword
+	 */
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+	/**
+	 * @param confirmPassword the confirmPassword to set
+	 */
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
 	}
 	/**
 	 * @return the createDate

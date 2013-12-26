@@ -55,7 +55,7 @@ public class WeixinMessageController {
 						wish.setTitle("查看亲友祝福");
 						wish.setPicUrl(MethodUtils.getApplicationPath()+"img/elovewish.jpg");
 						wish.setUrl(MethodUtils.getApplicationPath()+"customer/elove/wish");
-						//336*163  500*242
+						//336*163  500*242 360*175
 						join.setTitle("查看已登记赴宴亲友");
 						join.setPicUrl(MethodUtils.getApplicationPath()+"img/elovejoin.jpg");
 						join.setUrl(MethodUtils.getApplicationPath()+"customer/elove/join");

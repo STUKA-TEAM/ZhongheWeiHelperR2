@@ -69,14 +69,19 @@ public class UserInfoDAO {
 	}
 	
 	//query
+	/**
+	 * @Title: getUserInfo
+	 * @Description: 根据用户id获取用户信息
+	 * @param sid
+	 * @return
+	 */
 	public UserInfo getUserInfo(int sid){
 		String SQL = "SELECT * FROM storeuser WHERE sid = ?";
 		UserInfo userInfo = null;
 		try {
 			userInfo = jdbcTemplate.queryForObject(SQL, new Object[]{sid}, new UserInfoMapper());
 		} catch (Exception e) {
-			System.out.println("no record!");
-			return new UserInfo();
+			System.out.println(e.getMessage());
 		}
 		return userInfo;
 	}
@@ -92,6 +97,8 @@ public class UserInfoDAO {
 			userInfo.setPhone(rs.getString("phone"));
 			userInfo.setCellPhone(rs.getString("cellPhone"));
 			userInfo.setAddress(rs.getString("address"));
+			userInfo.setMajorImage(rs.getString("majorImage"));
+			userInfo.setCorpMoreInfoLink(rs.getString("corpMoreInfoLink"));
 			return userInfo;
 		}
 	}
