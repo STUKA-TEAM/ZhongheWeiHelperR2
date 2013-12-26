@@ -81,7 +81,7 @@ public class UserInfoDAO {
 		try {
 			userInfo = jdbcTemplate.queryForObject(SQL, new Object[]{sid}, new UserInfoMapper());
 		} catch (Exception e) {
-			System.out.println("no record!");
+			System.out.println(e.getMessage());
 		}
 		return userInfo;
 	}
