@@ -12,15 +12,22 @@ var sidebar = function(){
 flag="off";
 var audio_switch = function(){
  	if(flag=="off"){
- 		myAudio = new Audio('./media/elovedemomusic.mp3'); 
-    myAudio.addEventListener('ended', function() {
-      this.currentTime = 0;
-      this.play();
-    }, false);
-    myAudio.play();
-    flag="on";
+      myAudio = new Audio('./media/elovedemomusic.mp3'); 
+      myAudio.addEventListener('ended', function() {
+        this.currentTime = 0;
+        this.play();
+      }, false);
+      myAudio.play();
+      $(".audio-logo").attr("src", "img/elove/audio_off.png");
+      $("#audio-p").text("音效关闭");
+      flag="on";
  	}else{
- 		myAudio.pause();
- 		flag="off";
+      myAudio.pause();
+ 	  $(".audio-logo").attr("src", "img/elove/audio_on.png");
+ 	  $("#audio-p").text("音效开启");
+ 	  flag="off";
  	}
 };
+$(document).ready(function(){
+  audio_switch();
+});
