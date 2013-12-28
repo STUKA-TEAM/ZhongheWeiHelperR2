@@ -1,5 +1,6 @@
 package controller.store;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.context.ApplicationContext;
@@ -9,13 +10,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import elove.AppInfo;
-import elove.dao.AppInfoDAO;
-import register.UserInfo;
-import register.dao.UserInfoDAO;
+import elove.EloveInfo;
+import elove.dao.EloveInfoDAO;
 import security.User;
 
 /**
@@ -37,32 +37,43 @@ public class EloveController {
     }
 	
 	/**
-	 * @description: 获取账户信息
+	 * @description: 获取与appid相关的elove信息列表
 	 * @param model
+	 * @param appid
 	 * @return
 	 */
-	@RequestMapping(value = "/elove/account", method = RequestMethod.GET)
-    public String getUserInfo(Model model) {
-		ApplicationContext context = 
-				new ClassPathXmlApplicationContext("All-Modules.xml");
-		UserInfoDAO userInfoDao = (UserInfoDAO) context.getBean("UserInfoDAO");
-		AppInfoDAO appInfoDao = (AppInfoDAO) context.getBean("AppInfoDAO");
-		((ConfigurableApplicationContext)context).close();
-		
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		User user = (User)auth.getPrincipal();
-		model.addAttribute("username", user.getUsername());
-		
-		UserInfo userInfo = userInfoDao.getUserInfo(user.getSid());
-	    model.addAttribute("userInfo", userInfo);
-        
-	    List<AppInfo> appInfoList = appInfoDao.getAppInfoBySid(user.getSid());
-	    if (appInfoList.size() > 0) {
-			
+	@RequestMapping(value = "/elove/detail", method = RequestMethod.GET)
+    public String getEloveList(Model model, @CookieValue(value = "appid", required = false) String appid) {
+		if (appid == null) {
+			return "redirect:/store/account";     //异常
 		}
-		
-        return "EloveViews/account";
+		else {
+			if (appid == "") {
+				return "forward:/store/account";   //需先创建app
+			}
+			else {
+				ApplicationContext context = 
+						new ClassPathXmlApplicationContext("All-Modules.xml");
+				EloveInfoDAO eloveInfoDao = (EloveInfoDAO) context.getBean("EloveInfoDAO");
+				((ConfigurableApplicationContext)context).close();
+				
+				List<EloveInfo> infoList = eloveInfoDao.getEloveInfoList(appid);
+				for (int i = 0; i < infoList.size(); i++) {
+					EloveInfo temp = infoList.get(i);
+					if (temp.getExpiredTime().before(new Timestamp(System.currentTimeMillis()))) {
+						temp.setVaild(false);
+					}else {
+						temp.setVaild(true);
+					}
+				}
+				model.addAttribute("infoList", infoList);
+				
+				return "EloveViews/eloveList";
+			}
+		}
     }
+	
+
 	
 	
 }

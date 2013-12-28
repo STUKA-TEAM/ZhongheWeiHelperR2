@@ -9,14 +9,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-${username}
-${userInfo.createDate}
-<c:forEach items = "${appInfoList}" var = "appInfo" >
-${appInfo.appid}
-</c:forEach>
-<c:forEach items = "${priceList}" var = "authPrice" >
-${authPrice.authName}
-${authPrice.price}
+<c:forEach items = "${infoList}" var = "eloveInfo" >
+${eloveInfo.eloveid}
 </c:forEach>
 </body>
 </html>
