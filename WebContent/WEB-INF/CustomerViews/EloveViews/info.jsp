@@ -24,7 +24,7 @@
     <div class="container-fulid">
       <img src="img/elove/info_title.png" class="img-responsive title" alt="title background" />
       <div class="logo-container">
-        <img src="img/elove/encounter_photo1.png" class="logo" alt="logo" />
+        <img src="img/elove/encounter_photo1.jpg" class="logo" alt="logo" />
       </div>
     </div>
     
@@ -73,7 +73,7 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="attend" tabindex="-1" role="dialog" aria-labelledby="attendLabel" aria-hidden="true">
+    <div class="modal fade" id="attend" tabindex="-1">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-body">
@@ -87,7 +87,7 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="bless" tabindex="-1" role="dialog" aria-labelledby="blessLabel" aria-hidden="true">
+    <div class="modal fade" id="bless" tabindex="-1">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-body">
@@ -106,10 +106,10 @@
     <div id="sidebar_list" class="sidebar hidden" state="down">
       <ul class="nav nav-pills">
         <li><img src="img/elove/music_switch.png" id="audio" onclick="audio_switch()" /></li>
-        <li><a href="#"><span class="sidebar-encount">相知相遇</span></a></li>
-        <li><a href="#"><span class="sidebar-photo">婚纱剪影</span></a></li>
-        <li><a href="#"><span class="sidebar-info">婚礼信息</span></a></li>
-        <li><a href="#"><span class="sidebar-record">婚礼记录</span></a></li>
+        <li><a href="./customer/elove/story"><span class="sidebar-encount">相知相遇</span></a></li>
+        <li><a href="./customer/elove/dress"><span class="sidebar-photo">婚纱剪影</span></a></li>
+        <li class="active"><a href="./customer/elove/info"><span class="sidebar-info">婚礼信息</span></a></li>
+        <li><a href="./customer/elove/record"><span class="sidebar-record">婚礼记录</span></a></li>
       </ul>
     </div>
 
@@ -128,6 +128,7 @@
     <script type="text/javascript" src="js/customer/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="js/customer/modal.min.js"></script>
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=PWFniUmG9SMyIVlp7Nm24MRC"></script>
+    <script type="text/javascript" src="js/customer/elove.js"></script>
     <script type="text/javascript" src="js/customer/elove-info.js"></script>
   </body>
 </html>

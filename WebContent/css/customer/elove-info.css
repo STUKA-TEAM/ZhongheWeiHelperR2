@@ -35,7 +35,7 @@
 .info-list {
   margin: 20px auto;
 }
-li {
+.info-list > li {
   position: relative;
   display: inline-block;
   vertical-align: middle;
@@ -43,7 +43,7 @@ li {
   width: 100%;
   margin: 5px auto;
 }
-li > div {
+.info-list > li > div {
   position: relative;
   float: left;
 }

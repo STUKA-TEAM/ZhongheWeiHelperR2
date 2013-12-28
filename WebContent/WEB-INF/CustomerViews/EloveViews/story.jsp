@@ -6,7 +6,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, height=device-height">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="zhonghe">
     <c:set var="request" value="${pageContext.request}" />
@@ -14,71 +14,52 @@
     <title>Elove</title>
     
     <!-- 微喜帖css -->
-    <link href="css/customer/zhonghe-wed.css" rel="stylesheet">
-    <link href="css/customer/zhonghe-wed-encounter.css" rel="stylesheet">
+    <link href="css/customer/bootstrap.min.css" rel="stylesheet">
+    <link href="css/customer/zhonghe-elove.css" rel="stylesheet">
+    <link href="css/customer/elove-story.css" rel="stylesheet">
   </head>
-  <body onload="audioSwitch()">
-    <div class="title">
-      <img src="img/elove/records_title.png" />
-    </div><!-- title -->
-    <input type='checkbox' id='sideToggle'>
-    <aside>
-        <ul class="nav nav-pills sideul">
-          <li class="sideli"><div id="customer/elove/audio" onclick="audioSwitch()"></div></li>
-          <li class="sideli"><a href="customer/elove/story"><span class="sidebar-encount">相知相遇</span></a></li>
-          <li class="sideli"><a href="customer/elove/dress"><span class="sidebar-photo">婚纱剪影</span></a></li>
-          <li class="sideli"><a href="customer/elove/info"><span class="sidebar-info">婚礼信息</span></a></li>
-          <li class="sideli"><a href="customer/elove/record"><span class="sidebar-record">婚礼纪录</span></a></li>
-        </ul>
-        
-    <script type="text/javascript">
-    flag="off";
-    function audioSwitch(){
-    	if(flag=="off"){
-    		myAudio = new Audio('media/elovedemomusic.mp3'); 
-            myAudio.addEventListener('ended', function() {
-                this.currentTime = 0;
-                this.play();
-            }, false);
-            myAudio.play();
-            flag="on";
-    	}else{
-    		myAudio.pause();
-    		flag="off";
-    	}
-    	
-    }
-    
-    </script>
-      </aside>
-      <div id='wrap'>
-        <label id='sideMenuControl' for='sideToggle'><img src="img/elove/sidebar_btn.png" /></label>
-      </div> 
-    <div class="content">
-      <ul class="container">
-        <li>
-          <img src="img/elove/encounter_photo1.jpg" />
-        </li>
-        <li class="photo-logo">
-          <img src="img/elove/encounter_logo.png" />
-        </li>
-      </ul><!-- video -->
+  <body>
+    <div class="title-bg">
+      <div class="container-fulid">
+        <img src="img/elove/records_title.png" class="img-responsive title" alt="title background"/>
+      </div><!-- title -->
 
-      <ul class="photo-container">
-        <li>
-          <img src="img/elove/encounter_photo2.jpg" />
-        </li>
-        <li>
-            <img src="img/elove/encounter_photo3.png" />
-        </li>
-        <li>
-          <img src="img/elove/encounter_photo4.png" />
-        </li>
-      </ul><!-- photo -->
-      
+      <div class="container-fulid">
+        <div class="container-fulid container-margin">
+          <div class="container-fulid photo">
+            <img src="img/elove/encounter_photo1.jpg" class="img-responsive center-block"/>
+            <img src="img/elove/encounter_logo.png" class="img-responsive center-block"/>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="content-bg">
+      <div class="container-fulid">
+        <div class="container-fulid photo-list">
+          <img src="img/elove/encounter_photo2.jpg" class="img-responsive center-block"/>
+          <img src="img/elove/encounter_photo3.png" class="img-responsive center-block"/>
+          <img src="img/elove/encounter_photo4.png" class="img-responsive center-block"/>
+        </div>
+      </div>
       <div class="footer">
         <p>Copyright © 2013 zhonghesoftware.com All Rights Reserved. 众合网络科技有限公司 版权所有</p>
       </div><!-- footer -->
-    </div><!-- content -->
+    </div>
+
+    <div onclick="sidebar()">
+      <img src="img/elove/sidebar_guide.png" class="sidebar-guide" />
+    </div>
+    <div id="sidebar_list" class="sidebar hidden" state="down">
+      <ul class="nav nav-pills">
+        <li><img src="img/elove/music_switch.png" id="audio" onclick="audio_switch()" /></li>
+        <li class="active"><a href="./customer/elove/story"><span class="sidebar-encount">相知相遇</span></a></li>
+        <li><a href="./customer/elove/dress"><span class="sidebar-photo">婚纱剪影</span></a></li>
+        <li><a href="./customer/elove/info"><span class="sidebar-info">婚礼信息</span></a></li>
+        <li><a href="./customer/elove/record"><span class="sidebar-record">婚礼记录</span></a></li>
+      </ul>
+    </div>
+    
+    <script type="text/javascript" src="js/customer/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="js/customer/elove.js"></script>
   </body>
 </html>
