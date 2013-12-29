@@ -39,7 +39,7 @@ $(document).ready(function(){
 	        	completeHandler(id, data);
 	        },
 	        error: function(xhr, status, exception){
-	        	errorHandler(status);
+	        	errorHandler(status, exception);
 	        },
 	        // Form data
 	        data: formData,
@@ -65,7 +65,7 @@ $(document).ready(function(){
 	        	completeHandler(id, data);
 	        },
 	        error: function(xhr, status, exception){
-	        	errorHandler(status);
+	        	errorHandler(status, exception);
 	        },
 	        // Form data
 	        data: formData,
@@ -91,7 +91,7 @@ $(document).ready(function(){
 	        	completeHandler(id, data);
 	        },
 	        error: function(xhr, status, exception){
-	        	errorHandler(status);
+	        	errorHandler(status, exception);
 	        },
 	        // Form data
 	        data: formData,
@@ -109,6 +109,7 @@ $(document).ready(function(){
 			xhr.abort();
 		}
 	}
+	
 	function completeHandler(id, data){
 		var result = $.parseJSON(data);
 		if(result.status == true){
@@ -118,9 +119,11 @@ $(document).ready(function(){
 			alert(result.message);
 		}
 	}
-	function errorHandler(status){
-		alert(status);
+	
+	function errorHandler(status, exception){
+		alert(status + ' ' + exception);
 	}
+	
 	function successProcess(id, link){
 		if(id == 'register'){
 			$('input[name="majorImage"]').val(link);
@@ -133,13 +136,6 @@ $(document).ready(function(){
 	    $.ajax({
 	        url: '/resources/upload/video',  //Server script to process data
 	        type: 'POST',
-	        xhr: function() {  // Custom XMLHttpRequest
-	            var myXhr = $.ajaxSettings.xhr();
-	            if(myXhr.upload){ // Check if upload property exists
-	                myXhr.upload.addEventListener('progress',progressHandlingFunction, false); // For handling the progress of the upload
-	            }
-	            return myXhr;
-	        },
 	        //Ajax events
 	        beforeSend: function(xhr, settings){
 	        	beforeSendHandlerVideo(xhr, form);
@@ -149,7 +145,7 @@ $(document).ready(function(){
 	        	completeHandler(id, data);
 	        },
 	        error: function(xhr, status, exception){
-	        	errorHandler(status);
+	        	errorHandler(status, exception);
 	        },
 	        // Form data
 	        data: formData,
