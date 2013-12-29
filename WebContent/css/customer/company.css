@@ -1,0 +1,103 @@
+html, header, body {
+  max-width: 360px;
+  background-color: #eeeeee;
+  font-family:"Microsoft YaHei";
+}
+div {
+  max-width: 360px;
+  text-align:center; 
+}
+.info {
+  position: relative;
+  display: inline-block;
+  clear: both;
+  width: 100%;
+  height: 100%;
+  line-height: 30px;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: #56d057;
+  margin-top: 10px;
+}
+.info > p {
+  color: #56d057;
+  font-size: 18px;
+  float: left;
+}
+.info-t {
+  width: 25%;
+}
+.info-c {
+  width: 60%;
+}
+.info-i {
+  width: 5%;
+}
+.tip {
+  margin: 20px auto;
+  font-size: 14px;
+  color: #bcbcbc;
+}
+.tip-green {
+  color: #56d057;
+  font-size: 16px;
+  text-decoration: underline;
+  font-style:italic;
+}
+.attent {
+  position: relative;
+  display: inline-block;
+  clear: both;
+  width: 80%;
+  margin: 0 auto;
+}
+.attent-bg {
+  background-color: #56d057;
+  padding: 10px 30px;
+}
+.attent-i-l {
+  float: left;
+  margin-top: 8px;
+  width: 7%;
+}
+.attent-i-r {
+  float: right;
+  margin-top: 8px;
+  width: 7%;
+}
+.attent-p {
+  float: left;
+  color: #ffffff;
+  font-size: 20px;
+  width: 86%;
+  margin: 0 auto;
+}
+.back {
+  position: relative;
+  display: inline-block;
+  border-top-style: solid;
+  border-top-color: #56d057;
+  border-top-width: 1px;
+  width: 100%;
+  height: 100%;
+  padding-top: 10px;
+  padding-bottom: 2px;
+}
+.back-i {
+  float: left;
+  margin-left: 6%;
+}
+.back-p {
+  float: left;
+  margin-left: 3%;
+  color: #56d057;
+  font-size: 18px;
+  line-height: 100%;
+}
+.affix {
+  background-color: #eeeeee;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}

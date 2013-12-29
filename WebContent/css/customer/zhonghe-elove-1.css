@@ -58,6 +58,7 @@ fieldset[disabled] .btn-elove.active {
   display: block;
   height: 100%;
   width: 135px;
+  z-Index: 1040px;
   background-color: #f8e9ed;
   overflow: hidden;
 }
@@ -66,33 +67,30 @@ fieldset[disabled] .btn-elove.active {
   margin-bottom: 0;
   list-style: none;
 }
-.nav > li {
+.nav.nav-pills > li {
   position: relative;
   display: inline-block;
   vertical-align: middle;
   clear: both;
   width: 100%;
-  margin: 1px auto;
+  margin: 2px auto;
 }
 .nav > li > a {
   position: relative;
   display: block;
   padding: 10px;
 }
-.nav-pills > li {
-  border-bottom-style: none;
-}
 .nav-pills > li > a {
   margin-bottom: 0px;
   border-radius: 0px;
   width: 100%;
-  color: #f49cb8;
+  color: #777777;
   font-size: 16px;
 }
 .nav-pills > li.active > a,
 .nav-pills > li.active > a:hover,
 .nav-pills > li.active > a:focus {
-  color: #f49cb8;
+  color: #1ABC9C;
   background-color: #fef7f9;
 }
 .nav-pills > li + li {
@@ -104,18 +102,19 @@ fieldset[disabled] .btn-elove.active {
 }
 .nav-pills > li > a:hover,
 .nav-pills > li > a:focus {
-  color: #f49cb8;
+  color: #1ABC9C;
   border-top-style: none;
   border-bottom-style: none;
   border-left-style: solid;
-  border-left-color: #f49cb8;
+  border-left-color: #f3a5bd;
   border-left-width: 5px;
   background-color: #fef7f9;
 }
 .sidebar-encount,
 .sidebar-photo,
 .sidebar-info,
-.sidebar-record {
+.sidebar-record,
+.sidebar-intr {
   font-size: 16px;
   color: #f49cb8;
   padding: 5px 0 10px 40px;
@@ -132,10 +131,30 @@ fieldset[disabled] .btn-elove.active {
 .sidebar-record {
   background: url(../../img/elove/record_logo.png) no-repeat;
 }
+.sidebar-intr {
+  background: url(../../img/elove/intr_logo.png) no-repeat;
+}
 .sidebar-guide {
   position: fixed;
   top: 100px;
   left: 5px;
   height: auto;
-  width: 30px;
+  width: 60px;
+}
+.sidebar-guide > img {
+  width: 100%;
+  height: auto;
+}
+.audio {
+  width:100%;
+  font-size: 16px;
+  color: #f49cb8;
+  padding: 10px;
+  clear: both;
+}
+.audio-logo {
+  float: left;
+  margin-left: 5px;
+  width: 20px;
+  height: auto;
 }

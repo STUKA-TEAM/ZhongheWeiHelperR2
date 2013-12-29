@@ -1,0 +1,32 @@
+.content-bg {
+  background-image: url(../../img/elove/title_bg.png), url(../../img/elove/footer_bg.png);
+  background-repeat: no-repeat;
+  background-position: top, bottom;
+  padding-top: 50px;
+}
+.photo {
+  float: none;
+  width: 50%;
+  min-width: 180px;
+  height: auto;
+  background-color: #f9f9f9;
+  padding: 8px 7px;
+  margin: 0 auto;
+}
+.couple-name {
+  color: #ed95ae;
+  font-size: 18px;
+  margin: 7px auto 0 auto;
+}
+.couple-name > img {
+  width: 28px;
+  height: auto;
+}
+.photo-list {
+  float: none;
+  width: 80%;
+  min-width: 300px;
+  background-color: #fffbfb;
+  padding: 8px 7px;
+  margin: 60px auto 5px auto;
+}
