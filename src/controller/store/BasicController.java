@@ -76,15 +76,17 @@ public class BasicController {
 	    model.addAttribute("userInfo", userInfo);
         
 	    List<AppInfo> appInfoList = appInfoDao.getAppInfoBySid(user.getSid());
-	    if (appInfoList.size() > 0) {
-	    	appInfoList.get(0).setCharged(true);
-	    	response.addCookie(new Cookie("appid", appInfoList.get(0).getAppid()));
-			for (int i = 1; i < appInfoList.size(); i++) {
-				appInfoList.get(i).setCharged(false);
+	    if (appInfoList != null) {
+	    	if (appInfoList.size() > 0) {
+		    	appInfoList.get(0).setCharged(true);
+		    	response.addCookie(new Cookie("appid", appInfoList.get(0).getAppid()));
+				for (int i = 1; i < appInfoList.size(); i++) {
+					appInfoList.get(i).setCharged(false);
+				}
+			}else {
+				response.addCookie(new Cookie("appid", null));
 			}
-		}else {
-			response.addCookie(new Cookie("appid", null));
-		}
+		}	    
 	    model.addAttribute("appInfoList", appInfoList);
 	    
 	    List<AuthPrice> priceList = authPriceDao.getPriceBySid(user.getSid());

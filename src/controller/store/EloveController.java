@@ -58,14 +58,16 @@ public class EloveController {
 				((ConfigurableApplicationContext)context).close();
 				
 				List<EloveInfo> infoList = eloveInfoDao.getEloveInfoList(appid);
-				for (int i = 0; i < infoList.size(); i++) {
-					EloveInfo temp = infoList.get(i);
-					if (temp.getExpiredTime().before(new Timestamp(System.currentTimeMillis()))) {
-						temp.setVaild(false);
-					}else {
-						temp.setVaild(true);
+				if (infoList != null) {
+					for (int i = 0; i < infoList.size(); i++) {
+						EloveInfo temp = infoList.get(i);
+						if (temp.getExpiredTime().before(new Timestamp(System.currentTimeMillis()))) {
+							temp.setVaild(false);
+						}else {
+							temp.setVaild(true);
+						}
 					}
-				}
+				}				
 				model.addAttribute("infoList", infoList);
 				
 				return "EloveViews/eloveList";

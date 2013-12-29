@@ -14,6 +14,16 @@ $(document).ready(function(){
 	    }
 	});
 	
+	$('.video-file').change(function(){
+	    var file = this.files[0];
+	    var type = file.type;
+	    //Your validation
+	    if(type!='video/mp4' && type!='video/webm'){
+	    	alert('请选择mp4或webm格式视频！');
+	    	this.parentElement.reset();
+	    }
+	});
+	
 	$('.image-multi').click(function(){
 	    var form = this.parentElement.parentElement.parentElement;
 	    var formData = new FormData(form);
@@ -114,6 +124,47 @@ $(document).ready(function(){
 	function successProcess(id, link){
 		if(id == 'register'){
 			$('input[name="majorImage"]').val(link);
+		}
+	}
+	
+	$('.video-upload').click(function(){
+	    var form = this.parentElement.parentElement.parentElement;
+	    var formData = new FormData(form);
+	    $.ajax({
+	        url: '/resources/upload/video',  //Server script to process data
+	        type: 'POST',
+	        xhr: function() {  // Custom XMLHttpRequest
+	            var myXhr = $.ajaxSettings.xhr();
+	            if(myXhr.upload){ // Check if upload property exists
+	                myXhr.upload.addEventListener('progress',progressHandlingFunction, false); // For handling the progress of the upload
+	            }
+	            return myXhr;
+	        },
+	        //Ajax events
+	        beforeSend: function(xhr, settings){
+	        	beforeSendHandlerVideo(xhr, form);
+	        },
+	        success: function(data){
+	        	var id = form.id;
+	        	completeHandler(id, data);
+	        },
+	        error: function(xhr, status, exception){
+	        	errorHandler(status);
+	        },
+	        // Form data
+	        data: formData,
+	        //Options to tell jQuery not to process data or worry about content-type.
+	        cache: false,
+	        contentType: false,
+	        processData: false
+	    });
+	});
+	
+	function beforeSendHandlerVideo(xhr, form){
+		var length = $('.video-file', form)[0].files.length;
+		if(length == 0){
+			alert('请选择视频！');
+			xhr.abort();
 		}
 	}
 });
