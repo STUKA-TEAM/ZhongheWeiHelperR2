@@ -1,13 +1,19 @@
-var sidebar = function(){
+var sidebar_up = function(){
   if($("#sidebar_list").attr('state')=='down'){
     $("#sidebar_list").removeClass("hidden");
     $("#sidebar_list").addClass("in");
     $("#sidebar_list").attr('state', 'up');
-    
-  }else if($("#sidebar_list").attr('state')=='up'){
+    $(".sidebar-bg").removeClass("sidebar-bg-miss");
+    $(".sidebar-bg").removeClass("hidden");
+  }
+};
+var sidebar_dismiss = function(){
+  if($("#sidebar_list").attr('state')=='up'){
     $("#sidebar_list").addClass("hidden");
     $("#sidebar_list").removeClass("in");
     $("#sidebar_list").attr('state', 'down');
+    $(".sidebar-bg").addClass("sidebar-bg-miss");
+    $(".sidebar-bg").addClass("hidden");
   }
 };
 flag="off";
