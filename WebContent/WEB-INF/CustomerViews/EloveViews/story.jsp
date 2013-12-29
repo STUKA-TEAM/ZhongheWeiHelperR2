@@ -9,7 +9,7 @@
       <div class="container-fulid">
         <div class="container-fulid container-margin">
           <div class="container-fulid photo">
-            <img src="img/elove/encounter_photo1.jpg" class="img-responsive center-block"/>
+            <img src="img/elove/encounter_group.jpg" class="img-responsive center-block"/>
             <p class="couple-name">李雷雷<img src="img/elove/heart.png"/> 韩梅梅</p>
           </div>
         </div>
@@ -19,7 +19,7 @@
         <div class="container-fulid photo-list">
           <img src="img/elove/encounter_photo2.jpg" class="img-responsive center-block"/>
           <img src="img/elove/encounter_photo3.png" class="img-responsive center-block"/>
-          <img src="img/elove/encounter_photo4.png" class="img-responsive center-block"/>
+          <img src="img/elove/encounter_story1.png" class="img-responsive center-block"/>
         </div>
       </div>
 

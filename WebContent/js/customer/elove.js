@@ -41,7 +41,10 @@ var audio_switch = function(){
  	  flag="off";
  	}
 };
-
+function loadStory(){
+	//changeHover("#story");
+	$("#content-container").load("customer/elove/story");
+}
 function changeHover(thisNode){
 	$(".active").removeClass("active");
 	$(thisNode).addClass("active");
