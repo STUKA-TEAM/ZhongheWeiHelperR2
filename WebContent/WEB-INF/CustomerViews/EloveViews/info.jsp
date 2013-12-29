@@ -65,9 +65,6 @@
         </div>
       </div>
     </div>
-    <div class="container-fulid">
-      <div id="baidumap" style="visibility:hidden;"><div id="pic"></div></div>
-    </div>
 
     <div class="footer">
       <p>Copyright © 2013 zhonghesoftware.com All Rights Reserved. 众合网络科技有限公司 版权所有</p>

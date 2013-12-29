@@ -27,6 +27,9 @@
     <div id="content-container">
 
     </div>
+    <div class="container-fulid">
+      <div id="baidumap" style="visibility:hidden;"><div id="pic"></div></div>
+    </div>
     <div onclick="sidebar_up()">
       <a class="sidebar-guide" ><img src="img/elove/sidebar_guide.png" /></a>
     </div>
@@ -46,14 +49,10 @@
     </div>
     
     <script type="text/javascript" src="js/customer/jquery-1.10.2.min.js"></script>
-    <script type="text/javascript" src="js/customer/elove.js"></script>
-    <script type="text/javascript" src="js/customer/modal.min.js"></script>
-    
-    <script type="text/javascript" src="js/customer/elove-story.js"></script>
-    
-    <script type="text/javascript" src="js/customer/video.js"></script>
-    
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=PWFniUmG9SMyIVlp7Nm24MRC"></script>
-    <script type="text/javascript" src="js/customer/elove-info.js"></script>
+    <script type="text/javascript" src="js/customer/elove.js"></script>
+    <script type="text/javascript" src="js/customer/modal.min.js"></script>    
+    <script type="text/javascript" src="js/customer/video.js"></script>  
+
   </body>
 </html>
