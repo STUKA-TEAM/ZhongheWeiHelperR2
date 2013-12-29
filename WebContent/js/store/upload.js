@@ -6,11 +6,11 @@ $(document).ready(function(){
 	    //Your validation
 	    if(size>2100000){
 	    	alert("文件大小超过限制！");
-	    	this.parentElement.reset();
+	    	this.parentElement.parentElement.parentElement.reset();
 	    }
 	    if(type!='image/jpeg' && type!='image/png'){
 	    	alert('请选择jpg或png格式图片！');
-	    	this.parentElement.reset();
+	    	this.parentElement.parentElement.parentElement.reset();
 	    }
 	});
 	
@@ -20,7 +20,7 @@ $(document).ready(function(){
 	    //Your validation
 	    if(type!='video/mp4' && type!='video/webm'){
 	    	alert('请选择mp4或webm格式视频！');
-	    	this.parentElement.reset();
+	    	this.parentElement.parentElement.parentElement.reset();
 	    }
 	});
 	
