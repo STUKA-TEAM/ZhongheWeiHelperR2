@@ -1,3 +1,7 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -5,7 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="zhonghe">
-
+    <c:set var="request" value="${pageContext.request}" />
+    <base href="${fn:replace(request.requestURL, request.requestURI, request.contextPath)}/" />
     <title>Elove</title>
     
     <!-- 微喜帖css -->
@@ -17,7 +22,7 @@
       <img src="./img/company/company_title.jpg" class="img-responsive" alt="title"/>
     </div>
     <div class="container-fulid">
-      <div class="info">
+      <div class="info" onclick="map_switch()">
         <p class="info-t">地址:</p>
         <p class="info-c">上海浦东新区</p>
         <img class="info-i" src="./img/company/green_arrow_right.png" />
@@ -26,7 +31,7 @@
     <div class="container-fulid">
       <div class="info">
         <p class="info-t">电话:</p>
-        <p class="info-c">01234567890</p>
+        <p class="info-c"><a class="tip-green" href="tel:12345678901">12345678901</a></p>
         <img class="info-i" src="./img/company/green_arrow_right.png" />
       </div>
     </div>
@@ -34,10 +39,8 @@
       <p class="tip">关注我们，获取更多服务与优惠信息  >></p>
     </div>
     <div class="container-fulid attent-bg">
-      <div class="attent">
-          <img class="attent-i-l" src="./img/company/white_arrow_left.png" />
+      <div class="attent">         
           <p class="attent-p">关注</p>
-          <img class="attent-i-r" src="./img/company/white_arrow_right.png" />
       </div>
     </div>
     <div class="container-fulid">
@@ -45,9 +48,14 @@
     </div>
     <div class="container-fulid affix">
       <div class="back">
-        <img class="back-i" src="./img/company/green_arrow_left.png" />
-        <p class="back-p">返回Elove</p>
+        <p class="back-p"><a class="tip-green" href="customer/elove/elove">返回Elove</a></p>
       </div>
     </div>
+    <div class="container-fulid">
+      <div id="baidumap" style="visibility:hidden;"><div id="pic"></div></div>
+    </div>
+    
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=PWFniUmG9SMyIVlp7Nm24MRC"></script>
+    <script type="text/javascript" src="js/customer/elove-intro.js"></script>
   </body>
 </html>

@@ -7,6 +7,10 @@ div {
   max-width: 360px;
   text-align:center; 
 }
+a:hover, a:focus {
+color: #56d057;
+text-decoration: underline;
+}
 .info {
   position: relative;
   display: inline-block;
@@ -21,7 +25,7 @@ div {
 }
 .info > p {
   color: #56d057;
-  font-size: 18px;
+  font-size: 1.1em;
   float: left;
 }
 .info-t {
@@ -69,7 +73,7 @@ div {
   float: left;
   color: #ffffff;
   font-size: 20px;
-  width: 86%;
+  width: 100%;
   margin: 0 auto;
 }
 .back {
@@ -100,4 +104,13 @@ div {
   bottom: 0;
   left: 0;
   right: 0;
+}
+#baidumap{
+  width: 100%;
+  height: 175px;
+  margin: 0;
+  position: absolute;
+  top: 0px;
+  visibility: hidden;
+  border-radius: 5px;
 }

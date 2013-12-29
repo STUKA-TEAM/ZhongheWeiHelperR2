@@ -17,14 +17,20 @@ var sidebar_dismiss = function(){
   }
 };
 flag="off";
+myAudio = null;
 var audio_switch = function(){
  	if(flag=="off"){
-      myAudio = new Audio('./media/elovedemomusic.mp3'); 
-      myAudio.addEventListener('ended', function() {
-        this.currentTime = 0;
-        this.play();
-      }, false);
-      myAudio.play();
+ 	  if(myAudio == null){
+ 		  myAudio = new Audio('./media/elovedemomusic.mp3'); 
+ 	      myAudio.addEventListener('ended', function() {
+ 	        this.currentTime = 0;
+ 	        this.play();
+ 	      }, false);
+ 	      myAudio.play();
+ 	  }else{
+ 		 myAudio.play();
+ 	  }
+      
       $(".audio-logo").attr("src", "img/elove/audio_on.png");
  	  $("#audio-p").text("音效开启");
       flag="on";
@@ -35,6 +41,27 @@ var audio_switch = function(){
  	  flag="off";
  	}
 };
+
+function changeHover(thisNode){
+	$(".active").removeClass("active");
+	$(thisNode).addClass("active");
+}
 $(document).ready(function(){
-  audio_switch();
+	  audio_switch();
+	  $("#story").click(function(){
+		  changeHover("#story");
+		  $("#content-container").load("customer/elove/story");
+		});
+	  $("#dress").click(function(){
+		  changeHover("#dress");
+		  $("#content-container").load("customer/elove/dress");
+		});
+	  $("#info").click(function(){
+		  changeHover("#info");
+		  $("#content-container").load("customer/elove/info");
+		});
+	  $("#record").click(function(){
+		  changeHover("#record");
+		  $("#content-container").load("customer/elove/record");
+		});
 });

@@ -6,6 +6,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class EloveController {
+@RequestMapping(value = "/elove/elove", method = RequestMethod.GET)
+public String eloveIndex(){
+	return "EloveViews/elove";
+}	
 @RequestMapping(value = "/elove/story", method = RequestMethod.GET)
 public String story(){
 	return "EloveViews/story";
@@ -21,6 +25,10 @@ public String dress(){
 @RequestMapping(value = "/elove/record", method = RequestMethod.GET)
 public String record(){
 	return "EloveViews/record";
+}
+@RequestMapping(value = "/elove/intro", method = RequestMethod.GET)
+public String intro(){
+	return "EloveViews/intro";
 }
 @RequestMapping(value = "/elove/wish", method = RequestMethod.GET)
 public String wishMessage(){
