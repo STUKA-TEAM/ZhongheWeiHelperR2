@@ -54,17 +54,21 @@ $(document).ready(function(){
 	  $("#story").click(function(){
 		  changeHover("#story");
 		  $("#content-container").load("customer/elove/story");
+		  sidebar_dismiss();
 		});
 	  $("#dress").click(function(){
 		  changeHover("#dress");
 		  $("#content-container").load("customer/elove/dress");
+		  sidebar_dismiss();
 		});
 	  $("#info").click(function(){
 		  changeHover("#info");
 		  $("#content-container").load("customer/elove/info");
+		  sidebar_dismiss();
 		});
 	  $("#record").click(function(){
 		  changeHover("#record");
 		  $("#content-container").load("customer/elove/record");
+		  sidebar_dismiss();
 		});
 });
