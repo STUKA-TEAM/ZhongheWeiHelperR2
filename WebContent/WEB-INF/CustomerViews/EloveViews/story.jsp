@@ -54,9 +54,10 @@
       </div><!-- footer -->
     </div>
 
-    <div onclick="sidebar()">
+    <div onclick="sidebar_up()">
       <a class="sidebar-guide" ><img src="img/elove/sidebar_guide.png" /></a>
     </div>
+    <div class="sidebar-bg sidebar-bg-miss hidden" onclick="sidebar_dismiss()"></div>
     <div id="sidebar_list" class="sidebar hidden" state="down">
       <div id="audio" class="audio" onclick="audio_switch()">
         <img src="img/elove/audio_on.png" class="audio-logo"/>
@@ -70,7 +71,7 @@
         <li><a href="./customer/elove/introduct"><span class="sidebar-intr">公司介绍</span></a></li>
       </ul>
     </div>
-    
+
     <!-- Modal -->
     <div class="modal fade" id="bless" tabindex="-1">
       <div class="modal-dialog">

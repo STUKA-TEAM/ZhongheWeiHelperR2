@@ -45,9 +45,10 @@
       <p>Copyright © 2013 zhonghesoftware.com All Rights Reserved. 众合网络科技有限公司 版权所有</p>
     </div><!-- footer -->
 
-    <div onclick="sidebar()">
+    <div onclick="sidebar_up()">
       <a class="sidebar-guide" ><img src="img/elove/sidebar_guide.png" /></a>
     </div>
+    <div class="sidebar-bg sidebar-bg-miss hidden" onclick="sidebar_dismiss()"></div>
     <div id="sidebar_list" class="sidebar hidden" state="down">
       <div id="audio" class="audio" onclick="audio_switch()">
         <img src="img/elove/audio_on.png" class="audio-logo"/>
