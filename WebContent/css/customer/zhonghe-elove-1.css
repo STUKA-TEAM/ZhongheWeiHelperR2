@@ -110,6 +110,12 @@ fieldset[disabled] .btn-elove.active {
   border-left-width: 5px;
   background-color: #fef7f9;
 }
+.sidebar-bg {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  z-index: 1000;
+}
 .sidebar-encount,
 .sidebar-photo,
 .sidebar-info,
@@ -157,4 +163,47 @@ fieldset[disabled] .btn-elove.active {
   margin-left: 5px;
   width: 20px;
   height: auto;
+}
+.modal-content {
+  position: relative;
+  background-color: #f9ebed;
+  border-radius: 6px;
+  outline: none;
+  -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+          box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+  background-clip: padding-box;
+}
+.modal-input {
+  margin: 8px auto;
+  font-size: 16px;
+  line-height: 40px;
+  font-family:"Microsoft YaHei";
+  height: auto;
+  width: 100%;
+  padding: 3px 15px;
+  color: #ed94ae;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #ed94ae;
+  border-radius: 4px;
+  outline-style: none;
+}
+.modal-text {
+  margin: 8px auto;
+  font-size: 16px;
+  line-height: normal;
+  font-family:"Microsoft YaHei";
+  width: 100%;
+  padding: 3px 15px;
+  color: #ed94ae;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #ed94ae;
+  border-radius: 4px;
+  outline-style: none;
+}
+.modal-btn {
+  font-size: 16px;
+  margin: 10px;
+  width: 40%;
 }

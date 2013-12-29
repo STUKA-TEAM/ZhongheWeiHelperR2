@@ -3,6 +3,7 @@ var sidebar = function(){
     $("#sidebar_list").removeClass("hidden");
     $("#sidebar_list").addClass("in");
     $("#sidebar_list").attr('state', 'up');
+    
   }else if($("#sidebar_list").attr('state')=='up'){
     $("#sidebar_list").addClass("hidden");
     $("#sidebar_list").removeClass("in");
@@ -18,13 +19,13 @@ var audio_switch = function(){
         this.play();
       }, false);
       myAudio.play();
-      $(".audio-logo").attr("src", "img/elove/audio_off.png");
-      $("#audio-p").text("音效关闭");
+      $(".audio-logo").attr("src", "img/elove/audio_on.png");
+ 	  $("#audio-p").text("音效开启");
       flag="on";
  	}else{
       myAudio.pause();
- 	  $(".audio-logo").attr("src", "img/elove/audio_on.png");
- 	  $("#audio-p").text("音效开启");
+      $(".audio-logo").attr("src", "img/elove/audio_off.png");
+      $("#audio-p").text("音效关闭");
  	  flag="off";
  	}
 };

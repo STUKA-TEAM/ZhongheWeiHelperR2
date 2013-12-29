@@ -39,6 +39,16 @@
           <img src="img/elove/encounter_photo4.png" class="img-responsive center-block"/>
         </div>
       </div>
+
+      <div class="container-fulid">
+        <a data-toggle="modal" data-target="#bless" class="btn btn-elove btn-story">送上祝福</a>
+        <a onclick="switch_guide()" class="btn btn-elove btn-story">分享喜帖</a>
+      </div>
+
+      <div id="guide_bg" class="guide hidden" onclick="close_guide()">
+        <img id="guide_img" class="guide-pic hidden" src="img/common/guide.png"/>
+      </div>
+
       <div class="footer">
         <p>Copyright © 2013 zhonghesoftware.com All Rights Reserved. 众合网络科技有限公司 版权所有</p>
       </div><!-- footer -->
@@ -50,7 +60,7 @@
     <div id="sidebar_list" class="sidebar hidden" state="down">
       <div id="audio" class="audio" onclick="audio_switch()">
         <img src="img/elove/audio_on.png" class="audio-logo"/>
-        <p id="audio-p">音效关闭</p>
+        <p id="audio-p">音效开启</p>
       </div>
       <ul class="nav nav-pills">
         <li class="active"><a href="./customer/elove/story"><span class="sidebar-encount">相知相遇</span></a></li>
@@ -61,7 +71,25 @@
       </ul>
     </div>
     
+    <!-- Modal -->
+    <div class="modal fade" id="bless" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-body">
+            <input class="modal-input" type="text" placeholder="称呼" />
+            <textarea class="modal-text" rows=4 placeholder="请留下您对我们的祝福吧！" ></textarea>
+            <p>
+              <a class="modal-btn btn btn-elove" data-dismiss="modal" onclick="">发送祝福</a>
+              <a class="modal-btn btn btn-elove" data-dismiss="modal" onclick="">取消</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
     <script type="text/javascript" src="js/customer/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="js/customer/elove.js"></script>
+    <script type="text/javascript" src="js/customer/elove-story.js"></script>
+    <script type="text/javascript" src="js/customer/modal.min.js"></script>
   </body>
 </html>

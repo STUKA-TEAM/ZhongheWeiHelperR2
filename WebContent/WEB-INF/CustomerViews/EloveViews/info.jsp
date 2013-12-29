@@ -20,7 +20,7 @@
     
   </head>
 
-  <body class="body-bg">
+  <body class="body-bg"  onclick="sidebar()">
     <div class="container-fulid">
       <img src="img/elove/info_title.png" class="img-responsive title" alt="title background" />
       <div class="logo-container">
@@ -65,11 +65,7 @@
     </div>
     
     <div class="container-fulid">
-      <p>
-        <a data-toggle="modal" data-target="#attend" class="btn btn-elove">我要赴宴</a>
-        <a data-toggle="modal" data-target="#bless" class="btn btn-elove">送上祝福</a>
-        <a onclick="switch_guide()" class="btn btn-elove">分享喜帖</a>
-      </p>
+      <a data-toggle="modal" data-target="#attend" class="btn btn-elove btn-block">我要赴宴</a>
     </div>
 
     <!-- Modal -->
@@ -80,24 +76,16 @@
             <input class="modal-input" type="text" placeholder="称呼" />
             <input class="modal-input" type="text" placeholder="联系方式" />
             <input class="modal-input" type="text" placeholder="人数" />
-            <a class="modal-btn btn btn-elove" data-dismiss="modal" onclick="">确 定</a>
+            <p>
+              <a class="modal-btn btn btn-lg btn-elove" data-dismiss="modal" onclick="">确 定</a>
+              <a class="modal-btn btn btn-lg btn-elove" data-dismiss="modal" onclick="">取消</a>
+            </p>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="bless" tabindex="-1">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-body">
-            <input class="modal-input" type="text" placeholder="称呼" />
-            <textarea class="modal-text" rows=4 placeholder="请留下您对我们的祝福吧！" ></textarea>
-            <a class="modal-btn btn btn-elove" data-dismiss="modal" onclick="">发送祝福</a>
-          </div>
-        </div>
-      </div>
-    </div>
+    
 
     <div onclick="sidebar()">
       <a class="sidebar-guide" ><img src="img/elove/sidebar_guide.png" /></a>
@@ -105,7 +93,7 @@
     <div id="sidebar_list" class="sidebar hidden" state="down">
       <div id="audio" class="audio" onclick="audio_switch()">
         <img src="img/elove/audio_on.png" class="audio-logo"/>
-        <p>音效关闭</p>
+        <p id="audio-p">音效开启</p>
       </div>
       <ul class="nav nav-pills">
         <li><a href="./customer/elove/story"><span class="sidebar-encount">相知相遇</span></a></li>
@@ -118,10 +106,6 @@
 
     <div class="container-fulid">
       <div id="baidumap"><div id="pic"></div></div>
-    </div>
-
-    <div id="guide_bg" class="guide hidden" onclick="close_guide()">
-      <img id="guide_img" class="guide-pic hidden" src="img/common/guide.png"/>
     </div>
 
     <div class="footer">

@@ -52,7 +52,7 @@
     <div id="sidebar_list" class="sidebar hidden" state="down">
       <div id="audio" class="audio" onclick="audio_switch()">
         <img src="img/elove/audio_on.png" class="audio-logo"/>
-        <p>音效关闭</p>
+        <p id="audio-p">音效开启</p>
       </div>
       <ul class="nav nav-pills">
         <li><a href="./customer/elove/story"><span class="sidebar-encount">相知相遇</span></a></li>
