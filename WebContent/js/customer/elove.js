@@ -53,21 +53,25 @@ $(document).ready(function(){
 	  audio_switch();
 	  $("#story").click(function(){
 		  changeHover("#story");
+		  window.scrollTo(0, 0);
 		  $("#content-container").load("customer/elove/story");
 		  sidebar_dismiss();
 		});
 	  $("#dress").click(function(){
 		  changeHover("#dress");
+		  window.scrollTo(0, 0);
 		  $("#content-container").load("customer/elove/dress");
 		  sidebar_dismiss();
 		});
 	  $("#info").click(function(){
 		  changeHover("#info");
+		  window.scrollTo(0, 0);
 		  $("#content-container").load("customer/elove/info");
 		  sidebar_dismiss();
 		});
 	  $("#record").click(function(){
 		  changeHover("#record");
+		  window.scrollTo(0, 0);
 		  $("#content-container").load("customer/elove/record");
 		  sidebar_dismiss();
 		});
@@ -75,9 +79,9 @@ $(document).ready(function(){
 
 //story sub page
 var switch_guide = function(){
-	$("#guide_bg").removeClass("hidden");
+  $("#guide_bg").removeClass("hidden");
   $("#guide_img").removeClass("hidden");
-	window.scrollTo(0, 0);
+  window.scrollTo(0, 0);
 }
 var close_guide = function(){
 	$("#guide_bg").addClass("hidden");
