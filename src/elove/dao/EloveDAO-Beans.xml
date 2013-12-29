@@ -8,5 +8,11 @@
    <bean id="AppInfoDAO" class="elove.dao.AppInfoDAO">
       <property name="dataSource"  ref="dataSource" />    
    </bean>
+   <bean id="AuthPriceDAO" class="elove.dao.AuthPriceDAO">
+      <property name="dataSource"  ref="dataSource" />    
+   </bean>
+   <bean id="EloveInfoDAO" class="elove.dao.EloveInfoDAO">
+      <property name="dataSource"  ref="dataSource" />    
+   </bean>
       
 </beans>

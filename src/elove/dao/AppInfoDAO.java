@@ -62,4 +62,9 @@ public class AppInfoDAO {
 			return appInfo;
 		}		
 	}
+	
+	//delete
+	public int deleteAppInfo(String appid){
+		return 0;
+	}
 }

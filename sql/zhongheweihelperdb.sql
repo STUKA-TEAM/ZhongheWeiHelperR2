@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 25, 2013 at 11:06 AM
+-- Generation Time: Dec 28, 2013 at 04:12 AM
 -- Server version: 5.5.32
 -- PHP Version: 5.4.19
 
@@ -33,12 +33,19 @@ CREATE TABLE IF NOT EXISTS `application` (
   `appid` varchar(32) NOT NULL DEFAULT '' COMMENT 'UUID',
   `wechatToken` varchar(10) NOT NULL DEFAULT '' COMMENT '需填入微信公众平台的token',
   `wechatName` varchar(40) NOT NULL DEFAULT '' COMMENT '微信账号名称',
-  `weichatOriginalId` varchar(40) NOT NULL DEFAULT '' COMMENT '微信账号原始ID',
+  `wechatOriginalId` varchar(40) NOT NULL DEFAULT '' COMMENT '微信账号原始ID',
   `wechatNumber` varchar(40) NOT NULL DEFAULT '' COMMENT '微信号',
   `address` varchar(40) NOT NULL DEFAULT '' COMMENT '微信账号地址',
   `industry` varchar(20) NOT NULL DEFAULT '' COMMENT '账号所属行业',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用于关联微信公众号的应用' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='用于关联微信公众号的应用' AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `application`
+--
+
+INSERT INTO `application` (`id`, `appid`, `wechatToken`, `wechatName`, `wechatOriginalId`, `wechatNumber`, `address`, `industry`) VALUES
+(1, '58e697edb5b148c190db1cf35a835ff9', 'test', 'one', 'sdkadhk', '1234', '北京', '航空');
 
 -- --------------------------------------------------------
 
@@ -95,14 +102,13 @@ CREATE TABLE IF NOT EXISTS `elove` (
   `majorGroupPhoto` varchar(80) NOT NULL COMMENT '新人合照',
   `xinNiang` varchar(40) NOT NULL COMMENT '新娘姓名',
   `xinLang` varchar(40) NOT NULL COMMENT '新郎姓名',
-  `storyTextImageId` int(11) NOT NULL COMMENT '相遇相知故事',
+  `storyTextImagePath` varchar(80) NOT NULL COMMENT '相遇相知故事',
   `music` varchar(80) NOT NULL COMMENT '背景音乐',
   `phone` varchar(14) NOT NULL COMMENT '电话',
   `weddingDate` varchar(15) NOT NULL COMMENT '婚礼时间',
   `weddingAddress` varchar(40) NOT NULL COMMENT '婚礼地址',
   `lng` decimal(12,6) NOT NULL COMMENT '地址经度',
   `lat` decimal(12,6) NOT NULL COMMENT '地址纬度',
-  `weddingSwitch` int(11) NOT NULL COMMENT '是否显示婚礼纪录标签',
   `shareTitle` varchar(40) NOT NULL COMMENT '分享消息标题',
   `shareContent` varchar(200) NOT NULL COMMENT '分享消息描述',
   `footerText` varchar(80) NOT NULL COMMENT 'Elove底部信息',
@@ -264,15 +270,18 @@ CREATE TABLE IF NOT EXISTS `storeuser` (
   `lng` decimal(12,6) NOT NULL COMMENT '地址经度',
   `lat` decimal(12,6) NOT NULL COMMENT '地址纬度',
   PRIMARY KEY (`sid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='众合微信助手平台账户' AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='众合微信助手平台账户' AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `storeuser`
 --
 
 INSERT INTO `storeuser` (`sid`, `roleid`, `username`, `password`, `createDate`, `storeName`, `email`, `phone`, `cellPhone`, `address`, `majorImage`, `corpMoreInfoLink`, `lng`, `lat`) VALUES
-(1, 1, 'byc', '$2a$10$w2a0e8OsEtJ0dPYT//Sc0Oj1NneShu5iXBTppGKi47peA75jtXzVu', '2013-12-16 04:16:00', 'Zhonghe', '1311867063@qq.com', NULL, '13585563683', '浦东新区盛夏路58弄', NULL, NULL, '0.000000', '0.000000'),
-(2, 1, 'ben', '$2a$10$w2a0e8OsEtJ0dPYT//Sc0Oj1NneShu5iXBTppGKi47peA75jtXzVu', '2013-12-17 16:00:00', 'test', NULL, NULL, '15895906036', '上海浦东新区', NULL, NULL, '0.000000', '0.000000');
+(1, 1, 'byc', '$2a$10$w2a0e8OsEtJ0dPYT//Sc0Oj1NneShu5iXBTppGKi47peA75jtXzVu', '2013-12-16 04:16:00', 'Zhonghe', '1311867063@qq.com', NULL, '13585563683', '浦东新区盛夏路58弄', NULL, 'www.baidu.com', '0.000000', '0.000000'),
+(2, 1, 'ben', '$2a$10$w2a0e8OsEtJ0dPYT//Sc0Oj1NneShu5iXBTppGKi47peA75jtXzVu', '2013-12-17 16:00:00', 'test', NULL, NULL, '15895906036', '上海浦东新区', NULL, NULL, '0.000000', '0.000000'),
+(3, 0, 'dai', '$2a$10$EIztIdpVyE4tvFSIezMAiOD0/B.GTO.nqkKipmB3aZQNXtKxRc4Cy', '2013-12-26 12:30:47', 'test3', 'lubovbyc@gmail.com', '', '13585563683', '江苏省南京市东南大学', '/resources/images/602d58909a21480ba10f2b7f9b9010b0', 'www.google.com', '118.799820', '32.061919'),
+(4, 1, 'zhang', '$2a$10$deyd5xSMYyqLA3/6fXvfDuKM/2vSDz3quZOd4loyv6lH79uD.q5gi', '2013-12-26 12:42:13', 'test4', '1311867063@qq.com', '', '13585563683', '唐山南苑饭店', '', 'www.google.com', '118.183451', '39.650531'),
+(5, 1, 'lubovbyc', '$2a$10$ckAtzSNxmQCfbsX78gaV4.iZD.pj1mKxezK6uxAFJI5HeUjwGm6CO', '2013-12-26 15:54:11', 'one', '1311867063@qq.com', '', '13585563683', '上海市浦东新区', '/resources/images/2365eeb8bc8a4205b667a1ac8ace3e22', 'www.baidu.com', '121.638481', '31.230895');
 
 -- --------------------------------------------------------
 
@@ -285,7 +294,14 @@ CREATE TABLE IF NOT EXISTS `storeuser_application` (
   `sid` int(11) NOT NULL DEFAULT '0' COMMENT '众合微信助手账户id',
   `appid` varchar(32) NOT NULL DEFAULT '' COMMENT '众合微信平台应用id',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `storeuser_application`
+--
+
+INSERT INTO `storeuser_application` (`id`, `sid`, `appid`) VALUES
+(1, 1, '58e697edb5b148c190db1cf35a835ff9');
 
 -- --------------------------------------------------------
 
@@ -299,7 +315,14 @@ CREATE TABLE IF NOT EXISTS `store_auth_price` (
   `authid` int(11) NOT NULL COMMENT '权限id',
   `price` decimal(15,2) NOT NULL COMMENT '单价',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `store_auth_price`
+--
+
+INSERT INTO `store_auth_price` (`id`, `sid`, `authid`, `price`) VALUES
+(1, 1, 6, '30.00');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
