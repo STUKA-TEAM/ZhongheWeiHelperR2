@@ -23,9 +23,9 @@
 
     <link href="css/customer/elove-info-1.css" rel="stylesheet">
   </head>
-  <body onload="loadStory()">
+  <body>
     <div id="content-container">
-
+      <%@ include file="story.jsp"%>
     </div>
     <div class="container-fulid">
       <div id="baidumap" style="visibility:hidden;"><div id="pic"></div></div>
@@ -53,6 +53,5 @@
     <script type="text/javascript" src="js/customer/elove.js"></script>
     <script type="text/javascript" src="js/customer/modal.min.js"></script>    
     <script type="text/javascript" src="js/customer/video.js"></script>  
-
   </body>
 </html>
