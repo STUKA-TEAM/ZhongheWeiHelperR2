@@ -18,9 +18,19 @@
     <link href="./css/customer/company.css" rel="stylesheet">
   </head>
   <body>
-    <div class="container-fulid">
-      <img src="./img/company/company_title.jpg" class="img-responsive" alt="title"/>
-    </div>
+  
+      <div id='mySwipe' class='swipe'>
+        <div class='swipe-wrap'>
+          <div><img src = 'img/company/company_title.jpg'></div>
+          <div><img src = 'img/company/company_title.jpg'></div>
+          <div><img src = 'img/company/company_title.jpg'></div>
+        </div>
+        <nav id="position" class="images-pointer">
+          <a class="on"></a>
+          <a class="off"></a>
+          <a class="off"></a>
+        </nav>
+      </div>
     <div class="container-fulid">
       <div class="info" onclick="map_switch()">
         <p class="info-t">地址:</p>
@@ -56,6 +66,9 @@
     </div>
     
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=PWFniUmG9SMyIVlp7Nm24MRC"></script>
+    <script src="js/customer/swipe.js"></script>
     <script type="text/javascript" src="js/customer/elove-intro.js"></script>
+    
+    
   </body>
 </html>

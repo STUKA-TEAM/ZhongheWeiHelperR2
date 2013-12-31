@@ -114,3 +114,54 @@ text-decoration: underline;
   visibility: hidden;
   border-radius: 5px;
 }
+.swipe {
+  overflow: hidden;
+  visibility: hidden;
+  position: relative;
+}
+.swipe-wrap {
+  overflow: hidden;
+  position: relative;
+  max-width: 1080px;
+}
+.swipe-wrap > div {
+  float:left;
+  width:100%;
+  position: relative;
+}
+
+#mySwipe{
+width:100%;
+margin:0 auto;
+}
+
+.off{
+display: inline-block;
+width: 10px;
+height: 10px;
+border-radius: 10px;
+background: #f3f3f3;
+margin: 0 2px;
+cursor: pointer;
+}
+.on{
+display: inline-block;
+width: 10px;
+height: 10px;
+border-radius: 10px;
+background: #141414;
+margin: 0 2px;
+cursor: pointer;
+}
+.images-pointer{ 
+position: absolute; 
+z-index: 1; 
+left: 0; 
+bottom:0px; 
+width: 100%; 
+color: #fff; 
+background: rgba(0,0,0,.5); 
+height: 20px; 
+line-height: 20px; 
+overflow: hidden; 
+} 
