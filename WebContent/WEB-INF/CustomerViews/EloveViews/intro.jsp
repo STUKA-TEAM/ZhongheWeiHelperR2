@@ -14,8 +14,9 @@
     <title>Elove</title>
     
     <!-- 微喜帖css -->
-    <link href="./css/customer/bootstrap.min.css" rel="stylesheet">
-    <link href="./css/customer/company.css" rel="stylesheet">
+    <link href="css/customer/bootstrap.min.css" rel="stylesheet">
+    <link href="css/customer/company.css" rel="stylesheet">
+    <link href="css/customer/elove-story-1.css" rel="stylesheet">
   </head>
   <body>
   
@@ -49,7 +50,7 @@
       <p class="tip">关注我们，获取更多服务与优惠信息  >></p>
     </div>
     <div class="container-fulid attent-bg">
-      <div class="attent">         
+      <div class="attent" onclick="switch_guide()">         
           <p class="attent-p">关注</p>
       </div>
     </div>
@@ -65,10 +66,15 @@
       <div id="baidumap" style="visibility:hidden;"><div id="pic"></div></div>
     </div>
     
+    <div id="guide_bg" class="guide hidden" onclick="close_guide()">
+      <img id="guide_img" class="guide-pic img-responsive hidden" src="img/common/account_guide.png"/>
+    </div>
+    
+    <script type="text/javascript" src="js/customer/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=PWFniUmG9SMyIVlp7Nm24MRC"></script>
     <script src="js/customer/swipe.js"></script>
     <script type="text/javascript" src="js/customer/elove-intro.js"></script>
-    
+    <script type="text/javascript" src="js/customer/elove.js"></script>
     
   </body>
 </html>
