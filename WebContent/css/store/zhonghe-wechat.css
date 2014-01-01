@@ -196,14 +196,6 @@ body, button, input, select, textarea, h1 ,h2, h3, h4, h5, h6 {
   margin-top: 15px;
   text-align: center;
 }
-.modal-dialog {
-  position: relative;
-  z-index: 1050;
-  width: 270px;
-  padding: 10px;
-  margin-right: auto;
-  margin-left: auto;
-}
 .well {
   min-height: 20px;
   padding: 30px;

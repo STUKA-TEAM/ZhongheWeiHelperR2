@@ -144,3 +144,16 @@ fieldset[disabled] .btn-user.active {
 .dish-container {
   margin-left: 20px;
 }
+.breadcrumb {
+  border-bottom-style: solid;
+  border-bottom-color: #eeeeee;
+  border-bottom-width: 1px;
+}
+.account-tab {
+  width: 80%;
+  margin: 0 auto;
+}
+.intro-image {
+  width: 300px;
+  height: auto;
+}

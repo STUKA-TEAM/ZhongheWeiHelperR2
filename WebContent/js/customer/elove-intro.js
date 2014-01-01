@@ -17,12 +17,21 @@ var map_switch = function(){
     box.style.visibility = "hidden";
   }
 }
-var switch_guide = function(){
-	$("#guide_bg").removeClass("hidden");
-  $("#guide_img").removeClass("hidden");
-	window.scrollTo(0, 0);
-}
-var close_guide = function(){
-	$("#guide_bg").addClass("hidden");
-  $("#guide_img").addClass("hidden");
-}
+
+var elem = document.getElementById('mySwipe');
+selectedId = 0;
+window.mySwipe = Swipe(elem, {
+  // startSlide: 4,
+  auto: 4000,
+  continuous: true,
+  // disableScroll: true,
+  // stopPropagation: true,
+  callback: function(index, element) {
+	var children = document.getElementById('position').children;
+	//alert(childNodes.length);
+    children[selectedId].className = 'off';
+	selectedId = index;
+	children[selectedId].className = 'on';
+  },
+  // transitionEnd: function(index, element) {}
+});
