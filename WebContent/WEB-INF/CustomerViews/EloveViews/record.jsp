@@ -10,8 +10,8 @@
     
     <div class="container-fulid">
       <video id="my_video_1" class="video-js vjs-default-skin vjs-big-play-centered video" controls preload="auto">
-        <source src="media/elovedome.webm" type="video/webm">
-        <source src="elovedome.mp4" type='video/mp4'>
+        <source src="media/elovedemo.mp4" type='video/mp4'>
+        <source src="media/elovedemo.webm" type='video/webm'>
       </video>
     </div><!-- video -->
 
