@@ -5,16 +5,24 @@ import java.util.List;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
+import message.ResponseMessage;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.google.gson.Gson;
 
 import elove.AppInfo;
 import elove.AuthPrice;
@@ -33,6 +41,9 @@ import security.User;
  */
 @Controller
 public class BasicController {
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
 	/**
 	 * @description: 每个界面都要获取的app信息
 	 * @param model
@@ -95,7 +106,49 @@ public class BasicController {
         return "EloveViews/account";
     }
 	
-
+	/**
+	 * @description: 更新用户信息
+	 * @param json
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/userinfo/update", method = RequestMethod.POST)
+	@ResponseBody
+    public String updateUserInfo(@RequestBody String json, Model model) {
+		ApplicationContext context = 
+				new ClassPathXmlApplicationContext("All-Modules.xml");
+		UserInfoDAO userInfoDao = (UserInfoDAO) context.getBean("UserInfoDAO");
+		((ConfigurableApplicationContext)context).close();
+		
+		Gson gson = new Gson();
+		UserInfo userInfo = gson.fromJson(json, UserInfo.class);
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = (User)auth.getPrincipal();
+		userInfo.setSid(user.getSid());
+		
+		String encoded = passwordEncoder.encode(userInfo.getPassword());
+		userInfo.setPassword(encoded);
+		
+		int result = userInfoDao.updateUserInfo(userInfo);
+		ResponseMessage message = new ResponseMessage();
+		if (result > 0) {
+			message.setStatus(true);
+			message.setMessage("修改成功！");
+		}else{
+			message.setStatus(false);
+			message.setMessage("修改保存失败！");
+		}		
+		String response = gson.toJson(message);		
+		
+        return response;
+    }
+	
+	@RequestMapping(value = "/app/insert", method = RequestMethod.POST)
+    public String insertApp(Model model) {
+		
+        return "EloveViews/test";
+    }
 	
 	@RequestMapping(value = "/delete/app", method = RequestMethod.POST)
     public String login(Model model, @CookieValue(value = "appid", required = true) String appid) {

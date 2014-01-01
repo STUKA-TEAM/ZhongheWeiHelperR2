@@ -424,6 +424,23 @@ public class EloveWizardDAO {
 	}
 	
 	/**
+	 * @title: getEloveNum
+	 * @description: 获取一个appid下的所有elove数量
+	 * @param appid
+	 * @return
+	 */
+	public int getEloveNum(String appid){
+		String SQL = "SELECT COUNT(*) FROM elove WHERE appid = ?";
+		int count = 0;
+		try {
+			count = jdbcTemplate.queryForObject(SQL, Integer.class, appid);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return count;
+	}
+	
+	/**
 	 * @title: getConsumeRecord
 	 * @description: 查询elove消费情况
 	 * @param appid

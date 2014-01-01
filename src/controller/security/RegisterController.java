@@ -1,6 +1,11 @@
 package controller.security;
 
+import java.io.InputStream;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.Properties;
+
+import message.UserMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -12,7 +17,11 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.Gson;
+
+import elove.dao.AuthPriceDAO;
 import register.UserInfo;
 import register.dao.UserInfoDAO;
 
@@ -50,6 +59,7 @@ public class RegisterController {
 	 * @return
 	 */
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	@ResponseBody
 	public String processRegister(UserInfo userInfo, BindingResult result, Model model){
 		registerValidation.validate(userInfo, result);
 		model.addAttribute("userInfo", userInfo);
@@ -61,6 +71,7 @@ public class RegisterController {
 			ApplicationContext context = 
 					new ClassPathXmlApplicationContext("All-Modules.xml");
 			UserInfoDAO userInfoDao = (UserInfoDAO) context.getBean("UserInfoDAO");
+			AuthPriceDAO authPriceDao = (AuthPriceDAO) context.getBean("AuthPriceDAO");
 			((ConfigurableApplicationContext)context).close();
 			
 			userInfo.setRoleid(1);   //default 'ROLE_USER'
@@ -70,11 +81,43 @@ public class RegisterController {
 			userInfo.setCreateDate(current);
 			
 			int sid = userInfoDao.insertUserInfo(userInfo);
+			UserMessage message = new UserMessage();
 			if (sid > 0 ) {
-				return "registerSuccess";
+				InputStream inputStream = RegisterController.class.getResourceAsStream("/defaultValue.properties");
+				Properties properties = new Properties();
+				BigDecimal elovePrice = null;
+				try {
+					properties.load(inputStream);
+					elovePrice = new BigDecimal(Double.parseDouble((String)properties.get("defaultElovePrice")));
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
+				}
+				
+				int recordid = 0;
+				try {
+					recordid = authPriceDao.insertPrice(sid, "elove", elovePrice);
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
+				}
+				
+				if (recordid > 0 ) {
+					message.setStatus(true);
+					message.setMessage("用户注册成功！");
+					message.setUsername(userInfo.getUsername());
+				}else {
+					userInfoDao.deleteUserInfo(sid);
+					message.setStatus(false);
+					message.setMessage("用户注册失败！系统错误");
+				}				
 			}else {
-				return "registerException";
+				message.setStatus(false);
+				message.setMessage("用户注册失败！请检查注册信息");
 			}
+			
+			Gson gson = new Gson();
+			String response = gson.toJson(message);
+			
+			return response;
 		}
 	}
 }

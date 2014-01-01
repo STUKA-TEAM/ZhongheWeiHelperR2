@@ -68,6 +68,39 @@ public class UserInfoDAO {
 		return result == 0 ? 0 : kHolder.getKey().intValue();
 	}
 	
+	//delete
+	/**
+	 * @title: deleteUserInfo
+	 * @description: 删除用户信息
+	 * @param sid
+	 * @return
+	 */
+	public int deleteUserInfo(int sid){
+		String SQL = "DELETE FROM storeuser WHERE sid = ?";
+		int effected = jdbcTemplate.update(SQL, new Object[]{sid});
+		return effected;
+	}
+	
+	//update
+	/**
+	 * @title: updateUserInfo
+	 * @description: 更新用户信息
+	 * @param userInfo
+	 * @return
+	 */
+	public int updateUserInfo(UserInfo userInfo){
+		String SQL = "UPDATE storeuser SET password = ?, "
+				+ "storeName = ?, email = ?, phone = ?, cellPhone = ?, "
+				+ "address = ?, majorImage = ?, corpMoreInfoLink = ?, "
+				+ "lng = ?, lat = ? WHERE sid = ?";
+		int effected = jdbcTemplate.update(SQL, new Object[]{ userInfo.getPassword(), 
+				userInfo.getStoreName(), userInfo.getEmail(), userInfo.getPhone(), 
+				userInfo.getCellPhone(), userInfo.getAddress(), userInfo.getMajorImage(), 
+				userInfo.getCorpMoreInfoLink(), userInfo.getLng(), 
+				userInfo.getLat(), userInfo.getSid()});
+		return effected;
+	}
+	
 	//query
 	/**
 	 * @Title: getUserInfo
