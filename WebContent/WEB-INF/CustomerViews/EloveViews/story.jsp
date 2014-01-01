@@ -29,7 +29,7 @@
       </div>
 
       <div id="guide_bg" class="guide hidden" onclick="close_guide()">
-        <img id="guide_img" class="guide-pic hidden" src="img/common/guide.png"/>
+        <img id="guide_img" class="guide-pic img-responsive hidden" src="img/common/guide.png"/>
       </div>
 
       <div class="footer">
