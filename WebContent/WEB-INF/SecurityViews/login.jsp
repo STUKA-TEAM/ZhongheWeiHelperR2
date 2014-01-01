@@ -15,7 +15,7 @@
     <title>众合微信公共账号管理平台</title>
     <!-- Bootstrap core CSS -->
     <link href="css/store/bootstrap.min.css" rel="stylesheet">
-    <link href="store/zhonghe-wechat.css" rel="stylesheet">
+    <link href="css/store/zhonghe-wechat.css" rel="stylesheet">
     <link rel="shortcut icon" href="img/favicon.png">
     <!-- include jQuery + carouFredSel plugin -->
         <script type="text/javascript" src="js/store/jquery-1.10.2.min.js"></script>

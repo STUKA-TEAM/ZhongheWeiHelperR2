@@ -11,6 +11,7 @@ import java.sql.Timestamp;
  * @date 2013年12月08日
  */
 public class UserInfo {
+	private int sid;
 	private int roleid;
 	private String username;
 	private String password;
@@ -26,6 +27,18 @@ public class UserInfo {
 	private BigDecimal lng;
 	private BigDecimal lat;
 	
+	/**
+	 * @return the sid
+	 */
+	public int getSid() {
+		return sid;
+	}
+	/**
+	 * @param sid the sid to set
+	 */
+	public void setSid(int sid) {
+		this.sid = sid;
+	}
 	/**
 	 * @return the roleid
 	 */

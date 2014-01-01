@@ -185,7 +185,7 @@ public class EloveWizardController {
 				long lifeCycle = 0;
 				try {
 					properties.load(inputStream);
-					lifeCycle = (long) properties.get("defaultEloveLifeCycleByMonth");
+					lifeCycle = Long.parseLong((String)properties.get("defaultEloveLifeCycleByMonth"));
 				} catch (IOException e) {
 					System.out.println(e.getMessage());
 				}

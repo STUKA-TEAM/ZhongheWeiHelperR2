@@ -50,7 +50,7 @@ public class WeixinMessageController {
 						elove.setTitle("Elove - 新人专属轻APP");
 						elove.setDescription("分享喜悦，收获祝福！");
 						elove.setPicUrl(MethodUtils.getApplicationPath()+"img/elovecoverpic.jpg");
-						elove.setUrl(MethodUtils.getApplicationPath()+"customer/elove/story");
+						elove.setUrl(MethodUtils.getApplicationPath()+"customer/elove/elove");
 					
 						wish.setTitle("查看亲友祝福");
 						wish.setPicUrl(MethodUtils.getApplicationPath()+"img/elovewish.jpg");
