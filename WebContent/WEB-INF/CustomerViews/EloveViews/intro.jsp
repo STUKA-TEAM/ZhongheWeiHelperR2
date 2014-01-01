@@ -47,15 +47,12 @@
       </div>
     </div>
     <div class="container-fulid">
-      <p class="tip">关注我们，获取更多服务与优惠信息  >></p>
+      <p class="tip">获取更多服务与优惠信息，请浏览我们的微官网  >></p>
     </div>
     <div class="container-fulid attent-bg">
-      <div class="attent" onclick="switch_guide()">         
-          <p class="attent-p">关注</p>
+      <div class="attent">         
+          <p class="attent-p">进入微官网</p>
       </div>
-    </div>
-    <div class="container-fulid">
-      <p class="tip"><a class="tip-green">查看微官网，了解更多...</a></p>
     </div>
     <div class="container-fulid affix">
       <div class="back">
@@ -64,10 +61,6 @@
     </div>
     <div class="container-fulid">
       <div id="baidumap" style="visibility:hidden;"><div id="pic"></div></div>
-    </div>
-    
-    <div id="guide_bg" class="guide hidden" onclick="close_guide()">
-      <img id="guide_img" class="guide-pic img-responsive hidden" src="img/common/account_guide.png"/>
     </div>
     
     <script type="text/javascript" src="js/customer/jquery-1.10.2.min.js"></script>

@@ -78,15 +78,15 @@ $(document).ready(function(){
 });
 
 //story sub page
-var switch_guide = function(){
-  $("#guide_bg").removeClass("hidden");
-  $("#guide_img").removeClass("hidden");
+var switch_guide = function(bg, img){
+  $(bg).removeClass("hidden");
+  $(img).removeClass("hidden");
   window.scrollTo(0, 0);
-}
-var close_guide = function(){
-	$("#guide_bg").addClass("hidden");
-  $("#guide_img").addClass("hidden");
-}
+};
+var close_guide = function(bg, img){
+	$(bg).addClass("hidden");
+  $(img).addClass("hidden");
+};
 
 //info sub page
 //创建地址解析器实例 

@@ -44,10 +44,15 @@
         <li id="dress"><a href="javascript:void(0)"><span class="sidebar-photo">婚纱剪影</span></a></li>
         <li id="info"><a href="javascript:void(0)"><span class="sidebar-info">婚礼信息</span></a></li>
         <li id="record"><a href="javascript:void(0)"><span class="sidebar-record">婚礼记录</span></a></li>
+        <li id="viewAccount"><a href="javascript:void(0)" onclick="switch_guide('#account_guide_bg','#account_guide_img')">
+          <span class="sidebar-viewAccount">关注公司</span></a>
+        </li>
         <li id="intro"><a href="customer/elove/intro"><span class="sidebar-intr">公司介绍</span></a></li>
       </ul>
     </div>
-    
+    <div id="account_guide_bg" class="guide hidden" onclick="close_guide('#account_guide_bg','#account_guide_img')">
+      <img id="account_guide_img" class="guide-pic img-responsive hidden" src="img/common/account_guide.png"/>
+    </div>
     <script type="text/javascript" src="js/customer/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=PWFniUmG9SMyIVlp7Nm24MRC"></script>
     <script type="text/javascript" src="js/customer/elove.js"></script>

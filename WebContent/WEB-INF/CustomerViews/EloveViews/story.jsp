@@ -25,10 +25,10 @@
 
       <div class="container-fulid">
         <a data-toggle="modal" data-target="#bless" class="btn btn-elove btn-story">送上祝福</a>
-        <a onclick="switch_guide()" class="btn btn-elove btn-story">分享喜帖</a>
+        <a onclick="switch_guide('#guide_bg','#guide_img')" class="btn btn-elove btn-story">分享喜帖</a>
       </div>
 
-      <div id="guide_bg" class="guide hidden" onclick="close_guide()">
+      <div id="guide_bg" class="guide hidden" onclick="close_guide('#guide_bg','#guide_img')">
         <img id="guide_img" class="guide-pic img-responsive hidden" src="img/common/guide.png"/>
       </div>
 

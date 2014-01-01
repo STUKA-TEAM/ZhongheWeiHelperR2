@@ -57,7 +57,7 @@ fieldset[disabled] .btn-elove.active {
   right: 0;
   display: block;
   height: 100%;
-  width: 135px;
+  width: 145px;
   z-Index: 1040px;
   background-color: #f8e9ed;
   overflow: hidden;
@@ -125,7 +125,8 @@ fieldset[disabled] .btn-elove.active {
 .sidebar-photo,
 .sidebar-info,
 .sidebar-record,
-.sidebar-intr {
+.sidebar-intr,
+.sidebar-viewAccount {
   font-size: 16px;
   color: #f49cb8;
   padding: 5px 0 10px 40px;
@@ -144,6 +145,9 @@ fieldset[disabled] .btn-elove.active {
 }
 .sidebar-intr {
   background: url(../../img/elove/intr_logo.png) no-repeat;
+}
+.sidebar-viewAccount {
+  background: url(../../img/elove/viewAcc_logo.png) no-repeat;
 }
 .sidebar-guide {
   position: fixed;
