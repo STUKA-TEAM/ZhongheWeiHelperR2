@@ -1,6 +1,10 @@
 package controller.store;
 
+import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Properties;
+import java.util.UUID;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -24,6 +28,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 
+import controller.security.RegisterController;
 import elove.AppInfo;
 import elove.AuthPrice;
 import elove.dao.AppInfoDAO;
@@ -145,14 +150,54 @@ public class BasicController {
     }
 	
 	@RequestMapping(value = "/app/insert", method = RequestMethod.POST)
-    public String insertApp(Model model) {
+	@ResponseBody
+    public String insertApp(@RequestBody String json, Model model) {
+		ApplicationContext context = 
+				new ClassPathXmlApplicationContext("All-Modules.xml");
+		AppInfoDAO appInfoDao = (AppInfoDAO) context.getBean("AppInfoDAO");
+		((ConfigurableApplicationContext)context).close();
+		
+		InputStream inputStream = BasicController.class.getResourceAsStream("/defaultValue.properties");
+		Properties properties = new Properties();
+		int appUpperLimit = 0;
+		try {
+			properties.load(inputStream);
+			appUpperLimit = Integer.parseInt((String)properties.get("appUpperLimit"));
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = (User)auth.getPrincipal();
+		int actualAppNum = appInfoDao.getAppNumBySid(user.getSid());
+		
+		Gson gson = new Gson();
+		ResponseMessage message = new ResponseMessage();
+		if (actualAppNum >= appUpperLimit) {
+			message.setStatus(false);
+			message.setMessage("app创建数目已达到上限！");
+		}else {
+			AppInfo appInfo = gson.fromJson(json, AppInfo.class);
+			appInfo.setAppid(generateRandomAppid());
+			int result = 
+		}
 		
         return "EloveViews/test";
     }
 	
-	@RequestMapping(value = "/delete/app", method = RequestMethod.POST)
+	@RequestMapping(value = "/app/delete", method = RequestMethod.POST)
     public String login(Model model, @CookieValue(value = "appid", required = true) String appid) {
 		
         return "EloveViews/test";
+    }
+	
+    /**
+     * @title: generateRandomAppid
+     * @description: 生成appid
+     * @return
+     */
+    private String generateRandomAppid() {    	
+        String randomAppid = UUID.randomUUID().toString().replace("-", "");
+        return randomAppid;
     }
 }

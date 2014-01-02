@@ -49,7 +49,7 @@ public class EloveWizardDAO {
 		result = jdbcTemplate.update(new PreparedStatementCreator() {
 		    public PreparedStatement createPreparedStatement(Connection connection) throws SQLException{
 		        PreparedStatement ps =
-		            connection.prepareStatement(SQL,Statement.RETURN_GENERATED_KEYS);
+		            connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
 		        ps.setString(1, eloveWizard.getAppid());
 		        ps.setTimestamp(2, eloveWizard.getCreateTime());
 		        ps.setTimestamp(3, eloveWizard.getExpiredTime());

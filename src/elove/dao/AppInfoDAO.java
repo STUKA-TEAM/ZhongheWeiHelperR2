@@ -1,13 +1,19 @@
 package elove.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 
 import elove.AppInfo;
 
@@ -28,6 +34,72 @@ public class AppInfoDAO {
 	}
 	
 	//insert
+	/**
+	 * @title: insertAppInfo
+	 * @description: 插入app创建时的所有必要信息
+	 * @param appInfo
+	 * @return
+	 */
+	public int insertAppInfo(final AppInfo appInfo){
+		final String SQL = "INSERT INTO application VALUES (default, ?, ?, ?, ?, ?, ?, ?)";
+		int result = 0;
+		
+		KeyHolder kHolder = new GeneratedKeyHolder();
+		result = jdbcTemplate.update(new PreparedStatementCreator() {
+		    public PreparedStatement createPreparedStatement(Connection connection) throws SQLException{
+		        PreparedStatement ps =
+		            connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
+		        ps.setString(1, appInfo.getAppid());
+		        ps.setString(2, appInfo.getWechatToken());
+		        ps.setString(3, appInfo.getWechatName());
+		        ps.setString(4, appInfo.getWechatOriginalId());
+		        ps.setString(5, appInfo.getWechatNumber());
+		        ps.setString(6, appInfo.getAddress());
+		        ps.setString(7, appInfo.getIndustry());
+		        return ps;
+		    }
+		}, kHolder);
+		
+		if (result > 0) {
+			result = insertUserAppRelation(appInfo.getSid(), appInfo.getAppid());
+			if (result == 0 ) {
+				return -1;
+			}
+			
+			
+		}else {
+			return 0;
+		}
+	}
+	
+	/**
+	 * @title： insertUserAppRelation
+	 * @description: 插入用户与应用的对应记录
+	 * @param sid
+	 * @param appid
+	 * @return
+	 */
+	public int insertUserAppRelation(final int sid, final String appid){
+		final String SQL = "INSERT INTO storeuser_application VALUES (default, ?, ?)";
+		int result = 0;
+		
+		KeyHolder kHolder = new GeneratedKeyHolder();
+		result = jdbcTemplate.update(new PreparedStatementCreator() {
+		    public PreparedStatement createPreparedStatement(Connection connection) throws SQLException{
+		        PreparedStatement ps =
+		            connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
+		        ps.setInt(1, sid);
+		        ps.setString(2, appid);
+		        return ps;
+		    }
+		}, kHolder);
+		
+		return result <= 0 ? 0 : result;
+	}
+	
+	public int insertAppAuthRelation(final List<String> authNameList){
+		
+	}
 	
 	//query
 	/**
@@ -61,6 +133,23 @@ public class AppInfoDAO {
 			appInfo.setIndustry(rs.getString("A.industry"));
 			return appInfo;
 		}		
+	}
+	
+	/**
+	 * @title: getAppNumBySid
+	 * @description: 查询一个用户账号下已创建的app数量
+	 * @param sid
+	 * @return
+	 */
+	public int getAppNumBySid(int sid){
+		String SQL = "SELECT COUNT(*) FROM storeuser_application WHERE sid = ?";
+		int count = 3;
+		try {
+			count = jdbcTemplate.queryForObject(SQL, Integer.class, sid);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return count;		
 	}
 	
 	//delete
