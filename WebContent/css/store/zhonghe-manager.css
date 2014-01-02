@@ -157,3 +157,13 @@ fieldset[disabled] .btn-user.active {
   width: 300px;
   height: auto;
 }
+.elove-tab {
+  margin-top: 20px;
+}
+.form-btn {
+  margin-top: 40px;
+}
+.pic-preview {
+  width: 150px;
+  height: 120px;
+}
