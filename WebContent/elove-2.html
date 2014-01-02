@@ -12,9 +12,6 @@
     <link href="./css/store/zhonghe-wechat.css" rel="stylesheet">
     <link href="./css/store/zhonghe-manager.css" rel="stylesheet">
     <link rel="shortcut icon" href="./img/favicon.png">
-    <!-- include jQuery + carouFredSel plugin -->
-		<script type="text/javascript" src="./js/store/jquery-1.10.2.min.js"></script>
-		<script type="text/javascript" src="./js/store/jquery.carouFredSel-6.2.1-packed.js"></script>
   </head>
   <body>
     <!-- Fixed navbar -->
@@ -84,7 +81,10 @@
                 <div class="form-group">
                   <label for="story_pic" class="col-md-3 control-label">相知相遇图片</label>
                   <div class="col-md-7">
-                    <input type="text" class="form-control" id="story_pic" placeholder="">
+                    <input type="file" name="file" class="image-file hidden" onchange="ye.value=value" accept="image/*">
+                    <input type="text" name=ye class="form-control file-path-elove">
+                    <input type="button" value="选择文件" onclick="file.click()" class="btn btn-sm btn-info">
+                    <input type="button" value="上传" class="image-multi btn btn-sm btn-info">
                   </div>
                 </div>
                 <div class="form-group">
@@ -99,7 +99,19 @@
                 <div class="form-group">
                   <label for="story_txt" class="col-md-3 control-label">相知相遇文字图片</label>
                   <div class="col-md-7">
-                    <input type="text" class="form-control" id="story_txt" placeholder="">
+                    <input type="file" name="file" class="image-file hidden" onchange="ye.value=value" accept="image/*">
+                    <input type="text" name=ye class="form-control file-path-elove">
+                    <input type="button" value="选择文件" onclick="file.click()" class="btn btn-sm btn-info">
+                    <input type="button" value="上传" class="image-multi btn btn-sm btn-info">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-md-7 col-md-offset-3">
+                    <div class="row">
+                      <div class="col-md-4">
+                        <img src="./img/manager/theme2.png" class="pic-preview img-thumbnail img-responsive"/>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div class="form-group form-btn">
@@ -114,38 +126,13 @@
       </div>
     </div>
     
-    <div class="modal fade" id="elove_count" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title" id="myModalLabel">感谢您使用Elove</h4>
-          </div>
-          <div class="modal-body">
-            <dl class="dl-horizontal">
-              <dt><h4><strong>未付款数量</strong></h4></dt>
-              <dd><h4>0 <strong> 套</strong></h4></dd>
-              <dt><h4><strong>未付款金额</strong></h4></dt>
-              <dd><h4>0 <strong> 元</strong></h4></dd>
-              <dt><h4><strong>累计消费金额</strong></h4></dt>
-              <dd><h4>0 <strong> 元</strong></h4></dd>
-            </dl>
-          </div>
-          <div class="modal-footer">
-            <p class="pull-left">如有问题，请致电：18221069563</p>
-          </div>
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-    
     <div id="footer">
       <div class="container text-center">
         <p class="text-muted credit">Copyright ? 2013 zhonghesoftware.com All Rights Reserved. 众合网络科技有限公司 版权所有</p>
       </div>
     </div><!-- footer -->
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="./js/store/bootstrap.min.js"></script>
+    <!-- include jQuery -->
+		<script type="text/javascript" src="./js/store/jquery-1.10.2.min.js"></script>
+    <script src="js/store/upload.js"></script>
   </body>
 </html>
