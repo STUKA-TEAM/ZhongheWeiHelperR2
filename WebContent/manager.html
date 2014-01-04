@@ -40,6 +40,20 @@
 
     <div class="row">
       <div class="col-md-2 sidebar">
+        <div class="container account-change">
+          <p><strong>当前正在管理的微信账号</strong></p>
+          <p>公共账号1</p>
+          <p><strong>切换至其他公共账号</strong></p>
+          <form>
+            <select class="form-control account-select">
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+            </select>
+          </form>
+        </div>
         <ul class="nav nav-pills nav-stacked">
           <li class="active"><a href="./manager.html">账号管理</a></li>
           <li><a href="./elove.html">Elove管理</a></li>
@@ -61,18 +75,6 @@
         <ol class="breadcrumb">
           <li class="active">账号管理</li>
         </ol>
-        <div class="row">
-          <h4 class="col-md-offset-7 col-md-2">切换至其他公共账号</h4>
-          <div class="col-md-2">
-            <select class="form-control">
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
-            </select>
-          </div>
-        </div>
         
         <div class="row">
           <div class="panel panel-info col-md-10 col-md-offset-1">
@@ -133,7 +135,7 @@
                 <td>XXXXXX</td>
                 <td>XXXXXX</td>
                 <td>非当前管理状态</td>
-                <td><a href="#">查看</a></td>
+                <td><a data-toggle="modal" data-target="#info_check">查看</a></td>
                 <td><a class="btn btn-sm btn-danger">删除</a></td>
               </tr>
               <tr>
@@ -141,8 +143,8 @@
                 <td>XXXXXX</td>
                 <td>XXXXXX</td>
                 <td>当前管理状态</td>
-                <td><a href="#">查看</a></td>
-                <td><a class="btn btn-sm btn-danger">删除</a></td>
+                <td><a href="" data-toggle="modal" data-target="#info_check">查看</a></td>
+                <td><a href="" class="btn btn-sm btn-danger">删除</a></td>
               </tr>
             </table>
           </div>
@@ -285,6 +287,28 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
             <button type="button" class="btn btn-primary">确定</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    
+    <div class="modal fade" id="info_check" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">查看公共账号接口连接</h4>
+          </div>
+          <div class="modal-body">
+            <dl class="dl-horizontal">
+              <dt><h4><strong>微信接口URL:</strong></h4></dt>
+              <dd><h4>http://www.xxx.com/xxx</h4></dd>
+              <dt><h4><strong>微信接口Token:</strong></h4></dt>
+              <dd><h4>xxxxxxxxxxxxxxxxxxxxxx</h4></dd>
+            </dl>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->

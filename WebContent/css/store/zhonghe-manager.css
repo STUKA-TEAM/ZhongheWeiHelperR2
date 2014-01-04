@@ -171,3 +171,12 @@ fieldset[disabled] .btn-user.active {
   display: inline;
   width: 76%;
 }
+.account-select {
+  width: 170px;
+}
+.account-change {
+  padding: 10px 15px;
+  border-bottom-style: solid;
+  border-color: #eeeeee;
+  border-bottom-width: 1px;
+}
