@@ -61,12 +61,17 @@ public class AppInfoDAO {
 		}, kHolder);
 		
 		if (result > 0) {
-			result = insertUserAppRelation(appInfo.getSid(), appInfo.getAppid());
+			result = insertUserAppRelation(appInfo.getSid(), appInfo.getAppid());   
 			if (result == 0 ) {
 				return -1;
 			}
 			
+			result = insertAppAuthRelation(appInfo.getAuthNameList(), appInfo.getAppid());
+			if (result == 0) {
+				return -2;
+			}
 			
+			return result;
 		}else {
 			return 0;
 		}
@@ -97,8 +102,42 @@ public class AppInfoDAO {
 		return result <= 0 ? 0 : result;
 	}
 	
-	public int insertAppAuthRelation(final List<String> authNameList){
+	/**
+	 * @title: insertAppAuthRelation
+	 * @description: 插入应用、权限关系对应
+	 * @param authNameList
+	 * @param appid
+	 * @return
+	 */
+	public int insertAppAuthRelation(List<String> authNameList, final String appid){
+		final String SQL = "INSERT INTO application_authority VALUES (default, ?, ?)";
+		int result = 0;
 		
+		KeyHolder kHolder = new GeneratedKeyHolder();
+		for (int i = 0; i < authNameList.size(); i++) {
+			String authName = authNameList.get(i);
+			Integer authid = getAuthid(authName);
+			if (authid == null) {
+				return 0;
+			}
+			final int id = authid.intValue();
+			
+			result = jdbcTemplate.update(new PreparedStatementCreator() {
+			    public PreparedStatement createPreparedStatement(Connection connection) throws SQLException{
+			        PreparedStatement ps =
+			            connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
+			        ps.setString(1, appid);
+			        ps.setInt(2, id);
+			        return ps;
+			    }
+			}, kHolder);
+			
+			if (result <= 0) {
+				return 0;
+			}
+		}
+		
+		return result;
 	}
 	
 	//query
@@ -152,8 +191,66 @@ public class AppInfoDAO {
 		return count;		
 	}
 	
-	//delete
-	public int deleteAppInfo(String appid){
-		return 0;
+	/**
+	 * @title: getAuthid
+	 * @description: 查询权限名字对应的id
+	 * @param authName
+	 * @return
+	 */
+	private Integer getAuthid(String authName){
+		String SQL = "SELECT authid FROM authority WHERE authName = ?";
+		Integer authid = null;
+		try {
+			authid = jdbcTemplate.queryForObject(SQL, new Object[]{authName}, new AuthidMapper());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return authid;
 	}
+	
+	private static final class AuthidMapper implements RowMapper<Integer>{
+		@Override
+		public Integer mapRow(ResultSet rs, int arg1) throws SQLException {
+			Integer authid = rs.getInt("authid");
+			return authid;
+		}		
+	}
+	
+	//delete
+	/**
+	 * @title: deleteAppInfo
+	 * @description: 删除app应用信息记录
+	 * @param appid
+	 * @return
+	 */
+	public int deleteAppInfo(String appid){
+		String SQL = "DELETE FROM application WHERE appid = ?";
+		int effected = jdbcTemplate.update(SQL, new Object[]{appid});
+		return effected;
+	}
+	
+	/**
+	 * @title: deleteUserAppRelation
+	 * @description: 删除用户app使用对应记录
+	 * @param appid
+	 * @return
+	 */
+	public int deleteUserAppRelation(String appid){
+		String SQL = "DELETE FROM storeuser_application WHERE appid = ?";
+		int effected = jdbcTemplate.update(SQL, new Object[]{appid});
+		return effected;
+	}
+	
+	/**
+	 * @title: deleteAppAuthRelation
+	 * @description: 删除应用与权限对应关系
+	 * @param appid
+	 * @return
+	 */
+	public int deleteAppAuthRelation(String appid){
+		String SQL = "DELETE FROM application_authority WHERE appid = ?";
+		int effected = jdbcTemplate.update(SQL, new Object[]{appid});
+		return effected;
+	}
+	
 }

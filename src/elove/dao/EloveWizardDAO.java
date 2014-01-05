@@ -210,6 +210,54 @@ public class EloveWizardDAO {
 		return effected;
 	}
 	
+	/**
+	 * @title: deleteJoin
+	 * @description: 删除与eloveid相关的所有来宾记录
+	 * @param eloveid
+	 * @return
+	 */
+	public int deleteJoin(int eloveid){
+		String SQL = "DELETE FROM elove_join WHERE eloveid = ?";
+		int effected = jdbcTemplate.update(SQL, new Object[]{eloveid});
+		return effected;
+	}
+	
+	/**
+	 * @title: deleteMessage
+	 * @description: 删除与eloveid相关的所有祝福记录 
+	 * @param eloveid
+	 * @return
+	 */
+	public int deleteMessage(int eloveid){
+		String SQL = "DELETE FROM elove_message WHERE eloveid = ?";
+		int effected = jdbcTemplate.update(SQL, new Object[]{eloveid});
+		return effected;
+	}
+	
+	/**
+	 * @title: deleteElove
+	 * @description: 删除elove主记录
+	 * @param eloveid
+	 * @return
+	 */
+	public int deleteElove(int eloveid){
+		String SQL = "DELETE FROM elove WHERE eloveid = ?";
+		int effected = jdbcTemplate.update(SQL, new Object[]{eloveid});
+		return effected;
+	}
+	
+	/**
+	 * @title: deleteConsumeRecord
+	 * @description: 删除指定app的消费记录
+	 * @param appid
+	 * @return
+	 */
+	public int deleteConsumeRecord(String appid){
+		String SQL = "DELETE FROM elove_consume_record WHERE appid = ?";
+		int effected = jdbcTemplate.update(SQL, new Object[]{appid});
+		return effected;
+	}
+	
 	//update
 	/**
 	 * @title: updateElove
@@ -438,6 +486,31 @@ public class EloveWizardDAO {
 			System.out.println(e.getMessage());
 		}
 		return count;
+	}
+	
+	/**
+	 * @title: getEloveidList
+	 * @description: 获取一个appid下的所有eloveid
+	 * @param appid
+	 * @return
+	 */
+	public List<Integer> getEloveidList(String appid){
+		String SQL = "SELECT eloveid FROM elove WHERE appid = ?";
+		List<Integer> eloveidList = null;
+		try {
+			eloveidList = jdbcTemplate.query(SQL, new Object[]{appid}, new EloveidMapper());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return eloveidList;
+	}
+	
+	private static final class EloveidMapper implements RowMapper<Integer>{
+		@Override
+		public Integer mapRow(ResultSet rs, int arg1) throws SQLException {
+			Integer eloveid = rs.getInt("eloveid");
+			return eloveid;
+		}		
 	}
 	
 	/**
