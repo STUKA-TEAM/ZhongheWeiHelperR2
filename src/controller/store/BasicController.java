@@ -62,7 +62,7 @@ public class BasicController {
 		List<AppInfo> appInfoList = appInfoDao.getAppInfoBySid(user.getSid());
 		model.addAttribute("appInfoList", appInfoList);
 
-        return "EloveViews/showApp";
+        return "AccountViews/showApp";
     }
 	
 	/**
@@ -103,7 +103,7 @@ public class BasicController {
 	    List<AuthPrice> priceList = authPriceDao.getPriceBySid(user.getSid());
 	    model.addAttribute("priceList", priceList);
 		
-        return "EloveViews/account";
+        return "AccountViews/account";
     }
 	
 	/**
