@@ -164,3 +164,8 @@ $(document).ready(function(){
 		}
 	}
 });
+
+var add_pic_preview = function(id, pic_path){
+  var pic_preview_html = '<img src="'+pic_path+'" class="pic-preview img-thumbnail img-responsive"/>';
+  $("."+id).append(pic_preview_html);
+};

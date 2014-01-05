@@ -12,9 +12,8 @@
     <link href="./css/store/zhonghe-wechat.css" rel="stylesheet">
     <link href="./css/store/zhonghe-manager.css" rel="stylesheet">
     <link rel="shortcut icon" href="./img/favicon.png">
-    <!-- include jQuery + carouFredSel plugin -->
+    <!-- include jQuery -->
 		<script type="text/javascript" src="./js/store/jquery-1.10.2.min.js"></script>
-		<script type="text/javascript" src="./js/store/jquery.carouFredSel-6.2.1-packed.js"></script>
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=PWFniUmG9SMyIVlp7Nm24MRC"></script>
   </head>
   <body>
@@ -41,6 +40,20 @@
 
     <div class="row">
       <div class="col-md-2 sidebar">
+        <div class="container account-change">
+          <p><strong>当前正在管理的微信账号</strong></p>
+          <p>公共账号1</p>
+          <p><strong>切换至其他公共账号</strong></p>
+          <form>
+            <select class="form-control account-select">
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+            </select>
+          </form>
+        </div>
         <ul class="nav nav-pills nav-stacked">
           <li><a href="./manager.html">账号管理</a></li>
           <li class="active"><a href="./elove.html">Elove管理</a></li>
@@ -106,39 +119,11 @@
       </div>
     </div>
     
-    <div class="modal fade" id="elove_count" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title" id="myModalLabel">感谢您使用Elove</h4>
-          </div>
-          <div class="modal-body">
-            <dl class="dl-horizontal">
-              <dt><h4><strong>未付款数量</strong></h4></dt>
-              <dd><h4>0 <strong> 套</strong></h4></dd>
-              <dt><h4><strong>未付款金额</strong></h4></dt>
-              <dd><h4>0 <strong> 元</strong></h4></dd>
-              <dt><h4><strong>累计消费金额</strong></h4></dt>
-              <dd><h4>0 <strong> 元</strong></h4></dd>
-            </dl>
-          </div>
-          <div class="modal-footer">
-            <p class="pull-left">如有问题，请致电：18221069563</p>
-          </div>
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-    
     <div id="footer">
       <div class="container text-center">
         <p class="text-muted credit">Copyright ? 2013 zhonghesoftware.com All Rights Reserved. 众合网络科技有限公司 版权所有</p>
       </div>
     </div><!-- footer -->
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="./js/store/bootstrap.min.js"></script>
     <script type="text/javascript">
     var myGeo = new BMap.Geocoder();  
     var map = new BMap.Map("baidumap");
