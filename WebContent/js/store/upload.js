@@ -14,7 +14,7 @@ $(document).ready(function(){
 	    }
 	});
 	
-	$('.video-file').change(function(){
+	/*$('.video-file').change(function(){
 	    var file = this.files[0];
 	    var type = file.type;
 	    //Your validation
@@ -22,7 +22,7 @@ $(document).ready(function(){
 	    	alert('请选择mp4或webm格式视频！');
 	    	this.parentElement.parentElement.parentElement.reset();
 	    }
-	});
+	});*/
 	
 	$('.image-multi').click(function(){
 	    var form = this.parentElement.parentElement.parentElement;

@@ -92,6 +92,7 @@ public class AuthPriceDAO {
 			return authid;
 		}		
 	}
+	
 	/**
 	 * @Title: getPriceBySid
 	 * @Description: 根据用户id获取相关联的收费权限详情

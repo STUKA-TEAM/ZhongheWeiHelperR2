@@ -82,7 +82,7 @@ public class RegisterController {
 			
 			int sid = userInfoDao.insertUserInfo(userInfo);
 			UserMessage message = new UserMessage();
-			if (sid > 0 ) {
+			if(sid > 0){
 				InputStream inputStream = RegisterController.class.getResourceAsStream("/defaultValue.properties");
 				Properties properties = new Properties();
 				BigDecimal elovePrice = null;
@@ -115,8 +115,7 @@ public class RegisterController {
 			}
 			
 			Gson gson = new Gson();
-			String response = gson.toJson(message);
-			
+			String response = gson.toJson(message);		
 			return response;
 		}
 	}

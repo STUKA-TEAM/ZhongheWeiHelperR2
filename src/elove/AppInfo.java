@@ -1,5 +1,7 @@
 package elove;
 
+import java.util.List;
+
 /**
  * @Title: AppInfo
  * @Description: 应用信息
@@ -8,6 +10,8 @@ package elove;
  * @date 2013年12月25日
  */
 public class AppInfo {
+	private int sid;
+	private List<String> authNameList;
 	private String appid;
 	private String wechatToken;
 	private String wechatName;
@@ -17,6 +21,30 @@ public class AppInfo {
 	private String industry;
 	private boolean isCharged;
 	
+	/**
+	 * @return the sid
+	 */
+	public int getSid() {
+		return sid;
+	}
+	/**
+	 * @param sid the sid to set
+	 */
+	public void setSid(int sid) {
+		this.sid = sid;
+	}
+	/**
+	 * @return the authNameList
+	 */
+	public List<String> getAuthNameList() {
+		return authNameList;
+	}
+	/**
+	 * @param authNameList the authNameList to set
+	 */
+	public void setAuthNameList(List<String> authNameList) {
+		this.authNameList = authNameList;
+	}
 	/**
 	 * @return the appid
 	 */
