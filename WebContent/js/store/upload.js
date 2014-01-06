@@ -125,8 +125,9 @@ $(document).ready(function(){
 	}
 	
 	function successProcess(id, link){
-		if(id == 'register'){
-			$('input[name="majorImage"]').val(link);
+		if(id == 'upload1'){
+			$('input[name=""]').val(link);
+			add_pic_preview(id, link);
 		}
 	}
 	
@@ -166,6 +167,12 @@ $(document).ready(function(){
 });
 
 var add_pic_preview = function(id, pic_path){
-  var pic_preview_html = '<img src="'+pic_path+'" class="pic-preview img-thumbnail img-responsive"/>';
-  $("#"+id).append(pic_preview_html);
+  var html_cut1='<img src="';
+  var html_cut2='" class="pic-preview img-thumbnail img-responsive"/>';
+  var pic_preview_html = html_cut1 + getImgPrePath()+pic_path + '_original.jpg' + html_cut2;
+  $("#"+id+"-images").append(pic_preview_html);
+};
+
+var getImgPrePath = function(){
+	return "http://localhost/resources/images/";
 };

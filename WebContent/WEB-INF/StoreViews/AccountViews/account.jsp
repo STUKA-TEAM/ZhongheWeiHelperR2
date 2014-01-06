@@ -204,7 +204,7 @@
                   <input type="text" class="form-control" id="info_mobile" placeholder="" value="${userInfo.cellPhone}">
                 </div>
               </div>
-              <form  class="form-group" role="form" enctype="multipart/form-data" id="register">
+              <form  class="form-group" role="form" enctype="multipart/form-data" id="upload1">
                 <label class="col-sm-3 control-label">介绍图片</label>
                 <div class="col-sm-9">
                   <input type="file" name="file" class="image-file hidden" onchange="ye.value=value" accept="image/*">
@@ -212,7 +212,25 @@
                   <input type="button" value="选择文件" onclick="file.click()" class="btn btn-sm btn-info">
                   <input type="button" value="上传" class="image-multi btn btn-sm btn-info">
                 </div>
-              </form>              
+              </form>  
+              <div class="form-group">
+                  <div class="col-md-7 col-md-offset-3">
+                    <div class="row" id="upload1-images">
+                      <div class="col-md-6">
+                        <img src="./img/manager/theme2.png" class="pic-preview img-thumbnail img-responsive"/>
+                      </div>
+                      <div class="col-md-6">
+                        <img src="./img/manager/theme2.png" class="pic-preview img-thumbnail img-responsive"/>
+                      </div>
+                      <div class="col-md-6">
+                        <img src="./img/manager/theme2.png" class="pic-preview img-thumbnail img-responsive"/>
+                      </div>
+                      <div class="col-md-6">
+                        <img src="./img/manager/theme2.png" class="pic-preview img-thumbnail img-responsive"/>
+                      </div>
+                    </div>
+                  </div>
+                </div>            
               <div class="form-group">
                 <label for="info_link" class="col-sm-3 control-label">官网链接</label>
                 <div class="col-sm-9">
