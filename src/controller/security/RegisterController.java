@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 
-import elove.dao.AuthPriceDAO;
+import register.dao.AuthPriceDAO;
 import register.UserInfo;
 import register.dao.UserInfoDAO;
 

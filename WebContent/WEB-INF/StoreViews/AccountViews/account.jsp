@@ -1,3 +1,7 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -5,6 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="zhonghe">
+    <c:set var="request" value="${pageContext.request}" />
+    <base href="${fn:replace(request.requestURL, request.requestURI, request.contextPath)}/" />
 
     <title>众合微信公共账号管理平台</title>
     <!-- Bootstrap core CSS -->
@@ -26,7 +32,7 @@
         <div class="navbar-collapse collapse">
           <div class="btn-group navbar-right nav-user">
             <button type="button" class="btn btn-user dropdown-toggle" data-toggle="dropdown">
-            <span class="glyphicon glyphicon-user"></span>  用户名 <span class="caret"></span>
+            <span class="glyphicon glyphicon-user"></span>  ${username}  <span class="caret"></span>
             </button>
             <ul class="dropdown-menu">
               <li><a href="#">设置</a></li>
@@ -81,38 +87,37 @@
             <div class="panel-heading">
               <div class="row">
                 <h4 class="col-md-9">基本信息</h4>
-                <a class="btn btn-info pull-right" data-toggle="modal" data-target="#info_edit">编辑</a>
+                <a class="btn btn-info pull-right" data-toggle="modal" data-target="#info_edit" onclick="setInitPoint()">编辑</a>
               </div>
             </div>
             <div class="panel-body">
               <dl class="dl-horizontal">
                 <dt>用户名：</dt>
-                <dd>众合微平台</dd>
+                <dd>${userInfo.username}</dd>
                 <dt>创建时间：</dt>
-                <dd>2013-12-31 0:10:56</dd>
+                <dd>${userInfo.createDate}</dd>
                 <dt>商户名称：</dt>
-                <dd>众合软件公司</dd>
+                <dd>${userInfo.storeName}</dd>
                 <dt>邮箱：</dt>
-                <dd>zhonghe@zhonghesoftware.com</dd>
+                <dd>${userInfo.email}</dd>
                 <dt>座机：</dt>
-                <dd>021-1234567</dd>
+                <dd>${userInfo.phone}</dd>
                 <dt>手机：</dt>
-                <dd>138-xxxx-xxxx</dd>
+                <dd>${userInfo.cellPhone}</dd>
                 <dt>介绍图片：</dt>
                 <dd>
                   <a href="#" class="thumbnail intro-image">
-                    <img src="./img/logo.png" alt="介绍图片">
+                    <img src="${userInfo.majorImage}" alt="介绍图片">
                   </a>
                 </dd>
                 <dt>官网链接：</dt>
-                <dd>www.zhonghesoftware.com</dd>
+                <dd><a target="blank" href="${userInfo.corpMoreInfoLink}">${userInfo.corpMoreInfoLink}</a></dd>
                 <dt>地址：</dt>
-                <dd>上海浦东新区张江</dd>
+                <dd>${userInfo.address}</dd>
               </dl>
             </div>
           </div>
         </div>
-        
         <div class="row">
           <div class="panel panel-info col-md-10 col-md-offset-1">
             <div class="panel-heading">
@@ -130,25 +135,22 @@
                 <th>微信平台接口配置</th>
                 <th></th>
               </tr>
+              <c:forEach items = "${appInfoList}" var = "appInfo" >
               <tr>
-                <td>公共账号1</td>
-                <td>XXXXXX</td>
-                <td>XXXXXX</td>
-                <td>非当前管理状态</td>
-                <td><a data-toggle="modal" data-target="#info_check">查看</a></td>
+                <td> ${appInfo.wechatName}</td>
+                <td>${appInfo.wechatOriginalId}</td>
+                <td>${appInfo.wechatNumber}</td>
+                <td>${appInfo.isCharged}</td>
+                <td><a data-toggle="modal" data-target="#${appInfo.appid}">查看</a>
+                
+                </td>
                 <td><a class="btn btn-sm btn-danger">删除</a></td>
               </tr>
-              <tr>
-                <td>公共账号2</td>
-                <td>XXXXXX</td>
-                <td>XXXXXX</td>
-                <td>当前管理状态</td>
-                <td><a href="" data-toggle="modal" data-target="#info_check">查看</a></td>
-                <td><a href="" class="btn btn-sm btn-danger">删除</a></td>
-              </tr>
+              </c:forEach>
             </table>
           </div>
         </div>
+        
         <div class="row">
           <div class="panel panel-info col-md-10 col-md-offset-1">
             <div class="panel-heading"><h4>权限信息</h4></div>
@@ -157,15 +159,115 @@
                 <th>权限名称</th>
                 <th>单价</th>
               </tr>
+              <c:forEach items = "${priceList}" var = "authPrice" >
               <tr>
-                <td>Elove</td>
-                <td>75元</td>
+                <td>${authPrice.authName}</td>
+                <td>${authPrice.price}元</td>
               </tr>
+              </c:forEach>
             </table>
           </div>
         </div>
+        
       </div>
     </div>
+        <div class="modal fade" id="info_edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">基本信息</h4>
+          </div>
+          <div class="modal-body">
+            
+              <div class="form-group">
+                <label for="info_name" class="col-sm-3 control-label">商户名称</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="info_name" placeholder="" value="${userInfo.storeName}">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="info_email" class="col-sm-3 control-label">邮箱</label>
+                <div class="col-sm-9">
+                  <input type="email" class="form-control" id="info_email" placeholder="" value="${userInfo.email}">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="info_phone" class="col-sm-3 control-label">座机</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="info_phone" placeholder="" value="${userInfo.phone}">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="info_mobile" class="col-sm-3 control-label">手机</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="info_mobile" placeholder="" value="${userInfo.cellPhone}">
+                </div>
+              </div>
+              <form  class="form-horizontal" role="form" enctype="multipart/form-data" id="register">
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">介绍图片</label>
+                  <div class="image-upload col-sm-9">
+	                <input type="file" name="file" class="image-file hidden" onchange="ye.value=value" accept="image/*">
+	                <input type="text" name=ye class="form-control file-path">
+	                <input type="button" value="选择文件" onclick="file.click()" class="btn btn-sm btn-info">
+	                <input type="button" value="上传" class="image-multi btn btn-sm btn-info">
+                  </div>
+                </div>
+              </form>              
+              <div class="form-group">
+                <label for="info_link" class="col-sm-3 control-label">官网链接</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="info_link" placeholder="" value="${userInfo.corpMoreInfoLink}">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="info_addr" class="col-sm-3 control-label">公司地址</label>
+                <div class="col-sm-9">
+                  <div class="input-group">
+                    <input type="text" class="form-control" id="info_addr" placeholder="" value="${userInfo.address}">
+                    <input type="hidden" id="lng" value="${userInfo.lng}">
+                    <input type="hidden" id="lat" value="${userInfo.lat}">
+                    <span class="input-group-btn">
+                    <button class="btn btn-info" type="button" onclick="setPoint()">定位</button>
+                    </span>
+                  </div><!-- /input-group -->
+                </div>
+              </div>
+              <div id="baidumap"></div>
+            
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-primary">确定</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    
+    <c:forEach items = "${appInfoList}" var = "appInfo" >
+    <div class="modal fade" id="${appInfo.appid}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">查看公共账号接口连接</h4>
+          </div>
+          <div class="modal-body">
+            <dl class="dl-horizontal">
+              <dt><h4><strong>微信接口URL:</strong></h4></dt>
+              <dd><pre>${appInfo.appid}</pre></dd>
+              <dt><h4><strong>微信接口Token:</strong></h4></dt>
+              <dd><pre>${appInfo.wechatToken}</pre></dd>
+            </dl>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    </c:forEach>
     
     <div class="modal fade" id="related" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
@@ -222,98 +324,6 @@
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
     
-    <div class="modal fade" id="info_edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title" id="myModalLabel">基本信息</h4>
-          </div>
-          <div class="modal-body">
-            <form class="form-horizontal" role="form">
-              <div class="form-group">
-                <label for="info_name" class="col-sm-3 control-label">商户名称</label>
-                <div class="col-sm-9">
-                  <input type="text" class="form-control" id="info_name" placeholder="">
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="info_email" class="col-sm-3 control-label">邮箱</label>
-                <div class="col-sm-9">
-                  <input type="email" class="form-control" id="info_email" placeholder="">
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="info_phone" class="col-sm-3 control-label">座机</label>
-                <div class="col-sm-9">
-                  <input type="text" class="form-control" id="info_phone" placeholder="">
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="info_mobile" class="col-sm-3 control-label">手机</label>
-                <div class="col-sm-9">
-                  <input type="text" class="form-control" id="info_mobile" placeholder="">
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-3 control-label">介绍图片</label>
-                <div class="col-sm-9">
-                  <input type="file" name="file" class="image-file hidden" onchange="ye.value=value" accept="image/*">
-                  <input type="text" name=ye class="form-control file-path">
-                  <input type="button" value="选择文件" onclick="file.click()" class="btn btn-sm btn-info">
-                  <input type="button" value="上传" class="image-multi btn btn-sm btn-info">
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="info_link" class="col-sm-3 control-label">官网链接</label>
-                <div class="col-sm-9">
-                  <input type="text" class="form-control" id="info_link" placeholder="">
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="info_addr" class="col-sm-3 control-label">公司地址</label>
-                <div class="col-sm-9">
-                  <div class="input-group">
-                    <input type="text" class="form-control" id="info_addr" placeholder="">
-                    <span class="input-group-btn">
-                      <button class="btn btn-info" type="button">定位</button>
-                    </span>
-                  </div><!-- /input-group -->
-                </div>
-              </div>
-              <div id="baidumap"></div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-primary">确定</button>
-          </div>
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-    
-    <div class="modal fade" id="info_check" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title" id="myModalLabel">查看公共账号接口连接</h4>
-          </div>
-          <div class="modal-body">
-            <dl class="dl-horizontal">
-              <dt><h4><strong>微信接口URL:</strong></h4></dt>
-              <dd><pre>http://www.xxx.com/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</pre></dd>
-              <dt><h4><strong>微信接口Token:</strong></h4></dt>
-              <dd><pre>xxxxxxxxxxxxxxxxxxxxxx</pre></dd>
-            </dl>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-          </div>
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-    
     <div id="footer">
       <div class="container text-center">
         <p class="text-muted credit">Copyright ? 2013 zhonghesoftware.com All Rights Reserved. 众合网络科技有限公司 版权所有</p>
@@ -329,10 +339,21 @@
     var map = new BMap.Map("baidumap");
     map.centerAndZoom("上海", 12);  
     map.enableScrollWheelZoom();
+    function setInitPoint(){
+    	map.clearOverlays();
+        myGeo.getPoint( "${userInfo.address}", function(point){  
+        if (point) { 	 
+           map.centerAndZoom(point, 16);
+           document.getElementById("lng").value = point.lng;
+           document.getElementById("lat").value = point.lat;  
+           map.addOverlay(new BMap.Marker(point));  
+           map.enableScrollWheelZoom(); 
+         }  
+        }, "上海市");
+    }
     function setPoint(){
-    //"上海市长宁区天山路318号"
     map.clearOverlays();
-    var address = document.getElementById("address_input").value;
+    var address = document.getElementById("info_addr").value;
     myGeo.getPoint(address, function(point){  
     if (point) { 	 
        map.centerAndZoom(point, 16);

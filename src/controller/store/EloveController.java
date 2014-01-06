@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import elove.EloveInfo;
-import elove.dao.AuthPriceDAO;
+import register.dao.AuthPriceDAO;
 import elove.dao.EloveInfoDAO;
 import elove.dao.EloveWizardDAO;
 import security.User;

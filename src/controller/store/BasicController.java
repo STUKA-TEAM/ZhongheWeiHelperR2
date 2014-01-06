@@ -28,10 +28,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 
-import elove.AppInfo;
-import elove.AuthPrice;
-import elove.dao.AppInfoDAO;
-import elove.dao.AuthPriceDAO;
+import register.AppInfo;
+import register.AuthPrice;
+import register.dao.AppInfoDAO;
+import register.dao.AuthPriceDAO;
 import elove.dao.EloveWizardDAO;
 import register.UserInfo;
 import register.dao.UserInfoDAO;
@@ -94,10 +94,10 @@ public class BasicController {
 	    List<AppInfo> appInfoList = appInfoDao.getAppInfoBySid(user.getSid());
 	    if (appInfoList != null) {
 	    	if (appInfoList.size() > 0) {
-		    	appInfoList.get(0).setCharged(true);
+		    	appInfoList.get(0).setIsCharged(true);
 		    	response.addCookie(new Cookie("appid", appInfoList.get(0).getAppid()));
 				for (int i = 1; i < appInfoList.size(); i++) {
-					appInfoList.get(i).setCharged(false);
+					appInfoList.get(i).setIsCharged(false);
 				}
 			}else {
 				response.addCookie(new Cookie("appid", null));

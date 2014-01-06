@@ -33,18 +33,6 @@
     <div class="container">
       <div class="row">
         <div class="well well-lg col-sm-8 col-sm-offset-2 row">
-          <form class="col-sm-10 col-sm-offset-1 form-horizontal" enctype="multipart/form-data" id="register">
-            <div class="form-group">
-              <label class="col-sm-2 control-label">宣传图片</label>
-              <div class="image-upload">
-                <input type="file" name="file" class="image-file hidden" onchange="ye.value=value" accept="image/*">
-                <input type="text" name=ye class="form-control file-path">
-                <input type="button" value="选择文件" onclick="file.click()" class="btn btn-sm btn-success">
-                <input type="button" value="上传" class="image-multi btn btn-sm btn-success">
-              </div>
-            </div>
-          </form>
-        
           <form:form class="col-sm-10 col-sm-offset-1 form-horizontal" method="Post" action = "security/register"
   modelAttribute = "userInfo">
             <form:input type="hidden" name="majorImage" path="majorImage" />

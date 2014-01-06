@@ -10,7 +10,12 @@
    <!-- <bean id="OrderDishDAO" class="TestJDBCTemplate.OrderDishDAO"> -->
       <!-- <property name="dataSource"  ref="dataSource" /> -->    
    <!-- </bean> -->
-   
+    <bean id="AppInfoDAO" class="register.dao.AppInfoDAO">
+      <property name="dataSource"  ref="dataSource" />    
+    </bean>
+    <bean id="AuthPriceDAO" class="register.dao.AuthPriceDAO">
+      <property name="dataSource"  ref="dataSource" />    
+    </bean>
     <bean id="UserInfoDAO" class="register.dao.UserInfoDAO">
 	    <property name="dataSource" ref="dataSource" />
     </bean>
