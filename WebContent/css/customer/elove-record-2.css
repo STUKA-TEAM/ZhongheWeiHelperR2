@@ -1,11 +1,14 @@
-body {
-  background-image: url(../../img/elove/footer_bg_2.jpg);
+.record-bg {
+  background-image: url(../../img/elove/records_title_bg.jpg), url(../../img/elove/footer_bg_2.jpg);
   background-repeat: no-repeat;
-  background-position: bottom;
+  background-position: top, bottom;
 }
 .video {
-  margin: 20px auto;
+  margin: 0 auto;
   width: 90%;
+}
+.video-container {
+  padding-bottom: 30px;
 }
 .photo-list {
   display: block;
