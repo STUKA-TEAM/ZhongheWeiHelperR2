@@ -33,24 +33,6 @@ div {
 .open .dropdown-toggle.btn-elove {
   background-image: none;
 }
-.btn-elove.disabled,
-.btn-elove[disabled],
-fieldset[disabled] .btn-elove,
-.btn-elove.disabled:hover,
-.btn-elove[disabled]:hover,
-fieldset[disabled] .btn-elove:hover,
-.btn-elove.disabled:focus,
-.btn-elove[disabled]:focus,
-fieldset[disabled] .btn-elove:focus,
-.btn-elove.disabled:active,
-.btn-elove[disabled]:active,
-fieldset[disabled] .btn-elove:active,
-.btn-elove.disabled.active,
-.btn-elove[disabled].active,
-fieldset[disabled] .btn-elove.active {
-  background-color: #428bca;
-  border-color: #357ebd;
-}
 .sidebar {
   position: fixed;
   top: 0;
@@ -84,13 +66,11 @@ fieldset[disabled] .btn-elove.active {
   margin-bottom: 0px;
   border-radius: 0px;
   width: 100%;
-  color: #777777;
   font-size: 16px;
 }
 .nav-pills > li.active > a,
 .nav-pills > li.active > a:hover,
 .nav-pills > li.active > a:focus {
-  color: #1ABC9C;
   background-color: #fef7f9;
 }
 .nav-pills > li + li {
@@ -132,22 +112,22 @@ fieldset[disabled] .btn-elove.active {
   padding: 5px 0 10px 40px;
 }
 .sidebar-encount {
-  background: url(../../img/elove/encount_logo.png) no-repeat;
+  background: url(../../img/elove/encount_logo_1.png) no-repeat;
 }
 .sidebar-photo {
-  background: url(../../img/elove/photo_logo.png) no-repeat;
+  background: url(../../img/elove/photo_logo_1.png) no-repeat;
 }
 .sidebar-info {
-  background: url(../../img/elove/info_logo.png) no-repeat;
+  background: url(../../img/elove/info_logo_1.png) no-repeat;
 }
 .sidebar-record {
-  background: url(../../img/elove/record_logo.png) no-repeat;
+  background: url(../../img/elove/record_logo_1.png) no-repeat;
 }
 .sidebar-intr {
-  background: url(../../img/elove/intr_logo.png) no-repeat;
+  background: url(../../img/elove/intr_logo_1.png) no-repeat;
 }
 .sidebar-viewAccount {
-  background: url(../../img/elove/viewAcc_logo.png) no-repeat;
+  background: url(../../img/elove/viewAcc_logo_1.png) no-repeat;
 }
 .sidebar-guide {
   position: fixed;

@@ -5,7 +5,7 @@
 
 
     <div class="container-fulid">
-      <img src="img/elove/records_title.png" class="img-responsive" alt="title background"/>
+      <img src="img/elove/records_title_2.jpg" class="img-responsive" alt="title background"/>
     </div><!-- title -->
     
     <div class="container-fulid">

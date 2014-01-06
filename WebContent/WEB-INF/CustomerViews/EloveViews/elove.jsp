@@ -14,14 +14,14 @@
     <title>Elove</title>
     
     <link href="css/customer/bootstrap.min.css" rel="stylesheet">
-    <link href="css/customer/zhonghe-elove-1.css" rel="stylesheet">
+    <link href="css/customer/zhonghe-elove-2.css" rel="stylesheet">
     
-    <link href="css/customer/elove-story-1.css" rel="stylesheet">
+    <link href="css/customer/elove-story-2.css" rel="stylesheet">
     
-    <link href="css/customer/elove-record-1.css" rel="stylesheet">
+    <link href="css/customer/elove-record-2.css" rel="stylesheet">
     <link href="css/customer/video-js.min.css" rel="stylesheet">
 
-    <link href="css/customer/elove-info-1.css" rel="stylesheet">
+    <link href="css/customer/elove-info-2.css" rel="stylesheet">
   </head>
   <body>
     <div id="content-container">
@@ -31,12 +31,12 @@
       <div id="baidumap" style="visibility:hidden;"><div id="pic"></div></div>
     </div>
     <div onclick="sidebar_up()">
-      <a class="sidebar-guide" ><img src="img/elove/sidebar_guide.png" /></a>
+      <a class="sidebar-guide" ><img src="img/elove/sidebar_guide_2.png" /></a>
     </div>
     <div class="sidebar-bg sidebar-bg-miss hidden" onclick="sidebar_dismiss()"></div>
     <div id="sidebar_list" class="sidebar hidden" state="down">
       <div id="audio" class="audio" onclick="audio_switch()">
-        <img src="img/elove/audio_on.png" class="audio-logo"/>
+        <img src="img/elove/audio_on_2.png" class="audio-logo"/>
         <p id="audio-p">音效开启</p>
       </div>
       <ul class="nav nav-pills">
@@ -55,7 +55,7 @@
     </div>
     <script type="text/javascript" src="js/customer/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=PWFniUmG9SMyIVlp7Nm24MRC"></script>
-    <script type="text/javascript" src="js/customer/elove.js"></script>
+    <script type="text/javascript" src="js/customer/elove-2.js"></script>
     <script type="text/javascript" src="js/customer/modal.min.js"></script>    
     <script type="text/javascript" src="js/customer/video.js"></script>  
   </body>
