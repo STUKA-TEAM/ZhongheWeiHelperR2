@@ -6,8 +6,8 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
-import register.CommonValidationTools;
 import register.UserInfo;
+import tools.CommonValidationTools;
 
 @Component("registerValidator")
 public class RegisterValidation implements Validator{
