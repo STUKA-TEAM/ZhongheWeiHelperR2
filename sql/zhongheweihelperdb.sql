@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 05, 2014 at 08:52 AM
+-- Generation Time: Jan 07, 2014 at 01:30 PM
 -- Server version: 5.5.32
 -- PHP Version: 5.4.19
 
@@ -251,6 +251,19 @@ CREATE TABLE IF NOT EXISTS `role_authority` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `storeimage`
+--
+
+CREATE TABLE IF NOT EXISTS `storeimage` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `sid` int(11) NOT NULL COMMENT '所属用户id',
+  `imagePath` varchar(80) NOT NULL COMMENT '图片路径（未完全）',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `storeuser`
 --
 
@@ -265,21 +278,22 @@ CREATE TABLE IF NOT EXISTS `storeuser` (
   `phone` varchar(15) DEFAULT NULL COMMENT '座机号',
   `cellPhone` varchar(14) NOT NULL DEFAULT '' COMMENT '手机号',
   `address` varchar(40) NOT NULL DEFAULT '' COMMENT '地址',
-  `majorImage` varchar(80) DEFAULT NULL COMMENT '介绍图片',
   `corpMoreInfoLink` varchar(80) DEFAULT NULL COMMENT '了解更多链接',
   `lng` decimal(12,6) NOT NULL COMMENT '地址经度',
   `lat` decimal(12,6) NOT NULL COMMENT '地址纬度',
   PRIMARY KEY (`sid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='众合微信助手平台账户' AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='众合微信助手平台账户' AUTO_INCREMENT=13 ;
 
 --
 -- Dumping data for table `storeuser`
 --
 
-INSERT INTO `storeuser` (`sid`, `roleid`, `username`, `password`, `createDate`, `storeName`, `email`, `phone`, `cellPhone`, `address`, `majorImage`, `corpMoreInfoLink`, `lng`, `lat`) VALUES
-(1, 1, 'byc', '$2a$10$w2a0e8OsEtJ0dPYT//Sc0Oj1NneShu5iXBTppGKi47peA75jtXzVu', '2013-12-16 04:16:00', 'Zhonghe', '1311867063@qq.com', NULL, '13585563683', '浦东新区盛夏路58弄', NULL, 'www.baidu.com', '0.000000', '0.000000'),
-(9, 1, 'ben', '$2a$10$sEGe34AJc7BXrX5961cTUurSDs60uiLx3I1J7zul8JsrXYAtlUlqG', '2013-12-30 08:47:47', 'test', '1311867063@qq.com', '', '13585563683', '江苏南通海安', '', 'www.baidu.com', '120.473927', '32.553985'),
-(10, 1, 'bai', '$2a$10$aaFHwN5KpVvv0NLnDIi4..PjtriVOwTyYN5N/rO5oKFwaHs6KLhe.', '2013-12-30 09:55:57', 'test', '1311867063@qq.com', '', '13585563683', '江苏南通海安', '', 'www.baidu.com', '120.473927', '32.553985');
+INSERT INTO `storeuser` (`sid`, `roleid`, `username`, `password`, `createDate`, `storeName`, `email`, `phone`, `cellPhone`, `address`, `corpMoreInfoLink`, `lng`, `lat`) VALUES
+(1, 1, 'byc', '$2a$10$w2a0e8OsEtJ0dPYT//Sc0Oj1NneShu5iXBTppGKi47peA75jtXzVu', '2013-12-16 04:16:00', 'Zhonghe', '1311867063@qq.com', NULL, '13585563683', '浦东新区盛夏路58弄', 'www.baidu.com', '0.000000', '0.000000'),
+(9, 1, 'ben', '$2a$10$sEGe34AJc7BXrX5961cTUurSDs60uiLx3I1J7zul8JsrXYAtlUlqG', '2013-12-30 08:47:47', 'test', '1311867063@qq.com', '', '13585563683', '江苏南通海安', 'www.baidu.com', '120.473927', '32.553985'),
+(10, 1, 'bai', '$2a$10$aaFHwN5KpVvv0NLnDIi4..PjtriVOwTyYN5N/rO5oKFwaHs6KLhe.', '2013-12-30 09:55:57', 'test', '1311867063@qq.com', '', '13585563683', '江苏南通海安', 'www.baidu.com', '120.473927', '32.553985'),
+(11, 1, 'lubovabc', '$2a$10$wzRCgNwIAdGKdo62j6monOGIElg6cXgtiRNe4Ew5MhTzYDielSt.u', '2014-01-07 05:33:40', 'test', '1311867063@qq.com', '', '13585563683', '江苏南通海安', 'http://www.baidu.com', '120.473927', '32.553985'),
+(12, 1, 'lubovbyc', '$2a$10$RejbON5oLg.w6fv1AhB6nOATWk1heZbvaHBlyX3JF1OnKaTAZAA2.', '2014-01-07 05:35:06', 'test', '1311867063@qq.com', '', '13585563683', '江苏南通海安', 'http://www.baidu.com', '120.473927', '32.553985');
 
 -- --------------------------------------------------------
 
@@ -313,7 +327,7 @@ CREATE TABLE IF NOT EXISTS `store_auth_price` (
   `authid` int(11) NOT NULL COMMENT '权限id',
   `price` decimal(15,2) NOT NULL COMMENT '单价',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `store_auth_price`
@@ -322,7 +336,9 @@ CREATE TABLE IF NOT EXISTS `store_auth_price` (
 INSERT INTO `store_auth_price` (`id`, `sid`, `authid`, `price`) VALUES
 (1, 1, 6, '30.00'),
 (2, 9, 6, '100.00'),
-(3, 10, 6, '100.00');
+(3, 10, 6, '100.00'),
+(4, 11, 6, '100.00'),
+(5, 12, 6, '100.00');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

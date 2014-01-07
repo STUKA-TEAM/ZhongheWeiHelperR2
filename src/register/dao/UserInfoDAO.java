@@ -41,7 +41,7 @@ public class UserInfoDAO {
 	 */
 	public int insertUserInfo(final UserInfo userInfo){
 		int result = 0;
-		final String SQL = "INSERT INTO storeuser VALUES (default, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		final String SQL = "INSERT INTO storeuser VALUES (default, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	
 		KeyHolder kHolder = new GeneratedKeyHolder();		
 		result = jdbcTemplate.update(new PreparedStatementCreator() {
@@ -57,10 +57,9 @@ public class UserInfoDAO {
 	            ps.setString(7, userInfo.getPhone());
 	            ps.setString(8, userInfo.getCellPhone());
 	            ps.setString(9, userInfo.getAddress());
-	            ps.setString(10, userInfo.getMajorImage());
-	            ps.setString(11, userInfo.getCorpMoreInfoLink());
-	            ps.setBigDecimal(12, userInfo.getLng());
-	            ps.setBigDecimal(13, userInfo.getLat());
+	            ps.setString(10, userInfo.getCorpMoreInfoLink());
+	            ps.setBigDecimal(11, userInfo.getLng());
+	            ps.setBigDecimal(12, userInfo.getLat());
 	            return ps;
 	        }
 	    }, kHolder);
@@ -91,11 +90,11 @@ public class UserInfoDAO {
 	public int updateUserInfo(UserInfo userInfo){
 		String SQL = "UPDATE storeuser SET password = ?, "
 				+ "storeName = ?, email = ?, phone = ?, cellPhone = ?, "
-				+ "address = ?, majorImage = ?, corpMoreInfoLink = ?, "
+				+ "address = ?, corpMoreInfoLink = ?, "
 				+ "lng = ?, lat = ? WHERE sid = ?";
 		int effected = jdbcTemplate.update(SQL, new Object[]{ userInfo.getPassword(), 
 				userInfo.getStoreName(), userInfo.getEmail(), userInfo.getPhone(), 
-				userInfo.getCellPhone(), userInfo.getAddress(), userInfo.getMajorImage(), 
+				userInfo.getCellPhone(), userInfo.getAddress(), 
 				userInfo.getCorpMoreInfoLink(), userInfo.getLng(), 
 				userInfo.getLat(), userInfo.getSid()});
 		return effected;
@@ -130,7 +129,6 @@ public class UserInfoDAO {
 			userInfo.setPhone(rs.getString("phone"));
 			userInfo.setCellPhone(rs.getString("cellPhone"));
 			userInfo.setAddress(rs.getString("address"));
-			userInfo.setMajorImage(rs.getString("majorImage"));
 			userInfo.setCorpMoreInfoLink(rs.getString("corpMoreInfoLink"));
 			return userInfo;
 		}

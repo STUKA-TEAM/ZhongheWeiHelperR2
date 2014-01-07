@@ -5,8 +5,6 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Properties;
 
-import message.UserMessage;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -17,9 +15,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.google.gson.Gson;
 
 import register.dao.AuthPriceDAO;
 import register.UserInfo;
@@ -59,7 +54,6 @@ public class RegisterController {
 	 * @return
 	 */
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	@ResponseBody
 	public String processRegister(UserInfo userInfo, BindingResult result, Model model){
 		registerValidation.validate(userInfo, result);
 		model.addAttribute("userInfo", userInfo);
@@ -79,44 +73,34 @@ public class RegisterController {
 			userInfo.setPassword(encoded);
 			Timestamp current = new Timestamp(System.currentTimeMillis());
 			userInfo.setCreateDate(current);
-			
-			int sid = userInfoDao.insertUserInfo(userInfo);
-			UserMessage message = new UserMessage();
-			if(sid > 0){
-				InputStream inputStream = RegisterController.class.getResourceAsStream("/defaultValue.properties");
-				Properties properties = new Properties();
-				BigDecimal elovePrice = null;
-				try {
-					properties.load(inputStream);
-					elovePrice = new BigDecimal(Double.parseDouble((String)properties.get("defaultElovePrice")));
-				} catch (Exception e) {
-					System.out.println(e.getMessage());
+			if(userInfo.getCorpMoreInfoLink() != null){
+				String webSite = userInfo.getCorpMoreInfoLink();
+				if (!webSite.startsWith("http")) {
+					webSite = "http://".concat(webSite);
+					userInfo.setCorpMoreInfoLink(webSite);
 				}
-				
-				int recordid = 0;
-				try {
-					recordid = authPriceDao.insertPrice(sid, "elove", elovePrice);
-				} catch (Exception e) {
-					System.out.println(e.getMessage());
-				}
-				
-				if (recordid > 0 ) {
-					message.setStatus(true);
-					message.setMessage("用户注册成功！");
-					message.setUsername(userInfo.getUsername());
-				}else {
-					userInfoDao.deleteUserInfo(sid);
-					message.setStatus(false);
-					message.setMessage("用户注册失败！系统错误");
-				}				
-			}else {
-				message.setStatus(false);
-				message.setMessage("用户注册失败！请检查注册信息");
 			}
 			
-			Gson gson = new Gson();
-			String response = gson.toJson(message);		
-			return response;
+			InputStream inputStream = RegisterController.class.getResourceAsStream("/defaultValue.properties");
+			Properties properties = new Properties();
+			BigDecimal elovePrice = null;
+			try {
+				properties.load(inputStream);
+				elovePrice = new BigDecimal(Double.parseDouble((String)properties.get("defaultElovePrice")));
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
+			
+			if(elovePrice != null){
+				int sid = userInfoDao.insertUserInfo(userInfo);
+				authPriceDao.insertPrice(sid, "elove", elovePrice);
+				
+				return "registerSuccess";
+			}
+			else {
+				System.out.println("elovePrice配置信息丢失");
+				return "register";
+			}
 		}
 	}
 }

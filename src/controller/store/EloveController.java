@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import elove.EloveInfo;
 import register.dao.AuthPriceDAO;
 import elove.dao.EloveInfoDAO;
-import elove.dao.EloveWizardDAO;
 import security.User;
 
 /**
@@ -51,9 +50,11 @@ public class EloveController {
 			else {
 				ApplicationContext context = 
 						new ClassPathXmlApplicationContext("All-Modules.xml");
+				AuthPriceDAO authPriceDao = (AuthPriceDAO) context.getBean("AuthPriceDAO");
 				EloveInfoDAO eloveInfoDao = (EloveInfoDAO) context.getBean("EloveInfoDAO");
 				((ConfigurableApplicationContext)context).close();
 				
+				//get elove information
 				List<EloveInfo> infoList = eloveInfoDao.getEloveInfoList(appid);
 				if (infoList != null) {
 					for (int i = 0; i < infoList.size(); i++) {
@@ -67,34 +68,8 @@ public class EloveController {
 				}				
 				model.addAttribute("infoList", infoList);
 				
-				return "EloveViews/eloveList";
-			}
-		}
-    }
-	
-	/**
-	 * @description: 消费记录统计
-	 * @param model
-	 * @param appid
-	 * @return
-	 */
-	@RequestMapping(value = "/elove/consume", method = RequestMethod.GET)
-    public String getConsumeRecord(Model model, @CookieValue(value = "appid", required = false) String appid) {
-		if (appid == null) {
-			return "redirect:/store/account";     //异常
-		}
-		else {
-			if (appid == "") {
-				return "forward:/store/account";   //需先创建app
-			}
-			else {
-				ApplicationContext context = 
-						new ClassPathXmlApplicationContext("All-Modules.xml");
-				EloveWizardDAO eloveWizardDao = (EloveWizardDAO) context.getBean("EloveWizardDAO");
-				AuthPriceDAO authPriceDao = (AuthPriceDAO) context.getBean("AuthPriceDAO");
-				((ConfigurableApplicationContext)context).close();
-				
-				Integer notPayNumber = eloveWizardDao.getConsumeRecord(appid);
+				//get consume information
+				Integer notPayNumber = eloveInfoDao.getConsumeRecord(appid);
 				model.addAttribute("notPayNumber", notPayNumber);
 				
 				Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -106,7 +81,7 @@ public class EloveController {
 				}
 				model.addAttribute("debt", debt);
 				
-				int sum = eloveWizardDao.getEloveNum(appid);
+				int sum = eloveInfoDao.getEloveNum(appid);
 				BigDecimal sumConsume = null;
 				if (price != null) {
 					sumConsume = price.multiply(new BigDecimal(sum));
@@ -124,8 +99,8 @@ public class EloveController {
 				}
 				model.addAttribute("phoneNum", phoneNum);
 				
-				return "EloveViews/consume";
+				return "EloveViews/detail";
 			}
 		}
-    }	
+    }
 }

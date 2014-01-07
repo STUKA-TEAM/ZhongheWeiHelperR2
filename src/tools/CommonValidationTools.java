@@ -1,5 +1,6 @@
-package register;
+package tools;
 
+import java.math.BigDecimal;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -37,5 +38,12 @@ public class CommonValidationTools {
 		
 		int count = userInfoDao.getUserCount(username);
 		return count == 0;
+	}
+	
+	public boolean checkLocation(BigDecimal lng, BigDecimal lat){
+		if (lng == null || lat == null) {
+			return false;
+		}
+		return true;
 	}
 }

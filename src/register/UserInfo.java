@@ -2,6 +2,7 @@ package register;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * @Title: UserInfo
@@ -22,7 +23,7 @@ public class UserInfo {
 	private String phone;
 	private String cellPhone;
 	private String address;
-	private String majorImage;
+	private List<String> imageList;
 	private String corpMoreInfoLink;
 	private BigDecimal lng;
 	private BigDecimal lat;
@@ -160,16 +161,16 @@ public class UserInfo {
 		this.address = address;
 	}
 	/**
-	 * @return the majorImage
+	 * @return the imageList
 	 */
-	public String getMajorImage() {
-		return majorImage;
+	public List<String> getImageList() {
+		return imageList;
 	}
 	/**
-	 * @param majorImage the majorImage to set
+	 * @param imageList the imageList to set
 	 */
-	public void setMajorImage(String majorImage) {
-		this.majorImage = majorImage;
+	public void setImageList(List<String> imageList) {
+		this.imageList = imageList;
 	}
 	/**
 	 * @return the corpMoreInfoLink

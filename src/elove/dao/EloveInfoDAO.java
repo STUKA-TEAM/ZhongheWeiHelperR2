@@ -58,4 +58,46 @@ public class EloveInfoDAO {
 			return eloveInfo;
 		}		
 	}
+	
+	/**
+	 * @title: getEloveNum
+	 * @description: 获取一个appid下的所有elove数量
+	 * @param appid
+	 * @return
+	 */
+	public int getEloveNum(String appid){
+		String SQL = "SELECT COUNT(*) FROM elove WHERE appid = ?";
+		int count = 0;
+		try {
+			count = jdbcTemplate.queryForObject(SQL, Integer.class, appid);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return count;
+	}
+	
+	/**
+	 * @title: getConsumeRecord
+	 * @description: 查询elove消费情况
+	 * @param appid
+	 * @return
+	 */
+	public Integer getConsumeRecord(String appid){
+		String SQL = "SELECT notPayNumber FROM elove_consume_record WHERE appid = ?";
+		Integer notPayNumber = null;
+		try {
+			notPayNumber = jdbcTemplate.queryForObject(SQL, new Object[]{appid}, new NotPayNumberMapper());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return notPayNumber;
+	}
+	
+	private static final class NotPayNumberMapper implements RowMapper<Integer>{
+		@Override
+		public Integer mapRow(ResultSet rs, int arg1) throws SQLException {
+			Integer notPayNumber = rs.getInt("notPayNumber");
+			return notPayNumber;
+		}		
+	}
 }

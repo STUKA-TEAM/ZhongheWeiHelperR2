@@ -45,7 +45,7 @@ public class EloveWizardController {
 	public String initialCreate(final Model model){
 		EloveWizard eloveWizard = new EloveWizard();
 		model.addAttribute("eloveWizard", eloveWizard);
-		return "EloveViews/stepContainer";
+		return "EloveViews/wizardContainer";
 	}
 	
 	@RequestMapping(value = "/initial/edit", method = RequestMethod.GET)
@@ -58,7 +58,7 @@ public class EloveWizardController {
 		
 		EloveWizard eloveWizard = eloveWizardDao.getElove(eloveid);
 		model.addAttribute("eloveWizard", eloveWizard);
-		return "EloveViews/stepContainer";
+		return "EloveViews/wizardContainer";
 	}
 	
 	@RequestMapping(value = "/backstep1", method = RequestMethod.GET)
