@@ -1,0 +1,55 @@
+.content-bg {
+  background-image: url(../../img/elove/title_bg_2.jpg), url(../../img/elove/footer_bg_2.jpg);
+  background-repeat: no-repeat;
+  background-position: top, bottom;
+}
+.photo-container {
+  padding-bottom: 50px;
+  
+}
+.photo {
+  float: none;
+  width: 50%;
+  min-width: 180px;
+  height: auto;
+  background-color: #f9f9f9;
+  padding: 8px 7px;
+  margin: 0 auto;
+}
+.couple-name {
+  color: #ed95ae;
+  font-size: 18px;
+  margin: 7px auto 0 auto;
+}
+.couple-name > img {
+  width: 28px;
+  height: auto;
+}
+.photo-list {
+  float: none;
+  width: 80%;
+  min-width: 300px;
+  background-color: #fffbfb;
+  padding: 8px 7px;
+  margin: 60px auto 5px auto;
+}
+.guide{
+  position: fixed;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  display: block;
+  opacity: 0.7;
+  background-color: #3D3D3D;
+  color: #FFF;
+}
+.guide-pic{
+  position: fixed;
+  top: 0px;
+  right: 0px;
+  display: block;
+}
+.btn-story {
+  width: 35%;
+  margin: 10px;
+}

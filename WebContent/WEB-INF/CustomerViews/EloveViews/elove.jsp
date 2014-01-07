@@ -30,8 +30,9 @@
     <div class="container-fulid">
       <div id="baidumap" style="visibility:hidden;"><div id="pic"></div></div>
     </div>
-    <div onclick="sidebar_up()">
-      <a class="sidebar-guide" ><img src="img/elove/sidebar_guide_2.png" /></a>
+    <div class="sidebar-guide" onclick="sidebar_up()">
+      <img src="img/elove/sidebar_guide_2.png" class="sidebar-guide-logo"/>
+      <p class="sidebar-guide-tip"><strong>点点我~</strong></p>
     </div>
     <div class="sidebar-bg sidebar-bg-miss hidden" onclick="sidebar_dismiss()"></div>
     <div id="sidebar_list" class="sidebar hidden" state="down">

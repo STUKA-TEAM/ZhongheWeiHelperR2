@@ -1,4 +1,9 @@
+var sidebar_tip = "true";
 var sidebar_up = function(){
+  if(sidebar_tip=="true"){
+    sidebar_tip = "false";
+	$(".sidebar-guide-tip").addClass("fade");
+  }
   if($("#sidebar_list").attr('state')=='down'){
     $("#sidebar_list").removeClass("hidden");
     $("#sidebar_list").addClass("in");
@@ -8,6 +13,10 @@ var sidebar_up = function(){
   }
 };
 var sidebar_dismiss = function(){
+  if(sidebar_tip=="true"){
+    sidebar_tip = "false";
+	$(".sidebar-guide-tip").addClass("fade");
+  }
   if($("#sidebar_list").attr('state')=='up'){
     $("#sidebar_list").addClass("hidden");
     $("#sidebar_list").removeClass("in");
