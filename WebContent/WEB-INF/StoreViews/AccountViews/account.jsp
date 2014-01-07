@@ -171,7 +171,7 @@
         
       </div>
     </div>
-        <div class="modal fade" id="info_edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="info_edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -179,7 +179,7 @@
             <h4 class="modal-title" id="myModalLabel">基本信息</h4>
           </div>
           <div class="modal-body">
-            
+            <div class="form-horizontal">
               <div class="form-group">
                 <label for="info_name" class="col-sm-3 control-label">商户名称</label>
                 <div class="col-sm-9">
@@ -204,17 +204,33 @@
                   <input type="text" class="form-control" id="info_mobile" placeholder="" value="${userInfo.cellPhone}">
                 </div>
               </div>
-              <form  class="form-horizontal" role="form" enctype="multipart/form-data" id="register">
-                <div class="form-group">
-                  <label class="col-sm-3 control-label">介绍图片</label>
-                  <div class="image-upload col-sm-9">
-	                <input type="file" name="file" class="image-file hidden" onchange="ye.value=value" accept="image/*">
-	                <input type="text" name=ye class="form-control file-path">
-	                <input type="button" value="选择文件" onclick="file.click()" class="btn btn-sm btn-info">
-	                <input type="button" value="上传" class="image-multi btn btn-sm btn-info">
-                  </div>
+              <form  class="form-group" role="form" enctype="multipart/form-data" id="upload1">
+                <label class="col-sm-3 control-label">介绍图片</label>
+                <div class="col-sm-9">
+                  <input type="file" name="file" class="image-file hidden" onchange="ye.value=value" accept="image/*">
+                  <input type="text" name=ye class="form-control file-path">
+                  <input type="button" value="选择文件" onclick="file.click()" class="btn btn-sm btn-info">
+                  <input type="button" value="上传" class="image-multi btn btn-sm btn-info">
                 </div>
-              </form>              
+              </form>  
+              <div class="form-group">
+                  <div class="col-md-7 col-md-offset-3">
+                    <div class="row" id="upload1-images">
+                      <div class="col-md-6">
+                        <img src="./img/manager/theme2.png" class="pic-preview img-thumbnail img-responsive"/>
+                      </div>
+                      <div class="col-md-6">
+                        <img src="./img/manager/theme2.png" class="pic-preview img-thumbnail img-responsive"/>
+                      </div>
+                      <div class="col-md-6">
+                        <img src="./img/manager/theme2.png" class="pic-preview img-thumbnail img-responsive"/>
+                      </div>
+                      <div class="col-md-6">
+                        <img src="./img/manager/theme2.png" class="pic-preview img-thumbnail img-responsive"/>
+                      </div>
+                    </div>
+                  </div>
+                </div>            
               <div class="form-group">
                 <label for="info_link" class="col-sm-3 control-label">官网链接</label>
                 <div class="col-sm-9">
@@ -229,13 +245,13 @@
                     <input type="hidden" id="lng" value="${userInfo.lng}">
                     <input type="hidden" id="lat" value="${userInfo.lat}">
                     <span class="input-group-btn">
-                    <button class="btn btn-info" type="button" onclick="setPoint()">定位</button>
+                      <button class="btn btn-info" type="button" onclick="setPoint()">定位</button>
                     </span>
                   </div><!-- /input-group -->
                 </div>
               </div>
-              <div id="baidumap"></div>
-            
+            </div>
+            <div id="baidumap"></div>  
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
