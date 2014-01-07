@@ -41,6 +41,9 @@ public class RegisterValidation implements Validator{
 		if(!commonValidationTools.checkPhone(userInfo.getCellPhone())){
 			errors.rejectValue("cellPhone", "NotValid.UserInfo.phone", "请输入合格的号码格式");
 		}
+		if (!commonValidationTools.checkLocation(userInfo.getLng(), userInfo.getLat())) {
+			errors.rejectValue("address", "NotValid.UserInfo.address", "请选择定位");
+		}
 	}
 
 	

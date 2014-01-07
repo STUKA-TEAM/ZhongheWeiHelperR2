@@ -35,7 +35,6 @@
         <div class="well well-lg col-sm-8 col-sm-offset-2 row">
           <form:form class="col-sm-10 col-sm-offset-1 form-horizontal" method="Post" action = "security/register"
   modelAttribute = "userInfo">
-            <form:input type="hidden" name="majorImage" path="majorImage" />
             <div class="form-group">
               <label for="username" class="col-sm-2 control-label">用户名</label>
               <div class="col-sm-10">
