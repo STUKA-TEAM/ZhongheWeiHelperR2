@@ -104,12 +104,6 @@
                 <dd>${userInfo.phone}</dd>
                 <dt>手机：</dt>
                 <dd>${userInfo.cellPhone}</dd>
-                <dt>介绍图片：</dt>
-                <dd>
-                  <a href="#" class="thumbnail intro-image">
-                    <img src="${userInfo.majorImage}" alt="介绍图片">
-                  </a>
-                </dd>
                 <dt>官网链接：</dt>
                 <dd><a target="blank" href="${userInfo.corpMoreInfoLink}">${userInfo.corpMoreInfoLink}</a></dd>
                 <dt>地址：</dt>

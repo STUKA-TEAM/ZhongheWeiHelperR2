@@ -6,11 +6,11 @@ $(document).ready(function(){
 	    //Your validation
 	    if(size>2100000){
 	    	alert("文件大小超过限制！");
-	    	this.parentElement.parentElement.parentElement.reset();
+	    	this.parentElement.parentElement.reset();
 	    }
 	    if(type!='image/jpeg' && type!='image/png'){
 	    	alert('请选择jpg或png格式图片！');
-	    	this.parentElement.parentElement.parentElement.reset();
+	    	this.parentElement.parentElement.reset();
 	    }
 	});
 	
@@ -25,7 +25,7 @@ $(document).ready(function(){
 	});*/
 	
 	$('.image-multi').click(function(){
-	    var form = this.parentElement.parentElement.parentElement;
+	    var form = this.parentElement.parentElement;
 	    var formData = new FormData(form);
 	    $.ajax({
 	        url: '/resources/upload/image/multi',  //Server script to process data
@@ -51,7 +51,7 @@ $(document).ready(function(){
 	});
 	
 	$('.image-original').click(function(){
-	    var form = this.parentElement;
+	    var form = this.parentElement.parentElement;
 	    var formData = new FormData(form);
 	    $.ajax({
 	        url: '/resources/upload/image/original',  //Server script to process data
@@ -77,7 +77,7 @@ $(document).ready(function(){
 	});
 	
 	$('.image-square').click(function(){
-	    var form = this.parentElement;
+	    var form = this.parentElement.parentElement;
 	    var formData = new FormData(form);
 	    $.ajax({
 	        url: '/resources/upload/image/square',  //Server script to process data
@@ -132,7 +132,7 @@ $(document).ready(function(){
 	}
 	
 	$('.video-upload').click(function(){
-	    var form = this.parentElement.parentElement.parentElement;
+	    var form = this.parentElement.parentElement;
 	    var formData = new FormData(form);
 	    $.ajax({
 	        url: '/resources/upload/video',  //Server script to process data
