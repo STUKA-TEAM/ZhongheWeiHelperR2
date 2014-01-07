@@ -125,9 +125,9 @@ $(document).ready(function(){
 	}
 	
 	function successProcess(id, link){
-		if(id == 'upload1'){
-			$('input[name=""]').val(link);
+		if(id == 'upload1'){			
 			add_pic_preview(id, link);
+			add_pic_link(id, link);
 		}
 	}
 	
@@ -166,13 +166,19 @@ $(document).ready(function(){
 	}
 });
 
-var add_pic_preview = function(id, pic_path){
-  var html_cut1='<img src="';
-  var html_cut2='" class="pic-preview img-thumbnail img-responsive"/>';
-  var pic_preview_html = html_cut1 + getImgPrePath()+pic_path + '_original.jpg' + html_cut2;
+var add_pic_preview = function(id, link){
+  var html_cut1=' <div class="col-md-6"><img src="';
+  var html_cut2='" class="pic-preview img-thumbnail img-responsive"/></div>';
+  var pic_preview_html = html_cut1 + getImgPrePath()+link + '_original.jpg' + html_cut2;
   $("#"+id+"-images").append(pic_preview_html);
+};
+var add_pic_link = function(id, link){
+  var html_cut1='<input type="hidden" value="';
+  var html_cut2='"/>';
+  var links_html = html_cut1 + link + html_cut2;
+  $("#"+id+"-links").append(links_html);
 };
 
 var getImgPrePath = function(){
-	return "http://localhost/resources/images/";
+	return "http://localhost";
 };
