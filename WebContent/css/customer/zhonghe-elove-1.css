@@ -82,7 +82,6 @@ div {
 }
 .nav-pills > li > a:hover,
 .nav-pills > li > a:focus {
-  color: #1ABC9C;
   border-top-style: none;
   border-bottom-style: none;
   border-left-style: solid;
@@ -133,12 +132,17 @@ div {
   position: fixed;
   top: 100px;
   left: 5px;
-  height: auto;
-  width: 60px;
 }
-.sidebar-guide > img {
+.sidebar-guide-logo {
+  width: 40px;
+  height: auto;
+}
+.sidebar-guide-tip {
+  font-size: 16px;
+  color: #C0392B;
   width: 100%;
   height: auto;
+  margin-left: 5px;
 }
 .audio {
   width:100%;
