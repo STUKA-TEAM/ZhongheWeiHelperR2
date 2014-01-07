@@ -67,7 +67,7 @@ public class EloveController {
 				}				
 				model.addAttribute("infoList", infoList);
 				
-				return "EloveViews/eloveList";
+				return "EloveViews/detail";
 			}
 		}
     }

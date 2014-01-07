@@ -23,67 +23,16 @@
     <c:forEach items = "${infoList}" var = "eloveInfo" >
     ${eloveInfo.eloveid}
     </c:forEach>
-    <!-- Fixed navbar -->
-    <div class="navbar navbar-default navbar-white navbar-static-top">
-        <div class="navbar-header">
-          <a class="navbar-brand" href="#"><img src="./img/logo.png" alt="Zhonghe Software" /></a>
-        </div>
-        
-        <div class="navbar-collapse collapse">
-          <div class="btn-group navbar-right nav-user">
-            <button type="button" class="btn btn-user dropdown-toggle" data-toggle="dropdown">
-            <span class="glyphicon glyphicon-user"></span>  用户名 <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu">
-              <li><a href="#">设置</a></li>
-              <li class="divider"></li>
-              <li><a href="#">退出</a></li>
-            </ul>
-          </div>
-        </div><!--/.nav-collapse -->
-    </div><!-- navbar -->
-    
-
+    <%@ include file="../CommonViews/navBar.jsp"%>
     <div class="row">
-      <div class="col-md-2 sidebar">
-        <div class="container account-change">
-          <p><strong>当前正在管理的微信账号</strong></p>
-          <p>公共账号1</p>
-          <p><strong>切换至其他公共账号</strong></p>
-          <form>
-            <select class="form-control account-select">
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
-            </select>
-          </form>
-        </div>
-        <ul class="nav nav-pills nav-stacked">
-          <li><a href="./manager.html">账号管理</a></li>
-          <li class="active"><a href="./elove.html">Elove管理</a></li>
-          <li><a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">订餐管理</a>
-            <div id="collapseOne" class="panel-collapse collapse">
-              <ul class="nav submenu">
-                <li><a href="./order-manager.html">订单管理</a></li>
-                <li><a href="./menu-manager.html">菜单管理</a></li>
-                <li><a href="./dish-manager.html">菜品管理</a></li>
-              </ul>
-            </div>
-          </li>
-          <li><a href="./vote.html">投票管理</a></li>
-          <li><a href="./lottery.html">抽奖管理</a></li>
-        </ul>
-      </div>
-        
+      <%@ include file="../CommonViews/leftSide.jsp"%>    
       <div class="col-md-10 manager-content">
         <ol class="breadcrumb">
           <li class="active">Elove管理</li>
         </ol>
         <div class="row">
           <div class="col-md-2 col-md-offset-1">
-            <a href="./elove-1.html" class="btn btn-info btn-block">新建Elove</a>
+            <a href="./store/elove/wizard/initial/create" class="btn btn-info btn-block">新建Elove</a>
           </div>
           <div class="col-md-2">
             <a class="btn btn-info btn-block" data-toggle="modal" data-target="#elove_count">消费统计</a>
