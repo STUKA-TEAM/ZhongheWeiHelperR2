@@ -65,8 +65,8 @@
           <div class="panel panel-info col-md-10 col-md-offset-1">
             <div class="panel-heading">
               <div class="row">
-                <h4 class="col-md-9">关联公共账号</h4>
-                <a class="btn btn-info pull-right" data-toggle="modal" data-target="#related">关联新的公共</a>
+                <h4 class="col-md-9">关联公众账号</h4>
+                <a class="btn btn-info pull-right" data-toggle="modal" data-target="#related">关联新的公众账号 </a>
               </div>
             </div>
             <table class="table table-striped table-bordered">
@@ -114,6 +114,7 @@
         
       </div>
     </div>
+    <!-- 基本信息编辑  -->
     <div class="modal fade" id="info_edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -188,12 +189,13 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-primary">确定</button>
+            <button type="button" class="btn btn-primary" onclick="submitBasicInfoEdit()">确定</button>
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
     
+    <!-- 各APP"查看"弹窗  -->
     <c:forEach items = "${appInfoList}" var = "appInfo" >
     <div class="modal fade" id="${appInfo.appid}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
@@ -218,12 +220,13 @@
     </div><!-- /.modal -->
     </c:forEach>
     
+    <!-- 关联新的公众账号  -->
     <div class="modal fade" id="related" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title" id="myModalLabel">关联公共账号</h4>
+            <h4 class="modal-title" id="myModalLabel">关联公众账号</h4>
           </div>
           <div class="modal-body">
             <form class="form-horizontal" role="form">
@@ -267,11 +270,24 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-primary">确定</button>
+            <button type="button" class="btn btn-primary" onclick="submitInsertNewApp()">确定</button>
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
+    
+    <div class="modal fade" id="operationMesModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          </div>
+          <div class="modal-body">
+            <h4 id="modalMes" class="modal-title"></h4>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->    
     
     <div id="footer">
       <div class="container text-center">
@@ -321,6 +337,74 @@
       map.centerAndZoom(point, map.getZoom());  
       map.addOverlay(new BMap.Marker(point)); 
     });
+    
+    function submitBasicInfoEdit(){
+      var userInfo = new Object();
+      userInfo.storeName=$("#info_name").val();
+      userInfo.email=$("#info_email").val();
+      userInfo.phone=$("#info_phone").val();
+      userInfo.cellPhone=$("#info_mobile").val();
+      userInfo.address=$("#info_addr").val();
+      var linkInputArray=$("#upload1-links").children();
+      var linkArray=new Array();
+      $.each(linkInputArray,function(key,val){
+    	  linkArray.push($(val).val());
+      });
+      userInfo.imageList=linkArray;
+      userInfo.corpMoreInfoLink=$("#info_link").val();
+      userInfo.lng=$("#lng").val();
+      userInfo.lat=$("#lat").val();
+   	  $.ajax({
+	   	  type: "POST",
+	   	  url: "store/userinfo/update",
+	   	  data: JSON.stringify(userInfo),
+	   	  contentType: "application/json; charset=utf-8",
+	   	  success: function (data) {
+	   	   	  $("#info_edit").modal("hide");
+	   		  if(data.status=="true"){
+		   	   	  $("#modalMes").html("编辑成功！");
+	   		  }else{
+		   	   	  $("#modalMes").html(data.message);
+	   		  }
+	   		  $("#operationMesModal").modal("show");
+	   	  },
+		  error: function(xhr, status, exception){
+	   	   	  $("#info_edit").modal("hide");
+	   	   	  $("#modalMes").html(status + '</br>' + exception);
+	   	      $("#operationMesModal").modal("show");
+		  }
+   	  });
+    }
+    
+    function submitInsertNewApp(){
+      var appInfo=new Object();
+      appInfo.wechatToken=$("#wechat_token").val();
+      appInfo.wechatName=$("#wechat_name").val();
+      appInfo.wechatOriginalId=$("#wechat_id").val();
+      appInfo.wechatNumber=$("#wechat_account").val();
+      appInfo.address=$("#wechat_addr").val();
+      appInfo.industry=$("#wechat_trade").val();
+      $.ajax({
+  	  type: "POST",
+  	  url: "store/app/insert",
+  	  data: JSON.stringify(appInfo),
+  	  contentType: "application/json; charset=utf-8",
+   	  success: function (data) {
+   		  $("#related").modal("hide");
+   		  if(data.status=="true"){
+	   	   	  $("#modalMes").html("创建成功，已经可以关联新的公众账号，请到腾讯公众平台进行API绑定！");
+   		  }else{
+	   	   	  $("#modalMes").html(data.message);  
+   		  }
+   		  $("#operationMesModal").modal("show");
+   	  },
+	  error: function(xhr, status, exception){
+   	   	  $("#related").modal("hide");
+   	   	  $("#modalMes").html(status + '</br>' + exception);
+   	      $("#operationMesModal").modal("show");
+	  }
+  	});
+  	}
     </script>
   </body>
 </html>
