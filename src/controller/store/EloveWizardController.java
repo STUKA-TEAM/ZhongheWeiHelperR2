@@ -5,6 +5,8 @@ import java.io.InputStream;
 import java.sql.Timestamp;
 import java.util.Properties;
 
+import message.ResponseMessage;
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -16,8 +18,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+
+import tools.CommonValidationTools;
 
 import com.google.gson.Gson;
 
@@ -169,57 +174,10 @@ public class EloveWizardController {
 		return "EloveViews/step6update";
 	}
 	
-	@RequestMapping(value = "/finish/create", method = RequestMethod.POST)
-	public String finishCreate(@RequestBody String json, final @ModelAttribute("eloveWizard") EloveWizard eloveWizard, 
+	@RequestMapping(value = "/finish", method = RequestMethod.POST)
+	@ResponseBody
+	public String finish(@RequestBody String json, final @ModelAttribute("eloveWizard") EloveWizard eloveWizard, 
 			 @CookieValue(value = "appid", required = false) String appid, Model model, final SessionStatus status){
-		if (appid == null) {
-			return "redirect:/store/account";     //异常
-		}
-		else {
-			if (appid == "") {
-				return "forward:/store/account";   //需先创建app
-			}
-			else {
-				ApplicationContext context = 
-						new ClassPathXmlApplicationContext("All-Modules.xml");
-				EloveWizardDAO eloveWizardDao = (EloveWizardDAO) context.getBean("EloveWizardDAO");
-				((ConfigurableApplicationContext)context).close();
-				
-				Gson gson = new Gson();
-				Step6Info step6Info = gson.fromJson(json, Step6Info.class);
-				eloveWizard.setFooterText(step6Info.getFooterText());
-				eloveWizard.setSideCorpInfo(step6Info.getSideCorpInfo());
-				eloveWizard.setAppid(appid);
-				
-				InputStream inputStream = EloveWizardController.class.getResourceAsStream("/defaultValue.properties");
-				Properties properties = new Properties();
-				long lifeCycle = 0;
-				try {
-					properties.load(inputStream);
-					lifeCycle = Long.parseLong((String)properties.get("defaultEloveLifeCycleByMonth"));
-				} catch (IOException e) {
-					System.out.println(e.getMessage());
-				}
-				lifeCycle = lifeCycle * 30 * 24 * 60 * 60 * 1000;
-				Timestamp createTime = new Timestamp(System.currentTimeMillis());
-				Timestamp expiredTime = new Timestamp(createTime.getTime() + lifeCycle);
-				eloveWizard.setCreateTime(createTime);
-				eloveWizard.setExpiredTime(expiredTime);
-				
-				int eloveid = eloveWizardDao.insertElove(eloveWizard);
-				status.setComplete();
-				if (eloveid > 0) {
-					return "forward:/store/elove/detail";
-				}else {
-					return "";
-				}				
-			}
-		}
-	}
-	
-	@RequestMapping(value = "/finish/update", method = RequestMethod.POST)
-	public String finishUpdate(@RequestBody String json, final @ModelAttribute("eloveWizard") EloveWizard eloveWizard, 
-			 Model model, final SessionStatus status){
 		ApplicationContext context = 
 				new ClassPathXmlApplicationContext("All-Modules.xml");
 		EloveWizardDAO eloveWizardDao = (EloveWizardDAO) context.getBean("EloveWizardDAO");
@@ -229,21 +187,79 @@ public class EloveWizardController {
 		Step6Info step6Info = gson.fromJson(json, Step6Info.class);
 		eloveWizard.setFooterText(step6Info.getFooterText());
 		eloveWizard.setSideCorpInfo(step6Info.getSideCorpInfo());
+		ResponseMessage message = new ResponseMessage();
 		
-		//删除图片、视频资源
-		
-		int effected = eloveWizardDao.updateElove(eloveWizard);
+		if (eloveWizard.getEloveid() > 0) {   //update
+			if (!CommonValidationTools.checkEloveWizard(eloveWizard)) {
+				message.setStatus(false);
+				message.setMessage("elove信息填写不完整或有误！");
+			}else{
+				int effected = eloveWizardDao.updateElove(eloveWizard);
+				
+				if (effected > 0) {
+					message.setStatus(true);
+					message.setMessage("elove信息更新成功！");
+				}else {
+					message.setStatus(false);
+					message.setMessage("Error " + effected);
+				}	
+			}
+			
+		}else {    //insert
+			if (appid == null) {                      //异常
+				message.setStatus(false);
+				message.setMessage("请重新登录！");
+			}
+			else {
+				if (appid == "") {                    //需先创建app
+					message.setStatus(false);
+					message.setMessage("请先创建app!");
+				}
+				else {
+					eloveWizard.setAppid(appid);
+					
+					InputStream inputStream = EloveWizardController.class.getResourceAsStream("/defaultValue.properties");
+					Properties properties = new Properties();
+					long lifeCycle = 0;
+					try {
+						properties.load(inputStream);
+						lifeCycle = Long.parseLong((String)properties.get("defaultEloveLifeCycleByMonth"));
+					} catch (IOException e) {
+						System.out.println(e.getMessage());
+					}
+					lifeCycle = lifeCycle * 30 * 24 * 60 * 60 * 1000;
+					Timestamp createTime = new Timestamp(System.currentTimeMillis());
+					Timestamp expiredTime = new Timestamp(createTime.getTime() + lifeCycle);
+					eloveWizard.setCreateTime(createTime);
+					eloveWizard.setExpiredTime(expiredTime);
+					
+					if (!CommonValidationTools.checkEloveWizard(eloveWizard)) {
+						message.setStatus(false);
+						message.setMessage("elove信息填写不完整或有误！");
+					}else{
+						int eloveid = eloveWizardDao.insertElove(eloveWizard);
+						
+						if (eloveid > 0) {
+							message.setStatus(true);
+							message.setMessage("elove创建成功！");
+						}else {
+							message.setStatus(false);
+							message.setMessage("Error " + eloveid);
+						}	
+					}			
+				}
+			}
+		}			
 		status.setComplete();
-		if (effected > 0) {
-			return "forward:/store/elove/detail";
-		}else {
-			return "";
-		}	
+			
+		String response = gson.toJson(message);
+		return response;
 	}
 	
 	@RequestMapping(value = "/cancel", method = RequestMethod.GET)
+	@ResponseBody
 	public String cancel(final SessionStatus status){
 		status.setComplete();
-		return "forward:/store/elove/detail";
+		return "OK";
 	}
 }
