@@ -22,7 +22,7 @@
     <%@ include file="../CommonViews/navBar.jsp"%>
     <div class="row">
       <%@ include file="../CommonViews/leftSide.jsp"%>
-      <div class="col-md-10 manager-content">
+      <div id="operationContent" class="col-md-10 manager-content">
         <ol class="breadcrumb">
           <li><a href="store/elove/detail">Elove管理</a></li>
           <li class="active">基本信息</li>
@@ -123,8 +123,8 @@
                   </div>
                 </form>
                 <div class="form-group form-btn">
-                  <a class="btn btn-lg btn-info col-md-3 col-md-offset-2" href="./elove-2.html">跳过</a>
-                  <button type="submit" class="btn btn-lg btn-info col-md-3 col-md-offset-1">下一步</button>
+		            <button type="button" class="btn btn-lg btn-info col-md-3 col-md-offset-2" onclick="cancel()">取消</button>
+		            <button type="button" class="btn btn-lg btn-info col-md-3 col-md-offset-1" onclick="nextStep('step2')">下一步</button>
                 </div>
               </div>
             </div>
@@ -139,7 +139,8 @@
       </div>
     </div><!-- footer -->
     <!-- include jQuery + carouFredSel plugin -->
-		<script type="text/javascript" src="./js/store/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="./js/store/jquery-1.10.2.min.js"></script>
     <script src="js/store/upload.js"></script>
+    <script type="text/javascript" src="./js/store/eloveWizard.js"></script>
   </body>
 </html>

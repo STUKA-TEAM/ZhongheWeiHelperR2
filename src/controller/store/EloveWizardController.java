@@ -147,15 +147,26 @@ public class EloveWizardController {
 		return "EloveViews/step5";
 	}
 	
-	@RequestMapping(value = "/step6", method = RequestMethod.POST)
-	public String step6(@RequestBody String json, final @ModelAttribute("eloveWizard") EloveWizard eloveWizard, 
+	@RequestMapping(value = "/step6/create", method = RequestMethod.POST)
+	public String step6create(@RequestBody String json, final @ModelAttribute("eloveWizard") EloveWizard eloveWizard, 
 			Model model){
 		Gson gson = new Gson();
 		Step5Info step5Info = gson.fromJson(json, Step5Info.class);
         eloveWizard.setRecordImagePath(step5Info.getRecordImagePath());
         eloveWizard.setRecordVideoPath(step5Info.getRecordVideoPath());
 		model.addAttribute("eloveWizard", eloveWizard);
-		return "EloveViews/step6";
+		return "EloveViews/step6create";
+	}
+	
+	@RequestMapping(value = "/step6/update", method = RequestMethod.POST)
+	public String step6update(@RequestBody String json, final @ModelAttribute("eloveWizard") EloveWizard eloveWizard, 
+			Model model){
+		Gson gson = new Gson();
+		Step5Info step5Info = gson.fromJson(json, Step5Info.class);
+        eloveWizard.setRecordImagePath(step5Info.getRecordImagePath());
+        eloveWizard.setRecordVideoPath(step5Info.getRecordVideoPath());
+		model.addAttribute("eloveWizard", eloveWizard);
+		return "EloveViews/step6update";
 	}
 	
 	@RequestMapping(value = "/finish/create", method = RequestMethod.POST)
