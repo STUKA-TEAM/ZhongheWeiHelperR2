@@ -26,22 +26,21 @@ public class RegisterValidation implements Validator{
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "address", "NotEmpty.UserInfo.address", "地址不能为空");
 		
 		UserInfo userInfo = (UserInfo)target;
-		CommonValidationTools commonValidationTools = new CommonValidationTools();
 		
-		if(!commonValidationTools.checkUsername(userInfo.getUsername())){
+		if(!CommonValidationTools.checkUsername(userInfo.getUsername())){
 			errors.rejectValue("username", "NotValid.UserInfo.username", "该用户名已被注册");
 		}
-		if(!commonValidationTools.checkPassword(userInfo.getPassword(), 
+		if(!CommonValidationTools.checkPassword(userInfo.getPassword(), 
 				userInfo.getConfirmPassword())){
 			errors.rejectValue("confirmPassword", "NotValid.UserInfo.confirmPassword", "前后输入的密码不一致");
 		}
-		if(!commonValidationTools.checkEmail(userInfo.getEmail())){
+		if(!CommonValidationTools.checkEmail(userInfo.getEmail())){
 			errors.rejectValue("email", "NotValid.UserInfo.email", "请输入合格的邮箱格式");
 		}
-		if(!commonValidationTools.checkPhone(userInfo.getCellPhone())){
+		if(!CommonValidationTools.checkPhone(userInfo.getCellPhone())){
 			errors.rejectValue("cellPhone", "NotValid.UserInfo.phone", "请输入合格的号码格式");
 		}
-		if (!commonValidationTools.checkLocation(userInfo.getLng(), userInfo.getLat())) {
+		if (!CommonValidationTools.checkLocation(userInfo.getLng(), userInfo.getLat())) {
 			errors.rejectValue("address", "NotValid.UserInfo.address", "请选择定位");
 		}
 	}

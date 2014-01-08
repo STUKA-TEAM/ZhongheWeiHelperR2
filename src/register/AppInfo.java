@@ -19,6 +19,7 @@ public class AppInfo {
 	private String wechatNumber;
 	private String address;
 	private String industry;
+	private String url;
 	private boolean isCharged;
 	
 	/**
@@ -128,6 +129,18 @@ public class AppInfo {
 	 */
 	public void setIndustry(String industry) {
 		this.industry = industry;
+	}
+	/**
+	 * @return the url
+	 */
+	public String getUrl() {
+		return url;
+	}
+	/**
+	 * @param url the url to set
+	 */
+	public void setUrl(String url) {
+		this.url = url;
 	}
 	/**
 	 * @return the isCharged

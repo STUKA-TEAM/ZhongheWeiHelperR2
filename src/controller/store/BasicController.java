@@ -36,6 +36,7 @@ import elove.dao.EloveWizardDAO;
 import register.UserInfo;
 import register.dao.UserInfoDAO;
 import security.User;
+import tools.CommonValidationTools;
 
 /**
  * @Title: BasicController
@@ -86,18 +87,31 @@ public class BasicController {
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = (User)auth.getPrincipal();
-		model.addAttribute("username", user.getUsername());
 		
 		UserInfo userInfo = userInfoDao.getUserInfo(user.getSid());
 	    model.addAttribute("userInfo", userInfo);
         
 	    List<AppInfo> appInfoList = appInfoDao.getAppInfoBySid(user.getSid());
 	    if (appInfoList != null) {
+	    	InputStream inputStream = BasicController.class.getResourceAsStream("/environment.properties");
+			Properties properties = new Properties();
+			String applicationPath = null;
+			try {
+				properties.load(inputStream);
+				applicationPath = (String)properties.get("applicationPath");
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
+			
 	    	if (appInfoList.size() > 0) {
-		    	appInfoList.get(0).setIsCharged(true);
+	    		AppInfo appInfo = appInfoList.get(0);
+	    		appInfo.setIsCharged(true);
+	    		appInfo.setUrl(applicationPath + "zhongheapi/weixin?appid=" + appInfo.getAppid());
 		    	response.addCookie(new Cookie("appid", appInfoList.get(0).getAppid()));
 				for (int i = 1; i < appInfoList.size(); i++) {
-					appInfoList.get(i).setIsCharged(false);
+					AppInfo temp = appInfoList.get(i);
+					temp.setIsCharged(false);
+					temp.setUrl(applicationPath + "zhongheapi/weixin?appid=" + temp.getAppid());
 				}
 			}else {
 				response.addCookie(new Cookie("appid", null));
@@ -130,24 +144,24 @@ public class BasicController {
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = (User)auth.getPrincipal();
-		userInfo.setSid(user.getSid());
+		userInfo.setSid(user.getSid());	
 		
-		String encoded = passwordEncoder.encode(userInfo.getPassword());
-		userInfo.setPassword(encoded);
-		
-		//图片不一致时需要处理
-		
-		int result = userInfoDao.updateUserInfo(userInfo);
 		ResponseMessage message = new ResponseMessage();
-		if (result > 0) {
-			message.setStatus(true);
-			message.setMessage("修改成功！");
-		}else{
+		if (!CommonValidationTools.checkUserInfoForUpdate(userInfo)) {
 			message.setStatus(false);
-			message.setMessage("修改保存失败！");
-		}		
-		String response = gson.toJson(message);		
+			message.setMessage("关键信息未填写或填写有误！");
+		}else{
+			int result = userInfoDao.updateUserInfo(userInfo);						
+			if (result > 0) {
+				message.setStatus(true);
+				message.setMessage("用户信息修改成功！");
+			}else{
+				message.setStatus(false);
+				message.setMessage("用户信息修改失败！");
+			}		
+		}	
 		
+		String response = gson.toJson(message);				
         return response;
     }
 	
@@ -192,25 +206,20 @@ public class BasicController {
 			authNameList.add("elove");
 			appInfo.setAuthNameList(authNameList);
 			
-			int result = appInfoDao.insertAppInfo(appInfo);
-			
-			if (result > 0) {
-				message.setStatus(true);
-				message.setMessage("新账号创建成功！");
-			}else{
+			if (!CommonValidationTools.checkAppInfo(appInfo)) {
 				message.setStatus(false);
-				message.setMessage("Error " + result);
+				message.setMessage("app信息未填写完整！");
+			}else {
+				int result = appInfoDao.insertAppInfo(appInfo);
 				
-				if (result <= -2) {
-					appInfoDao.deleteAppAuthRelation(appInfo.getAppid());
-				}
-				if (result < -1) {
-					appInfoDao.deleteUserAppRelation(appInfo.getAppid());
-				}
-				if (result < 0) {
-					appInfoDao.deleteAppInfo(appInfo.getAppid());
-				}
-			}				
+				if (result > 0) {
+					message.setStatus(true);
+					message.setMessage("新账号创建成功！");
+				}else{
+					message.setStatus(false);
+					message.setMessage("Error " + result);
+				}	
+			}			
 		}
 		
 		String response = gson.toJson(message);
@@ -258,9 +267,6 @@ public class BasicController {
 					if (eloveidList != null) {
 						for (int i = 0; i < eloveidList.size(); i++) {
 							int eloveid = eloveidList.get(i);
-							
-							//删除图片、视频资源
-							
 							eloveWizardDao.deleteImage(eloveid);
 							eloveWizardDao.deleteVideo(eloveid);
 							eloveWizardDao.deleteJoin(eloveid);
