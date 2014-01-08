@@ -26,7 +26,7 @@
     <mvc:interceptors>   
         <mvc:interceptor>  
             <mvc:mapping path="/*" />  
-            <bean class=""></bean>  
+            <bean class="controller.store."></bean>  
         </mvc:interceptor>  
     </mvc:interceptors>  
 </beans>

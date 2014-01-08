@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 import javax.sql.DataSource;
 
@@ -132,6 +133,31 @@ public class UserInfoDAO {
 			userInfo.setCorpMoreInfoLink(rs.getString("corpMoreInfoLink"));
 			return userInfo;
 		}
+	}
+	
+	/**
+	 * @title: getUserImages
+	 * @description: 通过sid获取相关联的图片列表
+	 * @param sid
+	 * @return
+	 */
+	public List<String> getUserImages(int sid){
+		String SQL = "SELECT imagePath FROM storeimage WHERE sid = ?";
+		List<String> imageList = null;
+		try {
+			imageList = jdbcTemplate.query(SQL, new Object[]{sid}, new ImagePathMapper());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return imageList;
+	}
+	
+	private static final class ImagePathMapper implements RowMapper<String>{
+		@Override
+		public String mapRow(ResultSet rs, int arg1) throws SQLException {
+			String imagePath = rs.getString("imagePath");
+			return imagePath;
+		}		
 	}
 	
 	/**
