@@ -23,10 +23,11 @@
         <property name="prefix" value="/WEB-INF/StoreViews/" />
         <property name="suffix" value=".jsp" />
     </bean>
-    <!-- <mvc:interceptors>   
+    
+    <mvc:interceptors>   
         <mvc:interceptor>  
             <mvc:mapping path="/*" />  
-            <bean class="controller.store."></bean>  
+            <bean class="controller.store.BasicInterceptor"></bean>  
         </mvc:interceptor>  
-    </mvc:interceptors>   -->
+    </mvc:interceptors>  
 </beans>

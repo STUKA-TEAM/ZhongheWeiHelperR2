@@ -90,7 +90,6 @@ public class BasicController {
 		
 		UserInfo userInfo = userInfoDao.getUserInfo(user.getSid());
 	    model.addAttribute("userInfo", userInfo);
-	    System.out.println(userInfo.getImageList().size());
         
 	    List<AppInfo> appInfoList = appInfoDao.getAppInfoBySid(user.getSid());
 	    if (appInfoList != null) {
@@ -108,14 +107,18 @@ public class BasicController {
 	    		AppInfo appInfo = appInfoList.get(0);
 	    		appInfo.setIsCharged(true);
 	    		appInfo.setUrl(applicationPath + "zhongheapi/weixin?appid=" + appInfo.getAppid());
-		    	response.addCookie(new Cookie("appid", appInfoList.get(0).getAppid()));
+	    		Cookie cookie = new Cookie("appid", appInfoList.get(0).getAppid());
+	    		cookie.setPath("/");
+		    	response.addCookie(cookie);
 				for (int i = 1; i < appInfoList.size(); i++) {
 					AppInfo temp = appInfoList.get(i);
 					temp.setIsCharged(false);
 					temp.setUrl(applicationPath + "zhongheapi/weixin?appid=" + temp.getAppid());
 				}
 			}else {
-				response.addCookie(new Cookie("appid", null));
+				Cookie cookie = new Cookie("appid", null);
+				cookie.setPath("/");
+				response.addCookie(cookie);
 			}
 		}	    
 	    model.addAttribute("appInfoList", appInfoList);

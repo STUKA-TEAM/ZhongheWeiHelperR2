@@ -44,7 +44,7 @@ public class EloveController {
 			return "redirect:/store/account";     //异常
 		}
 		else {
-			if (appid == "") {
+			if (appid.equals("")) {
 				return "forward:/store/account";   //需先创建app
 			}
 			else {

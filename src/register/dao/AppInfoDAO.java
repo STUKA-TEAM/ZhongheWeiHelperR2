@@ -173,6 +173,34 @@ public class AppInfoDAO {
 	}
 	
 	/**
+	 * @title: getBasicAppInfo
+	 * @description: 获取基本的应用信息
+	 * @param sid
+	 * @return
+	 */
+	public List<AppInfo> getBasicAppInfo(int sid){
+		String SQL = "SELECT A.appid, A.wechatName FROM storeuser_application S, "
+				+ "application A WHERE S.appid = A.appid AND S.sid = ?";
+		List<AppInfo> appInfoList = null;
+		try {
+			appInfoList = jdbcTemplate.query(SQL, new Object[]{sid}, new BasicAppInfoMapper());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+        return appInfoList;
+	}
+	
+	private static final class BasicAppInfoMapper implements RowMapper<AppInfo>{
+		@Override
+		public AppInfo mapRow(ResultSet rs, int arg1) throws SQLException {
+			AppInfo appInfo = new AppInfo();
+			appInfo.setAppid(rs.getString("A.appid"));
+			appInfo.setWechatName(rs.getString("A.wechatName"));
+			return appInfo;
+		}		
+	}
+	
+	/**
 	 * @title: getAppNumBySid
 	 * @description: 查询一个用户账号下已创建的app数量
 	 * @param sid
@@ -229,6 +257,32 @@ public class AppInfoDAO {
 		public Integer mapRow(ResultSet rs, int arg1) throws SQLException {
 			Integer authid = rs.getInt("authid");
 			return authid;
+		}		
+	}
+	
+	/**
+	 * @title: getAuthPinyinList
+	 * @description: 根据appid来获取对应权限拼音列表
+	 * @param appid
+	 * @return
+	 */
+	public List<String> getAuthPinyinList(String appid){
+		String SQL = "SELECT A.authPinyin FROM authority A, application_authority B"
+				+ " WHERE A.authid = B.authid AND B.appid = ?";
+		List<String> authPinyinList = null;
+		try {
+			authPinyinList = jdbcTemplate.query(SQL, new Object[]{appid}, new AuthPinyinMapper());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return authPinyinList;
+	}
+	
+	private static final class AuthPinyinMapper implements RowMapper<String>{
+		@Override
+		public String mapRow(ResultSet rs, int arg1) throws SQLException {
+			String authPinyin = rs.getString("A.authPinyin");
+			return authPinyin;
 		}		
 	}
 	
