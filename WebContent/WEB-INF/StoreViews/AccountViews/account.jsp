@@ -204,7 +204,7 @@
           <div class="modal-body">
             <dl class="dl-horizontal">
               <dt><h4><strong>微信接口URL:</strong></h4></dt>
-              <dd><pre>${appInfo.appid}</pre></dd>
+              <dd><pre>${appInfo.url}</pre></dd>
               <dt><h4><strong>微信接口Token:</strong></h4></dt>
               <dd><pre>${appInfo.wechatToken}</pre></dd>
             </dl>
@@ -308,10 +308,10 @@
     	map.clearOverlays();
         myGeo.getPoint( "${userInfo.address}", function(point){  
         if (point) { 	 
-           map.centerAndZoom(point, 16);
+           map.centerAndZoom(new BMap.Point("${userInfo.lng}","${userInfo.lat}"), 16);
            document.getElementById("lng").value = point.lng;
            document.getElementById("lat").value = point.lat;  
-           map.addOverlay(new BMap.Marker(point));  
+           map.addOverlay(new BMap.Marker(new BMap.Point("${userInfo.lng}","${userInfo.lat}")));  
            map.enableScrollWheelZoom(); 
          }  
         }, "上海市");
