@@ -84,7 +84,7 @@
                 <td><a data-toggle="modal" data-target="#${appInfo.appid}">查看</a>
                 
                 </td>
-                <td><a class="btn btn-sm btn-danger">删除</a></td>
+                <td><a class="btn btn-sm btn-danger" onclick="submitDeleteApp('${appInfo.appid}')">删除</a></td>
               </tr>
               </c:forEach>
             </table>
@@ -408,17 +408,15 @@
   	});
   	}
     
-    function submitDeleteApp(){
+    function submitDeleteApp(appid){
         $.ajax({
     	  type: "POST",
     	  url: "store/app/delete",
-    	  data: JSON.stringify(appInfo),
-    	  contentType: "application/json; charset=utf-8",
+    	  data: "appid="+appid,
      	  success: function (data) {
-     		  $("#related").modal("hide");
      		  var jsonData=JSON.parse(data);
      		  if(jsonData.status=="true"){
-  	   	   	  $("#modalMes").html("创建成功，已经可以关联新的公众账号，请到腾讯公众平台进行API绑定！");
+  	   	   	  $("#modalMes").html(jsonData.message);
   	   	      $("#operationMesModal").modal("show");
   	   	      setTimeout("location.href='store/account'",1500);
      		  }else{
@@ -427,7 +425,6 @@
      		  }
      	  },
   	  error: function(xhr, status, exception){
-     	   	  $("#related").modal("hide");
      	   	  $("#modalMes").html(status + '</br>' + exception);
      	      $("#operationMesModal").modal("show");
   	  }
