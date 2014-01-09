@@ -158,7 +158,9 @@
                   <div class="col-md-7 col-md-offset-3">
                     <div class="row" id="upload1-images">
                     <c:forEach items="${userInfo.imageList}" var="image">
-                    <div id="${image}" class="col-md-6 pic-preview-div"><img src="${image}_original.jpg" class="pic-preview img-thumbnail img-responsive"/></div>
+                    <div id="${image}" class="col-md-6 pic-preview-div"><img src="${image}_original.jpg" class="pic-preview img-thumbnail img-responsive"/>
+                    <span class="glyphicon glyphicon-trash" onclick="deleteThisImage('${image}')"> </span>
+                    </div>
                     </c:forEach>
                     </div>
                     <div id="upload1-links">

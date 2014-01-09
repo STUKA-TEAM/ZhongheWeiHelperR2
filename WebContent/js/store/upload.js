@@ -164,14 +164,6 @@ $(document).ready(function(){
 			xhr.abort();
 		}
 	}
-    $(".pic-preview-div").hover(function(){
-    	var thisLink=$(this).attr("id");
-    	var appendHTML="<span class=\'glyphicon glyphicon-trash\' onclick=\"deleteThisImage(\'"+thisLink+"\')\"> </span>";
-		$(this).append(appendHTML);	
-	},
-    function(){
-		$("span").remove(".glyphicon");	
-	});
 }	
 );
 var deleteThisImage = function(link){
@@ -180,8 +172,9 @@ var deleteThisImage = function(link){
 };
 var add_pic_preview = function(id, link){
   var html_cut1=' <div id='+link +' class="col-md-6 pic-preview-div"><img src="';
-  var html_cut2='" class="pic-preview img-thumbnail img-responsive"/></div>';
-  var pic_preview_html = html_cut1 + getImgPrePath()+link + '_original.jpg' + html_cut2;
+  var html_cut2='" class="pic-preview img-thumbnail img-responsive"/>'
+  var html_cut3="<span class=\"glyphicon glyphicon-trash\" onclick=\"deleteThisImage(\'"+link+"\')\"> </span></div>";
+  var pic_preview_html = html_cut1 + getImgPrePath()+link + '_original.jpg' + html_cut2+html_cut3;
   $("#"+id+"-images").append(pic_preview_html);
 };
 var add_pic_link = function(id, link){
