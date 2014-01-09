@@ -20,6 +20,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -77,13 +78,14 @@ public class BasicController {
 	 * @return
 	 */
 	@RequestMapping(value = "/account", method = RequestMethod.GET)
-    public String getUserInfo(Model model, HttpServletResponse response) {
+    public String getUserInfo(Model model, HttpServletResponse response, 
+    		@CookieValue(value = "appid", required = false) String appid) {
 		ApplicationContext context = 
 				new ClassPathXmlApplicationContext("All-Modules.xml");
 		UserInfoDAO userInfoDao = (UserInfoDAO) context.getBean("UserInfoDAO");
 		AppInfoDAO appInfoDao = (AppInfoDAO) context.getBean("AppInfoDAO");
 		AuthPriceDAO authPriceDao = (AuthPriceDAO) context.getBean("AuthPriceDAO");
-		((ConfigurableApplicationContext)context).close();
+		((ConfigurableApplicationContext)context).close(); 
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = (User)auth.getPrincipal();
@@ -103,22 +105,35 @@ public class BasicController {
 				System.out.println(e.getMessage());
 			}
 			
-	    	if (appInfoList.size() > 0) {
-	    		AppInfo appInfo = appInfoList.get(0);
-	    		appInfo.setIsCharged(true);
-	    		appInfo.setUrl(applicationPath + "zhongheapi/weixin?appid=" + appInfo.getAppid());
-	    		Cookie cookie = new Cookie("appid", appInfoList.get(0).getAppid());
-	    		cookie.setPath("/");
-		    	response.addCookie(cookie);
-				for (int i = 1; i < appInfoList.size(); i++) {
-					AppInfo temp = appInfoList.get(i);
-					temp.setIsCharged(false);
-					temp.setUrl(applicationPath + "zhongheapi/weixin?appid=" + temp.getAppid());
+			if (appid != null && !appid.equals("") && appInfoDao.getAppNumByAppid(appid) == 1) {  //1.不为空 2.确实是appid 
+				for (int i = 0; i < appInfoList.size(); i++) {
+					AppInfo appInfo = appInfoList.get(i);
+					appInfo.setUrl(applicationPath + "zhongheapi/weixin?appid=" + appInfo.getAppid());
+					if (appInfo.getAppid().equals(appid)) {
+						appInfo.setIsCharged(true);
+					}else {
+						appInfo.setIsCharged(false);
+					}
 				}
 			}else {
-				Cookie cookie = new Cookie("appid", null);
-				cookie.setPath("/");
-				response.addCookie(cookie);
+				if (appInfoList.size() > 0) {
+		    		AppInfo appInfo = appInfoList.get(0);
+		    		appInfo.setIsCharged(true);
+		    		appInfo.setUrl(applicationPath + "zhongheapi/weixin?appid=" + appInfo.getAppid());
+		    		
+		    		Cookie cookie = new Cookie("appid", appInfoList.get(0).getAppid());
+		    		cookie.setPath("/");
+			    	response.addCookie(cookie);
+					for (int i = 1; i < appInfoList.size(); i++) {
+						AppInfo temp = appInfoList.get(i);
+						temp.setIsCharged(false);
+						temp.setUrl(applicationPath + "zhongheapi/weixin?appid=" + temp.getAppid());
+					}
+				}else {
+					Cookie cookie = new Cookie("appid", null);
+					cookie.setPath("/");
+					response.addCookie(cookie);
+				}
 			}
 		}	    
 	    model.addAttribute("appInfoList", appInfoList);
