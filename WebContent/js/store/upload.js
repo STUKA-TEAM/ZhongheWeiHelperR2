@@ -14,15 +14,26 @@ $(document).ready(function(){
 	    }
 	});
 	
-	/*$('.video-file').change(function(){
+/*	$('.video-file').change(function(){
 	    var file = this.files[0];
 	    var type = file.type;
 	    //Your validation
 	    if(type!='video/mp4' && type!='video/webm'){
 	    	alert('请选择mp4或webm格式视频！');
-	    	this.parentElement.parentElement.parentElement.reset();
+	    	this.parentElement.parentElement.reset();
 	    }
 	});*/
+	
+	$('.audio-file').change(function(){
+	    var file = this.files[0];
+	    var type = file.type;
+	    //Your validation
+	    if(type!='audio/mp3'){
+	    	alert('请选择mp3格式音乐！');
+	    	this.parentElement.parentElement.reset();
+	    }
+	});
+
 	
 	$('.image-multi').click(function(){
 	    var form = this.parentElement.parentElement;
@@ -176,12 +187,48 @@ $(document).ready(function(){
 			xhr.abort();
 		}
 	}
+	
+	$('.audio-upload').click(function(){
+	    var form = this.parentElement.parentElement;
+	    var formData = new FormData(form);
+	    $.ajax({
+	        url: '/resources/upload/audio',  //Server script to process data
+	        type: 'POST',
+	        //Ajax events
+	        beforeSend: function(xhr, settings){
+	        	beforeSendHandlerAudio(xhr, form);
+	        },
+	        success: function(data){
+	        	var id = form.id;
+	        	completeHandler(id, data);
+	        },
+	        error: function(xhr, status, exception){
+	        	errorHandler(status, exception);
+	        },
+	        // Form data
+	        data: formData,
+	        //Options to tell jQuery not to process data or worry about content-type.
+	        cache: false,
+	        contentType: false,
+	        processData: false
+	    });
+	});
+	
+	function beforeSendHandlerAudio(xhr, form){
+		var length = $('.audio-file', form)[0].files.length;
+		if(length == 0){
+			alert('请选择音乐！');
+			xhr.abort();
+		}
+	}
 }	
 );
+
 var deleteThisImage = function(link){
 	$("#"+link.replace(/\//g,"\\/")).remove();
 	$("#"+link.replace(/\//g,"\\/")+"-input").remove();
 };
+
 var add_pic_preview = function(id, link){
   var html_cut1=' <div id='+link +' class="col-md-6 pic-preview-div"><img src="';
   var html_cut2='" class="pic-preview img-thumbnail img-responsive"/>';
@@ -189,12 +236,14 @@ var add_pic_preview = function(id, link){
   var pic_preview_html = html_cut1 + getImgPrePath()+link + '_original.jpg' + html_cut2+html_cut3;
   $("#"+id+"-images").append(pic_preview_html);
 };
+
 var add_pic_link = function(id, link){
   var html_cut1='<input id="' + link + '-input'+ '" type="hidden" value="';
   var html_cut2='"/>';
   var links_html = html_cut1 + link + html_cut2;
   $("#"+id+"-links").append(links_html);
 };
+
 var add_pic_preview_single = function(id, link){
 	  var html_cut1=' <div id='+link +' class="col-md-6 pic-preview-div"><img src="';
 	  var html_cut2='" class="pic-preview img-thumbnail img-responsive"/>';
@@ -202,6 +251,7 @@ var add_pic_preview_single = function(id, link){
 	  var pic_preview_html = html_cut1 + getImgPrePath()+link + '_original.jpg' + html_cut2+html_cut3;
 	  $("#"+id+"-images").html(pic_preview_html);
 };
+
 var add_pic_link_single = function(id, link){
   var html_cut1='<input id="' + link + '-input'+ '" type="hidden" value="';
   var html_cut2='"/>';
