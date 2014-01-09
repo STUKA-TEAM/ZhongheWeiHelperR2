@@ -18,9 +18,6 @@
     <link href="./css/store/zhonghe-wechat.css" rel="stylesheet">
     <link href="./css/store/zhonghe-manager.css" rel="stylesheet">
     <link rel="shortcut icon" href="./img/favicon.png">
-    <!-- include jQuery -->
-		<script type="text/javascript" src="./js/store/jquery-1.10.2.min.js"></script>
-    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=PWFniUmG9SMyIVlp7Nm24MRC"></script>
   </head>
   <body>
     <%@ include file="../CommonViews/navBar.jsp"%>  
@@ -87,7 +84,7 @@
                 <td><a data-toggle="modal" data-target="#${appInfo.appid}">查看</a>
                 
                 </td>
-                <td><a class="btn btn-sm btn-danger">删除</a></td>
+                <td><a class="btn btn-sm btn-danger" onclick="submitDeleteApp('${appInfo.appid}')">删除</a></td>
               </tr>
               </c:forEach>
             </table>
@@ -207,7 +204,7 @@
           <div class="modal-body">
             <dl class="dl-horizontal">
               <dt><h4><strong>微信接口URL:</strong></h4></dt>
-              <dd><pre>${appInfo.appid}</pre></dd>
+              <dd><pre>${appInfo.url}</pre></dd>
               <dt><h4><strong>微信接口Token:</strong></h4></dt>
               <dd><pre>${appInfo.wechatToken}</pre></dd>
             </dl>
@@ -297,6 +294,9 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
+    <!-- include jQuery -->
+    <script type="text/javascript" src="./js/store/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=PWFniUmG9SMyIVlp7Nm24MRC"></script>
     <script src="./js/store/bootstrap.min.js"></script>
     <script src="js/store/upload.js"></script>
     <script type="text/javascript">
@@ -304,17 +304,20 @@
     var map = new BMap.Map("baidumap");
     map.centerAndZoom("上海", 12);  
     map.enableScrollWheelZoom();
+    map.addEventListener("click", function(e){
+        map.clearOverlays();
+        var point=new BMap.Point(e.point.lng, e.point.lat);
+        document.getElementById("lng").value = point.lng;
+        document.getElementById("lat").value = point.lat;  
+        map.centerAndZoom(point, map.getZoom());  
+        map.addOverlay(new BMap.Marker(point)); 
+      });
     function setInitPoint(){
     	map.clearOverlays();
-        myGeo.getPoint( "${userInfo.address}", function(point){  
-        if (point) { 	 
-           map.centerAndZoom(point, 16);
-           document.getElementById("lng").value = point.lng;
-           document.getElementById("lat").value = point.lat;  
-           map.addOverlay(new BMap.Marker(point));  
-           map.enableScrollWheelZoom(); 
-         }  
-        }, "上海市");
+    	var point = new BMap.Point('${userInfo.lng}','${userInfo.lat}');
+    	setTimeout("map.centerAndZoom(new BMap.Point('${userInfo.lng}','${userInfo.lat}'), 16)",500);
+    	map.addOverlay(new BMap.Marker(point));  
+        map.enableScrollWheelZoom(); 
     }
     function setPoint(){
     map.clearOverlays();
@@ -328,15 +331,7 @@
        map.enableScrollWheelZoom(); 
      }  
     }, "上海市");
-    } 
-    map.addEventListener("click", function(e){
-      map.clearOverlays();
-      var point=new BMap.Point(e.point.lng, e.point.lat);
-      document.getElementById("lng").value = point.lng;
-      document.getElementById("lat").value = point.lat;  
-      map.centerAndZoom(point, map.getZoom());  
-      map.addOverlay(new BMap.Marker(point)); 
-    });
+    }
     
     function submitBasicInfoEdit(){
       var userInfo = new Object();
@@ -350,7 +345,7 @@
       $.each(linkInputArray,function(key,val){
     	  linkArray.push($(val).val());
       });
-      userInfo.imageList=linkArray;
+      userInfo.imageList=linkArray;;
       userInfo.corpMoreInfoLink=$("#info_link").val();
       userInfo.lng=$("#lng").val();
       userInfo.lat=$("#lat").val();
@@ -361,12 +356,16 @@
 	   	  contentType: "application/json; charset=utf-8",
 	   	  success: function (data) {
 	   	   	  $("#info_edit").modal("hide");
-	   		  if(data.status=="true"){
+	   	   	  var jsonData = JSON.parse(data);
+	   		  if(jsonData.status==true){
 		   	   	  $("#modalMes").html("编辑成功！");
+		   	      $("#operationMesModal").modal("show");
+		   	      setTimeout("location.href='store/account'",1500);
 	   		  }else{
-		   	   	  $("#modalMes").html(data.message);
+		   	   	  $("#modalMes").html(jsonData.message);
+		   	      $("#operationMesModal").modal("show");
 	   		  }
-	   		  $("#operationMesModal").modal("show");
+	   		  
 	   	  },
 		  error: function(xhr, status, exception){
 	   	   	  $("#info_edit").modal("hide");
@@ -391,12 +390,15 @@
   	  contentType: "application/json; charset=utf-8",
    	  success: function (data) {
    		  $("#related").modal("hide");
-   		  if(data.status=="true"){
+   		  var jsonData=JSON.parse(data);
+   		  if(jsonData.status==true){
 	   	   	  $("#modalMes").html("创建成功，已经可以关联新的公众账号，请到腾讯公众平台进行API绑定！");
+	   	      $("#operationMesModal").modal("show");
+	   	      
    		  }else{
-	   	   	  $("#modalMes").html(data.message);  
+	   	   	  $("#modalMes").html(jsonData.message);
+	   	      $("#operationMesModal").modal("show");
    		  }
-   		  $("#operationMesModal").modal("show");
    	  },
 	  error: function(xhr, status, exception){
    	   	  $("#related").modal("hide");
@@ -405,6 +407,29 @@
 	  }
   	});
   	}
+    
+    function submitDeleteApp(appid){
+        $.ajax({
+    	  type: "POST",
+    	  url: "store/app/delete",
+    	  data: "appid="+appid,
+     	  success: function (data) {
+     		  var jsonData=JSON.parse(data);
+     		  if(jsonData.status=="true"){
+  	   	   	  $("#modalMes").html(jsonData.message);
+  	   	      $("#operationMesModal").modal("show");
+  	   	      setTimeout("location.href='store/account'",1500);
+     		  }else{
+  	   	   	  $("#modalMes").html(jsonData.message);
+  	   	      $("#operationMesModal").modal("show");
+     		  }
+     	  },
+  	  error: function(xhr, status, exception){
+     	   	  $("#modalMes").html(status + '</br>' + exception);
+     	      $("#operationMesModal").modal("show");
+  	  }
+    	});
+    	}
     </script>
   </body>
 </html>

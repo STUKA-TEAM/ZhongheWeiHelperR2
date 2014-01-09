@@ -60,9 +60,9 @@ public class EloveController {
 					for (int i = 0; i < infoList.size(); i++) {
 						EloveInfo temp = infoList.get(i);
 						if (temp.getExpiredTime().before(new Timestamp(System.currentTimeMillis()))) {
-							temp.setVaild(false);
+							temp.setIsVaild(false);
 						}else {
-							temp.setVaild(true);
+							temp.setIsVaild(true);
 						}
 					}
 				}				

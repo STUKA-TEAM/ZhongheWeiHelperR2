@@ -57,13 +57,13 @@ public class EloveInfo {
 	/**
 	 * @return the isVaild
 	 */
-	public boolean isVaild() {
+	public boolean getIsVaild() {
 		return isVaild;
 	}
 	/**
 	 * @param isVaild the isVaild to set
 	 */
-	public void setVaild(boolean isVaild) {
+	public void setIsVaild(boolean isVaild) {
 		this.isVaild = isVaild;
 	}
 	/**
