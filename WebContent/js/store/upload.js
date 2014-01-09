@@ -137,6 +137,10 @@ $(document).ready(function(){
 			add_pic_preview_single(id, link);
 			add_pic_link_single(id, link);
 		}
+		if(id == 'upload3single'){
+			add_pic_preview_single(id, link);
+			add_pic_link_single(id, link);
+		}
 	}
 	
 	$('.video-upload').click(function(){

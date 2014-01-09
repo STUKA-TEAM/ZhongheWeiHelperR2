@@ -3,13 +3,15 @@ function getStep1Data(){
 	step1Info.title=$("#elove_title").val();
 	step1Info.password=$("#elove_pwd").val();
 	var coverPicStr=$("#upload1single-links").children();
-	step1Info.coverPic=coverPicStr[0];
+	step1Info.coverPic=coverPicStr[0].value;
 	step1Info.coverText=$("#elove_txt").val();
 	step1Info.shareTitle=$("#share_title").val();
 	step1Info.shareContent=$("#share_content").val();
-	step1Info.majorGroupPhoto=$("dress_pic").val();
+	var majorGroupPhotoStr=$("#upload2single-links").children();
+	step1Info.majorGroupPhoto=majorGroupPhotoStr[0].value;
 	step1Info.themeid=$("#optionsRadios").val();
-	step1Info.music=$("").val();
+	var musicStr=$("#upload3single-links").children();
+	step1Info.music=musicStr[0].value;
 	return step1Info;
 }  
 function getStep2Data(){
@@ -71,7 +73,7 @@ function backStep(backStep){
 		  $("#operationContent").html(data);
 	  }
 	});
-	}
+}
 function cancel(){
 	  $.ajax({
 	  type: "GET",
