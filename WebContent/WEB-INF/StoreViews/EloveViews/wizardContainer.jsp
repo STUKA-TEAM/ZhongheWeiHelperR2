@@ -108,7 +108,9 @@
                     </c:if>
                     </div>
                     <div id="upload2single-links">
-                    <input id="${image}-input" type="hidden" value="${image}"/>
+                    <c:if test="${eloveWizard.majorGroupPhoto!=null}">
+                    <input id="${eloveWizard.majorGroupPhoto}-input" type="hidden" value="${eloveWizard.majorGroupPhoto}"/>
+                    </c:if>
                     </div>
                   </div>
                 </div>
@@ -139,7 +141,7 @@
                   <label for="elove_pic" class="col-md-3 control-label">新人婚纱主图片</label>
                   <div class="col-md-7">
                     <input type="file" name="file" class="image-file hidden" onchange="ye.value=value" accept="image/*">
-                    <input type="text" name=ye class="form-control file-path-elove">
+                    <input type="text" name=ye class="form-control file-path-elove" value="${eloveWizard.music}">
                     <input type="button" value="选择文件" onclick="file.click()" class="btn btn-sm btn-info">
                     <input type="button" value="上传" class="image-square btn btn-sm btn-info">
                   </div>
@@ -147,12 +149,16 @@
                 <div class="form-group">
                   <div class="col-md-7 col-md-offset-3">
                     <div class="row" id="upload3single-images">
-                    <div id="${image}" class="col-md-6 pic-preview-div"><img src="./img/manager/theme2.png" class="pic-preview img-thumbnail img-responsive"/>
-                      <span class="glyphicon glyphicon-trash" onclick="deleteThisImage('${image}')"> </span>
+                    <c:if test="${eloveWizard.music!=null}">
+                    <div id="${eloveWizard.music}" class="col-md-6 pic-preview-div"><img src="./img/manager/theme2.png" class="pic-preview img-thumbnail img-responsive"/>
+                      <span class="glyphicon glyphicon-trash" onclick="deleteThisImage('${eloveWizard.music}')"> </span>
                     </div>
+                    </c:if>
                     </div>
                     <div id="upload3single-links">
-                    <input id="${image}-input" type="hidden" value="${image}"/>
+                    <c:if test="${eloveWizard.music!=null}">
+                    <input id="${eloveWizard.music}-input" type="hidden" value="${eloveWizard.music}"/>
+                    </c:if>
                     </div>
                   </div>
                 </div>
