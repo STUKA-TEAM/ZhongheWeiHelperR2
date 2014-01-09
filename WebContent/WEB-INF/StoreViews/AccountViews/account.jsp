@@ -18,9 +18,6 @@
     <link href="./css/store/zhonghe-wechat.css" rel="stylesheet">
     <link href="./css/store/zhonghe-manager.css" rel="stylesheet">
     <link rel="shortcut icon" href="./img/favicon.png">
-    <!-- include jQuery -->
-		<script type="text/javascript" src="./js/store/jquery-1.10.2.min.js"></script>
-    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=PWFniUmG9SMyIVlp7Nm24MRC"></script>
   </head>
   <body>
     <%@ include file="../CommonViews/navBar.jsp"%>  
@@ -297,6 +294,9 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
+    <!-- include jQuery -->
+    <script type="text/javascript" src="./js/store/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=PWFniUmG9SMyIVlp7Nm24MRC"></script>
     <script src="./js/store/bootstrap.min.js"></script>
     <script src="js/store/upload.js"></script>
     <script type="text/javascript">
@@ -350,7 +350,7 @@
       $.each(linkInputArray,function(key,val){
     	  linkArray.push($(val).val());
       });
-      userInfo.imageList=linkArray;
+      userInfo.imageList=linkArray;;
       userInfo.corpMoreInfoLink=$("#info_link").val();
       userInfo.lng=$("#lng").val();
       userInfo.lat=$("#lat").val();
@@ -361,12 +361,16 @@
 	   	  contentType: "application/json; charset=utf-8",
 	   	  success: function (data) {
 	   	   	  $("#info_edit").modal("hide");
-	   		  if(data.status=="true"){
+	   	   	  var jsonData = JSON.parse(data);
+	   		  if(jsonData.status==true){
 		   	   	  $("#modalMes").html("编辑成功！");
+		   	      $("#operationMesModal").modal("show");
+		   	      setTimeout("location.href='store/account'",1500);
 	   		  }else{
-		   	   	  $("#modalMes").html(data.message);
+		   	   	  $("#modalMes").html(jsonData.message);
+		   	      $("#operationMesModal").modal("show");
 	   		  }
-	   		  $("#operationMesModal").modal("show");
+	   		  
 	   	  },
 		  error: function(xhr, status, exception){
 	   	   	  $("#info_edit").modal("hide");
@@ -391,12 +395,15 @@
   	  contentType: "application/json; charset=utf-8",
    	  success: function (data) {
    		  $("#related").modal("hide");
-   		  if(data.status=="true"){
+   		  var jsonData=JSON.parse(data);
+   		  if(jsonData.status==true){
 	   	   	  $("#modalMes").html("创建成功，已经可以关联新的公众账号，请到腾讯公众平台进行API绑定！");
+	   	      $("#operationMesModal").modal("show");
+	   	      
    		  }else{
-	   	   	  $("#modalMes").html(data.message);  
+	   	   	  $("#modalMes").html(jsonData.message);
+	   	      $("#operationMesModal").modal("show");
    		  }
-   		  $("#operationMesModal").modal("show");
    	  },
 	  error: function(xhr, status, exception){
    	   	  $("#related").modal("hide");
@@ -405,6 +412,34 @@
 	  }
   	});
   	}
+    
+    function submitDeleteApp(){
+        var appInfo=new Object();
+        appInfo.industry=$("#wechat_trade").val();
+        $.ajax({
+    	  type: "POST",
+    	  url: "store/app/insert",
+    	  data: JSON.stringify(appInfo),
+    	  contentType: "application/json; charset=utf-8",
+     	  success: function (data) {
+     		  $("#related").modal("hide");
+     		  var jsonData=JSON.parse(data);
+     		  if(jsonData.status=="true"){
+  	   	   	  $("#modalMes").html("创建成功，已经可以关联新的公众账号，请到腾讯公众平台进行API绑定！");
+  	   	      $("#operationMesModal").modal("show");
+  	   	      setTimeout("location.href='store/account'",1500);
+     		  }else{
+  	   	   	  $("#modalMes").html(jsonData.message);
+  	   	      $("#operationMesModal").modal("show");
+     		  }
+     	  },
+  	  error: function(xhr, status, exception){
+     	   	  $("#related").modal("hide");
+     	   	  $("#modalMes").html(status + '</br>' + exception);
+     	      $("#operationMesModal").modal("show");
+  	  }
+    	});
+    	}
     </script>
   </body>
 </html>

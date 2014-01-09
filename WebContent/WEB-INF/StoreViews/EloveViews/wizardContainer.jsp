@@ -142,5 +142,6 @@
     <script type="text/javascript" src="./js/store/jquery-1.10.2.min.js"></script>
     <script src="js/store/upload.js"></script>
     <script type="text/javascript" src="./js/store/eloveWizard.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=PWFniUmG9SMyIVlp7Nm24MRC"></script>
   </body>
 </html>

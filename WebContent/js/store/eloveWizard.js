@@ -67,7 +67,8 @@ function cancel(){
 	  type: "GET",
 	  url: "store/elove/wizard/cancel",
 	  success: function (data) {
-		  $(html).html(data);
+		  if(data=="OK")
+			  location.href ="store/elove/detail";
 	  }
 	});
 }

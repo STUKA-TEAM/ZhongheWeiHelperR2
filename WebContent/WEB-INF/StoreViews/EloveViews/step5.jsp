@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <ol class="breadcrumb">
-  <li><a href="./elove.html">Elove管理</a></li>
+  <li><a href="store/elove/detail">Elove管理</a></li>
   <li class="active">婚礼记录</li>
 </ol>
 <div class="row">

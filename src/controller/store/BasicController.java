@@ -141,7 +141,7 @@ public class BasicController {
 		
 		Gson gson = new Gson();
 		UserInfo userInfo = gson.fromJson(json, UserInfo.class);
-		
+
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = (User)auth.getPrincipal();
 		userInfo.setSid(user.getSid());	
