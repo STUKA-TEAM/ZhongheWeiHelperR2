@@ -151,6 +151,14 @@ public class BasicController {
 			message.setStatus(false);
 			message.setMessage("关键信息未填写或填写有误！");
 		}else{
+			if(userInfo.getCorpMoreInfoLink() != null){   //validate website format
+				String webSite = userInfo.getCorpMoreInfoLink();
+				if (!webSite.startsWith("http")) {
+					webSite = "http://".concat(webSite);
+					userInfo.setCorpMoreInfoLink(webSite);
+				}
+			}
+			
 			int result = userInfoDao.updateUserInfo(userInfo);						
 			if (result > 0) {
 				message.setStatus(true);
