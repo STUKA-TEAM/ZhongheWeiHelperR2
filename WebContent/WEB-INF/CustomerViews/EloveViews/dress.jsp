@@ -4,7 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
     
     <div class="container-fulid">
-      <img src="img/elove/records_title_2.jpg" class="img-responsive" alt="title background"/>
+      <img src="img/elove/records_title_4.png" class="img-responsive title" alt="title background"/>
     </div><!-- title -->
   <div class="record-bg">
     <div class=" video-container">
@@ -17,7 +17,7 @@
     </div>
     <div class="container-fulid">
       <div class="container-fulid">
-        <img src="img/elove/records_photo_title.png" class="img-responsive"/>
+        <img src="img/elove/records_photo_title_4.png" class="img-responsive"/>
       </div>
       <div class="photo-list">
         <img src="img/elove/dress_photo.jpg" class="center-block" />

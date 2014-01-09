@@ -3,13 +3,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
     <div class="container-fulid">
-      <img src="img/elove/story_title_2.jpg" class="img-responsive title" alt="title background"/>
+      <img src="img/elove/story_title_4.png" class="img-responsive title" alt="title background"/>
     </div><!-- title -->
     <div class="content-bg">
       <div class="container-fulid photo-container">
         <div class="container-fulid photo">
           <img src="img/elove/encounter_group.jpg" class="img-responsive center-block"/>
-          <p class="couple-name">李雷雷<img src="img/elove/heart.png"/> 韩梅梅</p>
+          <p class="couple-name">李雷雷 <img src="img/elove/heart.png"/> 韩梅梅</p>
         </div>
       </div>
 
