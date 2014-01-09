@@ -217,7 +217,7 @@ public class UserInfoDAO {
 		}
 		
 		if (userInfo != null) {   //get image list 
-			List<String> imageList = getUserImages(userInfo.getSid());
+			List<String> imageList = getUserImages(sid);
 			userInfo.setImageList(imageList);
 		}
 		return userInfo;
