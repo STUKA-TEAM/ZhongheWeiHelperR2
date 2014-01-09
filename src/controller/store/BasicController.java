@@ -90,6 +90,7 @@ public class BasicController {
 		
 		UserInfo userInfo = userInfoDao.getUserInfo(user.getSid());
 	    model.addAttribute("userInfo", userInfo);
+	    System.out.println(userInfo.getImageList().size());
         
 	    List<AppInfo> appInfoList = appInfoDao.getAppInfoBySid(user.getSid());
 	    if (appInfoList != null) {
