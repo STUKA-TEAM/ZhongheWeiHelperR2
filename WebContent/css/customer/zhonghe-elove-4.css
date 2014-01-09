@@ -1,7 +1,11 @@
 html, header, body {
   max-width: 360px;
-  background-color: #6db1c4;
+  background-color: #fef9d9;
   font-family:"Microsoft YaHei";
+}
+body {
+  background-image: url(../../img/elove/title_bg_4.png);
+  background-repeat: repeat-y;
 }
 div {
   max-width: 360px;
@@ -12,12 +16,12 @@ div {
   padding-bottom: 5px;
   width: 80%;
   text-align: center;
-  color: #ffffff;
+  color: #be9d68;
 }
 .btn-elove {
   color: #ffffff;
-  background: -webkit-gradient(linear, left top, left bottom, from(#40869f), color-stop(0.4, #387b95), to(#236782));
-  border-color: #1f5b72;
+  background: -webkit-gradient(linear, left top, left bottom, from(#cdb380), color-stop(0.4, #bd9c67), to(#b39159));
+  border-color: #ad8d59;
 }
 .btn-elove:hover,
 .btn-elove:focus,
@@ -25,8 +29,8 @@ div {
 .btn-elove.active,
 .open .dropdown-toggle.btn-elove {
   color: #ffffff;
-  background-color: #347189;
-  border-color: #185167;
+  background-color: #bb9a65;
+  border-color: #ad8d59;
 }
 .btn-elove:active,
 .btn-elove.active,
@@ -41,7 +45,7 @@ div {
   height: 100%;
   width: 145px;
   z-Index: 1040px;
-  background-color: #deedf2;
+  background-color: #fef9d9;
   overflow: hidden;
 }
 .nav {
@@ -68,7 +72,7 @@ div {
   width: 100%;
   font-size: 16px;
   border-bottom-style: solid;
-  border-bottom-color: #61b2c5;
+  border-bottom-color: #d2b78c;
   border-bottom-width: 1px;
 }
 .nav-pills > li + li {
@@ -80,16 +84,15 @@ div {
 }
 .nav-pills > li > a:hover,
 .nav-pills > li > a:focus {
-  color: #1ABC9C;
   border-left-style: solid;
-  border-left-color: #61b2c5;
+  border-left-color: #d2b78c;
   border-left-width: 5px;
-  background-color: #eef8fa;
+  background-color: #fffbe5;
 }
 .nav-pills > li.active > a,
 .nav-pills > li.active > a:hover,
 .nav-pills > li.active > a:focus {
-  background-color: #eef8fa;
+  background-color: #fffbe5;
 }
 .sidebar-bg {
   position: fixed;
@@ -109,26 +112,26 @@ div {
 .sidebar-intr,
 .sidebar-viewAccount {
   font-size: 16px;
-  color: #61b2c5;
+  color: #d2b78c;
   padding: 5px 0 10px 40px;
 }
 .sidebar-encount {
-  background: url(../../img/elove/encount_logo_2.png) no-repeat;
+  background: url(../../img/elove/encount_logo_4.png) no-repeat;
 }
 .sidebar-photo {
-  background: url(../../img/elove/photo_logo_2.png) no-repeat;
+  background: url(../../img/elove/photo_logo_4.png) no-repeat;
 }
 .sidebar-info {
-  background: url(../../img/elove/info_logo_2.png) no-repeat;
+  background: url(../../img/elove/info_logo_4.png) no-repeat;
 }
 .sidebar-record {
-  background: url(../../img/elove/record_logo_2.png) no-repeat;
+  background: url(../../img/elove/record_logo_4.png) no-repeat;
 }
 .sidebar-intr {
-  background: url(../../img/elove/intr_logo_2.png) no-repeat;
+  background: url(../../img/elove/intr_logo_4.png) no-repeat;
 }
 .sidebar-viewAccount {
-  background: url(../../img/elove/viewAcc_logo_2.png) no-repeat;
+  background: url(../../img/elove/viewAcc_logo_4.png) no-repeat;
 }
 .sidebar-guide {
   position: fixed;
@@ -141,7 +144,7 @@ div {
 }
 .sidebar-guide-tip {
   font-size: 16px;
-  color: #ffffff;
+  color: #be9d68;
   width: 100%;
   height: auto;
   margin-left: 5px;
@@ -149,7 +152,7 @@ div {
 .audio {
   width:100%;
   font-size: 16px;
-  color: #61b2c5;
+  color: #d2b78c;
   padding: 10px;
   clear: both;
 }
@@ -161,7 +164,7 @@ div {
 }
 .modal-content {
   position: relative;
-  background-color: #deedf2;
+  background-color: #fef9d9;
   border-radius: 6px;
   outline: none;
   -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
@@ -176,10 +179,10 @@ div {
   height: auto;
   width: 100%;
   padding: 3px 15px;
-  color: #61b2c5;
+  color: #d2b78c;
   border-style: solid;
   border-width: 1px;
-  border-color: #61b2c5;
+  border-color: #d2b78c;
   border-radius: 4px;
   outline-style: none;
 }
@@ -190,10 +193,10 @@ div {
   font-family:"Microsoft YaHei";
   width: 100%;
   padding: 3px 15px;
-  color: #61b2c5;
+  color: #d2b78c;
   border-style: solid;
   border-width: 1px;
-  border-color: #61b2c5;
+  border-color: #d2b78c;
   border-radius: 4px;
   outline-style: none;
 }

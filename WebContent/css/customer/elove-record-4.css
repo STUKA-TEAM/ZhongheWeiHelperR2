@@ -1,0 +1,26 @@
+.title {
+  background-image: url(../../img/elove/title_bg_4.png);
+  background-repeat: repeat-y;
+}
+.record-bg {
+  background-image: url(../../img/elove/title_bg_4.png);
+  background-repeat: repeat-y;
+}
+.video {
+  margin: 0 auto;
+  width: 90%;
+}
+.video-container {
+  padding-bottom: 30px;
+}
+.photo-list {
+  display: block;
+  margin: 10px auto;
+  width: 90%;
+  padding: 8px;
+  background-color: #ffffff; 
+}
+.photo-list > img {
+  width: 100%;
+  height: auto;
+}

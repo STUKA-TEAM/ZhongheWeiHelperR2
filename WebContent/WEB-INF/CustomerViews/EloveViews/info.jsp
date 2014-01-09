@@ -3,9 +3,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
     
-
+  <div class="info-bg">
     <div class="container-fulid">
-      <img src="img/elove/info_title_2.jpg" class="img-responsive title" alt="title background" />
+      <img src="img/elove/info_title_4.png" class="img-responsive title" alt="title background" />
       <div class="logo-container">
         <img src="img/elove/encounter_group.jpg" class="logo" alt="logo" />
       </div>
@@ -13,7 +13,7 @@
     
     <div class="container-fulid">
       <div class="message">
-        <img src="img/elove/message_content.png" class="message-content" />
+        <img src="img/elove/message_content_4.png" class="message-content" />
       </div>
     </div>
     
@@ -68,3 +68,4 @@
     <div class="footer">
       <p>Copyright © 2013 zhonghesoftware.com All Rights Reserved. 众合网络科技有限公司 版权所有</p>
     </div><!-- footer -->
+  </div>
