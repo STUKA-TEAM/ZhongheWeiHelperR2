@@ -192,6 +192,24 @@ public class AppInfoDAO {
 	}
 	
 	/**
+	 * @title: getAppNumByAppid
+	 * @description: 查询某个appid是否存在 
+	 * @param appid
+	 * @return
+	 */
+	public int getAppNumByAppid(String appid){
+		String SQL = "SELECT COUNT(*) FROM application WHERE appid = ?";
+		int count = 0;
+		
+		try {
+			count = jdbcTemplate.queryForObject(SQL, Integer.class, appid);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return count;
+	}
+	
+	/**
 	 * @title: getAuthid
 	 * @description: 查询权限名字对应的id
 	 * @param authName

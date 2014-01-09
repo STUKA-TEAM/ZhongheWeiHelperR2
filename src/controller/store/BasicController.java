@@ -20,10 +20,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
@@ -234,50 +234,44 @@ public class BasicController {
 	 */
 	@RequestMapping(value = "/app/delete", method = RequestMethod.POST)
 	@ResponseBody
-    public String login(Model model, @CookieValue(value = "appid", required = true) String appid) {
+    public String login(Model model, @RequestParam(value = "appid", required = true) String appid) {
+		ApplicationContext context = 
+				new ClassPathXmlApplicationContext("All-Modules.xml");
+		AppInfoDAO appInfoDao = (AppInfoDAO) context.getBean("AppInfoDAO");
+		EloveWizardDAO eloveWizardDao = (EloveWizardDAO) context.getBean("EloveWizardDAO");
+		((ConfigurableApplicationContext)context).close();
+		
 		Gson gson = new Gson();
 		ResponseMessage message = new ResponseMessage();
-		if (appid == null) {                      //异常
+		
+		if (appInfoDao.getAppNumByAppid(appid) == 0) {
 			message.setStatus(false);
-			message.setMessage("请重新登录！");
-		}
-		else {
-			if (appid == "") {                    //需先创建app
+			message.setMessage("此应用不存在！");
+		}else {
+			Integer notPayNum = eloveWizardDao.getConsumeRecord(appid);
+			if (notPayNum == null || notPayNum.intValue() > 0) {
 				message.setStatus(false);
-				message.setMessage("请先创建app!");
-			}
-			else {
-				ApplicationContext context = 
-						new ClassPathXmlApplicationContext("All-Modules.xml");
-				AppInfoDAO appInfoDao = (AppInfoDAO) context.getBean("AppInfoDAO");
-				EloveWizardDAO eloveWizardDao = (EloveWizardDAO) context.getBean("EloveWizardDAO");
-				((ConfigurableApplicationContext)context).close();
+				message.setMessage("当前应用账单异常或未结清！");
+			}else{
+				appInfoDao.deleteAppAuthRelation(appid);
+				appInfoDao.deleteUserAppRelation(appid);
+				appInfoDao.deleteAppInfo(appid);
+				eloveWizardDao.deleteConsumeRecord(appid);
 				
-				Integer notPayNum = eloveWizardDao.getConsumeRecord(appid);
-				if (notPayNum == null || notPayNum.intValue() > 0) {
-					message.setStatus(false);
-					message.setMessage("当前应用账单异常或未结清！");
-				}else{
-					appInfoDao.deleteAppAuthRelation(appid);
-					appInfoDao.deleteUserAppRelation(appid);
-					appInfoDao.deleteAppInfo(appid);
-					eloveWizardDao.deleteConsumeRecord(appid);
-					
-					List<Integer> eloveidList = eloveWizardDao.getEloveidList(appid);
-					if (eloveidList != null) {
-						for (int i = 0; i < eloveidList.size(); i++) {
-							int eloveid = eloveidList.get(i);
-							eloveWizardDao.deleteImage(eloveid);
-							eloveWizardDao.deleteVideo(eloveid);
-							eloveWizardDao.deleteJoin(eloveid);
-							eloveWizardDao.deleteMessage(eloveid);
-							eloveWizardDao.deleteElove(eloveid);
-						}
+				List<Integer> eloveidList = eloveWizardDao.getEloveidList(appid);
+				if (eloveidList != null) {
+					for (int i = 0; i < eloveidList.size(); i++) {
+						int eloveid = eloveidList.get(i);
+						eloveWizardDao.deleteImage(eloveid);
+						eloveWizardDao.deleteVideo(eloveid);
+						eloveWizardDao.deleteJoin(eloveid);
+						eloveWizardDao.deleteMessage(eloveid);
+						eloveWizardDao.deleteElove(eloveid);
 					}
-					
-					message.setStatus(true);
-					message.setMessage("删除成功！");
-				}
+			    }
+				
+				message.setStatus(true);
+				message.setMessage("删除成功！");
 			}
 		}
 		
