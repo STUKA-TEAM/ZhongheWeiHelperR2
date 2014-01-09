@@ -71,6 +71,11 @@ public class AppInfoDAO {
 				return -2;
 			}
 			
+			result = insertConsumeRecord(appInfo.getAppid());
+			if (result == 0) {
+				return -3;
+			}
+			
 			return result;
 		}else {
 			return 0;
@@ -84,20 +89,11 @@ public class AppInfoDAO {
 	 * @param appid
 	 * @return
 	 */
-	public int insertUserAppRelation(final int sid, final String appid){
-		final String SQL = "INSERT INTO storeuser_application VALUES (default, ?, ?)";
+	private int insertUserAppRelation(int sid, String appid){
+		String SQL = "INSERT INTO storeuser_application VALUES (default, ?, ?)";
 		int result = 0;
 		
-		KeyHolder kHolder = new GeneratedKeyHolder();
-		result = jdbcTemplate.update(new PreparedStatementCreator() {
-		    public PreparedStatement createPreparedStatement(Connection connection) throws SQLException{
-		        PreparedStatement ps =
-		            connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
-		        ps.setInt(1, sid);
-		        ps.setString(2, appid);
-		        return ps;
-		    }
-		}, kHolder);
+		result = jdbcTemplate.update(SQL, sid, appid);
 		
 		return result <= 0 ? 0 : result;
 	}
@@ -109,35 +105,37 @@ public class AppInfoDAO {
 	 * @param appid
 	 * @return
 	 */
-	public int insertAppAuthRelation(List<String> authNameList, final String appid){
-		final String SQL = "INSERT INTO application_authority VALUES (default, ?, ?)";
+	private int insertAppAuthRelation(List<String> authNameList, String appid){
+		String SQL = "INSERT INTO application_authority VALUES (default, ?, ?)";
 		int result = 0;
-		
-		KeyHolder kHolder = new GeneratedKeyHolder();
+
 		for (int i = 0; i < authNameList.size(); i++) {
 			String authName = authNameList.get(i);
 			Integer authid = getAuthid(authName);
 			if (authid == null) {
 				return 0;
 			}
-			final int id = authid.intValue();
+			int id = authid.intValue();
 			
-			result = jdbcTemplate.update(new PreparedStatementCreator() {
-			    public PreparedStatement createPreparedStatement(Connection connection) throws SQLException{
-			        PreparedStatement ps =
-			            connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
-			        ps.setString(1, appid);
-			        ps.setInt(2, id);
-			        return ps;
-			    }
-			}, kHolder);
-			
+			result = jdbcTemplate.update(SQL, appid, id);		
 			if (result <= 0) {
 				return 0;
 			}
 		}
 		
 		return result;
+	}
+	
+	/**
+	 * @title: insertConsumeRecord
+	 * @description: 插入应用消费初始记录
+	 * @param appid
+	 * @return
+	 */
+	private int insertConsumeRecord(String appid){
+		String SQL = "INSERT INTO elove_consume_record VALUES (default, ?, 0)";
+		int result = jdbcTemplate.update(SQL, appid);
+		return result <= 0 ? 0 : result;
 	}
 	
 	//query
@@ -175,6 +173,34 @@ public class AppInfoDAO {
 	}
 	
 	/**
+	 * @title: getBasicAppInfo
+	 * @description: 获取基本的应用信息
+	 * @param sid
+	 * @return
+	 */
+	public List<AppInfo> getBasicAppInfo(int sid){
+		String SQL = "SELECT A.appid, A.wechatName FROM storeuser_application S, "
+				+ "application A WHERE S.appid = A.appid AND S.sid = ?";
+		List<AppInfo> appInfoList = null;
+		try {
+			appInfoList = jdbcTemplate.query(SQL, new Object[]{sid}, new BasicAppInfoMapper());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+        return appInfoList;
+	}
+	
+	private static final class BasicAppInfoMapper implements RowMapper<AppInfo>{
+		@Override
+		public AppInfo mapRow(ResultSet rs, int arg1) throws SQLException {
+			AppInfo appInfo = new AppInfo();
+			appInfo.setAppid(rs.getString("A.appid"));
+			appInfo.setWechatName(rs.getString("A.wechatName"));
+			return appInfo;
+		}		
+	}
+	
+	/**
 	 * @title: getAppNumBySid
 	 * @description: 查询一个用户账号下已创建的app数量
 	 * @param sid
@@ -189,6 +215,24 @@ public class AppInfoDAO {
 			System.out.println(e.getMessage());
 		}
 		return count;		
+	}
+	
+	/**
+	 * @title: getAppNumByAppid
+	 * @description: 查询某个appid是否存在 
+	 * @param appid
+	 * @return
+	 */
+	public int getAppNumByAppid(String appid){
+		String SQL = "SELECT COUNT(*) FROM application WHERE appid = ?";
+		int count = 0;
+		
+		try {
+			count = jdbcTemplate.queryForObject(SQL, Integer.class, appid);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return count;
 	}
 	
 	/**
@@ -213,6 +257,32 @@ public class AppInfoDAO {
 		public Integer mapRow(ResultSet rs, int arg1) throws SQLException {
 			Integer authid = rs.getInt("authid");
 			return authid;
+		}		
+	}
+	
+	/**
+	 * @title: getAuthPinyinList
+	 * @description: 根据appid来获取对应权限拼音列表
+	 * @param appid
+	 * @return
+	 */
+	public List<String> getAuthPinyinList(String appid){
+		String SQL = "SELECT A.authPinyin FROM authority A, application_authority B"
+				+ " WHERE A.authid = B.authid AND B.appid = ?";
+		List<String> authPinyinList = null;
+		try {
+			authPinyinList = jdbcTemplate.query(SQL, new Object[]{appid}, new AuthPinyinMapper());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return authPinyinList;
+	}
+	
+	private static final class AuthPinyinMapper implements RowMapper<String>{
+		@Override
+		public String mapRow(ResultSet rs, int arg1) throws SQLException {
+			String authPinyin = rs.getString("A.authPinyin");
+			return authPinyin;
 		}		
 	}
 	

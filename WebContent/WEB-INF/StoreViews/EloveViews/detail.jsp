@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -19,10 +20,6 @@
     <link rel="shortcut icon" href="./img/favicon.png">
   </head>
   <body>
-  
-    <c:forEach items = "${infoList}" var = "eloveInfo" >
-    ${eloveInfo.eloveid}
-    </c:forEach>
     <%@ include file="../CommonViews/navBar.jsp"%>
     <div class="row">
       <%@ include file="../CommonViews/leftSide.jsp"%>    
@@ -50,24 +47,24 @@
                 <th>新娘</th>
                 <th></th>
               </tr>
-              <tr>
-                <td>2014-1-1 16:39:09</td>
-                <td>2014-1-1 16:39:13</td>
-                <td><p class="text-success">有效</p></td>
-                <td>couple1</td>
-                <td>李雷</td>
-                <td>韩梅梅</td>
-                <td><a class="btn btn-sm btn-user">编辑</a></td>
-              </tr>
-              <tr>
-                <td>2014-1-1 16:39:09</td>
-                <td>2014-1-1 16:39:13</td>
-                <td><p class="text-danger">已过期</p></td>
-                <td>couple0</td>
-                <td>李雷</td>
-                <td>韩梅梅</td>
-                <td></td>
-              </tr>
+               <c:forEach items = "${infoList}" var = "eloveInfo" >           
+               <tr>
+                <td><fmt:formatDate value="${eloveInfo.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+                <td><fmt:formatDate value="${eloveInfo.expiredTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+                <td>
+                <c:if test="${eloveInfo.isVaild==true}">
+                <p class="text-success">有效</p>
+                </c:if>
+                <c:if test="${eloveInfo.isVaild==false}">
+                <p class="text-danger">已过期</p>
+                </c:if>
+                </td>
+                <td>${eloveInfo.password}</td>
+                <td>${eloveInfo.xinLang}</td>
+                <td>${eloveInfo.xinNiang}</td>
+                <td><a href="./store/elove/wizard/initial/edit?eloveid=${eloveInfo.eloveid}" class="btn btn-sm btn-user">编辑</a></td>
+               </tr>
+               </c:forEach>
             </table>
           </div>
         </div>

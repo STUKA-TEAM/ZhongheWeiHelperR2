@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.util.List;
 
 import javax.sql.DataSource;
 
@@ -64,7 +66,45 @@ public class UserInfoDAO {
 	        }
 	    }, kHolder);
 		
-		return result == 0 ? 0 : kHolder.getKey().intValue();
+		return result <= 0 ? 0 : kHolder.getKey().intValue();
+	}
+	
+	/**
+	 * @title: insertImageList
+	 * @description: 插入与sid相关的图片列表记录
+	 * @param sid
+	 * @param imageList
+	 * @return
+	 */
+	private int insertImageList(int sid, List<String> imageList){
+		int result = 0;
+		String SQL = "INSERT INTO storeimage VALUES (default, ?, ?)";
+		
+		for (int i = 0; i < imageList.size(); i++) {
+			String imagePath = imageList.get(i);
+			result = jdbcTemplate.update(SQL, sid, imagePath);
+			if (result <= 0) {
+				return 0;
+			}
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * @title: insertImageTempRecord
+	 * @description: 将要删除图片的信息存入临时表
+	 * @param imagePath
+	 * @param current
+	 * @return
+	 */
+	private int insertImageTempRecord(String imagePath, Timestamp current){
+		int result = 0;
+		String SQL = "INSERT INTO image_temp_record VALUES (default, ?, ?)";
+		
+		result = jdbcTemplate.update(SQL, imagePath, current);
+		
+		return result <= 0 ? 0 : result;
 	}
 	
 	//delete
@@ -76,7 +116,31 @@ public class UserInfoDAO {
 	 */
 	public int deleteUserInfo(int sid){
 		String SQL = "DELETE FROM storeuser WHERE sid = ?";
-		int effected = jdbcTemplate.update(SQL, new Object[]{sid});
+		int effected = jdbcTemplate.update(SQL, sid);
+		return effected;
+	}
+	
+	/**
+	 * @title: deleteUserImage
+	 * @description: 删除用户关联的图片信息
+	 * @param sid
+	 * @return
+	 */
+	private int deleteUserImages(int sid){
+		String SQL = "DELETE FROM storeimage WHERE sid = ?";
+		int effected = jdbcTemplate.update(SQL, sid);
+		return effected;
+	}
+	
+	/**
+	 * @title: deleteImageTempRecord
+	 * @description: 删除图片在临时表中记录
+	 * @param imagePath
+	 * @return
+	 */
+	private int deleteImageTempRecord(String imagePath){
+		String SQL = "DELETE FROM image_temp_record WHERE imagePath = ?";
+		int effected = jdbcTemplate.update(SQL, imagePath);
 		return effected;
 	}
 	
@@ -88,16 +152,52 @@ public class UserInfoDAO {
 	 * @return
 	 */
 	public int updateUserInfo(UserInfo userInfo){
-		String SQL = "UPDATE storeuser SET password = ?, "
-				+ "storeName = ?, email = ?, phone = ?, cellPhone = ?, "
-				+ "address = ?, corpMoreInfoLink = ?, "
-				+ "lng = ?, lat = ? WHERE sid = ?";
-		int effected = jdbcTemplate.update(SQL, new Object[]{ userInfo.getPassword(), 
-				userInfo.getStoreName(), userInfo.getEmail(), userInfo.getPhone(), 
-				userInfo.getCellPhone(), userInfo.getAddress(), 
-				userInfo.getCorpMoreInfoLink(), userInfo.getLng(), 
-				userInfo.getLat(), userInfo.getSid()});
-		return effected;
+		String SQL = "UPDATE storeuser SET storeName = ?, email = ?, phone = ?, "
+				+ "cellPhone = ?, address = ?, corpMoreInfoLink = ?, lng = ?, "
+				+ "lat = ? WHERE sid = ?";
+		int effected = jdbcTemplate.update(SQL, new Object[]{userInfo.getStoreName(), 
+				userInfo.getEmail(), userInfo.getPhone(), userInfo.getCellPhone(), 
+				userInfo.getAddress(), userInfo.getCorpMoreInfoLink(), 
+				userInfo.getLng(), userInfo.getLat(), userInfo.getSid()});
+		
+		if (effected <= 0) {
+			return 0;
+		}
+		else {
+			List<String> originalImages = getUserImages(userInfo.getSid());
+			updateUserImages(userInfo.getSid(), userInfo.getImageList());
+			
+			//delete records from image temporary table
+			for (int i = 0; i < userInfo.getImageList().size(); i++) {
+				String imagePath = userInfo.getImageList().get(i);			
+				deleteImageTempRecord(imagePath);
+			}
+			
+			//add original images to image temporary table
+			Timestamp current = new Timestamp(System.currentTimeMillis());
+			for (int i = 0; i < originalImages.size(); i++) {
+				String imagePath = originalImages.get(i);				
+				insertImageTempRecord(imagePath, current);
+			}
+			
+			return effected;
+		}
+	}
+	
+	/**
+	 * @title: updateUserImages
+	 * @description: 更新用户图片信息
+	 * @param sid
+	 * @param imageList
+	 * @return
+	 */
+	private int updateUserImages(int sid, List<String> imageList){
+		int result = 0;
+		
+		deleteUserImages(sid);
+		
+		result = insertImageList(sid, imageList);		
+		return result;
 	}
 	
 	//query
@@ -115,6 +215,11 @@ public class UserInfoDAO {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
+		
+		if (userInfo != null) {   //get image list 
+			List<String> imageList = getUserImages(sid);
+			userInfo.setImageList(imageList);
+		}
 		return userInfo;
 	}
 	
@@ -130,8 +235,35 @@ public class UserInfoDAO {
 			userInfo.setCellPhone(rs.getString("cellPhone"));
 			userInfo.setAddress(rs.getString("address"));
 			userInfo.setCorpMoreInfoLink(rs.getString("corpMoreInfoLink"));
+			userInfo.setLng(rs.getBigDecimal("lng"));
+			userInfo.setLat(rs.getBigDecimal("lat"));
 			return userInfo;
 		}
+	}
+	
+	/**
+	 * @title: getUserImages
+	 * @description: 通过sid获取相关联的图片列表
+	 * @param sid
+	 * @return
+	 */
+	public List<String> getUserImages(int sid){
+		String SQL = "SELECT imagePath FROM storeimage WHERE sid = ?";
+		List<String> imageList = null;
+		try {
+			imageList = jdbcTemplate.query(SQL, new Object[]{sid}, new ImagePathMapper());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return imageList;
+	}
+	
+	private static final class ImagePathMapper implements RowMapper<String>{
+		@Override
+		public String mapRow(ResultSet rs, int arg1) throws SQLException {
+			String imagePath = rs.getString("imagePath");
+			return imagePath;
+		}		
 	}
 	
 	/**

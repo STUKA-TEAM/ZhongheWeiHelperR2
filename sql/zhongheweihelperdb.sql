@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 07, 2014 at 01:30 PM
+-- Generation Time: Jan 08, 2014 at 06:16 PM
 -- Server version: 5.5.32
 -- PHP Version: 5.4.19
 
@@ -38,14 +38,16 @@ CREATE TABLE IF NOT EXISTS `application` (
   `address` varchar(40) NOT NULL DEFAULT '' COMMENT '微信账号地址',
   `industry` varchar(20) NOT NULL DEFAULT '' COMMENT '账号所属行业',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='用于关联微信公众号的应用' AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='用于关联微信公众号的应用' AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `application`
 --
 
 INSERT INTO `application` (`id`, `appid`, `wechatToken`, `wechatName`, `wechatOriginalId`, `wechatNumber`, `address`, `industry`) VALUES
-(1, '58e697edb5b148c190db1cf35a835ff9', 'test', 'one', 'sdkadhk', '1234', '北京', '航空');
+(1, '58e697edb5b148c190db1cf35a835ff9', 'test', 'one', 'sdkadhk', '1234', '北京', '航空'),
+(2, 'cca6ac02cb574875a6741aaf69941c1e', 'jdsdhsajd', 'two', 'dsad', 'hdjsadhksa', 'sjdhadaj', 'hsajdhsad'),
+(3, 'b673f2fd3eac4c9fb49aad09f8b7178f', 'jdsdhsajd', 'two', 'dsad', 'hdjsadhksa', 'sjdhadaj', 'hsajdhsad');
 
 -- --------------------------------------------------------
 
@@ -55,10 +57,17 @@ INSERT INTO `application` (`id`, `appid`, `wechatToken`, `wechatName`, `wechatOr
 
 CREATE TABLE IF NOT EXISTS `application_authority` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `appid` int(11) NOT NULL DEFAULT '0' COMMENT 'UUID',
+  `appid` varchar(32) NOT NULL COMMENT 'UUID',
   `authid` int(11) NOT NULL DEFAULT '0' COMMENT '权限id',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `application_authority`
+--
+
+INSERT INTO `application_authority` (`id`, `appid`, `authid`) VALUES
+(1, 'b673f2fd3eac4c9fb49aad09f8b7178f', 6);
 
 -- --------------------------------------------------------
 
@@ -69,6 +78,7 @@ CREATE TABLE IF NOT EXISTS `application_authority` (
 CREATE TABLE IF NOT EXISTS `authority` (
   `authid` int(11) NOT NULL AUTO_INCREMENT COMMENT '需权限资源id',
   `authName` varchar(20) NOT NULL DEFAULT '' COMMENT '需权限资源名称',
+  `authPinyin` varchar(25) NOT NULL COMMENT '权限名称拼音',
   PRIMARY KEY (`authid`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='资源权限表' AUTO_INCREMENT=7 ;
 
@@ -76,13 +86,13 @@ CREATE TABLE IF NOT EXISTS `authority` (
 -- Dumping data for table `authority`
 --
 
-INSERT INTO `authority` (`authid`, `authName`) VALUES
-(1, '微网站'),
-(2, '图文信息'),
-(3, '微活动'),
-(4, '微留言'),
-(5, '微相册'),
-(6, 'elove');
+INSERT INTO `authority` (`authid`, `authName`, `authPinyin`) VALUES
+(1, '微网站', 'weiwangzhan'),
+(2, '图文信息', 'tuwenxinxi'),
+(3, '微活动', 'weihuodong'),
+(4, '微留言', 'weiliuyan'),
+(5, '微相册', 'weixiangce'),
+(6, 'elove', 'elove');
 
 -- --------------------------------------------------------
 
@@ -217,6 +227,19 @@ CREATE TABLE IF NOT EXISTS `feedback` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `image_temp_record`
+--
+
+CREATE TABLE IF NOT EXISTS `image_temp_record` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `imagePath` varchar(80) NOT NULL COMMENT '临时图片路径（未完全）',
+  `createDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `role`
 --
 
@@ -289,7 +312,7 @@ CREATE TABLE IF NOT EXISTS `storeuser` (
 --
 
 INSERT INTO `storeuser` (`sid`, `roleid`, `username`, `password`, `createDate`, `storeName`, `email`, `phone`, `cellPhone`, `address`, `corpMoreInfoLink`, `lng`, `lat`) VALUES
-(1, 1, 'byc', '$2a$10$w2a0e8OsEtJ0dPYT//Sc0Oj1NneShu5iXBTppGKi47peA75jtXzVu', '2013-12-16 04:16:00', 'Zhonghe', '1311867063@qq.com', NULL, '13585563683', '浦东新区盛夏路58弄', 'www.baidu.com', '0.000000', '0.000000'),
+(1, 1, 'byc', '$2a$10$w2a0e8OsEtJ0dPYT//Sc0Oj1NneShu5iXBTppGKi47peA75jtXzVu', '2013-12-16 04:16:00', 'Zhonghe', '', '', '13585563683', '浦东新区盛夏路58弄', 'www.baidu.com', '121.635941', '31.221395'),
 (9, 1, 'ben', '$2a$10$sEGe34AJc7BXrX5961cTUurSDs60uiLx3I1J7zul8JsrXYAtlUlqG', '2013-12-30 08:47:47', 'test', '1311867063@qq.com', '', '13585563683', '江苏南通海安', 'www.baidu.com', '120.473927', '32.553985'),
 (10, 1, 'bai', '$2a$10$aaFHwN5KpVvv0NLnDIi4..PjtriVOwTyYN5N/rO5oKFwaHs6KLhe.', '2013-12-30 09:55:57', 'test', '1311867063@qq.com', '', '13585563683', '江苏南通海安', 'www.baidu.com', '120.473927', '32.553985'),
 (11, 1, 'lubovabc', '$2a$10$wzRCgNwIAdGKdo62j6monOGIElg6cXgtiRNe4Ew5MhTzYDielSt.u', '2014-01-07 05:33:40', 'test', '1311867063@qq.com', '', '13585563683', '江苏南通海安', 'http://www.baidu.com', '120.473927', '32.553985'),
@@ -306,14 +329,16 @@ CREATE TABLE IF NOT EXISTS `storeuser_application` (
   `sid` int(11) NOT NULL DEFAULT '0' COMMENT '众合微信助手账户id',
   `appid` varchar(32) NOT NULL DEFAULT '' COMMENT '众合微信平台应用id',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `storeuser_application`
 --
 
 INSERT INTO `storeuser_application` (`id`, `sid`, `appid`) VALUES
-(1, 1, '58e697edb5b148c190db1cf35a835ff9');
+(1, 1, '58e697edb5b148c190db1cf35a835ff9'),
+(2, 1, 'cca6ac02cb574875a6741aaf69941c1e'),
+(3, 1, 'b673f2fd3eac4c9fb49aad09f8b7178f');
 
 -- --------------------------------------------------------
 
@@ -339,6 +364,19 @@ INSERT INTO `store_auth_price` (`id`, `sid`, `authid`, `price`) VALUES
 (3, 10, 6, '100.00'),
 (4, 11, 6, '100.00'),
 (5, 12, 6, '100.00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `video_temp_record`
+--
+
+CREATE TABLE IF NOT EXISTS `video_temp_record` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `videoPath` varchar(80) NOT NULL COMMENT '临时视频路径',
+  `createDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

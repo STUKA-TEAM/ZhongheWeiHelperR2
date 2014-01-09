@@ -22,7 +22,7 @@
     <%@ include file="../CommonViews/navBar.jsp"%>
     <div class="row">
       <%@ include file="../CommonViews/leftSide.jsp"%>
-      <div class="col-md-10 manager-content">
+      <div id="operationContent" class="col-md-10 manager-content">
         <ol class="breadcrumb">
           <li><a href="store/elove/detail">Elove管理</a></li>
           <li class="active">基本信息</li>
@@ -46,7 +46,7 @@
                     <input type="text" class="form-control" id="elove_pwd" placeholder="">
                   </div>
                 </div>
-                <form  class="form-group" role="form" enctype="multipart/form-data" id="mutiSizePic">
+                <form  class="form-group" role="form" enctype="multipart/form-data" id="upload1single">
                   <label for="elove_pic" class="col-md-3 control-label">图文消息图片</label>
                   <div class="col-md-7">
                     <input type="file" name="file" class="image-file hidden" onchange="ye.value=value" accept="image/*">
@@ -55,15 +55,18 @@
                     <input type="button" value="上传" class="image-multi btn btn-sm btn-info">
                   </div>
                 </form>
-                <div class="form-group">
+              <div class="form-group">
                   <div class="col-md-7 col-md-offset-3">
-                    <div class="row">
-                      <div class="col-md-4">
-                        <img src="./img/manager/theme2.png" class="pic-preview img-thumbnail img-responsive"/>
-                      </div>
+                    <div class="row" id="upload1single-images">
+                    <div id="${image}" class="col-md-6 pic-preview-div"><img src="./img/manager/theme2.png" class="pic-preview img-thumbnail img-responsive"/>
+                      <span class="glyphicon glyphicon-trash" onclick="deleteThisImage('${image}')"> </span>
+                    </div>
+                    </div>
+                    <div id="upload1single-links">
+                    <input id="${image}-input" type="hidden" value="${image}"/>
                     </div>
                   </div>
-                </div>
+              </div>                                
                 <div class="form-group">
                   <label for="elove_txt" class="col-md-3 control-label">图文消息文字</label>
                   <div class="col-md-7">
@@ -82,10 +85,25 @@
                     <input type="text" class="form-control" id="share_content" placeholder="">
                   </div>
                 </div>
-                <div class="form-group">
-                  <label for="dress_pic" class="col-md-3 control-label">新人婚纱主图片</label>
+				 <form  class="form-group" role="form" enctype="multipart/form-data" id="upload2single">
+                  <label for="elove_pic" class="col-md-3 control-label">新人婚纱主图片</label>
                   <div class="col-md-7">
-                    <input type="text" class="form-control" id="dress_pic" placeholder="">
+                    <input type="file" name="file" class="image-file hidden" onchange="ye.value=value" accept="image/*">
+                    <input type="text" name=ye class="form-control file-path-elove">
+                    <input type="button" value="选择文件" onclick="file.click()" class="btn btn-sm btn-info">
+                    <input type="button" value="上传" class="image-square btn btn-sm btn-info">
+                  </div>
+                </form>
+                <div class="form-group">
+                  <div class="col-md-7 col-md-offset-3">
+                    <div class="row" id="upload2single-images">
+                    <div id="${image}" class="col-md-6 pic-preview-div"><img src="./img/manager/theme2.png" class="pic-preview img-thumbnail img-responsive"/>
+                      <span class="glyphicon glyphicon-trash" onclick="deleteThisImage('${image}')"> </span>
+                    </div>
+                    </div>
+                    <div id="upload2single-links">
+                    <input id="${image}-input" type="hidden" value="${image}"/>
+                    </div>
                   </div>
                 </div>
                 <div class="form-group">
@@ -99,7 +117,6 @@
                             简约主题
                           </label>
                         </div>
-                        <img src="./img/manager/theme1.png" class="pic-preview img-thumbnail img-responsive"/>
                       </div>
                       <div class="col-md-4">
                         <div class="radio">
@@ -108,7 +125,6 @@
                             温馨主题
                           </label>
                         </div>
-                        <img src="./img/manager/theme2.png" class="pic-preview img-thumbnail img-responsive"/>
                       </div>
                     </div>
                   </div>
@@ -123,8 +139,8 @@
                   </div>
                 </form>
                 <div class="form-group form-btn">
-                  <a class="btn btn-lg btn-info col-md-3 col-md-offset-2" href="./elove-2.html">跳过</a>
-                  <button type="submit" class="btn btn-lg btn-info col-md-3 col-md-offset-1">下一步</button>
+		            <button type="button" class="btn btn-lg btn-info col-md-3 col-md-offset-2" onclick="cancel()">取消</button>
+		            <button type="button" class="btn btn-lg btn-info col-md-3 col-md-offset-1" onclick="nextStep('step2')">下一步</button>
                 </div>
               </div>
             </div>
@@ -139,7 +155,9 @@
       </div>
     </div><!-- footer -->
     <!-- include jQuery + carouFredSel plugin -->
-		<script type="text/javascript" src="./js/store/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="./js/store/jquery-1.10.2.min.js"></script>
     <script src="js/store/upload.js"></script>
+    <script type="text/javascript" src="./js/store/eloveWizard.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=PWFniUmG9SMyIVlp7Nm24MRC"></script>
   </body>
 </html>

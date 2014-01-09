@@ -73,7 +73,7 @@ public class RegisterController {
 			userInfo.setPassword(encoded);
 			Timestamp current = new Timestamp(System.currentTimeMillis());
 			userInfo.setCreateDate(current);
-			if(userInfo.getCorpMoreInfoLink() != null){
+			if(userInfo.getCorpMoreInfoLink() != null){   //validate website format
 				String webSite = userInfo.getCorpMoreInfoLink();
 				if (!webSite.startsWith("http")) {
 					webSite = "http://".concat(webSite);
