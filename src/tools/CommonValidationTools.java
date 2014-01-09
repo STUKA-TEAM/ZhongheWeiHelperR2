@@ -84,7 +84,7 @@ public class CommonValidationTools {
 		}
 		if (!checkLocation(lng, lat)) {
 			return false;
-		}
+		}		
 		return true;
 	}
 	
