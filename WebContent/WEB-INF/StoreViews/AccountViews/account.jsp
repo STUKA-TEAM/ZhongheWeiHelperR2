@@ -169,7 +169,7 @@
                     </c:forEach>
                     </div>
                   </div>
-                </div>            
+              </div>            
               <div class="form-group">
                 <label for="info_link" class="col-sm-3 control-label">官网链接</label>
                 <div class="col-sm-9">
