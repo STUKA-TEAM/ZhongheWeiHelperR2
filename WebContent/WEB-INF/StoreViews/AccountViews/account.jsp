@@ -158,12 +158,12 @@
                   <div class="col-md-7 col-md-offset-3">
                     <div class="row" id="upload1-images">
                     <c:forEach items="${userInfo.imageList}" var="image">
-                    <div class="col-md-6"><img src="${image}_original.jpg" class="pic-preview img-thumbnail img-responsive"/></div>
+                    <div id="${image}" class="col-md-6 pic-preview-div"><img src="${image}_original.jpg" class="pic-preview img-thumbnail img-responsive"/></div>
                     </c:forEach>
                     </div>
                     <div id="upload1-links">
                     <c:forEach items="${userInfo.imageList}" var="image">
-                    <input type="hidden" value="${image}"/>
+                    <input id="${image}-input" type="hidden" value="${image}"/>
                     </c:forEach>
                     </div>
                   </div>
