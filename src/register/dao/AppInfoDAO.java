@@ -71,6 +71,11 @@ public class AppInfoDAO {
 				return -2;
 			}
 			
+			result = insertConsumeRecord(appInfo.getAppid());
+			if (result == 0) {
+				return -3;
+			}
+			
 			return result;
 		}else {
 			return 0;
@@ -84,20 +89,11 @@ public class AppInfoDAO {
 	 * @param appid
 	 * @return
 	 */
-	public int insertUserAppRelation(final int sid, final String appid){
-		final String SQL = "INSERT INTO storeuser_application VALUES (default, ?, ?)";
+	private int insertUserAppRelation(int sid, String appid){
+		String SQL = "INSERT INTO storeuser_application VALUES (default, ?, ?)";
 		int result = 0;
 		
-		KeyHolder kHolder = new GeneratedKeyHolder();
-		result = jdbcTemplate.update(new PreparedStatementCreator() {
-		    public PreparedStatement createPreparedStatement(Connection connection) throws SQLException{
-		        PreparedStatement ps =
-		            connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
-		        ps.setInt(1, sid);
-		        ps.setString(2, appid);
-		        return ps;
-		    }
-		}, kHolder);
+		result = jdbcTemplate.update(SQL, sid, appid);
 		
 		return result <= 0 ? 0 : result;
 	}
@@ -109,35 +105,37 @@ public class AppInfoDAO {
 	 * @param appid
 	 * @return
 	 */
-	public int insertAppAuthRelation(List<String> authNameList, final String appid){
-		final String SQL = "INSERT INTO application_authority VALUES (default, ?, ?)";
+	private int insertAppAuthRelation(List<String> authNameList, String appid){
+		String SQL = "INSERT INTO application_authority VALUES (default, ?, ?)";
 		int result = 0;
-		
-		KeyHolder kHolder = new GeneratedKeyHolder();
+
 		for (int i = 0; i < authNameList.size(); i++) {
 			String authName = authNameList.get(i);
 			Integer authid = getAuthid(authName);
 			if (authid == null) {
 				return 0;
 			}
-			final int id = authid.intValue();
+			int id = authid.intValue();
 			
-			result = jdbcTemplate.update(new PreparedStatementCreator() {
-			    public PreparedStatement createPreparedStatement(Connection connection) throws SQLException{
-			        PreparedStatement ps =
-			            connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
-			        ps.setString(1, appid);
-			        ps.setInt(2, id);
-			        return ps;
-			    }
-			}, kHolder);
-			
+			result = jdbcTemplate.update(SQL, appid, id);		
 			if (result <= 0) {
 				return 0;
 			}
 		}
 		
 		return result;
+	}
+	
+	/**
+	 * @title: insertConsumeRecord
+	 * @description: 插入应用消费初始记录
+	 * @param appid
+	 * @return
+	 */
+	private int insertConsumeRecord(String appid){
+		String SQL = "INSERT INTO elove_consume_record VALUES (default, ?, 0)";
+		int result = jdbcTemplate.update(SQL, appid);
+		return result <= 0 ? 0 : result;
 	}
 	
 	//query
