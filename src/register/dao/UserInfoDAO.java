@@ -169,7 +169,7 @@ public class UserInfoDAO {
 			
 			//delete records from image temporary table
 			for (int i = 0; i < userInfo.getImageList().size(); i++) {
-				String imagePath = userInfo.getImageList().get(i);
+				String imagePath = userInfo.getImageList().get(i);			
 				deleteImageTempRecord(imagePath);
 			}
 			
@@ -194,10 +194,7 @@ public class UserInfoDAO {
 	private int updateUserImages(int sid, List<String> imageList){
 		int result = 0;
 		
-		result = deleteUserImages(sid);
-		if (result <= 0) {
-			return 0;
-		}
+		deleteUserImages(sid);
 		
 		result = insertImageList(sid, imageList);		
 		return result;
