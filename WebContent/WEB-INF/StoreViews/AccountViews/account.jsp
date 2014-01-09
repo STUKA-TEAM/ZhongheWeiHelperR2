@@ -400,7 +400,7 @@
    		  if(jsonData.status==true){
 	   	   	  $("#modalMes").html("创建成功，已经可以关联新的公众账号，请到腾讯公众平台进行API绑定！");
 	   	      $("#operationMesModal").modal("show");
-	   	      
+	   	      setTimeout("location.href='store/account'",2500);
    		  }else{
 	   	   	  $("#modalMes").html(jsonData.message);
 	   	      $("#operationMesModal").modal("show");
@@ -420,8 +420,8 @@
     	  url: "store/app/delete",
     	  data: "appid="+appid,
      	  success: function (data) {
-     		  var jsonData=JSON.parse(data);
-     		  if(jsonData.status=="true"){
+     		  var jsonData=JSON.parse(data);		 
+     		  if(jsonData.status==true){
   	   	   	  $("#modalMes").html(jsonData.message);
   	   	      $("#operationMesModal").modal("show");
   	   	      setTimeout("location.href='store/account'",1500);
