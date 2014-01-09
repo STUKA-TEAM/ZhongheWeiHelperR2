@@ -157,8 +157,16 @@
               <div class="form-group">
                   <div class="col-md-7 col-md-offset-3">
                     <div class="row" id="upload1-images">
+                    <c:forEach items="${userInfo.imageList}" var="image">
+                    <div id="${image}" class="col-md-6 pic-preview-div"><img src="${image}_original.jpg" class="pic-preview img-thumbnail img-responsive"/>
+                    <span class="glyphicon glyphicon-trash" onclick="deleteThisImage('${image}')"> </span>
+                    </div>
+                    </c:forEach>
                     </div>
                     <div id="upload1-links">
+                    <c:forEach items="${userInfo.imageList}" var="image">
+                    <input id="${image}-input" type="hidden" value="${image}"/>
+                    </c:forEach>
                     </div>
                   </div>
                 </div>            
@@ -394,7 +402,7 @@
    		  if(jsonData.status==true){
 	   	   	  $("#modalMes").html("创建成功，已经可以关联新的公众账号，请到腾讯公众平台进行API绑定！");
 	   	      $("#operationMesModal").modal("show");
-	   	      
+	   	      setTimeout("location.href='store/account'",2500);
    		  }else{
 	   	   	  $("#modalMes").html(jsonData.message);
 	   	      $("#operationMesModal").modal("show");
@@ -414,8 +422,8 @@
     	  url: "store/app/delete",
     	  data: "appid="+appid,
      	  success: function (data) {
-     		  var jsonData=JSON.parse(data);
-     		  if(jsonData.status=="true"){
+     		  var jsonData=JSON.parse(data);		 
+     		  if(jsonData.status==true){
   	   	   	  $("#modalMes").html(jsonData.message);
   	   	      $("#operationMesModal").modal("show");
   	   	      setTimeout("location.href='store/account'",1500);
@@ -428,8 +436,8 @@
      	   	  $("#modalMes").html(status + '</br>' + exception);
      	      $("#operationMesModal").modal("show");
   	  }
-    	});
-    	}
+    });
+    }
     </script>
   </body>
 </html>
