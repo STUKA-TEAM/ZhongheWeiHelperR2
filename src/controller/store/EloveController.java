@@ -40,12 +40,11 @@ public class EloveController {
 	 */
 	@RequestMapping(value = "/elove/detail", method = RequestMethod.GET)
     public String getEloveList(Model model, @CookieValue(value = "appid", required = false) String appid) {
-		System.out.println("HERE"+appid);
 		if (appid == null) {
 			return "redirect:/store/account";     //异常
 		}
 		else {
-			if (appid=="") {
+			if (appid.equals("")) {
 				return "forward:/store/account";   //需先创建app
 			}
 			else {
