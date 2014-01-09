@@ -78,7 +78,6 @@
                       简约主题
                     </label>
                   </div>
-                  <img src="./img/manager/theme1.png" class="pic-preview img-thumbnail img-responsive"/>
                 </div>
                 <div class="col-md-4">
                   <div class="radio">
@@ -87,7 +86,6 @@
                       温馨主题
                     </label>
                   </div>
-                  <img src="./img/manager/theme2.png" class="pic-preview img-thumbnail img-responsive"/>
                 </div>
               </div>
             </div>

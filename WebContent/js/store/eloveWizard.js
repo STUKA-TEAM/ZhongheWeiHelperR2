@@ -1,5 +1,15 @@
 function getStep1Data(){
 	var step1Info = new Object();
+	step1Info.title=$("#elove_title").val();
+	step1Info.password=$("#elove_pwd").val();
+	var coverPicStr=$("#upload1single-links").children();
+	step1Info.coverPic=coverPicStr[0];
+	step1Info.coverText=$("#elove_txt").val();
+	step1Info.shareTitle=$("#share_title").val();
+	step1Info.shareContent=$("#share_content").val();
+	step1Info.majorGroupPhoto=$("dress_pic").val();
+	step1Info.themeid=$("#optionsRadios").val();
+	step1Info.music=$("").val();
 	return step1Info;
 }  
 function getStep2Data(){
