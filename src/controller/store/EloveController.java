@@ -49,7 +49,7 @@ public class EloveController {
 		else {
 			if (appid.equals("")) {       //需先创建app
 				request.setAttribute("message", "请先创建应用！");
-				request.setAttribute("jumpLink", "/store/account");
+				request.setAttribute("jumpLink", "store/account");
 				return "forward:/store/transfer";   
 			}
 			else {
