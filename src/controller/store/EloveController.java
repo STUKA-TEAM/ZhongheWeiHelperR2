@@ -7,6 +7,8 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -39,13 +41,16 @@ public class EloveController {
 	 * @return
 	 */
 	@RequestMapping(value = "/elove/detail", method = RequestMethod.GET)
-    public String getEloveList(Model model, @CookieValue(value = "appid", required = false) String appid) {
-		if (appid == null) {
-			return "redirect:/store/account";     //异常
+    public String getEloveList(Model model, HttpServletRequest request, 
+    		@CookieValue(value = "appid", required = false) String appid) {
+		if (appid == null) {       //异常
+			return "redirect:/store/account";     
 		}
 		else {
-			if (appid.equals("")) {
-				return "forward:/store/account";   //需先创建app
+			if (appid.equals("")) {       //需先创建app
+				request.setAttribute("message", "请先创建应用！");
+				request.setAttribute("jumpLink", "/store/account");
+				return "forward:/store/transfer";   
 			}
 			else {
 				ApplicationContext context = 

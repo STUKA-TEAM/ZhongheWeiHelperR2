@@ -52,6 +52,17 @@ public class BasicController {
 	private PasswordEncoder passwordEncoder;
 	
 	/**
+	 * @title: jumpHandler
+	 * @description: 中间过渡界面
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/transfer", method = RequestMethod.GET)
+	public String jumpHandler(Model model){
+		return "transfer";
+	}
+	
+	/**
 	 * @description: 获取个人账户信息
 	 * @param model
 	 * @return
