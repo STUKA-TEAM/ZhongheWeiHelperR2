@@ -3,6 +3,7 @@ package controller.store;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Properties;
 
 import message.ResponseMessage;
@@ -33,7 +34,9 @@ import elove.Step3Info;
 import elove.Step4Info;
 import elove.Step5Info;
 import elove.Step6Info;
+import elove.ThemeInfo;
 import elove.dao.EloveWizardDAO;
+import elove.dao.ThemeInfoDAO;
 
 /**
  * @Title: EloveWizardController
@@ -48,6 +51,14 @@ import elove.dao.EloveWizardDAO;
 public class EloveWizardController {
 	@RequestMapping(value = "/initial/create", method = RequestMethod.GET)
 	public String initialCreate(final Model model){
+		ApplicationContext context = 
+				new ClassPathXmlApplicationContext("All-Modules.xml");
+		ThemeInfoDAO themeInfoDao = (ThemeInfoDAO) context.getBean("ThemeInfoDAO");
+		((ConfigurableApplicationContext)context).close();
+		
+		List<ThemeInfo> themeInfoList = themeInfoDao.getThemeInfos();
+		model.addAttribute("themeInfoList", themeInfoList);
+		
 		EloveWizard eloveWizard = new EloveWizard();
 		model.addAttribute("eloveWizard", eloveWizard);
 		return "EloveViews/wizardContainer";
@@ -59,7 +70,11 @@ public class EloveWizardController {
 		ApplicationContext context = 
 				new ClassPathXmlApplicationContext("All-Modules.xml");
 		EloveWizardDAO eloveWizardDao = (EloveWizardDAO) context.getBean("EloveWizardDAO");
+		ThemeInfoDAO themeInfoDao = (ThemeInfoDAO) context.getBean("ThemeInfoDAO");
 		((ConfigurableApplicationContext)context).close();
+		
+		List<ThemeInfo> themeInfoList = themeInfoDao.getThemeInfos();
+		model.addAttribute("themeInfoList", themeInfoList);
 		
 		EloveWizard eloveWizard = eloveWizardDao.getElove(eloveid);
 		model.addAttribute("eloveWizard", eloveWizard);
@@ -68,6 +83,14 @@ public class EloveWizardController {
 	
 	@RequestMapping(value = "/backstep1", method = RequestMethod.GET)
 	public String backstep1(final @ModelAttribute("eloveWizard") EloveWizard eloveWizard, Model model){
+		ApplicationContext context = 
+				new ClassPathXmlApplicationContext("All-Modules.xml");
+		ThemeInfoDAO themeInfoDao = (ThemeInfoDAO) context.getBean("ThemeInfoDAO");
+		((ConfigurableApplicationContext)context).close();
+		
+		List<ThemeInfo> themeInfoList = themeInfoDao.getThemeInfos();
+		model.addAttribute("themeInfoList", themeInfoList);
+		
 		model.addAttribute("eloveWizard", eloveWizard);
 		return "EloveViews/step1";
 	}

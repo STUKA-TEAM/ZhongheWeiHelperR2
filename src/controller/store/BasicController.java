@@ -52,25 +52,15 @@ public class BasicController {
 	private PasswordEncoder passwordEncoder;
 	
 	/**
-	 * @description: 每个界面都要获取的app信息
+	 * @title: jumpHandler
+	 * @description: 中间过渡界面
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/basic", method = RequestMethod.GET)
-    public String getAppInfo(Model model) {
-		ApplicationContext context = 
-				new ClassPathXmlApplicationContext("All-Modules.xml");
-		AppInfoDAO appInfoDao = (AppInfoDAO) context.getBean("AppInfoDAO");
-		((ConfigurableApplicationContext)context).close();
-		
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		User user = (User)auth.getPrincipal();
-		
-		List<AppInfo> appInfoList = appInfoDao.getAppInfoBySid(user.getSid());
-		model.addAttribute("appInfoList", appInfoList);
-
-        return "AccountViews/showApp";
-    }
+	@RequestMapping(value = "/transfer", method = RequestMethod.GET)
+	public String jumpHandler(Model model){
+		return "transfer";
+	}
 	
 	/**
 	 * @description: 获取个人账户信息
