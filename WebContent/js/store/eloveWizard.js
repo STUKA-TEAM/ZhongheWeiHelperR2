@@ -28,6 +28,7 @@ function getStep1Data(){
 }  
 function getStep2Data(){
 	var step2Info = new Object();
+	
 	return step2Info;
 }
 function getStep3Data(){
