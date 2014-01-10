@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	$('.image-file').change(function(){
+	$(document).on('change','.image-file',function(){
 	    var file = this.files[0];
 	    var size = file.size;
 	    var type = file.type;
@@ -14,28 +14,7 @@ $(document).ready(function(){
 	    }
 	});
 	
-/*	$('.video-file').change(function(){
-	    var file = this.files[0];
-	    var type = file.type;
-	    //Your validation
-	    if(type!='video/mp4' && type!='video/webm'){
-	    	alert('请选择mp4或webm格式视频！');
-	    	this.parentElement.parentElement.reset();
-	    }
-	});*/
-	
-	$('.audio-file').change(function(){
-	    var file = this.files[0];
-	    var type = file.type;
-	    //Your validation
-	    if(type!='audio/mp3'){
-	    	alert('请选择mp3格式音乐！');
-	    	this.parentElement.parentElement.reset();
-	    }
-	});
-
-	
-	$('.image-multi').click(function(){
+	$(document).on('click','.image-multi',function(){
 	    var form = this.parentElement.parentElement;
 	    var formData = new FormData(form);
 	    $.ajax({
@@ -61,7 +40,7 @@ $(document).ready(function(){
 	    });
 	});
 	
-	$('.image-original').click(function(){
+	$(document).on('click','.image-original',function(){
 	    var form = this.parentElement.parentElement;
 	    var formData = new FormData(form);
 	    $.ajax({
@@ -87,7 +66,7 @@ $(document).ready(function(){
 	    });
 	});
 	
-	$('.image-square').click(function(){
+	$(document).on('click','.image-square',function(){
 	    var form = this.parentElement.parentElement;
 	    var formData = new FormData(form);
 	    $.ajax({
@@ -121,36 +100,17 @@ $(document).ready(function(){
 		}
 	}
 	
-	function completeHandler(id, data){
-		var result = $.parseJSON(data);
-		if(result.status == true){
-			successProcess(id, result.link);
-		}
-		else{
-			alert(result.message);
-		}
-	}
+	/*	$('.video-file').change(function(){
+		    var file = this.files[0];
+		    var type = file.type;
+		    //Your validation
+		    if(type!='video/mp4' && type!='video/webm'){
+		    	alert('请选择mp4或webm格式视频！');
+		    	this.parentElement.parentElement.reset();
+		    }
+		});*/
 	
-	function errorHandler(status, exception){
-		alert(status + ' ' + exception);
-	}
-	
-	function successProcess(id, link){
-		if(id == 'upload1'){			
-			add_pic_preview(id, link);
-			add_pic_link(id, link);
-		}
-		if(id == 'upload1single'){
-			add_pic_preview_single(id, link);
-			add_pic_link_single(id, link);
-		}
-		if(id == 'upload2single'){
-			add_pic_preview_single(id, link);
-			add_pic_link_single(id, link);
-		}
-	}
-	
-	$('.video-upload').click(function(){
+	$(document).on('click','.video-upload',function(){
 	    var form = this.parentElement.parentElement;
 	    var formData = new FormData(form);
 	    $.ajax({
@@ -184,7 +144,17 @@ $(document).ready(function(){
 		}
 	}
 	
-	$('.audio-upload').click(function(){
+	$(document).on('change','.audio-file',function(){
+	    var file = this.files[0];
+	    var type = file.type;
+	    //Your validation
+	    if(type!='audio/mp3'){
+	    	alert('请选择mp3格式音乐！');
+	    	this.parentElement.parentElement.reset();
+	    }
+	});
+	
+	$(document).on('click','.audio-upload',function(){
 	    var form = this.parentElement.parentElement;
 	    var formData = new FormData(form);
 	    $.ajax({
@@ -217,8 +187,48 @@ $(document).ready(function(){
 			xhr.abort();
 		}
 	}
-}	
-);
+	
+	function completeHandler(id, data){
+		var result = $.parseJSON(data);
+		if(result.status == true){
+			successProcess(id, result.link);
+		}
+		else{
+			alert(result.message);
+		}
+	}
+	
+	function successProcess(id, link){
+		if(id == 'upload1'){			
+			add_pic_preview(id, link);
+			add_pic_link(id, link);
+		}
+		if(id == 'upload1single'){
+			add_pic_preview_single(id, link);
+			add_pic_link_single(id, link);
+		}
+		if(id == 'upload2single'){
+			add_pic_preview_single(id, link);
+			add_pic_link_single(id, link);
+		}
+		if(id == 'upload3single'){
+			add_pic_preview_single(id, link);
+			add_pic_link_single(id, link);
+		}
+		if(id == 'upload1music_sigle'){
+			add_music_preview_single(id, link);
+			add_music_link_single(id, link);
+		}
+		if(id == 'upload1video_sigle'){
+			add_video_preview_single(id, link);
+			add_video_link_single(id, link);
+		}
+	}
+	
+	function errorHandler(status, exception){
+		alert(status + ' ' + exception);
+	}
+}	);
 
 var deleteThisImage = function(link){
 	$("#"+link.replace(/\//g,"\\/")).remove();
@@ -254,6 +264,21 @@ var add_pic_link_single = function(id, link){
   var links_html = html_cut1 + link + html_cut2;
   $("#"+id+"-links").html(links_html);
 };
+
+var add_music_preview_single = function (id, link){
+    var html_cut1=' <div id=' +link +' class="col-md-6 pic-preview-div"><div>';
+    var html_cut2="<span class=\"glyphicon glyphicon-trash\" onclick=\"deleteThisImage(\'"+link+ "\')\"> </span></div></div>" ;
+    var music_preview_html = html_cut1 +"已上传&nbsp;&nbsp;&nbsp;" + html_cut2;
+    $( "#" +id+"-musics" ).html(music_preview_html);
+};
+
+var add_music_link_single = function(id, link){
+var html_cut1= '<input id="' + link + '-input' + '" type="hidden" value="' ;
+var html_cut2= '"/>' ;
+var links_html = html_cut1 + link + html_cut2;
+$( "#"+id+ "-links" ).html(links_html);
+};
+
 
 var getImgPrePath = function(){
 	return "http://localhost";
