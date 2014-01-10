@@ -48,8 +48,8 @@ public class EloveController {
 		}
 		else {
 			if (appid.equals("")) {       //需先创建app
-				request.setAttribute("message", "请先创建应用！");
-				request.setAttribute("jumpLink", "/store/account");
+				request.setAttribute("message", "还未关联任何微信公众账号，请先关联微信公众账号！");
+				request.setAttribute("jumpLink", "store/account");
 				return "forward:/store/transfer";   
 			}
 			else {

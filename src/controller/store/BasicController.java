@@ -59,7 +59,7 @@ public class BasicController {
 	 */
 	@RequestMapping(value = "/transfer", method = RequestMethod.GET)
 	public String jumpHandler(Model model){
-		return "transfer";
+		return "CommonViews/transfer";
 	}
 	
 	/**

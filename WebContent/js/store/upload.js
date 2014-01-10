@@ -100,15 +100,15 @@ $(document).ready(function(){
 		}
 	}
 	
-	/*	$('.video-file').change(function(){
+    $('.video-file').change(function(){
 		    var file = this.files[0];
 		    var type = file.type;
 		    //Your validation
-		    if(type!='video/mp4' && type!='video/webm'){
-		    	alert('请选择mp4或webm格式视频！');
+		    if(type!='video/*'){
+		    	alert('请选择mp4格式视频！');
 		    	this.parentElement.parentElement.reset();
 		    }
-		});*/
+	});
 	
 	$(document).on('click','.video-upload',function(){
 	    var form = this.parentElement.parentElement;
@@ -236,7 +236,7 @@ var deleteThisImage = function(link){
 };
 
 var add_pic_preview = function(id, link){
-  var html_cut1=' <div id='+link +' class="col-md-6 pic-preview-div"><img src="';
+  var html_cut1=' <div id='+link +' class="col-md-4 pic-preview-div"><img src="';
   var html_cut2='" class="pic-preview img-thumbnail img-responsive"/>';
   var html_cut3="<span class=\"glyphicon glyphicon-trash\" onclick=\"deleteThisImage(\'"+link+"\')\"> </span></div>";
   var pic_preview_html = html_cut1 + getImgPrePath()+link + '_original.jpg' + html_cut2+html_cut3;
@@ -251,7 +251,7 @@ var add_pic_link = function(id, link){
 };
 
 var add_pic_preview_single = function(id, link){
-	  var html_cut1=' <div id='+link +' class="col-md-6 pic-preview-div"><img src="';
+	  var html_cut1=' <div id='+link +' class="col-md-4 pic-preview-div"><img src="';
 	  var html_cut2='" class="pic-preview img-thumbnail img-responsive"/>';
 	  var html_cut3="<span class=\"glyphicon glyphicon-trash\" onclick=\"deleteThisImage(\'"+link+"\')\"> </span></div>";
 	  var pic_preview_html = html_cut1 + getImgPrePath()+link + '_original.jpg' + html_cut2+html_cut3;
@@ -279,6 +279,19 @@ var links_html = html_cut1 + link + html_cut2;
 $( "#"+id+ "-links" ).html(links_html);
 };
 
+var add_video_preview_single = function (id, link){
+    var html_cut1=' <div id=' +link +' class="col-md-10 pic-preview-div"><div>';
+    var html_cut2="<span class=\"glyphicon glyphicon-trash\" onclick=\"deleteThisImage(\'"+link+ "\')\"> </span></div></div>" ;
+    var music_preview_html = html_cut1 +"已上传，后台正在为您转码，大约10分钟后您便可看到转码后的视频。&nbsp;&nbsp;&nbsp;" + html_cut2;
+    $( "#" +id+"-videos" ).html(music_preview_html);
+};
+
+var add_video_link_single = function(id, link){
+var html_cut1= '<input id="' + link + '-input' + '" type="hidden" value="' ;
+var html_cut2= '"/>' ;
+var links_html = html_cut1 + link + html_cut2;
+$( "#"+id+ "-links" ).html(links_html);
+};
 
 var getImgPrePath = function(){
 	return "http://localhost";
