@@ -14,14 +14,14 @@
     <title>Elove</title>
     
     <link href="css/customer/bootstrap.min.css" rel="stylesheet">
-    <link href="css/customer/zhonghe-elove-3.css" rel="stylesheet">
+    <link href="css/customer/zhonghe-elove-4.css" rel="stylesheet">
     
-    <link href="css/customer/elove-story-3.css" rel="stylesheet">
+    <link href="css/customer/elove-story-4.css" rel="stylesheet">
     
-    <link href="css/customer/elove-record-3.css" rel="stylesheet">
+    <link href="css/customer/elove-record-4.css" rel="stylesheet">
     <link href="css/customer/video-js.min.css" rel="stylesheet">
 
-    <link href="css/customer/elove-info-3.css" rel="stylesheet">
+    <link href="css/customer/elove-info-4.css" rel="stylesheet">
   </head>
   <body>
     <div id="content-container">
@@ -31,13 +31,13 @@
       <div id="baidumap" style="visibility:hidden;"><div id="pic"></div></div>
     </div>
     <div class="sidebar-guide" onclick="sidebar_up()">
-      <img src="img/elove/sidebar_guide_3.png" class="sidebar-guide-logo"/>
+      <img src="img/elove/sidebar_guide_4.png" class="sidebar-guide-logo"/>
       <p class="sidebar-guide-tip"><strong>点点我~</strong></p>
     </div>
     <div class="sidebar-bg sidebar-bg-miss hidden" onclick="sidebar_dismiss()"></div>
     <div id="sidebar_list" class="sidebar hidden" state="down">
       <div id="audio" class="audio" onclick="audio_switch()">
-        <img src="img/elove/audio_on_3.png" class="audio-logo"/>
+        <img src="img/elove/audio_on_4.png" class="audio-logo"/>
         <p id="audio-p">音效开启</p>
       </div>
       <ul class="nav nav-pills">
@@ -56,7 +56,7 @@
     </div>
     <script type="text/javascript" src="js/customer/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=PWFniUmG9SMyIVlp7Nm24MRC"></script>
-    <script type="text/javascript" src="js/customer/elove-3.js"></script>
+    <script type="text/javascript" src="js/customer/elove-4.js"></script>
     <script type="text/javascript" src="js/customer/modal.min.js"></script>    
     <script type="text/javascript" src="js/customer/video.js"></script>  
   </body>

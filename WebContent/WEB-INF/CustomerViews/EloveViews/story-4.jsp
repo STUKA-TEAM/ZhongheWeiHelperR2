@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
     <div class="container-fulid">
-      <img src="img/elove/story_title_3.jpg" class="img-responsive title" alt="title background"/>
+      <img src="img/elove/story_title_4.png" class="img-responsive title" alt="title background"/>
     </div><!-- title -->
     <div class="content-bg">
       <div class="container-fulid photo-container">
@@ -12,9 +12,9 @@
           <p class="couple-name">李雷雷 <img src="img/elove/heart.png"/> 韩梅梅</p>
         </div>
       </div>
-    </div>
+
       <div class="container-fulid">
-        <img src="img/elove/story_meetyou_3.png" class="img-responsive center-block"/>
+        <img src="img/elove/story_meetyou_4.png" class="img-responsive center-block"/>
         <div class="container-fulid photo-list">
           <img src="img/elove/encounter_photo2.jpg" class="img-responsive center-block"/>
           <img src="img/elove/encounter_photo3.png" class="img-responsive center-block"/>
@@ -34,7 +34,7 @@
       <div class="footer">
         <p>Copyright © 2013 zhonghesoftware.com All Rights Reserved. 众合网络科技有限公司 版权所有</p>
       </div><!-- footer -->
-    
+    </div>
 
     <!-- Modal -->
     <div class="modal fade" id="bless" tabindex="-1">

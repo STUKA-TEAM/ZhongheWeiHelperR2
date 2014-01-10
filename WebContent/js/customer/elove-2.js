@@ -116,4 +116,4 @@ var map_switch = function(){
   }else{
     box.style.visibility = "hidden";
   }
-}
+};

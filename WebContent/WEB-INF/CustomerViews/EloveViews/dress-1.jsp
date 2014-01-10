@@ -4,7 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
     
     <div class="container-fulid">
-      <img src="img/elove/records_title_3.jpg" class="img-responsive title" alt="title background"/>
+      <img src="img/elove/records_title_1.png" class="img-responsive title" alt="title background"/>
     </div><!-- title -->
   <div class="record-bg">
     <div class=" video-container">
@@ -15,7 +15,6 @@
         </video>
       </div><!-- video -->
     </div>
-  </div>
     <div class="container-fulid">
       <div class="container-fulid">
         <img src="img/elove/records_photo_title_1.png" class="img-responsive"/>
@@ -28,3 +27,4 @@
     <div class="footer">
       <p>Copyright © 2013 zhonghesoftware.com All Rights Reserved. 众合网络科技有限公司 版权所有</p>
     </div><!-- footer -->
+  </div>

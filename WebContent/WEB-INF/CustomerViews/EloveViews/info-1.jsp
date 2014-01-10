@@ -5,7 +5,7 @@
     
   <div class="info-bg">
     <div class="container-fulid">
-      <img src="img/elove/info_title_3.jpg" class="img-responsive title" alt="title background" />
+      <img src="img/elove/info_title_1.jpg" class="img-responsive title" alt="title background" />
       <div class="logo-container">
         <img src="img/elove/encounter_group.jpg" class="logo" alt="logo" />
       </div>
@@ -13,7 +13,7 @@
     
     <div class="container-fulid">
       <div class="message">
-        <img src="img/elove/message_content_3.png" class="message-content" />
+        <img src="img/elove/message_content_1.png" class="message-content" />
       </div>
     </div>
     

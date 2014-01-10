@@ -2,9 +2,10 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-    
+
+
     <div class="container-fulid">
-      <img src="img/elove/records_title_3.jpg" class="img-responsive title" alt="title background"/>
+      <img src="img/elove/records_title_1.png" class="img-responsive title" alt="title background"/>
     </div><!-- title -->
   <div class="record-bg">
     <div class=" video-container">
@@ -15,16 +16,16 @@
         </video>
       </div><!-- video -->
     </div>
-  </div>
     <div class="container-fulid">
       <div class="container-fulid">
-        <img src="img/elove/records_photo_title_1.png" class="img-responsive"/>
+        <img src="img/elove/records_photo_title_1.jpg" class="img-responsive"/>
       </div>
       <div class="photo-list">
-        <img src="img/elove/dress_photo.jpg" class="center-block" />
+        <img src="img/elove/records_photo.jpg" class="center-block" />
       </div>
     </div><!-- photo -->
       
     <div class="footer">
       <p>Copyright © 2013 zhonghesoftware.com All Rights Reserved. 众合网络科技有限公司 版权所有</p>
     </div><!-- footer -->
+  </div>

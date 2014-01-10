@@ -40,12 +40,12 @@ var audio_switch = function(){
  		 myAudio.play();
  	  }
       
-      $(".audio-logo").attr("src", "img/elove/audio_on.png");
+      $(".audio-logo").attr("src", "img/elove/audio_on_1.png");
  	  $("#audio-p").text("音效开启");
       flag="on";
  	}else{
       myAudio.pause();
-      $(".audio-logo").attr("src", "img/elove/audio_off.png");
+      $(".audio-logo").attr("src", "img/elove/audio_off_1.png");
       $("#audio-p").text("音效关闭");
  	  flag="off";
  	}
