@@ -55,7 +55,7 @@ div {
   vertical-align: middle;
   clear: both;
   width: 100%;
-  margin: 2px auto;
+  margin: auto;
 }
 .nav > li > a {
   position: relative;
@@ -67,6 +67,9 @@ div {
   border-radius: 0px;
   width: 100%;
   font-size: 16px;
+  border-bottom-style: solid;
+  border-bottom-color: #f3a5bd;
+  border-bottom-width: 1px;
 }
 .nav-pills > li.active > a,
 .nav-pills > li.active > a:hover,
@@ -130,7 +133,7 @@ div {
 }
 .sidebar-guide {
   position: fixed;
-  top: 100px;
+  bottom: 50px;
   left: 5px;
 }
 .sidebar-guide-logo {

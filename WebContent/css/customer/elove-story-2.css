@@ -3,9 +3,7 @@
   background-repeat: no-repeat;
   background-position: top, bottom;
 }
-.photo-container {
-  padding-bottom: 50px;
-  
+.photo-container {  
 }
 .photo {
   float: none;
