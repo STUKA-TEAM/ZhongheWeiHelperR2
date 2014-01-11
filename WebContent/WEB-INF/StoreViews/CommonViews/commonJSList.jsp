@@ -8,5 +8,6 @@
 <script type="text/javascript">
 function changeAppId(){
  $.cookie('appid', $("#currentAppId :selected").val(), { path: '/' });
+ location.reload();
 }  
 </script>
