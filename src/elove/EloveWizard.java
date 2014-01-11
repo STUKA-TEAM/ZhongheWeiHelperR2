@@ -30,14 +30,14 @@ public class EloveWizard {
     private List<String> storyImagePath;
     private String storyTextImagePath;
 	private List<String> dressImagePath;
-	private List<String> dressVideoPath;
+	private String dressVideoPath;
 	private String weddingDate;
 	private String weddingAddress;
 	private BigDecimal lng;
 	private BigDecimal lat;
 	private String phone;
 	private List<String> recordImagePath;
-	private List<String> recordVideoPath;
+	private String recordVideoPath;
 	private String footerText;
 	private String sideCorpInfo;
 	
@@ -260,13 +260,13 @@ public class EloveWizard {
 	/**
 	 * @return the dressVideoPath
 	 */
-	public List<String> getDressVideoPath() {
+	public String getDressVideoPath() {
 		return dressVideoPath;
 	}
 	/**
 	 * @param dressVideoPath the dressVideoPath to set
 	 */
-	public void setDressVideoPath(List<String> dressVideoPath) {
+	public void setDressVideoPath(String dressVideoPath) {
 		this.dressVideoPath = dressVideoPath;
 	}
 	/**
@@ -344,13 +344,13 @@ public class EloveWizard {
 	/**
 	 * @return the recordVideoPath
 	 */
-	public List<String> getRecordVideoPath() {
+	public String getRecordVideoPath() {
 		return recordVideoPath;
 	}
 	/**
 	 * @param recordVideoPath the recordVideoPath to set
 	 */
-	public void setRecordVideoPath(List<String> recordVideoPath) {
+	public void setRecordVideoPath(String recordVideoPath) {
 		this.recordVideoPath = recordVideoPath;
 	}
 	/**

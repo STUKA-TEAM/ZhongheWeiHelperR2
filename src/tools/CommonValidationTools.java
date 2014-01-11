@@ -1,6 +1,11 @@
 package tools;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.List;
+import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -9,6 +14,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import elove.EloveWizard;
+import elove.dao.EloveWizardDAO;
 import register.AppInfo;
 import register.UserInfo;
 import register.dao.UserInfoDAO;
@@ -53,6 +59,36 @@ public class CommonValidationTools {
 		if (lng == null || lat == null) {
 			return false;
 		}
+		return true;
+	}
+	
+	/**
+	 * @title: checkTime
+	 * @description: 验证创建时间和过期时间是否有误
+	 * @param createTime
+	 * @param expiredTime
+	 * @return
+	 */
+	public static boolean checkTime(Timestamp createTime, Timestamp expiredTime){
+		if (createTime == null || expiredTime == null) {
+			return false;
+		}
+		
+		InputStream inputStream = CommonValidationTools.class.getResourceAsStream("/defaultValue.properties");
+		Properties properties = new Properties();
+		long lifeCycle = 0;
+		try {
+			properties.load(inputStream);
+			lifeCycle = Long.parseLong((String)properties.get("defaultEloveLifeCycleByMonth"));
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
+		lifeCycle = lifeCycle * 30 * 24 * 60 * 60 * 1000;
+		
+		if (createTime.getTime() + lifeCycle != expiredTime.getTime()) {
+			return false;
+		}
+		
 		return true;
 	}
 	
@@ -130,6 +166,68 @@ public class CommonValidationTools {
 	 * @return
 	 */
 	public static boolean checkEloveWizard(EloveWizard eloveWizard){
+		ApplicationContext context = 
+				new ClassPathXmlApplicationContext("All-Modules.xml");
+		EloveWizardDAO eloveWizardDao = (EloveWizardDAO) context.getBean("EloveWizardDAO");
+		((ConfigurableApplicationContext)context).close();
+		
+		int eloveid = eloveWizard.getEloveid();
+		String appid = eloveWizard.getAppid();
+		Timestamp createTime = eloveWizard.getCreateTime();
+		Timestamp expiredTime = eloveWizard.getExpiredTime();
+		String title = eloveWizard.getTitle();
+		String password = eloveWizard.getPassword();
+		String coverPic = eloveWizard.getCoverPic();
+		String coverText = eloveWizard.getCoverText();
+		String majorGroupPhoto = eloveWizard.getMajorGroupPhoto();
+		String xinNiang = eloveWizard.getXinNiang();
+		String xinLang = eloveWizard.getXinLang();
+		String storyTextImagePath = eloveWizard.getStoryTextImagePath();
+		String music = eloveWizard.getMusic();
+		String phone = eloveWizard.getPhone();
+		String weddingDate = eloveWizard.getWeddingDate();
+		String weddingAddress = eloveWizard.getWeddingAddress();
+		BigDecimal lng = eloveWizard.getLng();
+		BigDecimal lat = eloveWizard.getLat();
+		String shareTitle = eloveWizard.getShareTitle();
+		String shareContent = eloveWizard.getShareContent();
+		String footerText = eloveWizard.getFooterText();
+		String sideCorpInfo = eloveWizard.getSideCorpInfo();
+		int themeid = eloveWizard.getThemeid();
+		
+		if (eloveid < 0) {
+			return false;
+		}else {
+			if (eloveid > 0) {
+				EloveWizard original = eloveWizardDao.getBasicElove(eloveid);
+				if (original == null || !appid.equals(original.getAppid()) || !createTime.equals(
+						original.getCreateTime()) || !expiredTime.equals(original.getExpiredTime()) 
+						|| !xinLang.equals(original.getXinLang()) || !xinNiang.equals(original.getXinNiang())) {
+					return false;
+				}
+			}
+		}
+		
+		if (!checkTime(createTime, expiredTime)) {   
+			return false;
+		}
+		
+		if (!checkLocation(lng, lat)) {
+			return false;
+		}
+		
+		List<Integer> themeidList = eloveWizardDao.getThemeidList();
+		if (themeidList == null || !themeidList.contains(themeid)) {
+			return false;
+		}
+		
+		if (title == null || password == null || coverPic == null || coverText == null 
+				|| majorGroupPhoto == null || xinNiang == null || xinLang == null || 
+				storyTextImagePath == null || music == null || phone == null || weddingDate == null 
+				|| weddingAddress == null || shareTitle == null || shareContent == null || 
+				footerText == null || sideCorpInfo == null) {
+			return false;
+		}
 		
 		return true;
 	}
