@@ -104,7 +104,7 @@ $(document).ready(function(){
 		    var file = this.files[0];
 		    var type = file.type;
 		    //Your validation
-		    if(type!='video/*'){
+		    if(type!='video/mp4'){
 		    	alert('请选择mp4格式视频！');
 		    	this.parentElement.parentElement.reset();
 		    }
