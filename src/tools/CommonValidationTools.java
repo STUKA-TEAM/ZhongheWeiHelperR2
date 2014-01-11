@@ -130,6 +130,7 @@ public class CommonValidationTools {
 	 * @return
 	 */
 	public static boolean checkEloveWizard(EloveWizard eloveWizard){
+		
 		return true;
 	}
 }
