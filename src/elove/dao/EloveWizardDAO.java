@@ -78,6 +78,11 @@ public class EloveWizardDAO {
 		}, kHolder);
 		
 		if (result > 0 ) {
+			deleteImageTempRecord(eloveWizard.getCoverPic());                               //删除临时表中记录
+			deleteImageTempRecord(eloveWizard.getMajorGroupPhoto());
+			deleteImageTempRecord(eloveWizard.getStoryTextImagePath());
+			deleteVideoTempRecord(eloveWizard.getMusic());
+			
 			final int eloveid = kHolder.getKey().intValue();
 			
 			result = insertImage(eloveid, "story", eloveWizard.getStoryImagePath());        //插入相遇相知图片
@@ -285,6 +290,14 @@ public class EloveWizardDAO {
 	 */
 	public int deleteElove(int eloveid){
 		String SQL = "DELETE FROM elove WHERE eloveid = ?";
+		
+		EloveWizard eloveWizard = getEloveBasicMedia(eloveid);                              //插入待删除资源到临时表
+		Timestamp current = new Timestamp(System.currentTimeMillis());
+		insertImageTempRecord(eloveWizard.getCoverPic(), current);
+		insertImageTempRecord(eloveWizard.getMajorGroupPhoto(), current);
+		insertImageTempRecord(eloveWizard.getStoryTextImagePath(), current);
+		insertVideoTempRecord(eloveWizard.getMusic(), current);
+		
 		int effected = jdbcTemplate.update(SQL, new Object[]{eloveid});
 		return effected;
 	}
@@ -320,7 +333,7 @@ public class EloveWizardDAO {
 	 * @return
 	 */
 	private int deleteVideoTempRecord(String videoPath){
-		String SQL = "DELETE FROM video_temp_record WHERE imagePath = ?";
+		String SQL = "DELETE FROM video_temp_record WHERE videoPath = ?";
 		int effected = jdbcTemplate.update(SQL, videoPath);
 		return effected;
 	}
@@ -346,10 +359,15 @@ public class EloveWizardDAO {
 				eloveWizard.getShareTitle(), eloveWizard.getShareContent(), eloveWizard.getFooterText(), 
 				eloveWizard.getSideCorpInfo(), eloveWizard.getThemeid(), eloveWizard.getEloveid()});
 		if (effected > 0 ) {
+			deleteImageTempRecord(eloveWizard.getCoverPic());                                 //删除临时表中记录
+			deleteImageTempRecord(eloveWizard.getMajorGroupPhoto());
+			deleteImageTempRecord(eloveWizard.getStoryTextImagePath());
+			deleteVideoTempRecord(eloveWizard.getMusic());
+			
 			int eloveid = eloveWizard.getEloveid();
 
-			deleteImage(eloveid);     //删除所有相关的图片记录
-			deleteVideo(eloveid);     //删除所有相关的视频记录
+			deleteImage(eloveid);                                                             //删除所有相关的图片记录
+			deleteVideo(eloveid);                                                             //删除所有相关的视频记录
 			
 			effected = insertImage(eloveid, "story", eloveWizard.getStoryImagePath());        //插入相遇相知图片
             if (effected == 0) {
@@ -536,6 +554,36 @@ public class EloveWizardDAO {
 			eloveWizard.setThemeid(rs.getInt("themeid"));
 			return eloveWizard;
 		}		
+	}
+	
+	/**
+	 * @title: getEloveBasicMedia
+	 * @description: 获取elove基础的图片、音乐配置路径
+	 * @param eloveid
+	 * @return
+	 */
+	public EloveWizard getEloveBasicMedia(int eloveid){
+		String SQL = "SELECT coverPic, majorGroupPhoto, storeTextImagePath, music FROM elove WHERE eloveid = ?";
+		EloveWizard eloveWizard = null;
+		
+		try {
+			eloveWizard = jdbcTemplate.queryForObject(SQL, new Object[]{eloveid}, new BasicMediaMapper());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return eloveWizard;
+	}
+	
+	private static final class BasicMediaMapper implements RowMapper<EloveWizard>{
+		@Override
+		public EloveWizard mapRow(ResultSet rs, int arg1) throws SQLException {
+			EloveWizard eloveWizard = new EloveWizard();
+			eloveWizard.setCoverPic(rs.getString("coverPic"));
+			eloveWizard.setMajorGroupPhoto(rs.getString("majorGroupPhoto"));
+			eloveWizard.setStoryTextImagePath(rs.getString("storeTextImagePath"));
+			eloveWizard.setMusic(rs.getString("music"));
+			return eloveWizard;
+		}	
 	}
 	
 	/**
