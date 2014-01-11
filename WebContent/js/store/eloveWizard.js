@@ -24,8 +24,30 @@ function getStep1Data(){
 	}else{
 		step1Info.music=null;
 	}
-	return step1Info;
-}  
+	if(validateStep1(step1Info)){
+		return step1Info;		
+	}else{
+		return null;
+	}
+}
+function validateStep1(step1Info){
+	var blankInputArray = new Array();
+	if(step1Info.title=="")blankInputArray.push("Elove标题栏");
+	if(step1Info.password=="")blankInputArray.push("新人索取密码");
+    if(step1Info.coverPic==null)blankInputArray.push("图文消息图片");
+	if(step1Info.coverText=="")blankInputArray.push("图文消息文字");
+	if(step1Info.shareTitle=="")blankInputArray.push("分享消息标题");
+	if(step1Info.shareContent=="")blankInputArray.push("分享消息内容");
+	if(step1Info.majorGroupPhoto==null)blankInputArray.push("新人婚纱照主图片");
+	if(step1Info.themeid=="")blankInputArray.push("主题风格");
+	if(step1Info.music==null)blankInputArray.push("背景音乐");
+	if(blankInputArray.length==0){
+		return true;
+	}else{
+		showBlankInputHtml(blankInputArray);
+		return false;
+	}
+}
 function getStep2Data(){
 	var step2Info = new Object();
 	step2Info.xinLang=$("#story_groom").val();
@@ -42,7 +64,24 @@ function getStep2Data(){
 	}else{
 		step2Info.storyTextImagePath=null;
 	}
-	return step2Info;
+	if(validateStep2(step2Info)){
+		return step2Info;		
+	}else{
+		return null;
+	}
+}
+function validateStep2(step2Info){
+	var blankInputArray = new Array();
+	if(step2Info.xinLang=="")blankInputArray.push("新郎");
+	if(step2Info.xinNiang=="")blankInputArray.push("新娘");
+    if(step2Info.storyImagePath.length==0)blankInputArray.push("相遇相知图片");
+	if(step2Info.storyTextImagePath==null)blankInputArray.push("相遇相知文字图片");
+	if(blankInputArray.length==0){
+		return true;
+	}else{
+		showBlankInputHtml(blankInputArray);
+		return false;
+	}
 }
 function getStep3Data(){
 	var step3Info = new Object();
@@ -93,6 +132,17 @@ function getStep6Data(){
 	step6Info.sideCorpInfo=$("#elove_sidebar").val();
 	return step6Info;
 }
+function showBlankInputHtml(blankInputArray){
+	var blankInputhtml="";
+    $.each(blankInputArray,function(key,val){
+    	blankInputhtml=blankInputhtml+val+"<br/>";
+    });
+	$("#modalTitle").html("为了保证Elove效果，您需要完善下列信息：");
+	$("#modalMes").html(blankInputhtml);
+    $("#operationMesModal").modal("show");
+
+    return;
+}
 function getData(step){
 	if(step=="step2"){		
 		return getStep1Data();
@@ -114,15 +164,31 @@ function getData(step){
 }
 }
 function nextStep(nextStep){
-  $.ajax({
-  type: "POST",
-  url: "store/elove/wizard/"+nextStep,
-  data: JSON.stringify(getData(nextStep)),
-  contentType: "application/json; charset=utf-8",
-  success: function (data) {
-	  $("#operationContent").html(data);
+  var shisStepData=getData(nextStep);
+  if(shisStepData!=null){
+	  $.ajax({
+		  type: "POST",
+		  url: "store/elove/wizard/"+nextStep,
+		  data: JSON.stringify(shisStepData),
+		  contentType: "application/json; charset=utf-8",
+		  success: function (data) {
+			  if(nextStep!="finish"){
+				  $("#operationContent").html(data);
+			  }else{
+		   	   	  var jsonData = JSON.parse(data);
+		   		  if(jsonData.status==true){
+			   	   	  $("#modalMes").html(jsonData.message);
+			   	      $("#operationMesModal").modal("show");
+			   	      setTimeout("location.href='store/elove/detail'",1500);
+		   		  }else{
+			   	   	  $("#modalMes").html(jsonData.message);
+			   	      $("#operationMesModal").modal("show");
+		   		  }
+			  }
+			  
+		  }
+		});
   }
-});
 }
 function backStep(backStep){
 	  $.ajax({

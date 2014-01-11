@@ -26,7 +26,19 @@
       <%@ include file="step1.jsp" %>
       </div>
     </div>
-    
+    <div class="modal fade" id="operationMesModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 id="modalTitle" class="modal-title">12321321</h4>
+          </div>
+          <div class="modal-body">
+            <h4 id="modalMes" class="modal-title"></h4>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->   
     <div id="footer">
       <div class="container text-center">
         <p class="text-muted credit">Copyright ? 2013 zhonghesoftware.com All Rights Reserved. 众合网络科技有限公司 版权所有</p>
@@ -35,6 +47,7 @@
     <!-- include jQuery + carouFredSel plugin -->
     <script type="text/javascript" src="./js/store/jquery-1.10.2.min.js"></script>
     <script src="js/store/upload.js"></script>
+    <script src="./js/store/bootstrap.min.js"></script>
     <script type="text/javascript" src="./js/store/eloveWizard.js"></script>
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=PWFniUmG9SMyIVlp7Nm24MRC"></script>
   </body>
