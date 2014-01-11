@@ -294,5 +294,5 @@ $( "#"+id+ "-links" ).html(links_html);
 };
 
 var getImgPrePath = function(){
-	return "http://localhost";
+	return "";
 };
