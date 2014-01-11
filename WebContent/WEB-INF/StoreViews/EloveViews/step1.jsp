@@ -9,7 +9,7 @@
 <div class="row">
   <div class="panel panel-info col-md-10 col-md-offset-1">
     <div class="panel-heading">
-      <h4>基本信息</h4>
+      <h4>基本信息（第一步，共六步）</h4>
     </div>
     <div class="panel-body row">
       <div class="form-horizontal">

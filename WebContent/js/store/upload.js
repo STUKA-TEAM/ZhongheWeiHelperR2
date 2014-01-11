@@ -228,7 +228,7 @@ $(document).ready(function(){
 	function errorHandler(status, exception){
 		alert(status + ' ' + exception);
 	}
-}	);
+});
 
 var deleteThisImage = function(link){
 	$("#"+link.replace(/\//g,"\\/")).remove();

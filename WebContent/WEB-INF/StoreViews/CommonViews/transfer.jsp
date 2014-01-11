@@ -43,8 +43,7 @@
       </div>
     </div><!-- footer -->
     <!-- include jQuery + carouFredSel plugin -->
-    <script type="text/javascript" src="./js/store/jquery-1.10.2.min.js"></script>
-    <script src="./js/store/bootstrap.min.js"></script>
+    <%@ include file="../CommonViews/commonJSList.jsp"%>
     <script type="text/javascript">
     $(document).ready(function(){
     	 $("#modalMes").html("${message}");

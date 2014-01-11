@@ -101,7 +101,6 @@
       </div>
     </div><!-- footer -->
     <!-- include jQuery -->
-    <script type="text/javascript" src="./js/store/jquery-1.10.2.min.js"></script>
-    <script src="./js/store/bootstrap.min.js"></script>
+    <%@ include file="../CommonViews/commonJSList.jsp"%>
   </body>
 </html>

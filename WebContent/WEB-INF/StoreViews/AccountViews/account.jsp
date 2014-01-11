@@ -80,7 +80,14 @@
                 <td> ${appInfo.wechatName}</td>
                 <td>${appInfo.wechatOriginalId}</td>
                 <td>${appInfo.wechatNumber}</td>
-                <td>${appInfo.isCharged}</td>
+                <td>
+                <c:if test="${appInfo.isCharged==true}">
+                <p class="text-success"> 当前正在管理</p>
+                </c:if>
+                <c:if test="${appInfo.isCharged==false}">
+                <p class="text-muted">非当前管理</p>
+                </c:if>
+                </td>
                 <td><a data-toggle="modal" data-target="#${appInfo.appid}">查看</a>
                 
                 </td>
@@ -303,9 +310,8 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <!-- include jQuery -->
-    <script type="text/javascript" src="./js/store/jquery-1.10.2.min.js"></script>
+    <%@ include file="../CommonViews/commonJSList.jsp"%>
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=PWFniUmG9SMyIVlp7Nm24MRC"></script>
-    <script src="./js/store/bootstrap.min.js"></script>
     <script src="js/store/upload.js"></script>
     <script type="text/javascript">
     var myGeo = new BMap.Geocoder();  

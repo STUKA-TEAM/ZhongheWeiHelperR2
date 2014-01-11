@@ -92,14 +92,31 @@ function getStep3Data(){
     });
 	step3Info.dressImagePath=linkArray;
 	
-    var linkInputArray2=$("#upload1video_sigle-links").children();
-    var linkArray2=new Array();
-    $.each(linkInputArray2,function(key,val){
-  	  linkArray2.push($(val).val());
-    });
-    step3Info.dressVideoPath=linkArray2;
-	return step3Info;
+    var dressVideoPathStr=$("#upload1video_sigle-links").children();
+    if(dressVideoPathStr.length!=0){
+    	step3Info.dressVideoPath=dressVideoPathStr[0].value;
+    }else{
+    	step3Info.dressVideoPath=null;
+    }
+	if(validateStep3(step3Info)){
+		return step3Info;		
+	}else{
+		return null;
+	}
 }
+
+function validateStep3(step3Info){
+	var blankInputArray = new Array();
+	if(step3Info.dressImagePath.length==0)blankInputArray.push("上传婚纱照");
+	if(step3Info.dressVideoPath==null)blankInputArray.push("上传婚纱照视频");
+	if(blankInputArray.length==0){
+		return true;
+	}else{
+		showBlankInputHtml(blankInputArray);
+		return false;
+	}
+}
+
 function getStep4Data(){
 	var step4Info = new Object();
 	step4Info.weddingDate=$("#info_date").val();
@@ -107,8 +124,24 @@ function getStep4Data(){
 	step4Info.lng=$("#lng").val();
 	step4Info.lat=$("#lat").val();
 	step4Info.phone=$("#info_phone").val();
-	return step4Info;
-}  
+	if(validateStep4(step4Info)){
+		return step4Info;		
+	}else{
+		return null;
+	}
+}
+function validateStep4(step4Info){
+	var blankInputArray = new Array();
+	if(step4Info.weddingDate=="")blankInputArray.push("婚礼时间");
+	if(step4Info.weddingAddress=="")blankInputArray.push("婚礼地点");
+	if(step4Info.phone=="")blankInputArray.push("联系电话");
+	if(blankInputArray.length==0){
+		return true;
+	}else{
+		showBlankInputHtml(blankInputArray);
+		return false;
+	}
+}
 function getStep5Data(){
 	var step5Info = new Object();
     var linkInputArray=$("#upload1-links").children();
@@ -124,13 +157,43 @@ function getStep5Data(){
   	  linkArray2.push($(val).val());
     });
     step5Info.recordVideoPath=linkArray2;
-	return step5Info;
+	if(validateStep5(step5Info)){
+		return step5Info;		
+	}else{
+		return null;
+	}
+}
+function validateStep5(step5Info){
+	var blankInputArray = new Array();
+	if(step5Info.recordImagePath.length==0)blankInputArray.push("上传婚礼照片");
+	if(step5Info.recordVideoPath==null)blankInputArray.push("上传婚礼视频");
+	if(blankInputArray.length==0){
+		return true;
+	}else{
+		showBlankInputHtml(blankInputArray);
+		return false;
+	}
 }
 function getStep6Data(){
 	var step6Info = new Object();
 	step6Info.footerText=$("#elove_footer").val();
 	step6Info.sideCorpInfo=$("#elove_sidebar").val();
-	return step6Info;
+	if(validateStep6(step6Info)){
+		return step6Info;		
+	}else{
+		return null;
+	}
+}
+function validateStep6(step6Info){
+	var blankInputArray = new Array();
+	if(step6Info.footerText=="")blankInputArray.push("Elove底部脚注");
+	if(step6Info.sideCorpInfo=="")blankInputArray.push("Elove侧边栏名称");
+	if(blankInputArray.length==0){
+		return true;
+	}else{
+		showBlankInputHtml(blankInputArray);
+		return false;
+	}
 }
 function showBlankInputHtml(blankInputArray){
 	var blankInputhtml="";
