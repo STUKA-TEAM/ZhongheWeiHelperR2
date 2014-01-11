@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class Step3Info {
 	private List<String> dressImagePath;
-	private List<String> dressVideoPath;
+	private String dressVideoPath;
 	
 	/**
 	 * @return the dressImagePath
@@ -28,13 +28,13 @@ public class Step3Info {
 	/**
 	 * @return the dressVideoPath
 	 */
-	public List<String> getDressVideoPath() {
+	public String getDressVideoPath() {
 		return dressVideoPath;
 	}
 	/**
 	 * @param dressVideoPath the dressVideoPath to set
 	 */
-	public void setDressVideoPath(List<String> dressVideoPath) {
+	public void setDressVideoPath(String dressVideoPath) {
 		this.dressVideoPath = dressVideoPath;
 	}
 }

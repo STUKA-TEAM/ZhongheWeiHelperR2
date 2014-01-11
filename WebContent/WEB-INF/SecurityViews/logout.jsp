@@ -1,4 +1,7 @@
-<% session.invalidate(); %>
-You are now logged out!!
- 
-<a href="${pageContext.request.contextPath}/security/login">go back</a>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<html>
+<body>
+	<h3>messages, whatever</h3>	
+	<a href="<c:url value="/j_spring_security_logout" />" > Logout</a>
+</body>
+</html>

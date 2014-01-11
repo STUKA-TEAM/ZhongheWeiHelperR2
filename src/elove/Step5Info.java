@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class Step5Info {
 	private List<String> recordImagePath;
-	private List<String> recordVideoPath;
+	private String recordVideoPath;
 	
 	/**
 	 * @return the recordImagePath
@@ -28,13 +28,13 @@ public class Step5Info {
 	/**
 	 * @return the recordVideoPath
 	 */
-	public List<String> getRecordVideoPath() {
+	public String getRecordVideoPath() {
 		return recordVideoPath;
 	}
 	/**
 	 * @param recordVideoPath the recordVideoPath to set
 	 */
-	public void setRecordVideoPath(List<String> recordVideoPath) {
+	public void setRecordVideoPath(String recordVideoPath) {
 		this.recordVideoPath = recordVideoPath;
 	}
 }

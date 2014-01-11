@@ -158,25 +158,20 @@ public class EloveWizardDAO {
 	 * @title: insertVideo
 	 * @description: 插入录像记录
 	 * @param eloveid
-	 * @param imageType
-	 * @param imagePathList
+	 * @param videoType
+	 * @param videoPath
 	 * @return
 	 */
-	private int insertVideo(int eloveid, String videoType, List<String> videoList){
+	private int insertVideo(int eloveid, String videoType, String videoPath){
 		String SQL = "INSERT INTO elove_video VALUES (default, ?, ?, ?)";
-		int result = 1;
+		int result = 0;
 
-		for (int i = 0; i < videoList.size(); i++) {
-			String videoPath = videoList.get(i);
-			result = jdbcTemplate.update(SQL, eloveid, videoPath, videoType);
-			if (result <= 0) {
-				return 0;
-			}
+		result = jdbcTemplate.update(SQL, eloveid, videoPath, videoType);
+		if (result <= 0) {
+			return 0;
 		}
-		
-		for (int i = 0; i < videoList.size(); i++) {
-			deleteVideoTempRecord(videoList.get(i));
-		}
+
+		deleteVideoTempRecord(videoPath);
 		
 		return result;
 	}
@@ -329,7 +324,7 @@ public class EloveWizardDAO {
 	/**
 	 * @title: deleteVideoTempRecord
 	 * @description: 删除图片在临时表中记录
-	 * @param imagePath
+	 * @param videoPath
 	 * @return
 	 */
 	private int deleteVideoTempRecord(String videoPath){
@@ -476,21 +471,21 @@ public class EloveWizardDAO {
 	}
 	
 	/**
-	 * @title: getVideoListWithType
-	 * @description: 查询与eloveid相关的指定类型的视频路径信息
+	 * @title: getVideoWithType
+	 * @description: 查询与eloveid相关的指定类型的唯一视频路径信息
 	 * @param eloveid
 	 * @param videoType
 	 * @return
 	 */
-	public List<String> getVideoListWithType(int eloveid, String videoType){
+	public String getVideoWithType(int eloveid, String videoType){
 		String SQL = "SELECT videoPath FROM elove_video WHERE eloveid = ? AND videoType = ?";
-		List<String> videoList = null;
+		String videoPath = null;
 		try {
-			videoList = jdbcTemplate.query(SQL, new Object[]{eloveid, videoType}, new VideoPathMapper());
+			videoPath = jdbcTemplate.queryForObject(SQL, new Object[]{eloveid, videoType}, new VideoPathMapper());
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-		return videoList;
+		return videoPath;
 	}
 	
 	private static final class VideoPathMapper implements RowMapper<String>{
@@ -518,9 +513,9 @@ public class EloveWizardDAO {
 		if (eloveWizard != null) {
 			eloveWizard.setStoryImagePath(getImageListWithType(eloveid, "story"));
 			eloveWizard.setDressImagePath(getImageListWithType(eloveid, "dress"));
-			eloveWizard.setDressVideoPath(getVideoListWithType(eloveid, "dress"));
+			eloveWizard.setDressVideoPath(getVideoWithType(eloveid, "dress"));
 			eloveWizard.setRecordImagePath(getImageListWithType(eloveid, "record"));
-			eloveWizard.setRecordVideoPath(getVideoListWithType(eloveid, "record"));
+			eloveWizard.setRecordVideoPath(getVideoWithType(eloveid, "record"));
 		}
 		return eloveWizard;
 	}
@@ -552,6 +547,37 @@ public class EloveWizardDAO {
 			eloveWizard.setFooterText(rs.getString("footerText"));
 			eloveWizard.setSideCorpInfo(rs.getString("sideCorpInfo"));
 			eloveWizard.setThemeid(rs.getInt("themeid"));
+			return eloveWizard;
+		}		
+	}
+	
+	/**
+	 * @title: getBasicElove
+	 * @description: 获取elove不可改动信息
+	 * @param eloveid
+	 * @return
+	 */
+	public EloveWizard getBasicElove(int eloveid){
+		String SQL = "SELECT * FROM elove WHERE eloveid = ?";
+		EloveWizard eloveWizard = null;
+		
+		try {
+			eloveWizard = jdbcTemplate.queryForObject(SQL, new Object[]{eloveid}, new EloveBasicMapper());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}		
+		return eloveWizard;
+	}
+	
+	private static final class EloveBasicMapper implements RowMapper<EloveWizard>{
+		@Override
+		public EloveWizard mapRow(ResultSet rs, int arg1) throws SQLException {
+			EloveWizard eloveWizard = new EloveWizard();
+			eloveWizard.setAppid(rs.getString("appid"));
+			eloveWizard.setCreateTime(rs.getTimestamp("createTime"));
+			eloveWizard.setExpiredTime(rs.getTimestamp("expiredTime"));
+			eloveWizard.setXinNiang(rs.getString("xinNiang"));
+			eloveWizard.setXinLang(rs.getString("xinLang"));
 			return eloveWizard;
 		}		
 	}
@@ -651,5 +677,30 @@ public class EloveWizardDAO {
 			Integer notPayNumber = rs.getInt("notPayNumber");
 			return notPayNumber;
 		}		
+	}
+	
+	/**
+	 * @title: getThemeidList
+	 * @description: 获取主题id列表
+	 * @return
+	 */
+	public List<Integer> getThemeidList(){
+		String SQL = "SELECT id FROM elove_theme";
+		List<Integer> themeidList = null;
+		
+		try {
+			themeidList = jdbcTemplate.query(SQL, new ThemeidMapper());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return themeidList;
+	}
+	
+	private static final class ThemeidMapper implements RowMapper<Integer>{
+		@Override
+		public Integer mapRow(ResultSet rs, int arg1) throws SQLException {
+			Integer themeid = rs.getInt("id");
+			return themeid;
+		}	
 	}
 }
