@@ -589,7 +589,7 @@ public class EloveWizardDAO {
 	 * @return
 	 */
 	public EloveWizard getEloveBasicMedia(int eloveid){
-		String SQL = "SELECT coverPic, majorGroupPhoto, storeTextImagePath, music FROM elove WHERE eloveid = ?";
+		String SQL = "SELECT coverPic, majorGroupPhoto, storyTextImagePath, music FROM elove WHERE eloveid = ?";
 		EloveWizard eloveWizard = null;
 		
 		try {
@@ -606,7 +606,7 @@ public class EloveWizardDAO {
 			EloveWizard eloveWizard = new EloveWizard();
 			eloveWizard.setCoverPic(rs.getString("coverPic"));
 			eloveWizard.setMajorGroupPhoto(rs.getString("majorGroupPhoto"));
-			eloveWizard.setStoryTextImagePath(rs.getString("storeTextImagePath"));
+			eloveWizard.setStoryTextImagePath(rs.getString("storyTextImagePath"));
 			eloveWizard.setMusic(rs.getString("music"));
 			return eloveWizard;
 		}	
