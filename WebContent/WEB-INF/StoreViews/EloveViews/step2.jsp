@@ -4,7 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
   <ol class="breadcrumb">
     <li><a href="store/elove/detail">Elove管理</a></li>
-    <li class="active">相知相遇</li>
+    <li class="active">相遇相知</li>
   </ol>
   <div class="row">
     <div class="panel panel-info col-md-10 col-md-offset-1">
@@ -26,7 +26,7 @@
             </div>
           </div>
           <form  class="form-group" role="form" enctype="multipart/form-data" id="upload1">
-            <label class="col-sm-3 control-label">相知相遇图片</label>
+            <label class="col-sm-3 control-label">相遇相知图片</label>
             <div class="col-md-7">
               <input type="file" name="file" class="image-file hidden" onchange="ye.value=value" accept="image/*">
               <input type="text" name=ye class="form-control file-path-elove">
@@ -51,7 +51,7 @@
               </div>
           </div>                       
 		<form  class="form-group" role="form" enctype="multipart/form-data" id="upload1single">
-		  <label for="elove_pic" class="col-md-3 control-label">相知相遇文字图片</label>
+		  <label for="elove_pic" class="col-md-3 control-label">相遇相知文字图片</label>
 		  <div class="col-md-7">
 		    <input type="file" name="file" class="image-file hidden" onchange="ye.value=value" accept="image/*">
 		    <input type="text" name=ye class="form-control file-path-elove">

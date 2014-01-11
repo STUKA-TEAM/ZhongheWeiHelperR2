@@ -94,7 +94,7 @@
              </div>
            </div>
            <div class="form-group">
-             <label for="theme_select" class="col-md-3 control-label">主题风格选择</label>
+             <label for="theme_select" class="col-md-3 control-label">主题风格</label>
              <div class="col-md-7">
                <div class="row">
                <c:forEach items="${themeInfoList}" var="themeInfo">

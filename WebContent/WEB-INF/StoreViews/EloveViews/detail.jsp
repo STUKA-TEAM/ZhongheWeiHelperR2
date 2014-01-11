@@ -101,7 +101,7 @@
       </div>
     </div><!-- footer -->
     <!-- include jQuery -->
-		<script type="text/javascript" src="./js/store/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="./js/store/jquery-1.10.2.min.js"></script>
     <script src="./js/store/bootstrap.min.js"></script>
   </body>
 </html>
