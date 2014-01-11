@@ -40,12 +40,12 @@ var audio_switch = function(){
  		 myAudio.play();
  	  }
       
-      $(".audio-logo").attr("src", "img/elove/audio_on_2.png");
+      $(".audio-logo").attr("src", "img/elove/audio_on_3.png");
  	  $("#audio-p").text("音效开启");
       flag="on";
  	}else{
       myAudio.pause();
-      $(".audio-logo").attr("src", "img/elove/audio_off_2.png");
+      $(".audio-logo").attr("src", "img/elove/audio_off_3.png");
       $("#audio-p").text("音效关闭");
  	  flag="off";
  	}
@@ -116,4 +116,4 @@ var map_switch = function(){
   }else{
     box.style.visibility = "hidden";
   }
-}
+};

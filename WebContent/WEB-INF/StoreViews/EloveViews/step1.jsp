@@ -97,26 +97,20 @@
              <label for="theme_select" class="col-md-3 control-label">主题风格选择</label>
              <div class="col-md-7">
                <div class="row">
+               <c:forEach items="${themeInfoList}" var="themeInfo">
                  <div class="col-md-4">
                    <div class="radio">
                      <label>
-                       <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
-                       简约主题
+                       <input type="radio" name="optionsRadios" id="optionsRadios1" value="${themeInfo.themeid}" <c:if test="${themeInfo.themeid==eloveWizard.themeid}"> checked</c:if>>
+                       ${themeInfo.themeName}
                      </label>
                    </div>
                  </div>
-                 <div class="col-md-4">
-                   <div class="radio">
-                     <label>
-                       <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
-                       温馨主题
-                     </label>
-                   </div>
-                 </div>
+               </c:forEach>
                </div>
              </div>
            </div>
-<form  class="form-group" role="form" enctype="multipart/form-data" id="upload1music_sigle">
+         <form  class="form-group" role="form" enctype="multipart/form-data" id="upload1music_sigle">
              <label for="elove_pic" class="col-md-3 control-label">背景音乐</label>
              <div class="col-md-7">
                <input type="file" name="file" class="audio-file hidden" onchange="ye.value=value" accept="audio/mp3">

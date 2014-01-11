@@ -16,16 +16,16 @@
         <div class="form-group">
           <label for="info_date" class="col-md-3 control-label">婚礼时间</label>
           <div class="col-md-7">
-            <input type="text" class="form-control" id="info_date" placeholder="">
+            <input type="text" class="form-control" id="info_date" placeholder="" value="${eloveWizard.weddingDate}">
           </div>
         </div>
         <div class="form-group">
           <label for="info_addr" class="col-md-3 control-label">婚礼地点</label>
           <div class="col-md-7">
             <div class="input-group">
-              <input type="text" class="form-control" id="info_addr" placeholder="">
-              <input type="hidden" id="lng" value=""/>
-              <input type="hidden" id="lat" value=""/>
+              <input type="text" class="form-control" id="info_addr" placeholder="" value="${eloveWizard.weddingAddress}">
+              <input type="hidden" id="lng" value="${eloveWizard.lng}"/>
+              <input type="hidden" id="lat" value="${eloveWizard.lat}"/>
               <span class="input-group-btn">
                 <button class="btn btn-info" type="button" onclick="setPoint()">定位</button>
               </span>
@@ -36,7 +36,7 @@
         <div class="form-group">
           <label for="info_phone" class="col-md-3 control-label">联系电话</label>
           <div class="col-md-7">
-            <input type="text" class="form-control" id="info_phone" placeholder="">
+            <input type="text" class="form-control" id="info_phone" placeholder="" value="${eloveWizard.phone}">
           </div>
         </div>
         <div class="form-group form-btn">
@@ -49,41 +49,43 @@
   </div>
 </div>
 <script type="text/javascript">
-    var myGeo = new BMap.Geocoder();  
-    var map = new BMap.Map("baidumap");
-    map.centerAndZoom("上海", 12);  
-    map.enableScrollWheelZoom();
-    function setInitPoint(){
-    	map.clearOverlays();
-        myGeo.getPoint( "上海市益江路", function(point){  
-        if (point) { 	 
-           map.centerAndZoom(point, 16);
-           document.getElementById("lng").value = point.lng;
-           document.getElementById("lat").value = point.lat;  
-           map.addOverlay(new BMap.Marker(point));  
-           map.enableScrollWheelZoom(); 
-         }  
-        }, "上海市");
-    }
-    function setPoint(){
+var myGeo = new BMap.Geocoder();  
+var map = new BMap.Map("baidumap"); 
+if('${eloveWizard.lng}'!=''){
+	map.clearOverlays();
+	var point = new BMap.Point('${eloveWizard.lng}','${eloveWizard.lat}');
+    map.centerAndZoom(new BMap.Point('${eloveWizard.lng}','${eloveWizard.lat}'), 16);
+	map.addOverlay(new BMap.Marker(point));  
+}else{
+	myGeo.getPoint("上海", function(point){  
+		if (point) { 	 
+		   document.getElementById("lng").value = point.lng;
+		   document.getElementById("lat").value = point.lat;  
+		 }  
+		}, "上海市"); 
+	map.centerAndZoom("上海", 12);
+}
+map.enableScrollWheelZoom();
+
+map.addEventListener("click", function(e){
     map.clearOverlays();
-    var address = document.getElementById("info_addr").value;
-    myGeo.getPoint(address, function(point){  
-    if (point) { 	 
-       map.centerAndZoom(point, 16);
-       document.getElementById("lng").value = point.lng;
-       document.getElementById("lat").value = point.lat;  
-       map.addOverlay(new BMap.Marker(point));  
-       map.enableScrollWheelZoom(); 
-     }  
-    }, "上海市");
-    } 
-    map.addEventListener("click", function(e){
-      map.clearOverlays();
-      var point=new BMap.Point(e.point.lng, e.point.lat);
-      document.getElementById("lng").value = point.lng;
-      document.getElementById("lat").value = point.lat;  
-      map.centerAndZoom(point, map.getZoom());  
-      map.addOverlay(new BMap.Marker(point)); 
-    });
-    </script>
+    var point=new BMap.Point(e.point.lng, e.point.lat);
+    document.getElementById("lng").value = point.lng;
+    document.getElementById("lat").value = point.lat;  
+    map.centerAndZoom(point, map.getZoom());  
+    map.addOverlay(new BMap.Marker(point)); 
+  });
+function setPoint(){
+map.clearOverlays();
+var address = document.getElementById("info_addr").value;
+myGeo.getPoint(address, function(point){  
+if (point) { 	 
+   map.centerAndZoom(point, 16);
+   document.getElementById("lng").value = point.lng;
+   document.getElementById("lat").value = point.lat;  
+   map.addOverlay(new BMap.Marker(point));  
+   map.enableScrollWheelZoom(); 
+ }  
+}, "上海市");
+}
+</script>

@@ -16,13 +16,13 @@
         <div class="form-group">
           <label for="elove_footer" class="col-md-3 control-label">Elove底部脚注</label>
           <div class="col-md-7">
-            <input type="text" class="form-control" id="elove_footer" placeholder="">
+            <input type="text" class="form-control" id="elove_footer" placeholder="" value="${eloveWizard.footerText}">
           </div>
         </div>
         <div class="form-group">
           <label for="elove_sidebar" class="col-md-3 control-label">Elove侧边栏名称</label>
           <div class="col-md-7">
-            <input type="text" class="form-control" id="elove_sidebar" placeholder="">
+            <input type="text" class="form-control" id="elove_sidebar" placeholder="" value="${eloveWizard.sideCorpInfo}">
           </div>
         </div>
         <div class="form-group form-btn">

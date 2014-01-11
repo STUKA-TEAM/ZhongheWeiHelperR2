@@ -1,11 +1,11 @@
 .content-bg {
-  background-image: url(../../img/elove/title_bg_2.jpg), url(../../img/elove/footer_bg_2.jpg);
+  background-image: url(../../img/elove/title_bg_3.png);
   background-repeat: no-repeat;
-  background-position: top, bottom;
+  background-position: top;
+  width: 100%;
 }
 .photo-container {
-  padding-bottom: 50px;
-  
+  padding-top: 50px;
 }
 .photo {
   float: none;

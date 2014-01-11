@@ -321,11 +321,21 @@
         map.addOverlay(new BMap.Marker(point)); 
       });
     function setInitPoint(){
-    	map.clearOverlays();
-    	var point = new BMap.Point('${userInfo.lng}','${userInfo.lat}');
-    	setTimeout("map.centerAndZoom(new BMap.Point('${userInfo.lng}','${userInfo.lat}'), 16)",500);
-    	map.addOverlay(new BMap.Marker(point));  
-        map.enableScrollWheelZoom(); 
+        if('${userInfo.lng}'!=''){
+        	map.clearOverlays();
+        	var point = new BMap.Point('${userInfo.lng}','${userInfo.lat}');
+        	setTimeout("map.centerAndZoom(new BMap.Point('${userInfo.lng}','${userInfo.lat}'), 16)",500);
+        	map.addOverlay(new BMap.Marker(point));  
+        }else{
+        	myGeo.getPoint("上海", function(point){  
+        		if (point) { 	 
+        		   document.getElementById("lng").value = point.lng;
+        		   document.getElementById("lat").value = point.lat;    
+        		 }  
+        		}, "上海市"); 
+        	map.centerAndZoom("上海", 12);
+        }
+        map.enableScrollWheelZoom();
     }
     function setPoint(){
     map.clearOverlays();
