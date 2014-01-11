@@ -39,7 +39,7 @@ function validateStep1(step1Info){
 	if(step1Info.shareTitle=="")blankInputArray.push("分享消息标题");
 	if(step1Info.shareContent=="")blankInputArray.push("分享消息内容");
 	if(step1Info.majorGroupPhoto==null)blankInputArray.push("新人婚纱照主图片");
-	if(step1Info.themeid=="")blankInputArray.push("主题风格");
+	if(typeof(step1Info.themeid)=="undefined")blankInputArray.push("主题风格");
 	if(step1Info.music==null)blankInputArray.push("背景音乐");
 	if(blankInputArray.length==0){
 		return true;
@@ -151,12 +151,13 @@ function getStep5Data(){
     });
     step5Info.recordImagePath=linkArray;
 	
-    var linkInputArray2=$("#upload1video_sigle-links").children();
-    var linkArray2=new Array();
-    $.each(linkInputArray2,function(key,val){
-  	  linkArray2.push($(val).val());
-    });
-    step5Info.recordVideoPath=linkArray2;
+    var recordVideoPathStr=$("#upload1video_sigle-links").children();
+    if(recordVideoPathStr.length!=0){
+    	 step5Info.recordVideoPath=recordVideoPathStr[0].value;
+    }else{
+    	 step5Info.recordVideoPath=null;
+    }
+   
 	if(validateStep5(step5Info)){
 		return step5Info;		
 	}else{
@@ -240,10 +241,12 @@ function nextStep(nextStep){
 			  }else{
 		   	   	  var jsonData = JSON.parse(data);
 		   		  if(jsonData.status==true){
+		   			  $("#modalTitle").html("提示");
 			   	   	  $("#modalMes").html(jsonData.message);
 			   	      $("#operationMesModal").modal("show");
 			   	      setTimeout("location.href='store/elove/detail'",1500);
 		   		  }else{
+		   			  $("#modalTitle").html("提示");
 			   	   	  $("#modalMes").html(jsonData.message);
 			   	      $("#operationMesModal").modal("show");
 		   		  }
