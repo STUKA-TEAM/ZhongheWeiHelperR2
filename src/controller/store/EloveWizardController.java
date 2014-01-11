@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
+import register.dao.AppInfoDAO;
 import tools.CommonValidationTools;
 
 import com.google.gson.Gson;
@@ -193,6 +194,7 @@ public class EloveWizardController {
 		ApplicationContext context = 
 				new ClassPathXmlApplicationContext("All-Modules.xml");
 		EloveWizardDAO eloveWizardDao = (EloveWizardDAO) context.getBean("EloveWizardDAO");
+		AppInfoDAO appInfoDao = (AppInfoDAO) context.getBean("AppInfoDAO");
 		((ConfigurableApplicationContext)context).close();
 		
 		Gson gson = new Gson();
@@ -223,9 +225,9 @@ public class EloveWizardController {
 				message.setMessage("请重新登录！");
 			}
 			else {
-				if (appid == "") {                    //需先创建app
+				if (appid == "" || appInfoDao.getAppNumByAppid(appid) == 0) {               //需先创建app或appid无效
 					message.setStatus(false);
-					message.setMessage("请先创建app!");
+					message.setMessage("还未关联任何微信公众账号，请先关联微信公众账号!");
 				}
 				else {
 					eloveWizard.setAppid(appid);

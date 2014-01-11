@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import elove.EloveInfo;
+import register.dao.AppInfoDAO;
 import register.dao.AuthPriceDAO;
 import elove.dao.EloveInfoDAO;
 import security.User;
@@ -43,22 +44,23 @@ public class EloveController {
 	@RequestMapping(value = "/elove/detail", method = RequestMethod.GET)
     public String getEloveList(Model model, HttpServletRequest request, 
     		@CookieValue(value = "appid", required = false) String appid) {
+		ApplicationContext context = 
+				new ClassPathXmlApplicationContext("All-Modules.xml");
+		AuthPriceDAO authPriceDao = (AuthPriceDAO) context.getBean("AuthPriceDAO");
+		AppInfoDAO appInfoDao = (AppInfoDAO) context.getBean("AppInfoDAO");
+		EloveInfoDAO eloveInfoDao = (EloveInfoDAO) context.getBean("EloveInfoDAO");
+		((ConfigurableApplicationContext)context).close();
+		
 		if (appid == null) {       //异常
 			return "redirect:/store/account";     
 		}
 		else {
-			if (appid.equals("")) {       //需先创建app
+			if (appid.equals("") || appInfoDao.getAppNumByAppid(appid) == 0) {       //需先创建app或appid无效
 				request.setAttribute("message", "还未关联任何微信公众账号，请先关联微信公众账号！");
 				request.setAttribute("jumpLink", "store/account");
 				return "forward:/store/transfer";   
 			}
-			else {
-				ApplicationContext context = 
-						new ClassPathXmlApplicationContext("All-Modules.xml");
-				AuthPriceDAO authPriceDao = (AuthPriceDAO) context.getBean("AuthPriceDAO");
-				EloveInfoDAO eloveInfoDao = (EloveInfoDAO) context.getBean("EloveInfoDAO");
-				((ConfigurableApplicationContext)context).close();
-				
+			else {				
 				//get elove information
 				List<EloveInfo> infoList = eloveInfoDao.getEloveInfoList(appid);
 				if (infoList != null) {
