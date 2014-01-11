@@ -41,8 +41,8 @@
          <form  class="form-group" role="form" enctype="multipart/form-data" id="upload1video_sigle">
              <label for="elove_pic" class="col-md-3 control-label">上传婚纱照视频</label>
              <div class="col-md-7">
-               <input type="file" name="file" class="video-file hidden" onchange="ye.value=value" accept="video/*">
-               <input type="text" name=ye class="form-control file-path-elove" value="${eloveWizard.music}">
+               <input type="file" name="file" class="video-file hidden" onchange="ye.value=value" accept="video/mp4">
+               <input type="text" name=ye class="form-control file-path-elove" value="">
             <input type="button" value="选择文件" onclick="file.click()" class="btn btn-sm btn-info">
             <input type="button" value="上传" class="video-upload btn btn-sm btn-info">
           </div>
