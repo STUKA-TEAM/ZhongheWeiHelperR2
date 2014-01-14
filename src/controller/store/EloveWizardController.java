@@ -204,9 +204,10 @@ public class EloveWizardController {
 		ResponseMessage message = new ResponseMessage();
 		
 		if (eloveWizard.getEloveid() > 0) {   //update
-			if (!CommonValidationTools.checkEloveWizard(eloveWizard)) {
+			String checkInfo = CommonValidationTools.checkEloveWizard(eloveWizard);
+			if (!checkInfo.equals("pass")) {
 				message.setStatus(false);
-				message.setMessage("elove信息填写不完整或有误！");
+				message.setMessage(checkInfo);
 			}else{
 				int effected = eloveWizardDao.updateElove(eloveWizard);
 				
@@ -247,9 +248,10 @@ public class EloveWizardController {
 					eloveWizard.setCreateTime(createTime);
 					eloveWizard.setExpiredTime(expiredTime);
 					
-					if (!CommonValidationTools.checkEloveWizard(eloveWizard)) {
+					String checkInfo = CommonValidationTools.checkEloveWizard(eloveWizard);
+					if (!checkInfo.equals("pass")) {
 						message.setStatus(false);
-						message.setMessage("elove信息填写不完整或有误！");
+						message.setMessage(checkInfo);
 					}else{
 						int eloveid = eloveWizardDao.insertElove(eloveWizard);
 						
