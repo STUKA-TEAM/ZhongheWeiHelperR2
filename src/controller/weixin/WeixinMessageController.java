@@ -30,14 +30,10 @@ public class WeixinMessageController {
 		){
 			try {
 				Map<String, String> xmlMap = WeixinMessageUtil.parseXml(request);
-				System.out.println("Type:"+xmlMap.get("MsgType"));
 				if(xmlMap.get("MsgType")==WeiXinConstant.MSG_TYPE_TEST_FROM_REQ){
-					System.out.println("验证消息");
 					return echostr;
 				}
-				if(xmlMap.get("MsgType").equals(WeiXinConstant.MSG_TYPE_EVENT_FROM_REQ)){
-					System.out.println("注册消息");
-					
+				if(xmlMap.get("MsgType").equals(WeiXinConstant.MSG_TYPE_EVENT_FROM_REQ)){					
 					return WeixinMessageUtil.textMessageToXmlForResponse(xmlMap,
 							"感谢您关注众合微平台公众账号！查看Elove效果请输入样例密码：elove");	
 				}

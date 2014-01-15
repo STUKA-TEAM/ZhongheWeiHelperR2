@@ -27,7 +27,7 @@
              <li><a href="store/elove/detail">Elove管理</a></li>
           </c:if>
           
-          <c:if test="${auth=='dingcan'}">
+          <!--<c:if test="${auth=='dingcan'}">-->
           <li><a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">订餐管理</a>
             <div id="collapseOne" class="panel-collapse collapse">
               <ul class="nav submenu">
@@ -37,7 +37,7 @@
               </ul>
             </div>
           </li>
-          </c:if>
+          <!--</c:if>-->
           
           <c:if test="${auth=='weihuodong'}">
           <li><a href="./vote.html">投票管理</a></li>

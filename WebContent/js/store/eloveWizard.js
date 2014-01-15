@@ -157,12 +157,7 @@ function getStep5Data(){
     }else{
     	 step5Info.recordVideoPath=null;
     }
-   
-	if(validateStep5(step5Info)){
 		return step5Info;		
-	}else{
-		return null;
-	}
 }
 function validateStep5(step5Info){
 	var blankInputArray = new Array();
