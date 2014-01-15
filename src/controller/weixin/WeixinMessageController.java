@@ -6,11 +6,14 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import elove.dao.EloveWizardDAO;
 import tools.MethodUtils;
 import weixinmessage.response.NewsItemToResponse;
 import weixintools.WeiXinConstant;
@@ -21,7 +24,7 @@ public class WeixinMessageController {
 	@RequestMapping(value = "/weixin")
 	@ResponseBody
 	public String responseWeixin(
-			@RequestParam(value = "storeId", required=false) String storeId,
+			@RequestParam(value = "appid", required=false) String appid,
 			@RequestParam(value = "signature", required=false) String signature,
 			@RequestParam(value = "timestamp",required=false) String timestamp,
 			@RequestParam(value = "nonce",required=false) String nonce,
@@ -38,7 +41,10 @@ public class WeixinMessageController {
 							"感谢您关注众合微平台公众账号！查看Elove效果请输入样例密码：elove");	
 				}
 				if(xmlMap.get("MsgType").equals(WeiXinConstant.MSG_TYPE_TEXT_FROM_REQ)){
-					if (xmlMap.get("Content").equals("elove")) {
+					ApplicationContext context = 
+							new ClassPathXmlApplicationContext("All-Modules.xml");
+					EloveWizardDAO eloveWizardDAO = (EloveWizardDAO) context.getBean("EloveWizardDAO");
+					if (eloveWizardDAO.getEloveid(appid, xmlMap.get("Content"))!=null) {
 						NewsItemToResponse elove = new NewsItemToResponse();
 						NewsItemToResponse wish = new NewsItemToResponse();
 						NewsItemToResponse join = new NewsItemToResponse();
@@ -60,12 +66,10 @@ public class WeixinMessageController {
 						articles.add(elove);
 						articles.add(wish);
 						articles.add(join);
-					    return WeixinMessageUtil.newsMessageToXmlForResponse(xmlMap, articles);
-					
-					} else {
-						return WeixinMessageUtil.textMessageToXmlForResponse(xmlMap,
-								"查看Elove效果请输入样例密码：elove");	
+					    return WeixinMessageUtil.newsMessageToXmlForResponse(xmlMap, articles);					
 					}
+						return WeixinMessageUtil.textMessageToXmlForResponse(xmlMap,
+								"对不起，您的输入有误，请重新输入。");	
 				}
 				return "";
 			}catch(Exception e) {
