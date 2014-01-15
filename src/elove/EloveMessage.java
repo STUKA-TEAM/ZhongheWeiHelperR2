@@ -1,8 +1,11 @@
 package elove;
 
+import java.sql.Timestamp;
+
 public class EloveMessage {
 private int id;
 private int eloveid;
+private Timestamp createTime;
 private String name;
 private String content;
 public int getId() {
@@ -28,5 +31,11 @@ public String getContent() {
 }
 public void setContent(String content) {
 	this.content = content;
+}
+public Timestamp getCreateTime() {
+	return createTime;
+}
+public void setCreateTime(Timestamp createTime) {
+	this.createTime = createTime;
 }
 }

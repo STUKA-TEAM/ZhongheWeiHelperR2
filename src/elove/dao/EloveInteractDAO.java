@@ -29,7 +29,7 @@ public class EloveInteractDAO {
 	
 	public int insertMessage(final EloveMessage eloveMessage){
 		int result = 0;
-	    final String SQL = "INSERT INTO elove_message VALUES (default, ?, ?, ?)";
+	    final String SQL = "INSERT INTO elove_message VALUES (default, ?, ?, ?, ?)";
 
 		KeyHolder kHolder = new GeneratedKeyHolder();		
 		result = jdbcTemplate.update(new PreparedStatementCreator() {
@@ -37,8 +37,9 @@ public class EloveInteractDAO {
 	            PreparedStatement ps =
 	                connection.prepareStatement(SQL,Statement.RETURN_GENERATED_KEYS);
 	            ps.setInt(1, eloveMessage.getEloveid());
-	            ps.setString(2, eloveMessage.getName());
-	            ps.setString(3, eloveMessage.getContent());
+	            ps.setTimestamp(2, eloveMessage.getCreateTime());
+	            ps.setString(3, eloveMessage.getName());
+	            ps.setString(4, eloveMessage.getContent());
 	            return ps;
 	        }
 	    }, kHolder);
@@ -61,6 +62,7 @@ public class EloveInteractDAO {
 		public EloveMessage mapRow(ResultSet rs, int arg1) throws SQLException {
 			EloveMessage eloveMessage = new EloveMessage();
 			eloveMessage.setId(rs.getInt("id"));
+			eloveMessage.setCreateTime(rs.getTimestamp("createTime"));
 			eloveMessage.setName(rs.getString("name"));
 			eloveMessage.setContent(rs.getString("content"));
 			return eloveMessage;
@@ -68,7 +70,7 @@ public class EloveInteractDAO {
 	}
 	public int insertJoinInfo(final EloveJoinInfo eloveJoinInfo){
 		int result = 0;
-	    final String SQL = "INSERT INTO elove_join VALUES (default, ?, ?, ?, ?)";
+	    final String SQL = "INSERT INTO elove_join VALUES (default, ?, ?, ?, ?, ?)";
 
 		KeyHolder kHolder = new GeneratedKeyHolder();		
 		result = jdbcTemplate.update(new PreparedStatementCreator() {
@@ -76,9 +78,10 @@ public class EloveInteractDAO {
 	            PreparedStatement ps =
 	                connection.prepareStatement(SQL,Statement.RETURN_GENERATED_KEYS);
 	            ps.setInt(1, eloveJoinInfo.getEloveid());
-	            ps.setString(2, eloveJoinInfo.getName());
+	            ps.setTimestamp(2, eloveJoinInfo.getCreateTime());
 	            ps.setString(3, eloveJoinInfo.getName());
-	            ps.setInt(4, eloveJoinInfo.getNumber());
+	            ps.setString(4, eloveJoinInfo.getName());
+	            ps.setInt(5, eloveJoinInfo.getNumber());
 	            return ps;
 	        }
 	    }, kHolder);
@@ -102,6 +105,7 @@ public class EloveInteractDAO {
 		public EloveJoinInfo mapRow(ResultSet rs, int arg1) throws SQLException {
 			EloveJoinInfo eloveJoinInfo = new EloveJoinInfo();
 			eloveJoinInfo.setId(rs.getInt("id"));
+			eloveJoinInfo.setCreateTime(rs.getTimestamp("createTime"));
 			eloveJoinInfo.setName(rs.getString("name"));
 			eloveJoinInfo.setPhone(rs.getString("phone"));
 			eloveJoinInfo.setNumber(rs.getInt("number"));

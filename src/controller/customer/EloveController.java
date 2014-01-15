@@ -1,14 +1,19 @@
 package controller.customer;
 
+import java.sql.Timestamp;
+import java.util.List;
+
 import message.ResponseMessage;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
@@ -44,11 +49,25 @@ public String intro(){
 	return "EloveViews/intro";
 }
 @RequestMapping(value = "/elove/wish", method = RequestMethod.GET)
-public String wishMessage(){
+public String wishMessage(@RequestParam(value="eloveid") int eloveid, Model model){
+	ApplicationContext context = 
+			new ClassPathXmlApplicationContext("All-Modules.xml");
+	EloveInteractDAO eloveInteractDAO = (EloveInteractDAO)context.getBean("EloveInteractDAO");
+	((ConfigurableApplicationContext)context).close();
+	
+	List<EloveMessage> messageList = eloveInteractDAO.getMessageList(eloveid);
+	model.addAttribute("messageList", messageList);
 	return "EloveViews/wish";
 }
 @RequestMapping(value = "/elove/join", method = RequestMethod.GET)
-public String joinMessage(){
+public String joinMessage(@RequestParam(value="eloveid") int eloveid, Model model){
+	ApplicationContext context = 
+			new ClassPathXmlApplicationContext("All-Modules.xml");
+	EloveInteractDAO eloveInteractDAO = (EloveInteractDAO)context.getBean("EloveInteractDAO");
+	((ConfigurableApplicationContext)context).close();
+	
+	List<EloveJoinInfo> eloveJoinInfoList = eloveInteractDAO.getJoinInfoList(eloveid);
+	model.addAttribute("eloveJoinInfoList", eloveJoinInfoList);	
 	return "EloveViews/join";
 }
 @ResponseBody
@@ -61,6 +80,8 @@ public String addWishMessage(@RequestBody String json){
 	
 	Gson gson = new Gson();
 	EloveMessage eloveMessage = gson.fromJson(json, EloveMessage.class);
+	Timestamp current = new Timestamp(System.currentTimeMillis());
+	eloveMessage.setCreateTime(current);
 	int result = eloveInteractDAO.insertMessage(eloveMessage);
 	ResponseMessage message = new ResponseMessage();
 	if(result==1){
@@ -83,6 +104,8 @@ public String addJoinMessage(@RequestBody String json){
 	
 	Gson gson = new Gson();
 	EloveJoinInfo eloveJoinInfo = gson.fromJson(json, EloveJoinInfo.class);
+	Timestamp current = new Timestamp(System.currentTimeMillis());
+	eloveJoinInfo.setCreateTime(current);
 	int result = eloveInteractDAO.insertJoinInfo(eloveJoinInfo);
 	ResponseMessage message = new ResponseMessage();
 	
