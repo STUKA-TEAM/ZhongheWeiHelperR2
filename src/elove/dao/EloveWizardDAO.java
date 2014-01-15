@@ -139,6 +139,10 @@ public class EloveWizardDAO {
 	    String SQL = "INSERT INTO elove_images VALUES (default, ?, ?, ?)";
 		int result = 1;
 
+		if (imageList == null) {
+			return 1;
+		}
+		
 		for (int i = 0; i < imageList.size(); i++) {
 			String imagePath = imageList.get(i);
 			result = jdbcTemplate.update(SQL, eloveid, imagePath, imageType);
@@ -166,6 +170,9 @@ public class EloveWizardDAO {
 		String SQL = "INSERT INTO elove_video VALUES (default, ?, ?, ?)";
 		int result = 0;
 
+		if (videoPath == null) {
+			return 1;
+		}
 		result = jdbcTemplate.update(SQL, eloveid, videoPath, videoType);
 		if (result <= 0) {
 			return 0;
