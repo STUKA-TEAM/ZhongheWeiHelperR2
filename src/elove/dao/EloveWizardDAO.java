@@ -438,7 +438,7 @@ public class EloveWizardDAO {
 	 * @title: getImageListWithType
 	 * @description: 查询与eloveid相关的指定类型的图片路径信息
 	 * @param eloveid
-	 * @param imageType
+	 * @param imageType   "story"  or  "dress"  or  "record"
 	 * @return
 	 */
 	public List<String> getImageListWithType(int eloveid, String imageType){
@@ -523,6 +523,23 @@ public class EloveWizardDAO {
 			eloveWizard.setDressVideoPath(getVideoWithType(eloveid, "dress"));
 			eloveWizard.setRecordImagePath(getImageListWithType(eloveid, "record"));
 			eloveWizard.setRecordVideoPath(getVideoWithType(eloveid, "record"));
+		}
+		return eloveWizard;
+	}
+	
+	/**
+	 * @title: getOnlyElove
+	 * @description: 获取elove除图片视频路径外的全部信息
+	 * @param eloveid
+	 * @return
+	 */
+	public EloveWizard getOnlyElove(int eloveid){
+		String SQL = "SELECT * FROM elove WHERE eloveid = ?";
+		EloveWizard eloveWizard = null;
+		try {
+			eloveWizard = jdbcTemplate.queryForObject(SQL, new Object[]{eloveid}, new EloveWizardMapper());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
 		}
 		return eloveWizard;
 	}

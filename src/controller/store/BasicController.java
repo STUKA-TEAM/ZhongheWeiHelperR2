@@ -33,7 +33,6 @@ import register.AppInfo;
 import register.AuthPrice;
 import register.dao.AppInfoDAO;
 import register.dao.AuthPriceDAO;
-import elove.dao.EloveInfoDAO;
 import elove.dao.EloveWizardDAO;
 import register.UserInfo;
 import register.dao.UserInfoDAO;

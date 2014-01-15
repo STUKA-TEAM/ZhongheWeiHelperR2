@@ -282,4 +282,30 @@ public class UserInfoDAO {
 		}
 		return count;
 	}
+	
+	/**
+	 * @title: getSidByEloveid
+	 * @description: 由eloveid查询sid
+	 * @param eloveid
+	 * @return
+	 */
+	public Integer getSidByEloveid(int eloveid){
+		String SQL = "SELECT S.sid FROM storeuser_application S, elove E WHERE S.appid = E.appid AND E.eloveid = ?";
+		Integer sid = null;
+		
+		try {
+			sid = jdbcTemplate.queryForObject(SQL, new Object[]{eloveid}, new EloveidMapper());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return sid;
+	}
+	
+	private static final class EloveidMapper implements RowMapper<Integer>{
+		@Override
+		public Integer mapRow(ResultSet rs, int arg1) throws SQLException {
+			Integer eloveid = rs.getInt("eloveid");
+			return eloveid;
+		}		
+	}
 }
