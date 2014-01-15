@@ -620,6 +620,43 @@ public class EloveWizardDAO {
 	}
 	
 	/**
+	 * @title: getEloveid
+	 * @description: 根据密码查询eloveid
+	 * @param appid
+	 * @param password
+	 * @return
+	 */
+	public Integer getEloveid(String appid, String password){
+		String SQL = "SELECT eloveid FROM elove WHERE appid = ? AND password = ?";
+		Integer eloveid = null;
+		
+		try {
+			eloveid = jdbcTemplate.queryForObject(SQL, new Object[]{appid, password}, new EloveidMapper());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return eloveid;
+	}
+	
+	/**
+	 * @title: checkPassword
+	 * @description: 检查密码是否已被使用
+	 * @param password
+	 * @return
+	 */
+	public int checkPassword(String appid, String password){
+		String SQL = "SELECT COUNT(*) FROM elove WHERE appid = ? AND password = ?";
+		int count = 1;
+		
+		try {
+			count = jdbcTemplate.queryForObject(SQL, Integer.class, appid, password);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return count;
+	}
+	
+	/**
 	 * @title: getEloveNum
 	 * @description: 获取一个appid下的所有elove数量
 	 * @param appid

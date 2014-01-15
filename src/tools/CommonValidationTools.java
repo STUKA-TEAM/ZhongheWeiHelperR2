@@ -165,7 +165,7 @@ public class CommonValidationTools {
 	 * @param eloveWizard
 	 * @return
 	 */
-	public static boolean checkEloveWizard(EloveWizard eloveWizard){
+	public static String checkEloveWizard(EloveWizard eloveWizard){
 		ApplicationContext context = 
 				new ClassPathXmlApplicationContext("All-Modules.xml");
 		EloveWizardDAO eloveWizardDao = (EloveWizardDAO) context.getBean("EloveWizardDAO");
@@ -195,40 +195,44 @@ public class CommonValidationTools {
 		String sideCorpInfo = eloveWizard.getSideCorpInfo();
 		int themeid = eloveWizard.getThemeid();
 		
-		if (eloveid < 0) {
-			return false;
-		}else {
-			if (eloveid > 0) {
-				EloveWizard original = eloveWizardDao.getBasicElove(eloveid);
-				if (original == null || !appid.equals(original.getAppid()) || !createTime.equals(
-						original.getCreateTime()) || !expiredTime.equals(original.getExpiredTime()) 
-						|| !xinLang.equals(original.getXinLang()) || !xinNiang.equals(original.getXinNiang())) {
-					return false;
-				}
-			}
-		}
-		
-		if (!checkTime(createTime, expiredTime)) {   
-			return false;
-		}
-		
-		if (!checkLocation(lng, lat)) {
-			return false;
-		}
-		
-		List<Integer> themeidList = eloveWizardDao.getThemeidList();
-		if (themeidList == null || !themeidList.contains(themeid)) {
-			return false;
-		}
-		
 		if (title == null || password == null || coverPic == null || coverText == null 
 				|| majorGroupPhoto == null || xinNiang == null || xinLang == null || 
 				storyTextImagePath == null || music == null || phone == null || weddingDate == null 
 				|| weddingAddress == null || shareTitle == null || shareContent == null || 
 				footerText == null || sideCorpInfo == null) {
-			return false;
+			return "elove提交信息不完整！";
 		}
 		
-		return true;
+		if (eloveid < 0) {
+			return "elove提交信息非法！";
+		}else {			
+			if (eloveid > 0) {
+				EloveWizard original = eloveWizardDao.getBasicElove(eloveid);
+				if (original == null || !appid.equals(original.getAppid()) || !createTime.equals(
+						original.getCreateTime()) || !expiredTime.equals(original.getExpiredTime()) 
+						|| !xinLang.equals(original.getXinLang()) || !xinNiang.equals(original.getXinNiang())) {
+					return "elove提交信息非法！";
+				}
+			}
+			
+			if (eloveWizardDao.checkPassword(appid, password) != 0) {
+				return "密码已被使用！";
+			}			
+		}
+		
+		if (!checkTime(createTime, expiredTime)) {   
+			return  "elove时间信息非法!";
+		}
+		
+		if (!checkLocation(lng, lat)) {
+			return "地址请重新定位！";
+		}
+		
+		List<Integer> themeidList = eloveWizardDao.getThemeidList();
+		if (themeidList == null || !themeidList.contains(themeid)) {
+			return "elove主题信息非法！";
+		}
+		
+		return "pass";
 	}
 }
