@@ -34,5 +34,6 @@
 	<import resource="website/dao/WebsiteDAO-Beans.xml"/>
 	<import resource="register/dao/RegisterDAO-Beans.xml"/>	
 	<import resource="security/dao/UserDAO-Beans.xml"/>
+	<import resource="feedback/dao/FeedbackDAO-Beans.xml"/>
 
 </beans>

@@ -84,7 +84,7 @@ public String addWishMessage(@RequestBody String json){
 	eloveMessage.setCreateTime(current);
 	int result = eloveInteractDAO.insertMessage(eloveMessage);
 	ResponseMessage message = new ResponseMessage();
-	if(result==1){
+	if(result > 0){
 		message.setStatus(true);
 		message.setMessage("发送成功！");
 	}else{
@@ -109,7 +109,7 @@ public String addJoinMessage(@RequestBody String json){
 	int result = eloveInteractDAO.insertJoinInfo(eloveJoinInfo);
 	ResponseMessage message = new ResponseMessage();
 	
-	if(result==1){
+	if(result > 0){
 		message.setStatus(true);
 		message.setMessage("发送成功！");
 	}else{
