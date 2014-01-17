@@ -77,8 +77,44 @@
     <script type="text/javascript" src="js/customer/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=PWFniUmG9SMyIVlp7Nm24MRC"></script>
     <script src="js/customer/swipe.js"></script>
-    <script type="text/javascript" src="js/customer/elove-intro.js"></script>
-    <script type="text/javascript" src="js/customer/elove.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function(){
+    	var elem = document.getElementById('mySwipe');
+    	selectedId = 0;
+    	window.mySwipe = Swipe(elem, {
+    	  // startSlide: 4,
+    	  auto: 4000,
+    	  continuous: true,
+    	  // disableScroll: true,
+    	  // stopPropagation: true,
+    	  callback: function(index, element) {
+    		var children = $("#position").children();
+    		//alert(childNodes.length);
+    	    children[selectedId].className = 'off';
+    		selectedId = index;
+    		children[selectedId].className = 'on';
+    	  },
+    	  // transitionEnd: function(index, element) {}
+    	});
+    }
+    );
     
+    var map_switch = function(){
+    	  var box=document.getElementById("baidumap");
+    	  if(box.style.visibility == "hidden"){
+    	  var map = new BMap.Map("baidumap");  
+    	  map.clearOverlays();
+    	  map.enableScrollWheelZoom(); 
+    	  var point = new BMap.Point($("#lng").val(),$("#lat").val());
+    	  map.centerAndZoom(point, 16);
+    	  map.addOverlay(new BMap.Marker(point)); 
+    	  map.centerAndZoom(point, 16);  
+    	  map.addOverlay(new BMap.Marker(point)); 
+    	    box.style.visibility = "visible";
+    	  }else{
+    	    box.style.visibility = "hidden";
+    	  }
+    	};
+    </script>
   </body>
 </html>
