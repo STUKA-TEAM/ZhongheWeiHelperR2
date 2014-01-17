@@ -53,7 +53,5 @@
     <!-- Modal -->
     <%@ include file="info-modal.jsp"%>
 
-    <div class="footer">
-      <p>Copyright © 2013 zhonghesoftware.com All Rights Reserved. 众合网络科技有限公司 版权所有</p>
-    </div><!-- footer -->
+    <%@ include file="footer.jsp"%>
   </div>
