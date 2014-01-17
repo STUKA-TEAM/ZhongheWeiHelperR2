@@ -95,7 +95,7 @@ public class RegisterController {
 				int sid = userInfoDao.insertUserInfo(userInfo);
 				authPriceDao.insertPrice(sid, "elove", elovePrice);
 				
-				return "forward:../store/account";
+				return "redirect:../store/account";
 			}
 			else {
 				System.out.println("elovePrice配置信息丢失");
