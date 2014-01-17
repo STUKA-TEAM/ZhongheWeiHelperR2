@@ -208,9 +208,7 @@ public class CommonValidationTools {
 		}else {			
 			if (eloveid > 0) {
 				EloveWizard original = eloveWizardDao.getBasicElove(eloveid);
-				if (original == null || !appid.equals(original.getAppid()) || !createTime.equals(
-						original.getCreateTime()) || !expiredTime.equals(original.getExpiredTime()) 
-						|| !xinLang.equals(original.getXinLang()) || !xinNiang.equals(original.getXinNiang())) {
+				if (original == null) {
 					return "elove提交信息非法！";
 				}
 				if (!password.equals(original.getPassword()) && eloveWizardDao.checkPassword(appid, password) != 0) {
@@ -221,11 +219,11 @@ public class CommonValidationTools {
 				if (eloveWizardDao.checkPassword(appid, password) != 0) {
 					return "密码已被使用！";
 				}	
+				
+				if (!checkTime(createTime, expiredTime)) {   
+					return  "elove时间信息非法!";
+				}
 			}		
-		}
-		
-		if (!checkTime(createTime, expiredTime)) {   
-			return  "elove时间信息非法!";
 		}
 		
 		if (!checkLocation(lng, lat)) {

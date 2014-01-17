@@ -214,6 +214,7 @@ public class EloveWizardController {
 				if (effected > 0) {
 					message.setStatus(true);
 					message.setMessage("elove信息更新成功！");
+					status.setComplete();
 				}else {
 					message.setStatus(false);
 					message.setMessage("Error " + effected);
@@ -258,6 +259,7 @@ public class EloveWizardController {
 						if (eloveid > 0) {
 							message.setStatus(true);
 							message.setMessage("elove创建成功！");
+							status.setComplete();
 						}else {
 							message.setStatus(false);
 							message.setMessage("Error " + eloveid);
@@ -266,7 +268,6 @@ public class EloveWizardController {
 				}
 			}
 		}			
-		status.setComplete();
 			
 		String response = gson.toJson(message);
 		return response;
