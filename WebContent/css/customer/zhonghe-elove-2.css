@@ -132,7 +132,7 @@ div {
 }
 .sidebar-guide {
   position: fixed;
-  bottom: 50px;
+  top: 250px;
   left: 5px;
 }
 .sidebar-guide-logo {
