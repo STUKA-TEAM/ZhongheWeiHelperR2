@@ -17,77 +17,25 @@
 <div id="container">
 <header>
 <div id="headerText">
-已有12人要赴宴
+<c:forEach items="${eloveJoinInfoList}" var="join">
+<c:set var="sum" value="${sum + join.number}"/> 
+</c:forEach>
+已有人 ${sum} 要赴宴
 </div>
 </header>
 <div id = "mainBody">
-
+<c:forEach items="${eloveJoinInfoList}" var="join">
 <div class = "textBox">
 <div class = "firstLine">
 <div class = "pic"></div>
-<div class = "name">挚友小亮</div>
-<div class = "time">3人</div>
+<div class = "name">${join.name}</div>
+<div class = "time">${join.number}人</div>
 </div>
 <div class = "phone">
-13866666666
+${join.phone}
 </div>
 </div>
-
-<div class = "textBox">
-<div class = "firstLine">
-<div class = "pic"></div>
-<div class = "name">菲菲</div>
-<div class = "time">1人</div>
-</div>
-<div class = "phone">
-13866666666
-</div>
-</div>
-
-<div class = "textBox">
-<div class = "firstLine">
-<div class = "pic"></div>
-<div class = "name">Nika</div>
-<div class = "time">3人</div>
-</div>
-<div class = "phone">
-13866666686
-</div>
-</div>
-
-<div class = "textBox">
-<div class = "firstLine">
-<div class = "pic"></div>
-<div class = "name">果果</div>
-<div class = "time">1人</div>
-</div>
-<div class = "phone">
-13886666666
-</div>
-</div>
-
-<div class = "textBox">
-<div class = "firstLine">
-<div class = "pic"></div>
-<div class = "name">阿志</div>
-<div class = "time">3人</div>
-</div>
-<div class = "phone">
-13866666668
-</div>
-</div>
-
-<div class = "textBox">
-<div class = "firstLine">
-<div class = "pic"></div>
-<div class = "name">小丽</div>
-<div class = "time">1人</div>
-</div>
-<div class = "phone">
-13866686666
-</div>
-</div>
-
+</c:forEach>
 </div>
 
 <footer><small>&copy; Elove</small></footer>

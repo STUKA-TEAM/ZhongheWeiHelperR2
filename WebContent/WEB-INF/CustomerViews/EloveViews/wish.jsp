@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE HTML> 
 <html>
 <head>
@@ -16,77 +17,23 @@
 <div id="container">
 <header>
 <div id="headerText">
-好开心，已经收到6条祝福！ 
+已经收到${messageList.size()}条祝福！ 
 </div>
 </header>
 <div id = "mainBody">
-
+<c:forEach items="${messageList}" var="mes">
 <div class = "textBox">
 <div class = "firstLine">
 <div class = "pic"></div>
-<div class = "name">挚友小亮</div>
-<div class = "time">今天</div>
+<div class = "name">${mes.name}</div>
+<div class = "time"><fmt:formatDate pattern="yyyy-MM-dd" 
+            value="${mes.createTime}" /></div>
 </div>
 <div class = "content">
-新婚快乐呀！我代表我家人祝贺你们，祝你们俩幸福美满，永寿偕老！
+${mes.content}
 </div>
 </div>
-
-<div class = "textBox">
-<div class = "firstLine">
-<div class = "pic"></div>
-<div class = "name">菲菲</div>
-<div class = "time">今天</div>
-</div>
-<div class = "content">
-你们本就是天生一对，地造一双，而今共偕连理，今后更需彼此宽容、互相照顾，祝福你们！
-</div>
-</div>
-
-<div class = "textBox">
-<div class = "firstLine">
-<div class = "pic"></div>
-<div class = "name">Nika</div>
-<div class = "time">昨天</div>
-</div>
-<div class = "content">
-祝你们永远相爱，携手共渡美丽人生！
-</div>
-</div>
-
-<div class = "textBox">
-<div class = "firstLine">
-<div class = "pic"></div>
-<div class = "name">果果</div>
-<div class = "time">昨天</div>
-</div>
-<div class = "content">
-真诚的爱情的结合是一切结合中最纯洁的，祝福你们 
-</div>
-</div>
-
-<div class = "textBox">
-<div class = "firstLine">
-<div class = "pic"></div>
-<div class = "name">阿志</div>
-<div class = "time">昨天</div>
-</div>
-<div class = "content">
-恭喜你们步入爱的殿堂。祝百年好合！
-</div>
-</div>
-
-<div class = "textBox">
-<div class = "firstLine">
-<div class = "pic"></div>
-<div class = "name">小丽</div>
-<div class = "time">昨天</div>
-</div>
-<div class = "content">
-为你祝福，为你欢笑，因为在今天，我的内心也跟你一样的欢腾、快乐！祝你们，百年好合!白头到老 
-</div>
-</div>
-
+</c:forEach>
 </div>
 
 <footer><small>&copy; Elove</small></footer>

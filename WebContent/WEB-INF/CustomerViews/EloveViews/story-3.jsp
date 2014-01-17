@@ -37,17 +37,4 @@
     
 
     <!-- Modal -->
-    <div class="modal fade" id="bless" tabindex="-1">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-body">
-            <input class="modal-input" type="text" placeholder="称呼" />
-            <textarea class="modal-text" rows=4 placeholder="请留下您对我们的祝福吧！" ></textarea>
-            <p>
-              <a class="modal-btn btn btn-elove" data-dismiss="modal" onclick="">发送祝福</a>
-              <a class="modal-btn btn btn-elove" data-dismiss="modal" onclick="">取消</a>
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
+    <%@ include file="story-modal.jsp"%>

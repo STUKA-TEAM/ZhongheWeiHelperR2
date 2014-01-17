@@ -84,6 +84,68 @@ $(document).ready(function(){
 		});
 });
 
+var submitWish = function(){
+	var wishName=$("#wishname").val();
+	var wishContent=$("#wishcontent").val();
+	var eloveid=$("#eloveid").val();
+	var wish=new Object();
+	wish.name=wishName;
+	wish.content=wishContent;
+	wish.eloveid=eloveid;
+	if(wish.name!=''&&wish.content!=''){
+		  $.ajax({
+			  type: "POST",
+			  url: "customer/elove/addWish",
+			  data: JSON.stringify(wish),
+			  contentType: "application/json; charset=utf-8",
+			  success: function (data) {
+	   	   	  var jsonData = JSON.parse(data);
+	   		  if(jsonData.status==true){
+	   			 $("#bless").modal("hide");
+		   	   	 $("#modalmes").html(jsonData.message+"<br/><a class=\"modal-btn btn btn-elove\" data-dismiss=\"modal\">关闭</a>");
+		   	     $("#modalmesbox").modal("show");
+	   		  }else{
+	   			 $("#bless").modal("hide");
+	   			 $("#modalmes").html(jsonData.message+"<br/><a class=\"modal-btn btn btn-elove\" data-dismiss=\"modal\">关闭</a>");
+	   			 $("#modalmesbox").modal("show");
+	   		  }
+			  }
+			});
+	  }
+};
+
+var submitJoin = function(){
+	var joinName=$("#joinName").val();
+	var joinContact=$("#joinContact").val();
+	var joinNum=$("#joinNum").val();
+	var eloveid=$("#eloveid").val();
+	var join=new Object();
+	join.name=joinName;
+	join.phone=joinContact;
+	join.number=joinNum;
+	join.eloveid=eloveid;
+	if(join.name!=''&&join.content!=''&join.number!=''){
+		  $.ajax({
+			  type: "POST",
+			  url: "customer/elove/addJoin",
+			  data: JSON.stringify(join),
+			  contentType: "application/json; charset=utf-8",
+			  success: function (data) {
+	   	   	  var jsonData = JSON.parse(data);
+	   		  if(jsonData.status==true){
+		   	   	  $("#attend").modal("hide");
+	   			  $("#modalmes").html(jsonData.message+"<br/><a class=\"modal-btn btn btn-elove\" data-dismiss=\"modal\">关闭</a>");
+	   			  $("#modalmesbox").modal("show");
+	   		  }else{
+	   			 $("#attend").modal("hide");
+	   			 $("#modalmes").html(jsonData.message+"<br/><a class=\"modal-btn btn btn-elove\" data-dismiss=\"modal\">关闭</a>");
+	   			 $("#modalmesbox").modal("show");
+	   		  }
+			  }
+			});
+	  }
+};
+
 //story sub page
 var switch_guide = function(bg, img){
   $(bg).removeClass("hidden");

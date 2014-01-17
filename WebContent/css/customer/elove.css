@@ -70,7 +70,7 @@ float:left;
 background:url("../../img/heart.png");
 }
 .name{
-width:65%;
+width:55%;
 height:25px;
 padding-top:5px;
 padding-left:5%;
@@ -79,7 +79,7 @@ text-align:left;
 font-size:1.1em;
 }
 .time{
-width:20%;
+width:30%;
 height:25px;
 padding-top:5px;
 float:right;

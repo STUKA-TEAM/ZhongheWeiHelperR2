@@ -51,21 +51,7 @@
       <a data-toggle="modal" data-target="#attend" class="btn btn-elove btn-block">我要赴宴</a>
     </div>
     <!-- Modal -->
-    <div class="modal fade" id="attend" tabindex="-1">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-body">
-            <input class="modal-input" type="text" placeholder="称呼" />
-            <input class="modal-input" type="text" placeholder="联系方式" />
-            <input class="modal-input" type="text" placeholder="人数" />
-            <p>
-              <a class="modal-btn btn btn-lg btn-elove" data-dismiss="modal" onclick="">确 定</a>
-              <a class="modal-btn btn btn-lg btn-elove" data-dismiss="modal" onclick="">取消</a>
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
+    <%@ include file="info-modal.jsp"%>
 
     <div class="footer">
       <p>Copyright © 2013 zhonghesoftware.com All Rights Reserved. 众合网络科技有限公司 版权所有</p>
