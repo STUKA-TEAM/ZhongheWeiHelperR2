@@ -16,7 +16,7 @@
             <ul class="dropdown-menu">
               <li><a href="store/account">设置</a></li>
               <li class="divider"></li>
-              <li><a href="security/logout">退出</a></li>
+              <li><a href="j_spring_security_logout">退出</a></li>
             </ul>
           </div>
         </div><!--/.nav-collapse -->

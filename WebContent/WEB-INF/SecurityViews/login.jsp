@@ -24,7 +24,7 @@
     <div class="container">
       <div class="row">
         <div class="well col-sm-5 col-sm-offset-3 row">
-          <form class="col-sm-12 form-horizontal" method="POST" name="login" action="j_spring_security_check">
+          <form id="loginForm" class="col-sm-12 form-horizontal" method="POST" name="login">
             <div class="form-group">
               <label for="username" class="col-sm-3 control-label">用户名</label>
               <div class="col-sm-9">
@@ -38,7 +38,12 @@
               </div>
             </div>
             <div class="form-group">
-                <button type="submit" class="col-sm-offset-2 col-sm-9 btn btn-lg btn-success">登录</button>
+            <label for="password" class="col-sm-3 control-label"></label>
+            <div id="loginMes" class="col-sm-9 text-danger">
+            </div>
+            </div>
+            <div class="form-group">
+                <button type="button" class="col-sm-offset-2 col-sm-9 btn btn-lg btn-success" onclick="submitForm()">登录</button>
             </div>
             <a class="login-link" href="#">忘记密码?</a>
           </form>
@@ -50,5 +55,26 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="js/store/bootstrap.min.js"></script>
+    <script type="text/javascript">
+    function submitForm(){
+    	alert($('#loginForm').serialize());
+	  	$.ajax({
+	  	    url: 'j_spring_security_check',
+	  	    method: 'POST',
+	  	    data: $('#loginForm').serialize()
+	  	}).done(function (response) {
+	  		try{
+	  			var res = JSON.parse(response);
+	  			$("#loginMes").html(res.data);
+	  		}catch(e){
+	  			location.href="store/account";
+	  		}
+	  		
+	  	}).fail(function () {
+	  	    // Whoops; show an error.
+	  	});
+    }
+
+    </script>
   </body>
 </html>
