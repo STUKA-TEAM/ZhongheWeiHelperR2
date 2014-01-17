@@ -174,7 +174,6 @@ public String intro(Model model, @RequestParam(value = "eloveid", required = tru
 	Integer sid = userInfoDao.getSidByEloveid(eloveid);
 	if (sid != null) {
 		UserInfo userInfo = userInfoDao.getUserInfo(sid);
-		System.out.println(userInfo.getImageList().size());
 		model.addAttribute("userInfo", userInfo);
 	}
 	

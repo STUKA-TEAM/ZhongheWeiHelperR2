@@ -236,7 +236,7 @@ var deleteThisImage = function(link){
 };
 
 var add_pic_preview = function(id, link){
-  var html_cut1=' <div id='+link +' class="col-md-4 pic-preview-div"><img src="';
+  var html_cut1=' <div id='+link +' class="col-md-6 pic-preview-div"><img src="';
   var html_cut2='" class="pic-preview img-thumbnail img-responsive"/>';
   var html_cut3="<span class=\"glyphicon glyphicon-trash\" onclick=\"deleteThisImage(\'"+link+"\')\"> </span></div>";
   var pic_preview_html = html_cut1 + getImgPrePath()+link + '_original.jpg' + html_cut2+html_cut3;
@@ -251,7 +251,7 @@ var add_pic_link = function(id, link){
 };
 
 var add_pic_preview_single = function(id, link){
-	  var html_cut1=' <div id='+link +' class="col-md-4 pic-preview-div"><img src="';
+	  var html_cut1=' <div id='+link +' class="col-md-6 pic-preview-div"><img src="';
 	  var html_cut2='" class="pic-preview img-thumbnail img-responsive"/>';
 	  var html_cut3="<span class=\"glyphicon glyphicon-trash\" onclick=\"deleteThisImage(\'"+link+"\')\"> </span></div>";
 	  var pic_preview_html = html_cut1 + getImgPrePath()+link + '_original.jpg' + html_cut2+html_cut3;

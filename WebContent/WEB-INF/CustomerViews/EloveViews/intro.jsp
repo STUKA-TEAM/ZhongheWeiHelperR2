@@ -27,9 +27,14 @@
         </c:forEach>
         </div>
         <nav id="position" class="images-pointer">
-          <a class="on"></a>
-          <a class="off"></a>
-          <a class="off"></a>
+          <c:forEach var="x" begin="1" end="${userInfo.imageList.size()}" step="1">
+		  <c:if test="${x=='1'}">
+		  <a class="on"></a>
+		  </c:if>
+		  <c:if test="${x!='1'}">
+		  <a class="off"></a>
+		  </c:if>
+          </c:forEach>
         </nav>
       </div>
     <div class="container-fulid">
@@ -42,16 +47,23 @@
     <div class="container-fulid">
       <div class="info">
         <p class="info-t">电话:</p>
-        <p class="info-c"><a class="tip-green" href="tel:12345678901">${userInfo.phone}</a></p>
+        <p class="info-c"><a class="tip-green" href="tel:${userInfo.cellPhone}">${userInfo.cellPhone}</a></p>
         <img class="info-i" src="./img/company/green_arrow_right.png" />
       </div>
     </div>
     <div class="container-fulid">
-      <p class="tip">获取更多服务与优惠信息，请浏览我们的微官网  >></p>
+      <p class="tip">
+      <a class="tip" href="${userInfo.corpMoreInfoLink}">
+                     获取更多服务与优惠信息，请浏览我们的微官网  >>
+      </a></p>
+      <input id="lng" type="hidden" value="${userInfo.lng}"/>
+      <input id="lat" type="hidden" value="${userInfo.lat}"/>
     </div>
     <div class="container-fulid attent-bg">
       <div class="attent">         
-          <p class="attent-p">进入微官网</p>
+          <p class="attent-p">
+          <a href="${userInfo.corpMoreInfoLink}">进入微官网</a>
+          </p>
       </div>
     </div>
     <div class="container-fulid affix">
@@ -62,7 +74,6 @@
     <div class="container-fulid">
       <div id="baidumap" style="visibility:hidden;"><div id="pic"></div></div>
     </div>
-    
     <script type="text/javascript" src="js/customer/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=PWFniUmG9SMyIVlp7Nm24MRC"></script>
     <script src="js/customer/swipe.js"></script>

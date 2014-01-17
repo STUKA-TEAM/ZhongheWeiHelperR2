@@ -16,22 +16,24 @@ var map_switch = function(){
   }else{
     box.style.visibility = "hidden";
   }
+};
+$(document).ready(function(){
+	var elem = document.getElementById('mySwipe');
+	selectedId = 0;
+	window.mySwipe = Swipe(elem, {
+	  // startSlide: 4,
+	  auto: 4000,
+	  continuous: true,
+	  // disableScroll: true,
+	  // stopPropagation: true,
+	  callback: function(index, element) {
+		var children = $("#position").children();
+		//alert(childNodes.length);
+	    children[selectedId].className = 'off';
+		selectedId = index;
+		children[selectedId].className = 'on';
+	  },
+	  // transitionEnd: function(index, element) {}
+	});
 }
-
-var elem = document.getElementById('mySwipe');
-selectedId = 0;
-window.mySwipe = Swipe(elem, {
-  // startSlide: 4,
-  auto: 4000,
-  continuous: true,
-  // disableScroll: true,
-  // stopPropagation: true,
-  callback: function(index, element) {
-	var children = document.getElementById('position').children;
-	//alert(childNodes.length);
-    children[selectedId].className = 'off';
-	selectedId = index;
-	children[selectedId].className = 'on';
-  },
-  // transitionEnd: function(index, element) {}
-});
+);
