@@ -42,7 +42,7 @@
             <p>电话</p>
           </div>
           <div class="info-content">
-            <p><a href="tel:${phone}">${elove.phone}</a></p>
+            <p><a href="tel:${elove.phone}">${elove.phone}</a></p>
           </div>
         </li>
       </ul>

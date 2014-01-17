@@ -59,6 +59,6 @@
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=PWFniUmG9SMyIVlp7Nm24MRC"></script>
     <script type="text/javascript" src="js/customer/elove.js"></script>
     <script type="text/javascript" src="js/customer/modal.min.js"></script>    
-    <script type="text/javascript" src="js/customer/video.js"></script>  
+    <script type="text/javascript" src="js/customer/video.js"></script> 
   </body>
 </html>
