@@ -30,11 +30,11 @@ public class MyAuthenticationProvider implements AuthenticationProvider {
         User user = userService.loadUserByUsername(username);
  
         if (user == null) {
-            throw new BadCredentialsException("Username not found.");
+            throw new BadCredentialsException("不存在此用户名！");
         }
  
         if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new BadCredentialsException("Wrong password.");
+            throw new BadCredentialsException("密码错误！");
         }
  
         Collection<? extends GrantedAuthority> authorities = user.getAuthorities();

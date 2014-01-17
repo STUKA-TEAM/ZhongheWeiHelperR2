@@ -52,7 +52,7 @@
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right nav-login">
             <li><a href="#"  rel="popover" data-placement="bottom"><img src="./img/login.png"/><span class="login">登录</span></a></li>
-            <li><a href="./register.html"><span class="register">没有账号？立即加入</span></a></li>
+            <li><a href="security/register"><span class="register">没有账号？立即加入</span></a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div><!-- container -->
@@ -60,18 +60,20 @@
     <div id="popover_content_wrapper" class= "login-container">
       <div class="login-form">
         <div class="control-group">
-          <input type="text" class="form-control login-field" value="" placeholder="用户名" id="login-name" />
+          <input id="username" type="text" class="form-control login-field" value="" placeholder="用户名" id="login-name" />
         </div>
 
         <div class="control-group">
-          <input type="password" class="form-control login-field" value="" placeholder="******" id="login-pass" />
+          <input id="password" type="password" class="form-control login-field" value="" placeholder="******" id="login-pass" />
+        </div>
+        <div id="loginMes" class="control-group text-danger">
         </div>
         <div class="checkbox">
           <label>
             <input id="login_checkbox" type="checkbox"> 记住我
           </label>
         </div>
-        <a class="btn btn-success btn-large btn-block" href="#">登录</a>
+        <a class="btn btn-success btn-large btn-block" href="javascript:void(0)" onclick="submitForm()">登录</a>
         <a class="login-link" href="#">忘记密码?</a>
       </div>
     </div>
@@ -159,5 +161,25 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="./js/store/bootstrap.min.js"></script>
+    <script type="text/javascript">
+    function submitForm(){
+	  	$.ajax({
+	  	    url: 'j_spring_security_check',
+	  	    method: 'POST',
+	  	    data: "j_username="+$("#username").val()+"&j_password="+$("#password").val()
+	  	}).done(function (response) {
+	  		try{
+	  			var res = JSON.parse(response);
+	  			$("#loginMes").html(res.data);
+	  		}catch(e){
+	  			location.href="store/account";
+	  		}
+	  		
+	  	}).fail(function () {
+	  	    // Whoops; show an error.
+	  	});
+    }
+
+    </script>
   </body>
 </html>
