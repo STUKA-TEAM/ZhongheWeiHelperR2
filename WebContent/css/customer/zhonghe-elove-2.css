@@ -134,6 +134,7 @@ div {
   position: fixed;
   top: 250px;
   left: 5px;
+  width:65px;
 }
 .sidebar-guide-logo {
   width: 40px;
