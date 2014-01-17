@@ -67,7 +67,7 @@ public class BasicController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/account", method = RequestMethod.GET)
+	@RequestMapping(value = "/account")
     public String getUserInfo(Model model, HttpServletResponse response, 
     		@CookieValue(value = "appid", required = false) String appid) {
 		ApplicationContext context = 

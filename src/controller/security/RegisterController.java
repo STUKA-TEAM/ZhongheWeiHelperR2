@@ -5,11 +5,20 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Properties;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -33,6 +42,8 @@ public class RegisterController {
 	private RegisterValidation registerValidation;
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	@Autowired
+    private AuthenticationManager authenticationManager;
 	
 	/**
 	 * @Description: 返回注册视图
@@ -54,7 +65,7 @@ public class RegisterController {
 	 * @return
 	 */
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public String processRegister(UserInfo userInfo, BindingResult result, Model model){
+	public String processRegister(UserInfo userInfo, BindingResult result, HttpServletRequest request, Model model){
 		registerValidation.validate(userInfo, result);
 		model.addAttribute("userInfo", userInfo);
 		
@@ -69,8 +80,8 @@ public class RegisterController {
 			((ConfigurableApplicationContext)context).close();
 			
 			userInfo.setRoleid(1);   //default 'ROLE_USER'
-			String encoded = passwordEncoder.encode(userInfo.getPassword());
-			userInfo.setPassword(encoded);
+			String original = userInfo.getPassword();
+			userInfo.setPassword(passwordEncoder.encode(original));
 			Timestamp current = new Timestamp(System.currentTimeMillis());
 			userInfo.setCreateDate(current);
 			if(userInfo.getCorpMoreInfoLink() != null){   //validate website format
@@ -95,8 +106,21 @@ public class RegisterController {
 				int sid = userInfoDao.insertUserInfo(userInfo);
 				authPriceDao.insertPrice(sid, "elove", elovePrice);
 				
-				return "redirect:../store/account";
-			}
+				UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
+		                userInfo.getUsername(), original);
+				try{
+					token.setDetails(new WebAuthenticationDetails(request));
+			        Authentication authenticatedUser = authenticationManager.authenticate(token);
+			        SecurityContextHolder.getContext().setAuthentication(authenticatedUser);
+			        request.getSession().setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
+			        		SecurityContextHolder.getContext());
+				 }
+		        catch( AuthenticationException e ){
+		            System.out.println("Authentication failed: " + e.getMessage());
+		            return "register";
+		        }
+				
+				return "forward:../store/account";			}
 			else {
 				System.out.println("elovePrice配置信息丢失");
 				return "register";
