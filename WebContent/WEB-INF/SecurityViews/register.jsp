@@ -66,7 +66,7 @@
             <div class="form-group">
               <label for="email" class="col-sm-2 control-label">邮箱地址</label>
               <div class="col-sm-10">
-                <form:input type="email" class="form-control" id="email_input" path="email" placeholder="xxxx@xxx.com"/>
+                <form:input type="email" class="form-control" id="email_input" path="email" />
                 <form:errors path="email" class="input-error"></form:errors>
               </div>
             </div>
