@@ -7,9 +7,10 @@ div {
   max-width: 360px;
   text-align:center; 
 }
-a:hover, a:focus {
-color: #56d057;
-text-decoration: underline;
+.tip:hover,
+.tip:focus {
+  color: #56d057;
+  text-decoration: underline;
 }
 .info {
   position: relative;
@@ -75,6 +76,9 @@ text-decoration: underline;
   font-size: 20px;
   width: 100%;
   margin: 0 auto;
+}
+.attent-p > a {
+  color: #ffffff;
 }
 .back {
   position: relative;

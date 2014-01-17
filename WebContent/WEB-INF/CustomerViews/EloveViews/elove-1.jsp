@@ -32,7 +32,7 @@
     </div>
     <div class="sidebar-guide" onclick="sidebar_up()">
       <img src="img/elove/sidebar_guide_1.png" class="sidebar-guide-logo"/>
-      <p class="sidebar-guide-tip"><strong>点点我~</strong></p>
+      <p class="sidebar-guide-tip">点点我~</p>
     </div>
     <div class="sidebar-bg sidebar-bg-miss hidden" onclick="sidebar_dismiss()"></div>
     <div id="sidebar_list" class="sidebar hidden" state="down">

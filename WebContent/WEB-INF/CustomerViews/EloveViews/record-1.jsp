@@ -18,7 +18,7 @@
     </div>
     <div class="container-fulid">
       <div class="container-fulid">
-        <img src="img/elove/records_photo_title_1.jpg" class="img-responsive"/>
+        <img src="img/elove/records_photo_title_1.png" class="img-responsive"/>
       </div>
       <div class="photo-list">
       <c:forEach items="${recordImages}" var="image">
