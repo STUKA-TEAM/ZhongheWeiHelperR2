@@ -294,18 +294,18 @@ public class UserInfoDAO {
 		Integer sid = null;
 		
 		try {
-			sid = jdbcTemplate.queryForObject(SQL, new Object[]{eloveid}, new EloveidMapper());
+			sid = jdbcTemplate.queryForObject(SQL, new Object[]{eloveid}, new SidMapper());
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 		return sid;
 	}
 	
-	private static final class EloveidMapper implements RowMapper<Integer>{
+	private static final class SidMapper implements RowMapper<Integer>{
 		@Override
 		public Integer mapRow(ResultSet rs, int arg1) throws SQLException {
-			Integer eloveid = rs.getInt("eloveid");
-			return eloveid;
+			Integer sid = rs.getInt("S.sid");
+			return sid;
 		}		
 	}
 }

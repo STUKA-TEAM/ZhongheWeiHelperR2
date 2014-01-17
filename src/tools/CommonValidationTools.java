@@ -213,11 +213,15 @@ public class CommonValidationTools {
 						|| !xinLang.equals(original.getXinLang()) || !xinNiang.equals(original.getXinNiang())) {
 					return "elove提交信息非法！";
 				}
-			}
-			
-			if (eloveWizardDao.checkPassword(appid, password) != 0) {
-				return "密码已被使用！";
-			}			
+				if (!password.equals(original.getPassword()) && eloveWizardDao.checkPassword(appid, password) != 0) {
+					return "密码已被使用！";
+				}
+				
+			}else {
+				if (eloveWizardDao.checkPassword(appid, password) != 0) {
+					return "密码已被使用！";
+				}	
+			}		
 		}
 		
 		if (!checkTime(createTime, expiredTime)) {   

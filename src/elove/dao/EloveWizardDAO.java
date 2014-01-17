@@ -582,7 +582,7 @@ public class EloveWizardDAO {
 	 * @return
 	 */
 	public EloveWizard getBasicElove(int eloveid){
-		String SQL = "SELECT * FROM elove WHERE eloveid = ?";
+		String SQL = "SELECT appid, createTime, expiredTime, password, xinNiang, xinLang FROM elove WHERE eloveid = ?";
 		EloveWizard eloveWizard = null;
 		
 		try {
@@ -600,6 +600,7 @@ public class EloveWizardDAO {
 			eloveWizard.setAppid(rs.getString("appid"));
 			eloveWizard.setCreateTime(rs.getTimestamp("createTime"));
 			eloveWizard.setExpiredTime(rs.getTimestamp("expiredTime"));
+			eloveWizard.setPassword(rs.getString("password"));
 			eloveWizard.setXinNiang(rs.getString("xinNiang"));
 			eloveWizard.setXinLang(rs.getString("xinLang"));
 			return eloveWizard;
