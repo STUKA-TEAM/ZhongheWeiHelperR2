@@ -7,12 +7,14 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import elove.EloveWizard;
 import elove.dao.EloveWizardDAO;
 import tools.MethodUtils;
 import weixinmessage.response.NewsItemToResponse;
@@ -44,15 +46,17 @@ public class WeixinMessageController {
 					ApplicationContext context = 
 							new ClassPathXmlApplicationContext("All-Modules.xml");
 					EloveWizardDAO eloveWizardDAO = (EloveWizardDAO) context.getBean("EloveWizardDAO");
-					if (eloveWizardDAO.getEloveid(appid, xmlMap.get("Content"))!=null) {
+					((ConfigurableApplicationContext)context).close();
+					Integer eloveid = eloveWizardDAO.getEloveid(appid, xmlMap.get("Content"));
+					if (eloveid != null) {
 						NewsItemToResponse elove = new NewsItemToResponse();
 						NewsItemToResponse wish = new NewsItemToResponse();
 						NewsItemToResponse join = new NewsItemToResponse();
 						
-						elove.setTitle("Elove - 新人专属轻APP");
-						elove.setDescription("分享喜悦，收获祝福！");
-						elove.setPicUrl(MethodUtils.getApplicationPath()+"img/elovecoverpic.jpg");
-						elove.setUrl(MethodUtils.getApplicationPath()+"customer/elove/elove");
+						EloveWizard eloveWizard = eloveWizardDAO.getElove(eloveid);
+						elove.setTitle(eloveWizard.getCoverText());
+						elove.setPicUrl(MethodUtils.getImageHost()+eloveWizard.getCoverPic()+"_standard.jpg");
+						elove.setUrl(MethodUtils.getApplicationPath()+"customer/elove/elove?eloveid=" + eloveid );
 					
 						wish.setTitle("查看亲友祝福");
 						wish.setPicUrl(MethodUtils.getApplicationPath()+"img/elovewish.jpg");

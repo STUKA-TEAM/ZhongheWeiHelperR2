@@ -11,7 +11,7 @@
     <meta name="author" content="zhonghe">
     <c:set var="request" value="${pageContext.request}" />
     <base href="${fn:replace(request.requestURL, request.requestURI, request.contextPath)}/" />
-    <title>Elove</title>
+    <title>${elove.title}</title>
     
     <link href="css/customer/bootstrap.min.css" rel="stylesheet">
     <link href="css/customer/zhonghe-elove-3.css" rel="stylesheet">
@@ -25,7 +25,7 @@
   </head>
   <body>
     <div id="content-container">
-      <%@ include file="story.jsp"%>
+      <%@ include file="story-3.jsp"%>
     </div>
     <div class="container-fulid">
       <div id="baidumap" style="visibility:hidden;"><div id="pic"></div></div>
@@ -36,9 +36,10 @@
     </div>
     <div class="sidebar-bg sidebar-bg-miss hidden" onclick="sidebar_dismiss()"></div>
     <div id="sidebar_list" class="sidebar hidden" state="down">
-      <div id="audio" class="audio" onclick="audio_switch()">
+      <div id="audio" class="audio" onclick="audio_switch(3)">
         <img src="img/elove/audio_on_3.png" class="audio-logo"/>
         <p id="audio-p">音效开启</p>
+        <input id="eloveid" type="hidden" value="${elove.eloveid}" />
       </div>
       <ul class="nav nav-pills">
         <li id="story" class="active"><a href="javascript:void(0)"><span class="sidebar-encount">相知相遇</span></a></li>
@@ -48,7 +49,7 @@
         <li id="viewAccount"><a href="javascript:void(0)" onclick="switch_guide('#account_guide_bg','#account_guide_img')">
           <span class="sidebar-viewAccount">关注公司</span></a>
         </li>
-        <li id="intro"><a href="customer/elove/intro"><span class="sidebar-intr">公司介绍</span></a></li>
+        <li id="intro"><a href="customer/elove/intro?eloveid=${elove.eloveid}"><span class="sidebar-intr">${elove.sideCorpInfo}</span></a></li>
       </ul>
     </div>
     <div id="account_guide_bg" class="guide hidden" onclick="close_guide('#account_guide_bg','#account_guide_img')">
@@ -56,7 +57,7 @@
     </div>
     <script type="text/javascript" src="js/customer/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=PWFniUmG9SMyIVlp7Nm24MRC"></script>
-    <script type="text/javascript" src="js/customer/elove-3.js"></script>
+    <script type="text/javascript" src="js/customer/elove.js"></script>
     <script type="text/javascript" src="js/customer/modal.min.js"></script>    
     <script type="text/javascript" src="js/customer/video.js"></script>  
   </body>

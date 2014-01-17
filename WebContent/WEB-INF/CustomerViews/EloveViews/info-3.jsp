@@ -24,7 +24,7 @@
             <p>婚礼<br>时间</p>
           </div>
           <div class="info-content">
-            <p>2013 - 12 - 12</p>
+            <p>${elove.weddingDate}</p>
           </div>
         </li>
         <li onclick="map_switch()">
@@ -32,7 +32,9 @@
             <p>婚礼<br>地点</p>
           </div>
           <div class="info-content">
-            <p>上海杨浦区国和路</p>
+            <p>${elove.weddingAddress}</p>
+            <input id="lng" type="hidden" value="${elove.lng}"/>
+            <input id="lat" type="hidden" value="${elove.lat}"/>
           </div>
         </li>
         <li>
@@ -40,11 +42,11 @@
             <p>电话</p>
           </div>
           <div class="info-content">
-            <p><a href="tel:12345678901">12345678901</a></p>
+            <p><a href="tel:${phone}">${elove.phone}</a></p>
           </div>
         </li>
       </ul>
-    </div>  
+    </div>
     <div class="container-fulid">
       <a data-toggle="modal" data-target="#attend" class="btn btn-elove btn-block">我要赴宴</a>
     </div>

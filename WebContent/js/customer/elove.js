@@ -27,7 +27,7 @@ var sidebar_dismiss = function(){
 };
 flag="off";
 myAudio = null;
-var audio_switch = function(){
+var audio_switch = function(themeid){
  	if(flag=="off"){
  	  if(myAudio == null){
  		  myAudio = new Audio('./media/elovedemomusic.mp3'); 
@@ -39,21 +39,19 @@ var audio_switch = function(){
  	  }else{
  		 myAudio.play();
  	  }
-      
-      $(".audio-logo").attr("src", "img/elove/audio_on_2.png");
- 	  $("#audio-p").text("音效开启");
+ 	  if(typeof(themeid) != 'undefined') {
+ 		 $(".audio-logo").attr("src", "img/elove/audio_on_"+themeid+".png");
+ 	 	 $("#audio-p").text("音效开启");
+ 	  }    
       flag="on";
  	}else{
       myAudio.pause();
-      $(".audio-logo").attr("src", "img/elove/audio_off_2.png");
+      $(".audio-logo").attr("src", "img/elove/audio_off_"+themeid+".png");
       $("#audio-p").text("音效关闭");
  	  flag="off";
  	}
 };
-function loadStory(){
-	//changeHover("#story");
-	$("#content-container").load("customer/elove/story");
-}
+
 function changeHover(thisNode){
 	$(".active").removeClass("active");
 	$(thisNode).addClass("active");
@@ -63,25 +61,25 @@ $(document).ready(function(){
 	  $("#story").click(function(){
 		  changeHover("#story");
 		  window.scrollTo(0, 0);
-		  $("#content-container").load("customer/elove/story");
+		  $("#content-container").load("customer/elove/story?eloveid="+$("#eloveid").val());
 		  sidebar_dismiss();
 		});
 	  $("#dress").click(function(){
 		  changeHover("#dress");
 		  window.scrollTo(0, 0);
-		  $("#content-container").load("customer/elove/dress");
+		  $("#content-container").load("customer/elove/dress?eloveid="+$("#eloveid").val());
 		  sidebar_dismiss();
 		});
 	  $("#info").click(function(){
 		  changeHover("#info");
 		  window.scrollTo(0, 0);
-		  $("#content-container").load("customer/elove/info");
+		  $("#content-container").load("customer/elove/info?eloveid="+$("#eloveid").val());
 		  sidebar_dismiss();
 		});
 	  $("#record").click(function(){
 		  changeHover("#record");
 		  window.scrollTo(0, 0);
-		  $("#content-container").load("customer/elove/record");
+		  $("#content-container").load("customer/elove/record?eloveid="+$("#eloveid").val());
 		  sidebar_dismiss();
 		});
 });
@@ -93,25 +91,24 @@ var switch_guide = function(bg, img){
   window.scrollTo(0, 0);
 };
 var close_guide = function(bg, img){
-	$(bg).addClass("hidden");
+  $(bg).addClass("hidden");
   $(img).addClass("hidden");
 };
 
 //info sub page
-//创建地址解析器实例 
-var myGeo = new BMap.Geocoder();  
-// 将地址解析结果显示在地图上，并调整地图视野
-myGeo.getPoint("上海市长宁区天山路318号", function(point){  
- if (point) { 
-	 var map = new BMap.Map("baidumap");  
-   map.centerAndZoom(point, 16);  
-   map.addOverlay(new BMap.Marker(point));  
-   map.enableScrollWheelZoom(); 
- }  
-}, "上海市"); 
+//创建地址解析器实例  
+
 var map_switch = function(){
   var box=document.getElementById("baidumap");
   if(box.style.visibility == "hidden"){
+  var map = new BMap.Map("baidumap");  
+  map.clearOverlays();
+  map.enableScrollWheelZoom(); 
+  var point = new BMap.Point($("#lng").val(),$("#lat").val());
+  map.centerAndZoom(point, 16);
+  map.addOverlay(new BMap.Marker(point)); 
+  map.centerAndZoom(point, 16);  
+  map.addOverlay(new BMap.Marker(point)); 
     box.style.visibility = "visible";
   }else{
     box.style.visibility = "hidden";

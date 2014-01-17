@@ -70,7 +70,7 @@ public String story(Model model, @RequestParam(value = "eloveid", required = tru
 	model.addAttribute("elove", eloveWizard);
 	
 	List<String> storyImagePath = eloveWizardDao.getImageListWithType(eloveid, "story");
-	model.addAttribute("storyImages", storyImagePath);
+	model.addAttribute("storyImagePath", storyImagePath);
 	
 	String viewName = "EloveViews/story-";
 	if (eloveWizard != null) {
@@ -174,6 +174,7 @@ public String intro(Model model, @RequestParam(value = "eloveid", required = tru
 	Integer sid = userInfoDao.getSidByEloveid(eloveid);
 	if (sid != null) {
 		UserInfo userInfo = userInfoDao.getUserInfo(sid);
+		System.out.println(userInfo.getImageList().size());
 		model.addAttribute("userInfo", userInfo);
 	}
 	

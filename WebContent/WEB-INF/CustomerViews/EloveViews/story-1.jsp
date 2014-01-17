@@ -8,7 +8,7 @@
     <div class="content-bg">
       <div class="container-fulid photo-container">
         <div class="container-fulid photo">
-          <img src="img/elove/encounter_group.jpg" class="img-responsive center-block"/>
+          <img src="${elove.majorGroupPhoto}_original.jpg" class="img-responsive center-block"/>
           <p class="couple-name">李雷雷 <img src="img/elove/heart.png"/> 韩梅梅</p>
         </div>
       </div>
@@ -16,9 +16,9 @@
       <div class="container-fulid">
         <img src="img/elove/story_meetyou_1.png" class="img-responsive center-block"/>
         <div class="container-fulid photo-list">
-          <img src="img/elove/encounter_photo2.jpg" class="img-responsive center-block"/>
-          <img src="img/elove/encounter_photo3.png" class="img-responsive center-block"/>
-          <img src="img/elove/encounter_story1.png" class="img-responsive center-block"/>
+        <c:forEach items="${storyImagePath}" var="image">
+          <img src="${image}_original.jpg" class="img-responsive center-block"/>
+        </c:forEach>
         </div>
       </div>
 

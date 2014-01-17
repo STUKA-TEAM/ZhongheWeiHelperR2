@@ -22,9 +22,9 @@
   
       <div id='mySwipe' class='swipe'>
         <div class='swipe-wrap'>
-          <div><img src = 'img/company/company_title.jpg'></div>
-          <div><img src = 'img/company/company_title.jpg'></div>
-          <div><img src = 'img/company/company_title.jpg'></div>
+        <c:forEach items="${userInfo.imageList}" var="images">
+          <div><img src = '${images}_standard.jpg'></div>
+        </c:forEach>
         </div>
         <nav id="position" class="images-pointer">
           <a class="on"></a>
@@ -35,14 +35,14 @@
     <div class="container-fulid">
       <div class="info" onclick="map_switch()">
         <p class="info-t">地址:</p>
-        <p class="info-c">上海浦东新区</p>
+        <p class="info-c">${userInfo.address}</p>
         <img class="info-i" src="./img/company/green_arrow_right.png" />
       </div>
     </div>
     <div class="container-fulid">
       <div class="info">
         <p class="info-t">电话:</p>
-        <p class="info-c"><a class="tip-green" href="tel:12345678901">12345678901</a></p>
+        <p class="info-c"><a class="tip-green" href="tel:12345678901">${userInfo.phone}</a></p>
         <img class="info-i" src="./img/company/green_arrow_right.png" />
       </div>
     </div>
@@ -56,7 +56,7 @@
     </div>
     <div class="container-fulid affix">
       <div class="back">
-        <p class="back-p"><a class="tip-green" href="customer/elove/elove">返回Elove</a></p>
+        <p class="back-p"><a class="tip-green" href="customer/elove/elove?eloveid=${eloveid}">返回Elove</a></p>
       </div>
     </div>
     <div class="container-fulid">

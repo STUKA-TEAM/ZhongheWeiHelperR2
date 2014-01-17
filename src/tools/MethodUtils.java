@@ -17,4 +17,17 @@ public static String getApplicationPath(){
 	}
 	return applicationPath;
 }
+
+public static String getImageHost(){
+	String imageHost = "";	
+	InputStream inputStream = MethodUtils.class.getResourceAsStream("/environment.properties");
+	Properties properties = new Properties();
+	try {
+		properties.load(inputStream);
+		imageHost = (String) properties.get("imageHost");
+	} catch (IOException e) {
+		e.printStackTrace();
+	}
+	return imageHost;
+}
 }

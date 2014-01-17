@@ -293,6 +293,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 id="modalTitle" class="modal-title"></h4>
           </div>
           <div class="modal-body">
             <h4 id="modalMes" class="modal-title"></h4>
@@ -300,6 +301,25 @@
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->    
+    
+    <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 id="confirmModalTitle" class="modal-title text-danger"></h4>
+          </div>
+          <div class="modal-body">
+            <h4 id="confirmModalMes" class="modal-title"></h4>
+            <input id="appidhidden" type="hidden" value=""/>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="confirmDelete()">确认删除</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->  
     
     <div id="footer">
       <div class="container text-center">
@@ -407,53 +427,89 @@
       appInfo.wechatNumber=$("#wechat_account").val();
       appInfo.address=$("#wechat_addr").val();
       appInfo.industry=$("#wechat_trade").val();
-      $.ajax({
-  	  type: "POST",
-  	  url: "store/app/insert",
-  	  data: JSON.stringify(appInfo),
-  	  contentType: "application/json; charset=utf-8",
-   	  success: function (data) {
-   		  $("#related").modal("hide");
-   		  var jsonData=JSON.parse(data);
-   		  if(jsonData.status==true){
-	   	   	  $("#modalMes").html("创建成功，已经可以关联新的公众账号，请到腾讯公众平台进行API绑定！");
-	   	      $("#operationMesModal").modal("show");
-	   	      setTimeout("location.href='store/account'",2500);
-   		  }else{
-	   	   	  $("#modalMes").html(jsonData.message);
-	   	      $("#operationMesModal").modal("show");
-   		  }
-   	  },
-	  error: function(xhr, status, exception){
-   	   	  $("#related").modal("hide");
-   	   	  $("#modalMes").html(status + '</br>' + exception);
-   	      $("#operationMesModal").modal("show");
-	  }
-  	});
+      if(validateNewApp(appInfo)){
+          $.ajax({
+          	  type: "POST",
+          	  url: "store/app/insert",
+          	  data: JSON.stringify(appInfo),
+          	  contentType: "application/json; charset=utf-8",
+           	  success: function (data) {
+           		  $("#related").modal("hide");
+           		  var jsonData=JSON.parse(data);
+           		  if(jsonData.status==true){
+        	   	   	  $("#modalMes").html("创建成功，已经可以关联新的公众账号，请到腾讯公众平台进行API绑定！");
+        	   	      $("#operationMesModal").modal("show");
+        	   	      setTimeout("location.href='store/account'",2500);
+           		  }else{
+        	   	   	  $("#modalMes").html(jsonData.message);
+        	   	      $("#operationMesModal").modal("show");
+           		  }
+           	  },
+        	  error: function(xhr, status, exception){
+           	   	  $("#related").modal("hide");
+           	   	  $("#modalMes").html(status + '</br>' + exception);
+           	      $("#operationMesModal").modal("show");
+        	  }
+          	}); 
+      }else{
+    	  return;
+      }
   	}
     
-    function submitDeleteApp(appid){
-        $.ajax({
-    	  type: "POST",
-    	  url: "store/app/delete",
-    	  data: "appid="+appid,
-     	  success: function (data) {
-     		  var jsonData=JSON.parse(data);		 
-     		  if(jsonData.status==true){
-  	   	   	  $("#modalMes").html(jsonData.message);
-  	   	      $("#operationMesModal").modal("show");
-  	   	      setTimeout("location.href='store/account'",1500);
-     		  }else{
-  	   	   	  $("#modalMes").html(jsonData.message);
-  	   	      $("#operationMesModal").modal("show");
-     		  }
-     	  },
-  	  error: function(xhr, status, exception){
-     	   	  $("#modalMes").html(status + '</br>' + exception);
-     	      $("#operationMesModal").modal("show");
-  	  }
-    });
+    function validateNewApp(appInfo){
+    	var blankInputArray = new Array();
+    	if(appInfo.wechatToken=="")blankInputArray.push("验证Token");
+    	if(appInfo.wechatName=="")blankInputArray.push("微信账号名称");
+        if(appInfo.wechatOriginalId=="")blankInputArray.push("微信账号原始ID");
+    	if(appInfo.address=="")blankInputArray.push("微信账号地址");
+    	if(appInfo.industry=="")blankInputArray.push("所属行业");
+    	if(blankInputArray.length==0){
+    		return true;
+    	}else{
+    		showBlankInputHtml(blankInputArray);
+    		return false;
+    	}
     }
+    function showBlankInputHtml(blankInputArray){
+    	var blankInputhtml="";
+        $.each(blankInputArray,function(key,val){
+        	blankInputhtml=blankInputhtml+val+"<br/>";
+        });
+    	$("#modalTitle").html("您还需要完善下列信息：");
+    	$("#modalMes").html(blankInputhtml);
+        $("#operationMesModal").modal("show");
+        return;
+    }
+    function submitDeleteApp(appid){
+    	$("#confirmModalTitle").html("警告！");
+    	$("#confirmModalMes").html("删除这个APP后，和这个微信账号关联的微官网、Elove等信息均会被删除！您确定吗？");
+        $("#appidhidden").val(appid);
+        $("#confirmModal").modal("show");
+    }
+    function confirmDelete(){
+    	var appid = $("#appidhidden").val();
+        $.ajax({
+      	  type: "POST",
+      	  url: "store/app/delete",
+      	  data: "appid="+appid,
+       	  success: function (data) {
+       		  var jsonData=JSON.parse(data);		 
+       		  if(jsonData.status==true){
+    	   	   	  $("#modalMes").html(jsonData.message);
+    	   	      $("#operationMesModal").modal("show");
+    	   	      setTimeout("location.href='store/account'",1500);
+       		  }else{
+    	   	   	  $("#modalMes").html(jsonData.message);
+    	   	      $("#operationMesModal").modal("show");
+       		  }
+       	  },
+    	  error: function(xhr, status, exception){
+       	   	  $("#modalMes").html(status + '</br>' + exception);
+       	      $("#operationMesModal").modal("show");
+    	  }
+      });
+    }
+    
     </script>
   </body>
 </html>
