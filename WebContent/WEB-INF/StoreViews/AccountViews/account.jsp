@@ -333,13 +333,14 @@
             <h4 id="welcomeMessageTitle" class="modal-title">设置粉丝关注后欢迎语</h4>
           </div>
           <div class="modal-body">
+          <input id="appidSign" type="hidden"/>
 			<ul class="nav nav-tabs">
 			  <li id="textType" class="active"><a href="#tab_a" data-toggle="tab">纯文字类型</a></li>
 			  <li id="listType"><a href="#tab_b" data-toggle="tab">图文信息类型</a></li>
 			</ul>
 			<div class="tab-content">
 		        <div class="tab-pane active" id="tab_a">
-		           <textarea id="" class="form-control" rows=4 placeholder="粉丝关注后系统将自动返回您设置的这段话" ></textarea>
+		           <textarea id="welcomeText" class="form-control" rows=4 placeholder="粉丝关注后系统将自动返回您设置的这段话" ></textarea>
 		        </div>
 		        <div class="tab-pane" id="tab_b">
 		        <div class="form-horizontal">
@@ -577,10 +578,12 @@
     	  }
       });
     }
-    function welcomeMessage(){
-    	$("#welcomeMessageModal").modal("show");	
+    function welcomeMessage(appid){
+    	$("#welcomeMessageModal").modal("show");
+    	$("#appidSign").val(appid);
     }
     function addMessageItem(){
+    	alert($("#appidSign").val());
     	var messageItemHTML = "<div class=\"thumbnail form-group messageItem\">"
                             + "<input type=\"text\" class=\"form-control\" placeholder=\"消息标题\"/>"
                             + "<input type=\"text\" class=\"form-control\" placeholder=\"消息链接\"/>"
@@ -593,16 +596,39 @@
     }
     function submitWelcomeMessage(){
     	var welcomeMes = new Object();
+    	var contentList = new Array();
     	if($("#textType").attr("class")=="active"){
-    		alert("text");
+    		welcomeMes.type="text";
+    		welcomeMes.appid=$("#appidSign").val();
+    		var welcomeContent=new Object();
+    		welcomeContent.content=$("#welcomeText").val();
+    		contentList.push(welcomeContent);
+    		welcomeMes.contents=contentList;
     	}else{
-    		alert("list");
+    		welcomeMes.type="list";
+    		welcomeMes.appid=$("#appidSign").val();
+    		var messageItems = $("#messageItems").children();
+    		var imageItems = $("#upload2-links").children();
+	   	    $.each(messageItems,function(key,val){
+	   	    	var welcomeTitleInput = ($(val).children())[0];
+	   	    	var welcomeLinkInput = ($(val).children())[1];
+	   	    	var welcomeImageInput = imageItems[key];
+	   	    	var welcomeContent=new Object();
+	   	    	welcomeContent.content=$(welcomeTitleInput).val();
+	   	    	welcomeContent.link=$(welcomeLinkInput).val();
+	   	    	welcomeContent.coverPic=$(welcomeImageInput).val();
+	   	    	contentList.push(welcomeContent);
+	   	    });
+	   	    welcomeMes.contents=contentList;
     	}
+    	alert(JSON.stringify(welcomeMes));
         $.ajax({
         	  type: "POST",
-        	  url: "store/app/delete",
+        	  url: "store/welcome/insert",
         	  data: JSON.stringify(welcomeMes),
+    	   	  contentType: "application/json; charset=utf-8",
          	  success: function (data) {
+         		  $("#welcomeMessageModal").modal("hide");
          		  var jsonData=JSON.parse(data);		 
          		  if(jsonData.status==true){
       	   	   	  $("#modalMes").html(jsonData.message);
@@ -614,6 +640,7 @@
          		  }
          	  },
       	  error: function(xhr, status, exception){
+      		      $("#welcomeMessageModal").modal("hide");
          	   	  $("#modalMes").html(status + '</br>' + exception);
          	      $("#operationMesModal").modal("show");
       	  }
