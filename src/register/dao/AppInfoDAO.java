@@ -236,6 +236,25 @@ public class AppInfoDAO {
 	}
 	
 	/**
+	 * @title: checkAppExistsByUser
+	 * @description: 查看某用户下是否存在某个appid
+	 * @param sid
+	 * @param appid
+	 * @return
+	 */
+	public int checkAppExistsByUser(int sid, String appid){
+		String SQL = "SELECT COUNT(*) FROM storeuser_application WHERE sid = ? AND appid = ?";
+		int count = 0;
+		
+		try {
+			count = jdbcTemplate.queryForObject(SQL, Integer.class, sid, appid);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return count;
+	}
+	
+	/**
 	 * @title: getAuthid
 	 * @description: 查询权限名字对应的id
 	 * @param authName

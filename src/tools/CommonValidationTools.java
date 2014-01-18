@@ -17,6 +17,7 @@ import elove.EloveWizard;
 import elove.dao.EloveWizardDAO;
 import register.AppInfo;
 import register.UserInfo;
+import register.Welcome;
 import register.dao.UserInfoDAO;
 
 
@@ -236,5 +237,15 @@ public class CommonValidationTools {
 		}
 		
 		return "pass";
+	}
+	
+	/**
+	 * @title: checkWelcome
+	 * @description: 检查欢迎页配置信息
+	 * @param welcome
+	 * @return
+	 */
+	public static boolean checkWelcome(Welcome welcome){
+		return true;
 	}
 }
