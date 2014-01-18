@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 15, 2014 at 07:46 AM
+-- Generation Time: Jan 18, 2014 at 01:32 PM
 -- Server version: 5.5.32
 -- PHP Version: 5.4.19
 
@@ -37,15 +37,18 @@ CREATE TABLE IF NOT EXISTS `application` (
   `wechatNumber` varchar(40) NOT NULL DEFAULT '' COMMENT '微信号',
   `address` varchar(40) NOT NULL DEFAULT '' COMMENT '微信账号地址',
   `industry` varchar(20) NOT NULL DEFAULT '' COMMENT '账号所属行业',
+  `welcomeType` varchar(10) DEFAULT NULL COMMENT '欢迎页类型{"text" "list"}',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='用于关联微信公众号的应用' AUTO_INCREMENT=17 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='用于关联微信公众号的应用' AUTO_INCREMENT=19 ;
 
 --
 -- Dumping data for table `application`
 --
 
-INSERT INTO `application` (`id`, `appid`, `wechatToken`, `wechatName`, `wechatOriginalId`, `wechatNumber`, `address`, `industry`) VALUES
-(16, 'c8ed146e83214929931921519a70624d', 'dshdja', 'one', 'sahdsag', 'dshd', 'dshdgdsa', 'shda');
+INSERT INTO `application` (`id`, `appid`, `wechatToken`, `wechatName`, `wechatOriginalId`, `wechatNumber`, `address`, `industry`, `welcomeType`) VALUES
+(16, 'c8ed146e83214929931921519a70624d', 'dshdja', 'one', 'sahdsag', 'dshd', 'dshdgdsa', 'shda', NULL),
+(17, '2ebd55ff9e7c472c9c50b952672f3cd0', 'dsjdsaad', 'dhajskd', 'sdhaskd', 'hdskhk', 'khdjshdk', 'hdhdjsdh', NULL),
+(18, 'f667c84e914d4e338652ecacf083275c', 'dadadas', 'dasdsad', 'sadsad', 'adsad', 'dsadsad', 'adsad', NULL);
 
 -- --------------------------------------------------------
 
@@ -58,14 +61,59 @@ CREATE TABLE IF NOT EXISTS `application_authority` (
   `appid` varchar(32) NOT NULL COMMENT 'UUID',
   `authid` int(11) NOT NULL DEFAULT '0' COMMENT '权限id',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
 
 --
 -- Dumping data for table `application_authority`
 --
 
 INSERT INTO `application_authority` (`id`, `appid`, `authid`) VALUES
-(14, 'c8ed146e83214929931921519a70624d', 6);
+(14, 'c8ed146e83214929931921519a70624d', 6),
+(15, '2ebd55ff9e7c472c9c50b952672f3cd0', 6),
+(16, 'f667c84e914d4e338652ecacf083275c', 6);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `article`
+--
+
+CREATE TABLE IF NOT EXISTS `article` (
+  `articleid` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `appid` varchar(32) NOT NULL COMMENT 'UUID',
+  `title` varchar(40) NOT NULL COMMENT '文章标题',
+  `coverPic` varchar(80) NOT NULL COMMENT '图文消息封面',
+  `createTime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建时间',
+  `content` text NOT NULL COMMENT '文章内容',
+  PRIMARY KEY (`articleid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `articleclass`
+--
+
+CREATE TABLE IF NOT EXISTS `articleclass` (
+  `classid` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `appid` varchar(32) NOT NULL COMMENT 'UUID',
+  `className` varchar(20) NOT NULL COMMENT '文章类别名称',
+  `createTime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建时间',
+  PRIMARY KEY (`classid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `article_articleclass`
+--
+
+CREATE TABLE IF NOT EXISTS `article_articleclass` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `articleid` int(11) NOT NULL COMMENT '文章id',
+  `classid` int(11) NOT NULL COMMENT '文章类别id',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -130,7 +178,7 @@ CREATE TABLE IF NOT EXISTS `elove` (
 --
 
 INSERT INTO `elove` (`eloveid`, `appid`, `createTime`, `expiredTime`, `title`, `password`, `coverPic`, `coverText`, `majorGroupPhoto`, `xinNiang`, `xinLang`, `storyTextImagePath`, `music`, `phone`, `weddingDate`, `weddingAddress`, `lng`, `lat`, `shareTitle`, `shareContent`, `footerText`, `sideCorpInfo`, `themeid`) VALUES
-(1, 'c8ed146e83214929931921519a70624d', '2014-01-11 06:39:24', '2014-07-10 06:39:24', 'sdadsad', 'adad', '/resources/images/035d7f806fbd474aafd12e98195a8bf1', 'dsadasd', '/resources/images/5c82659ef75d4d1a9356e105ce385dc3', 'sadasa', 'dsad', '/resources/images/5434d642eb8341b5bfe8b04159bed72c', '/resources/media/30e3d4da9f5a4047bfa856a6468ff043', '13585563683', 'qweqewqe', '上海', '121.510321', '31.261016', 'sadadsad', 'safsafsaf', 'dsadsad', 'sadsadsad', 0),
+(1, 'c8ed146e83214929931921519a70624d', '2014-01-17 12:22:04', '2014-07-10 06:39:24', 'sdadsad', 'adad', '/resources/images/035d7f806fbd474aafd12e98195a8bf1', 'dsadasd', '/resources/images/5c82659ef75d4d1a9356e105ce385dc3', 'sadasa', 'dsad', '/resources/images/5434d642eb8341b5bfe8b04159bed72c', '/resources/media/30e3d4da9f5a4047bfa856a6468ff043', '13585563683', 'qweqewqe', '上海', '121.510321', '31.261016', 'sadadsad', 'safsafsaf', 'dsadsad', 'sadsadsad', 2),
 (2, 'c8ed146e83214929931921519a70624d', '2014-01-11 13:16:45', '2014-07-10 13:16:45', 'two', '123', '/resources/images/65dbea1a697847ef8daeadf9773a9623', '你好', '/resources/images/e7b34b661f2e4b3a804d6348545f5272', 'B', 'A', '/resources/images/6a1a63c9cb284db7a66c9fb64ecc4167', '/resources/media/c0713581b4cb42c08cbad077b39ca7c1', '13585563683', '1234', '上海', '121.487899', '31.249162', '哈哈', '呵呵', 'A', 'B', 2);
 
 -- --------------------------------------------------------
@@ -144,14 +192,16 @@ CREATE TABLE IF NOT EXISTS `elove_consume_record` (
   `appid` varchar(32) NOT NULL,
   `notPayNumber` int(11) NOT NULL COMMENT '未付款数量',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
 
 --
 -- Dumping data for table `elove_consume_record`
 --
 
 INSERT INTO `elove_consume_record` (`id`, `appid`, `notPayNumber`) VALUES
-(13, 'c8ed146e83214929931921519a70624d', 2);
+(13, 'c8ed146e83214929931921519a70624d', 2),
+(14, '2ebd55ff9e7c472c9c50b952672f3cd0', 0),
+(15, 'f667c84e914d4e338652ecacf083275c', 0);
 
 -- --------------------------------------------------------
 
@@ -165,17 +215,18 @@ CREATE TABLE IF NOT EXISTS `elove_images` (
   `imagePath` varchar(80) NOT NULL COMMENT '图片路径（未完全）',
   `imageType` varchar(10) NOT NULL COMMENT '图片分类',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data for table `elove_images`
 --
 
 INSERT INTO `elove_images` (`id`, `eloveid`, `imagePath`, `imageType`) VALUES
-(1, 1, '/resources/images/9b9dd85ad43d47458ca0c0a112a4c19a', 'story'),
 (2, 2, '/resources/images/fcbe8415e7f24a5ea5b6cf38fdc9ae75', 'story'),
 (3, 2, '/resources/images/b8b034f86eac4d539e7a143cdc87cfe1', 'dress'),
-(4, 2, '/resources/images/ec22afc9a5aa41f4bad460487773494c', 'record');
+(4, 2, '/resources/images/ec22afc9a5aa41f4bad460487773494c', 'record'),
+(7, 1, '/resources/images/9b9dd85ad43d47458ca0c0a112a4c19a', 'story'),
+(8, 1, '/resources/images/0cc0c56055f044deb67cd47618fd02e3', 'dress');
 
 -- --------------------------------------------------------
 
@@ -241,7 +292,7 @@ CREATE TABLE IF NOT EXISTS `elove_video` (
   `videoPath` varchar(80) NOT NULL COMMENT '视频路径',
   `videoType` varchar(10) NOT NULL COMMENT '视频分类',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `elove_video`
@@ -249,7 +300,8 @@ CREATE TABLE IF NOT EXISTS `elove_video` (
 
 INSERT INTO `elove_video` (`id`, `eloveid`, `videoPath`, `videoType`) VALUES
 (1, 2, '/resources/media/95149aa24a194846a05124cab9f65e10', 'dress'),
-(2, 2, '/resources/media/f2411fed9820475199a3977834b13d82', 'record');
+(2, 2, '/resources/media/f2411fed9820475199a3977834b13d82', 'record'),
+(4, 1, '/resources/media/5af1957ee0e04c10a62a314f3c02800a', 'dress');
 
 -- --------------------------------------------------------
 
@@ -276,7 +328,20 @@ CREATE TABLE IF NOT EXISTS `image_temp_record` (
   `imagePath` varchar(80) NOT NULL COMMENT '临时图片路径（未完全）',
   `createDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+
+--
+-- Dumping data for table `image_temp_record`
+--
+
+INSERT INTO `image_temp_record` (`id`, `imagePath`, `createDate`) VALUES
+(1, '/resources/images/b544e2b21c3145b0bd1dfd09bd5bb347', '2014-01-17 11:40:37'),
+(2, '/resources/images/57c9d9fb56084de393ccc31c7913a67b', '2014-01-17 11:56:13'),
+(3, '/resources/images/2fe5fbaecd474386adae530d3698a0b3', '2014-01-17 11:56:24'),
+(4, '/resources/images/aac17aeaa7cc4dc08d16a57aea7baeb9', '2014-01-17 11:56:56'),
+(5, '/resources/images/62a154d54ece4038b0aec22561c71798', '2014-01-17 11:57:00'),
+(6, '/resources/images/3b048af4e4144d3d8f374738850a49b7', '2014-01-17 11:57:07'),
+(7, '/resources/images/2f0eef4709114ba7b4c6e1e92148d0a8', '2014-01-17 12:20:31');
 
 -- --------------------------------------------------------
 
@@ -353,7 +418,7 @@ CREATE TABLE IF NOT EXISTS `storeuser` (
   `lng` decimal(12,6) NOT NULL COMMENT '地址经度',
   `lat` decimal(12,6) NOT NULL COMMENT '地址纬度',
   PRIMARY KEY (`sid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='众合微信助手平台账户' AUTO_INCREMENT=13 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='众合微信助手平台账户' AUTO_INCREMENT=22 ;
 
 --
 -- Dumping data for table `storeuser`
@@ -364,7 +429,16 @@ INSERT INTO `storeuser` (`sid`, `roleid`, `username`, `password`, `createDate`, 
 (9, 1, 'ben', '$2a$10$sEGe34AJc7BXrX5961cTUurSDs60uiLx3I1J7zul8JsrXYAtlUlqG', '2013-12-30 08:47:47', 'test', '1311867063@qq.com', '', '13585563683', '江苏南通海安', 'www.baidu.com', '120.473927', '32.553985'),
 (10, 1, 'bai', '$2a$10$aaFHwN5KpVvv0NLnDIi4..PjtriVOwTyYN5N/rO5oKFwaHs6KLhe.', '2013-12-30 09:55:57', 'test', '1311867063@qq.com', '', '13585563683', '江苏南通海安', 'www.baidu.com', '120.473927', '32.553985'),
 (11, 1, 'lubovabc', '$2a$10$wzRCgNwIAdGKdo62j6monOGIElg6cXgtiRNe4Ew5MhTzYDielSt.u', '2014-01-07 05:33:40', 'test', '1311867063@qq.com', '', '13585563683', '江苏南通海安', 'http://www.baidu.com', '120.473927', '32.553985'),
-(12, 1, 'lubovbyc', '$2a$10$RejbON5oLg.w6fv1AhB6nOATWk1heZbvaHBlyX3JF1OnKaTAZAA2.', '2014-01-07 05:35:06', 'test', '1311867063@qq.com', '', '13585563683', '江苏南通海安', 'http://www.baidu.com', '120.473927', '32.553985');
+(12, 1, 'lubovbyc', '$2a$10$RejbON5oLg.w6fv1AhB6nOATWk1heZbvaHBlyX3JF1OnKaTAZAA2.', '2014-01-07 05:35:06', 'test', '1311867063@qq.com', '', '13585563683', '江苏南通海安', 'http://www.baidu.com', '120.473927', '32.553985'),
+(13, 1, 'test3', '$2a$10$zPyhcXqJ1qI5jZM7R5OWCOEgZ6OZrjuLwFFdWcxSPH.QGXutCVmyC', '2014-01-17 15:09:19', 'test', '1311867063@qq.com', '', '13585563683', '上海市', 'http://www.baidu.com', '121.487899', '31.249162'),
+(14, 1, 'test4', '$2a$10$ApNkr6eDQ.CWmC6OYySiduuozyOqEM25/2wATOfXa.I/lHYhzxq5y', '2014-01-17 15:29:39', 'test', '1311867063@qq.com', '', '13585563683', '上海市', 'http://www.baidu.com', '121.487899', '31.249162'),
+(15, 1, 'zhang', '$2a$10$YA1WkGS6pgiBWPrKUnxUvuzE82Uc0YdAQEigN3zYjipgZvaZQzqbC', '2014-01-17 15:31:06', 'test', '1311867063@qq.com', '', '13585563683', '上海市', 'http://www.baidu.com', '121.487899', '31.249162'),
+(16, 1, 'zhang2', '$2a$10$K6R34XigJ.l54m7Piq9r9eIjgEumDiW2hPk9WmASfN2TdkbUxTDPy', '2014-01-17 15:35:29', 'test', '1311867063@qq.com', '', '13585563683', '上海市', 'http://www.baidu.com', '121.487899', '31.249162'),
+(17, 1, 'zhang3', '$2a$10$s8nBtPittqIFx62qZa6YtOTcZjJqApmWXPevWGwy5miUDp/G268i.', '2014-01-17 15:37:04', 'test', '1311867063@qq.com', '', '13585563683', '上海市', 'http://www.baidu.com', '121.487899', '31.249162'),
+(18, 1, 'zhang4', '$2a$10$69QuPufOpQo6R7PJt6dbfOywWyI.LUefQSE0Ze.aomPMX49xwAISe', '2014-01-17 15:40:36', 'test', '1311867063@qq.com', '', '13585563683', '上海市', 'http://www.baidu.com', '121.487899', '31.249162'),
+(19, 1, 'zhang5', '$2a$10$nIqLBSxkJFj10qZPxToYX.HozlQ5SeVp5XdE3u5Sx90Th3mrrDsgC', '2014-01-17 15:42:04', 'test', '1311867063@qq.com', '', '13585563683', '上海市', 'http://www.baidu.com', '121.487899', '31.249162'),
+(20, 1, 'vicky', '$2a$10$pqdccDzX/omJIqXSl6rcnefxBlIU7IP4UF6pFXjuObhEcX1BbzqX6', '2014-01-17 15:49:01', 'test', '1311867063@qq.com', '', '13585563683', '上海市', 'http://www.baidu.com', '121.487899', '31.249162'),
+(21, 1, 'vicky2', '$2a$10$jqgRJ7Rl8TLDXS9MJv8NGemSfxiNf0KOYHMWEoqr/iTqBoMk54OPG', '2014-01-18 06:21:36', 'test', '1311867063@qq.com', '', '13585563683', '上海市', 'http://www.baidu.com', '121.487899', '31.249162');
 
 -- --------------------------------------------------------
 
@@ -377,14 +451,16 @@ CREATE TABLE IF NOT EXISTS `storeuser_application` (
   `sid` int(11) NOT NULL DEFAULT '0' COMMENT '众合微信助手账户id',
   `appid` varchar(32) NOT NULL DEFAULT '' COMMENT '众合微信平台应用id',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=19 ;
 
 --
 -- Dumping data for table `storeuser_application`
 --
 
 INSERT INTO `storeuser_application` (`id`, `sid`, `appid`) VALUES
-(16, 1, 'c8ed146e83214929931921519a70624d');
+(16, 1, 'c8ed146e83214929931921519a70624d'),
+(17, 20, '2ebd55ff9e7c472c9c50b952672f3cd0'),
+(18, 15, 'f667c84e914d4e338652ecacf083275c');
 
 -- --------------------------------------------------------
 
@@ -398,7 +474,7 @@ CREATE TABLE IF NOT EXISTS `store_auth_price` (
   `authid` int(11) NOT NULL COMMENT '权限id',
   `price` decimal(15,2) NOT NULL COMMENT '单价',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=15 ;
 
 --
 -- Dumping data for table `store_auth_price`
@@ -409,7 +485,16 @@ INSERT INTO `store_auth_price` (`id`, `sid`, `authid`, `price`) VALUES
 (2, 9, 6, '100.00'),
 (3, 10, 6, '100.00'),
 (4, 11, 6, '100.00'),
-(5, 12, 6, '100.00');
+(5, 12, 6, '100.00'),
+(6, 13, 6, '100.00'),
+(7, 14, 6, '100.00'),
+(8, 15, 6, '100.00'),
+(9, 16, 6, '100.00'),
+(10, 17, 6, '100.00'),
+(11, 18, 6, '100.00'),
+(12, 19, 6, '100.00'),
+(13, 20, 6, '100.00'),
+(14, 21, 6, '100.00');
 
 -- --------------------------------------------------------
 
@@ -422,7 +507,7 @@ CREATE TABLE IF NOT EXISTS `video_temp_record` (
   `videoPath` varchar(80) NOT NULL COMMENT '临时视频路径',
   `createDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=42 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=52 ;
 
 --
 -- Dumping data for table `video_temp_record`
@@ -432,7 +517,6 @@ INSERT INTO `video_temp_record` (`id`, `videoPath`, `createDate`) VALUES
 (1, '/resources/media/01eba43ab26040c69f8df3e54aca3fb5', '2014-01-09 15:12:20'),
 (2, '/resources/media/42bcc130af624b2eb491d98149c62f38', '2014-01-11 04:55:12'),
 (3, '/resources/media/ed73898b119743b89186cd8b05955611', '2014-01-11 06:06:30'),
-(4, '/resources/media/30e3d4da9f5a4047bfa856a6468ff043', '2014-01-11 06:37:44'),
 (5, '/resources/media/f5240513613345dcba3dc59d60342506', '2014-01-11 12:31:28'),
 (9, '/resources/media/8625155595d34c42b8a8d563eb672335', '2014-01-13 07:46:05'),
 (10, '/resources/media/94c56dbc06134f6da75e5e1086f490a8', '2014-01-13 07:53:06'),
@@ -466,7 +550,136 @@ INSERT INTO `video_temp_record` (`id`, `videoPath`, `createDate`) VALUES
 (38, '/resources/media/1b16f841a5b2440e8da3adfe5bdb4822', '2014-01-15 05:47:53'),
 (39, '/resources/media/8940e63ce71742acb7cea62c9b30f642', '2014-01-15 05:48:07'),
 (40, '/resources/media/b7adac5e68f54396a4e774127d939b6c', '2014-01-15 06:12:30'),
-(41, '/resources/media/1b01797c16814a4eb03281eb4cbb5e8e', '2014-01-15 06:13:47');
+(41, '/resources/media/1b01797c16814a4eb03281eb4cbb5e8e', '2014-01-15 06:13:47'),
+(42, '/resources/media/5220dfe3ff764829bf2de7de2c4f5564', '2014-01-15 08:59:35'),
+(43, '/resources/media/7ad4874c007a47c480f009a2f5c2c360', '2014-01-15 08:59:48'),
+(44, '/resources/media/4ccf477cb61d45feadf7dee04ba03388', '2014-01-15 09:01:05'),
+(45, '/resources/media/e031c99eafc14db1af4939d2c41e6f09', '2014-01-15 09:17:03'),
+(46, '/resources/media/9e3f01de71674814b2a14840698ecd42', '2014-01-17 11:40:30'),
+(47, '/resources/media/798a2f3e26ed4caebad7bea30a040cfb', '2014-01-17 11:56:33'),
+(48, '/resources/media/3e2ed6045ac241aca7addc734f8e38b2', '2014-01-17 11:57:19'),
+(49, '/resources/media/dbc8d3629c7c41f4914620b9fbe094b7', '2014-01-17 12:20:36');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `website`
+--
+
+CREATE TABLE IF NOT EXISTS `website` (
+  `websiteid` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `appid` varchar(32) NOT NULL COMMENT 'UUID',
+  `getCode` varchar(20) NOT NULL COMMENT '微官网直接获取码',
+  `title` varchar(30) NOT NULL COMMENT '微官网页面标题',
+  `phone` varchar(14) NOT NULL COMMENT '联系电话',
+  `address` varchar(40) NOT NULL COMMENT '导航地址',
+  `lng` decimal(12,6) NOT NULL COMMENT '地址经度',
+  `lat` decimal(12,6) NOT NULL COMMENT '地址纬度',
+  `createTime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建时间',
+  `rootNodeId` int(11) NOT NULL COMMENT '子模块树根节点',
+  `coverPic` varchar(80) NOT NULL COMMENT '微信图文消息图片',
+  `coverText` varchar(200) NOT NULL COMMENT '微信图文消息文字',
+  `shareTitle` varchar(40) NOT NULL COMMENT '分享消息标题',
+  `shareContent` varchar(200) NOT NULL COMMENT '分享消息文字',
+  `footerText` varchar(40) NOT NULL COMMENT '微官网脚注',
+  `themeId` int(11) NOT NULL COMMENT '微官网主题模板',
+  PRIMARY KEY (`websiteid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `website_image`
+--
+
+CREATE TABLE IF NOT EXISTS `website_image` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `websiteid` int(11) NOT NULL COMMENT '微官网id',
+  `imageType` varchar(10) NOT NULL COMMENT '图片类型',
+  `imagePath` varchar(80) NOT NULL COMMENT '图片路径（未完全）',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `website_node`
+--
+
+CREATE TABLE IF NOT EXISTS `website_node` (
+  `nodeid` int(11) NOT NULL AUTO_INCREMENT,
+  `nodeName` varchar(20) NOT NULL COMMENT '模块名称',
+  `nodePic` varchar(80) NOT NULL COMMENT '模块图片',
+  `childrenType` varchar(10) NOT NULL COMMENT '子节点类别 (node,article,articleclass)',
+  PRIMARY KEY (`nodeid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `website_node_article`
+--
+
+CREATE TABLE IF NOT EXISTS `website_node_article` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `articleid` int(11) NOT NULL COMMENT '文章id',
+  `fatherid` int(11) NOT NULL COMMENT '父节点id ',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `website_node_articleclass`
+--
+
+CREATE TABLE IF NOT EXISTS `website_node_articleclass` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `classid` int(11) NOT NULL COMMENT '文章类别id',
+  `fatherid` int(11) NOT NULL COMMENT '父节点id',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `website_node_structure`
+--
+
+CREATE TABLE IF NOT EXISTS `website_node_structure` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nodeid` int(11) NOT NULL COMMENT '节点id',
+  `fatherid` int(11) NOT NULL COMMENT '父节点id',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `website_theme`
+--
+
+CREATE TABLE IF NOT EXISTS `website_theme` (
+  `themeid` int(11) NOT NULL AUTO_INCREMENT,
+  `themeName` varchar(40) NOT NULL COMMENT '主题名称',
+  `themePath` varchar(100) NOT NULL COMMENT '主题路径',
+  PRIMARY KEY (`themeid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `welcome`
+--
+
+CREATE TABLE IF NOT EXISTS `welcome` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `appid` varchar(32) NOT NULL COMMENT 'UUID',
+  `content` varchar(200) NOT NULL COMMENT '文字内容',
+  `coverPic` varchar(80) DEFAULT NULL COMMENT '图片路径',
+  `link` varchar(100) DEFAULT NULL COMMENT '链接',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
