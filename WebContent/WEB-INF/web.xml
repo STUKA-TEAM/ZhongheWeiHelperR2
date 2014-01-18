@@ -94,11 +94,13 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 <!-- **************** -->	
+
 <!-- session timeout (minutes)-->
 <session-config>
   <session-timeout>120</session-timeout>
 </session-config>
 <!-- ************************ -->
+
 <!-- security-context-loader -->
     <context-param>
         <param-name>contextConfigLocation</param-name>
@@ -113,6 +115,12 @@
         <listener-class>org.springframework.security.web.session.HttpSessionEventPublisher</listener-class>
     </listener>
 <!-- ************************* --> 
+
+<error-page>
+   <exception-type>404</exception-type>
+   <location>/index.html</location>
+</error-page>
+
 </web-app>
 
  
