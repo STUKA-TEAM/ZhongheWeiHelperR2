@@ -91,7 +91,10 @@
                 <td><a data-toggle="modal" data-target="#${appInfo.appid}">查看</a>
                 
                 </td>
-                <td><a class="btn btn-sm btn-danger" onclick="submitDeleteApp('${appInfo.appid}')">删除</a></td>
+                <td>
+                <a class="btn btn-sm btn-info" onclick="welcomeMessage('${appInfo.appid}')">粉丝关注欢迎语</a>
+                <a class="btn btn-sm btn-danger" onclick="submitDeleteApp('${appInfo.appid}')">删除账号关联</a>
+                </td>
               </tr>
               </c:forEach>
             </table>
@@ -321,11 +324,76 @@
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->  
     
+    <!-- welcomeMessage -->
+    <div class="modal fade" id="welcomeMessageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 id="welcomeMessageTitle" class="modal-title">设置粉丝关注后欢迎语</h4>
+          </div>
+          <div class="modal-body">
+			<ul class="nav nav-tabs">
+			  <li id="textType" class="active"><a href="#tab_a" data-toggle="tab">纯文字类型</a></li>
+			  <li id="listType"><a href="#tab_b" data-toggle="tab">图文信息类型</a></li>
+			</ul>
+			<div class="tab-content">
+		        <div class="tab-pane active" id="tab_a">
+		           <textarea id="" class="form-control" rows=4 placeholder="粉丝关注后系统将自动返回您设置的这段话" ></textarea>
+		        </div>
+		        <div class="tab-pane" id="tab_b">
+		        <div class="form-horizontal">
+		        <button type="button" class="btn btn-primary" onclick="addMessageItem()">添加消息</button> 
+		        <div id="messageItems">         
+			    <div class="thumbnail form-group messageItem">
+                    <input type="text" class="form-control" placeholder="消息标题"/>
+                    <input type="text" class="form-control" placeholder="消息链接"/>
+                    <button type="button" class="btn btn-danger" onclick="deleteItem(this)">删除</button>
+			    </div>	
+			    </div>				    					  					    
+              <form  class="form-group" role="form" enctype="multipart/form-data" id="upload2">
+                <label class="col-sm-3 control-label">为上面消息配图</label>
+                <div class="col-sm-9">
+                  <input type="file" name="file" class="image-file hidden" onchange="ye.value=value" accept="image/*">
+                  <input type="text" name=ye class="form-control file-path">
+                  <input type="button" value="选择文件" onclick="file.click()" class="btn btn-sm btn-info">
+                  <input type="button" value="上传" class="image-multi btn btn-sm btn-info">
+                </div>
+              </form>  
+              <div class="form-group">
+                  <div class="col-md-7 col-md-offset-3">
+                    <div class="row" id="upload2-images">
+                    <c:forEach items="${userInfo.imageList}" var="image">
+                    <div id="${image}" class="col-md-6 pic-preview-div"><img src="${image}_original.jpg" class="pic-preview img-thumbnail img-responsive"/>
+                    <span class="glyphicon glyphicon-trash" onclick="deleteThisImage('${image}')"> </span>
+                    </div>
+                    </c:forEach>
+                    </div>
+                    <div id="upload2-links">
+                    <c:forEach items="${userInfo.imageList}" var="image">
+                    <input id="${image}-input" type="hidden" value="${image}"/>
+                    </c:forEach>
+                    </div>
+                  </div>
+              </div> 				  
+				  </div>
+		        </div>
+			</div><!-- tab content -->
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-primary" onclick="submitWelcomeMessage()">确定</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->  
+    
     <div id="footer">
       <div class="container text-center">
         <p class="text-muted credit">Copyright ? 2013 zhonghesoftware.com All Rights Reserved. 众合网络科技有限公司 版权所有</p>
       </div>
     </div><!-- footer -->
+
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
@@ -509,7 +577,48 @@
     	  }
       });
     }
-    
+    function welcomeMessage(){
+    	$("#welcomeMessageModal").modal("show");	
+    }
+    function addMessageItem(){
+    	var messageItemHTML = "<div class=\"thumbnail form-group messageItem\">"
+                            + "<input type=\"text\" class=\"form-control\" placeholder=\"消息标题\"/>"
+                            + "<input type=\"text\" class=\"form-control\" placeholder=\"消息链接\"/>"
+                            + "<button type=\"button\" class=\"btn btn-danger\" onclick=\"deleteItem(this)\">删除</button></div>";
+    	$("#messageItems").append(messageItemHTML);
+    }
+    function deleteItem(thisElement){
+
+    	$(thisElement).parent().remove();
+    }
+    function submitWelcomeMessage(){
+    	var welcomeMes = new Object();
+    	if($("#textType").attr("class")=="active"){
+    		alert("text");
+    	}else{
+    		alert("list");
+    	}
+        $.ajax({
+        	  type: "POST",
+        	  url: "store/app/delete",
+        	  data: JSON.stringify(welcomeMes),
+         	  success: function (data) {
+         		  var jsonData=JSON.parse(data);		 
+         		  if(jsonData.status==true){
+      	   	   	  $("#modalMes").html(jsonData.message);
+      	   	      $("#operationMesModal").modal("show");
+      	   	      setTimeout("location.href='store/account'",1500);
+         		  }else{
+      	   	   	  $("#modalMes").html(jsonData.message);
+      	   	      $("#operationMesModal").modal("show");
+         		  }
+         	  },
+      	  error: function(xhr, status, exception){
+         	   	  $("#modalMes").html(status + '</br>' + exception);
+         	      $("#operationMesModal").modal("show");
+      	  }
+        });
+    }
     </script>
   </body>
 </html>

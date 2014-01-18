@@ -57,7 +57,6 @@
     <script src="js/store/bootstrap.min.js"></script>
     <script type="text/javascript">
     function submitForm(){
-    	alert($('#loginForm').serialize());
 	  	$.ajax({
 	  	    url: 'j_spring_security_check',
 	  	    method: 'POST',

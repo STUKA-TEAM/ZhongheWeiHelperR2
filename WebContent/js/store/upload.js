@@ -210,6 +210,10 @@ $(document).ready(function(){
 			add_pic_preview(id, link);
 			add_pic_link(id, link);
 		}
+		if(id == 'upload2'){			
+			add_pic_preview(id, link);
+			add_pic_link(id, link);
+		}
 		if(id == 'upload1single'){
 			add_pic_preview_single(id, link);
 			add_pic_link_single(id, link);
