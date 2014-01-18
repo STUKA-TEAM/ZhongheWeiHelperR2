@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import elove.EloveWizard;
 import elove.dao.EloveWizardDAO;
+import register.Welcome;
+import register.WelcomeContent;
+import register.dao.WelcomeDAO;
 import tools.MethodUtils;
 import weixinmessage.response.NewsItemToResponse;
 import weixintools.WeiXinConstant;
@@ -38,9 +41,23 @@ public class WeixinMessageController {
 				if(xmlMap.get("MsgType")==WeiXinConstant.MSG_TYPE_TEST_FROM_REQ){
 					return echostr;
 				}
-				if(xmlMap.get("MsgType").equals(WeiXinConstant.MSG_TYPE_EVENT_FROM_REQ)){					
-					return WeixinMessageUtil.textMessageToXmlForResponse(xmlMap,
-							"感谢您关注众合微平台公众账号！查看Elove效果请输入样例密码：elove");	
+				if(xmlMap.get("MsgType").equals(WeiXinConstant.MSG_TYPE_EVENT_FROM_REQ)){
+					ApplicationContext context = 
+							new ClassPathXmlApplicationContext("All-Modules.xml");
+					WelcomeDAO welcomeDAO = (WelcomeDAO)context.getBean("WelcomeDAO");
+					((ConfigurableApplicationContext)context).close();
+					Welcome welcome = welcomeDAO.getWelcome(appid);
+					if (welcome.getType().equals("text")) {
+						return WeixinMessageUtil.textMessageToXmlForResponse(xmlMap,
+								welcome.getContents().get(0).getContent());
+					} else {
+						for (WelcomeContent welcomeContent : welcome.getContents()) {
+							NewsItemToResponse welcomeNews = new NewsItemToResponse();
+							welcomeNews.setTitle(welcomeContent.getContent());
+							welcomeNews.setPicUrl(MethodUtils.getImageHost() + welcomeContent.getCoverPic() + "_standard.jpg");
+							welcomeNews.setUrl(welcomeContent.getLink());
+						}						
+					}
 				}
 				if(xmlMap.get("MsgType").equals(WeiXinConstant.MSG_TYPE_TEXT_FROM_REQ)){
 					ApplicationContext context = 
@@ -60,11 +77,11 @@ public class WeixinMessageController {
 					
 						wish.setTitle("查看亲友祝福");
 						wish.setPicUrl(MethodUtils.getApplicationPath()+"img/elovewish.jpg");
-						wish.setUrl(MethodUtils.getApplicationPath()+"customer/elove/wish");
+						wish.setUrl(MethodUtils.getApplicationPath()+"customer/elove/wish?eloveid=" + eloveid);
 						//336*163  500*242 360*175
 						join.setTitle("查看已登记赴宴亲友");
 						join.setPicUrl(MethodUtils.getApplicationPath()+"img/elovejoin.jpg");
-						join.setUrl(MethodUtils.getApplicationPath()+"customer/elove/join");
+						join.setUrl(MethodUtils.getApplicationPath()+"customer/elove/join?eloveid=" + eloveid);
 					    
 						List<NewsItemToResponse> articles = new ArrayList<NewsItemToResponse>();
 						articles.add(elove);
