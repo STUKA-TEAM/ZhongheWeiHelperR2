@@ -58,7 +58,7 @@ function getStep2Data(){
   	  linkArray.push($(val).val());
     });
 	step2Info.storyImagePath=linkArray;
-	var storyTextImagePathStr=$("#upload1single-links").children();
+	var storyTextImagePathStr=$("#upload1single-png-links").children();
 	if(storyTextImagePathStr.length!=0){
 		step2Info.storyTextImagePath=storyTextImagePathStr[0].value;
 	}else{

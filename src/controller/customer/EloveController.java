@@ -44,6 +44,9 @@ public String eloveIndex(Model model, @RequestParam(value = "eloveid", required 
 	EloveWizard eloveWizard = eloveWizardDao.getOnlyElove(eloveid);
 	model.addAttribute("elove", eloveWizard);
 	
+	List<String> recordImagePath = eloveWizardDao.getImageListWithType(eloveid, "record");
+	model.addAttribute("recordImages", recordImagePath);
+	
 	List<String> storyImagePath = eloveWizardDao.getImageListWithType(eloveid, "story");
 	model.addAttribute("storyImagePath", storyImagePath);
 	

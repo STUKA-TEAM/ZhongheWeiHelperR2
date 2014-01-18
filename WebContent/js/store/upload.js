@@ -66,6 +66,32 @@ $(document).ready(function(){
 	    });
 	});
 	
+	$(document).on('click','.image-original-png',function(){
+	    var form = this.parentElement.parentElement;
+	    var formData = new FormData(form);
+	    $.ajax({
+	        url: '/resources/upload/image/copy_png',  //Server script to process data
+	        type: 'POST',
+	        //Ajax events
+	        beforeSend: function(xhr, settings){
+	        	beforeSendHandler(xhr, form);
+	        },
+	        success: function(data){
+	        	var id = form.id;
+	        	completeHandler(id, data ,form);
+	        },
+	        error: function(xhr, status, exception){
+	        	errorHandler(status, exception);
+	        },
+	        // Form data
+	        data: formData,
+	        //Options to tell jQuery not to process data or worry about content-type.
+	        cache: false,
+	        contentType: false,
+	        processData: false
+	    });
+	});
+	
 	$(document).on('click','.image-square',function(){
 	    var form = this.parentElement.parentElement;
 	    var formData = new FormData(form);
@@ -226,6 +252,10 @@ $(document).ready(function(){
 			add_pic_preview_single(id, link);
 			add_pic_link_single(id, link);
 		}
+		if(id == 'upload1single-png'){
+			add_pic_preview_single_png(id, link);
+			add_pic_link_single_png(id, link);
+		}
 		if(id == 'upload1music_sigle'){
 			add_music_preview_single(id, link);
 			add_music_link_single(id, link);
@@ -274,6 +304,21 @@ var add_pic_link_single = function(id, link){
   var html_cut2='"/>';
   var links_html = html_cut1 + link + html_cut2;
   $("#"+id+"-links").html(links_html);
+};
+
+var add_pic_preview_single_png = function(id, link){
+	  var html_cut1=' <div id='+link +' class="col-md-6 pic-preview-div"><img src="';
+	  var html_cut2='" class="pic-preview img-thumbnail img-responsive"/>';
+	  var html_cut3="<span class=\"glyphicon glyphicon-trash\" onclick=\"deleteThisImage(\'"+link+"\')\"> </span></div>";
+	  var pic_preview_html = html_cut1 + getImgPrePath()+link + '_original.png' + html_cut2+html_cut3;
+	  $("#"+id+"-images").html(pic_preview_html);
+};
+
+var add_pic_link_single_png = function(id, link){
+var html_cut1='<input id="' + link + '-input'+ '" type="hidden" value="';
+var html_cut2='"/>';
+var links_html = html_cut1 + link + html_cut2;
+$("#"+id+"-links").html(links_html);
 };
 
 var add_music_preview_single = function (id, link){

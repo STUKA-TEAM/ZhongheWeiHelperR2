@@ -2,3 +2,4 @@
 2.配置jdbc.properties
 3.配置resources项目ffmpeg路径
 4.配置upload.js
+5.限制远程mysql链接
