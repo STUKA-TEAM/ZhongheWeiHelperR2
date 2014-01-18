@@ -51,12 +51,15 @@ public class WeixinMessageController {
 						return WeixinMessageUtil.textMessageToXmlForResponse(xmlMap,
 								welcome.getContents().get(0).getContent());
 					} else {
+						List<NewsItemToResponse> articles = new ArrayList<NewsItemToResponse>();
 						for (WelcomeContent welcomeContent : welcome.getContents()) {
 							NewsItemToResponse welcomeNews = new NewsItemToResponse();
 							welcomeNews.setTitle(welcomeContent.getContent());
 							welcomeNews.setPicUrl(MethodUtils.getImageHost() + welcomeContent.getCoverPic() + "_standard.jpg");
 							welcomeNews.setUrl(welcomeContent.getLink());
-						}						
+							articles.add(welcomeNews);
+						}
+						return WeixinMessageUtil.newsMessageToXmlForResponse(xmlMap, articles);							
 					}
 				}
 				if(xmlMap.get("MsgType").equals(WeiXinConstant.MSG_TYPE_TEXT_FROM_REQ)){

@@ -188,7 +188,7 @@ $(document).ready(function(){
 			alert('请选择音乐！');
 			xhr.abort();
 		}
-		($(($(form).children())[1])).append("<div id=\""+$(form).attr("id")+"-mes\"class=\"text-success\">正在上传。。。");
+		($(($(form).children())[1])).append("<div id=\""+$(form).attr("id")+"-mes\"class=\"text-success\">正在上传...");
 	}
 	
 	function completeHandler(id, data, form){

@@ -29,7 +29,7 @@
         </li>
         <li onclick="map_switch()">
           <div class="info-title">
-            <p>婚礼<br>地点</p>
+            <p>地址<br>导航</p>
           </div>
           <div class="info-content">
             <p>${elove.weddingAddress}</p>
