@@ -44,7 +44,7 @@ $(document).ready(function(){
 	    var form = this.parentElement.parentElement;
 	    var formData = new FormData(form);
 	    $.ajax({
-	        url: '/resources/upload/image/original',  //Server script to process data
+	        url: '/resources/upload/image/copy_png',  //Server script to process data
 	        type: 'POST',
 	        //Ajax events
 	        beforeSend: function(xhr, settings){
