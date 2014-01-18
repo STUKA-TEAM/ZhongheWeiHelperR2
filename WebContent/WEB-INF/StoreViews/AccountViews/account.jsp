@@ -91,7 +91,10 @@
                 <td><a data-toggle="modal" data-target="#${appInfo.appid}">查看</a>
                 
                 </td>
-                <td><a class="btn btn-sm btn-danger" onclick="submitDeleteApp('${appInfo.appid}')">删除</a></td>
+                <td>
+                <a class="btn btn-sm btn-info" onclick="welcomeMessage('${appInfo.appid}')">粉丝关注欢迎语</a>
+                <a class="btn btn-sm btn-danger" onclick="submitDeleteApp('${appInfo.appid}')">删除账号关联</a>
+                </td>
               </tr>
               </c:forEach>
             </table>
@@ -321,18 +324,25 @@
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->  
     
+    <!-- welcomeMessage -->
+    <div class="modal fade" id="welcomeMessageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+    </div><!-- /.modal -->  
+    
     <div id="footer">
       <div class="container text-center">
         <p class="text-muted credit">Copyright ? 2013 zhonghesoftware.com All Rights Reserved. 众合网络科技有限公司 版权所有</p>
       </div>
     </div><!-- footer -->
+
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <!-- include jQuery -->
     <%@ include file="../CommonViews/commonJSList.jsp"%>
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=PWFniUmG9SMyIVlp7Nm24MRC"></script>
-    <script src="js/store/upload.js"></script>
+    <script type="text/javascript" src="js/store/upload.js"></script>
+    <script type="text/javascript" src="js/store/account.js"></script>
     <script type="text/javascript">
     var myGeo = new BMap.Geocoder();  
     var map = new BMap.Map("baidumap");
@@ -376,140 +386,6 @@
      }  
     }, "上海市");
     }
-    
-    function submitBasicInfoEdit(){
-      var userInfo = new Object();
-      userInfo.storeName=$("#info_name").val();
-      userInfo.email=$("#info_email").val();
-      userInfo.phone=$("#info_phone").val();
-      userInfo.cellPhone=$("#info_mobile").val();
-      userInfo.address=$("#info_addr").val();
-      var linkInputArray=$("#upload1-links").children();
-      var linkArray=new Array();
-      $.each(linkInputArray,function(key,val){
-    	  linkArray.push($(val).val());
-      });
-      userInfo.imageList=linkArray;;
-      userInfo.corpMoreInfoLink=$("#info_link").val();
-      userInfo.lng=$("#lng").val();
-      userInfo.lat=$("#lat").val();
-   	  $.ajax({
-	   	  type: "POST",
-	   	  url: "store/userinfo/update",
-	   	  data: JSON.stringify(userInfo),
-	   	  contentType: "application/json; charset=utf-8",
-	   	  success: function (data) {
-	   	   	  $("#info_edit").modal("hide");
-	   	   	  var jsonData = JSON.parse(data);
-	   		  if(jsonData.status==true){
-		   	   	  $("#modalMes").html("编辑成功！");
-		   	      $("#operationMesModal").modal("show");
-		   	      setTimeout("location.href='store/account'",1500);
-	   		  }else{
-		   	   	  $("#modalMes").html(jsonData.message);
-		   	      $("#operationMesModal").modal("show");
-	   		  }
-	   		  
-	   	  },
-		  error: function(xhr, status, exception){
-	   	   	  $("#info_edit").modal("hide");
-	   	   	  $("#modalMes").html(status + '</br>' + exception);
-	   	      $("#operationMesModal").modal("show");
-		  }
-   	  });
-    }
-    
-    function submitInsertNewApp(){
-      var appInfo=new Object();
-      appInfo.wechatToken=$("#wechat_token").val();
-      appInfo.wechatName=$("#wechat_name").val();
-      appInfo.wechatOriginalId=$("#wechat_id").val();
-      appInfo.wechatNumber=$("#wechat_account").val();
-      appInfo.address=$("#wechat_addr").val();
-      appInfo.industry=$("#wechat_trade").val();
-      if(validateNewApp(appInfo)){
-          $.ajax({
-          	  type: "POST",
-          	  url: "store/app/insert",
-          	  data: JSON.stringify(appInfo),
-          	  contentType: "application/json; charset=utf-8",
-           	  success: function (data) {
-           		  $("#related").modal("hide");
-           		  var jsonData=JSON.parse(data);
-           		  if(jsonData.status==true){
-        	   	   	  $("#modalMes").html("创建成功，已经可以关联新的公众账号，请到腾讯公众平台进行API绑定！");
-        	   	      $("#operationMesModal").modal("show");
-        	   	      setTimeout("location.href='store/account'",2500);
-           		  }else{
-        	   	   	  $("#modalMes").html(jsonData.message);
-        	   	      $("#operationMesModal").modal("show");
-           		  }
-           	  },
-        	  error: function(xhr, status, exception){
-           	   	  $("#related").modal("hide");
-           	   	  $("#modalMes").html(status + '</br>' + exception);
-           	      $("#operationMesModal").modal("show");
-        	  }
-          	}); 
-      }else{
-    	  return;
-      }
-  	}
-    
-    function validateNewApp(appInfo){
-    	var blankInputArray = new Array();
-    	if(appInfo.wechatToken=="")blankInputArray.push("验证Token");
-    	if(appInfo.wechatName=="")blankInputArray.push("微信账号名称");
-        if(appInfo.wechatOriginalId=="")blankInputArray.push("微信账号原始ID");
-    	if(appInfo.address=="")blankInputArray.push("微信账号地址");
-    	if(appInfo.industry=="")blankInputArray.push("所属行业");
-    	if(blankInputArray.length==0){
-    		return true;
-    	}else{
-    		showBlankInputHtml(blankInputArray);
-    		return false;
-    	}
-    }
-    function showBlankInputHtml(blankInputArray){
-    	var blankInputhtml="";
-        $.each(blankInputArray,function(key,val){
-        	blankInputhtml=blankInputhtml+val+"<br/>";
-        });
-    	$("#modalTitle").html("您还需要完善下列信息：");
-    	$("#modalMes").html(blankInputhtml);
-        $("#operationMesModal").modal("show");
-        return;
-    }
-    function submitDeleteApp(appid){
-    	$("#confirmModalTitle").html("警告！");
-    	$("#confirmModalMes").html("删除这个APP后，和这个微信账号关联的微官网、Elove等信息均会被删除！您确定吗？");
-        $("#appidhidden").val(appid);
-        $("#confirmModal").modal("show");
-    }
-    function confirmDelete(){
-    	var appid = $("#appidhidden").val();
-        $.ajax({
-      	  type: "POST",
-      	  url: "store/app/delete",
-      	  data: "appid="+appid,
-       	  success: function (data) {
-       		  var jsonData=JSON.parse(data);		 
-       		  if(jsonData.status==true){
-    	   	   	  $("#modalMes").html(jsonData.message);
-    	   	      $("#operationMesModal").modal("show");
-    	   	      setTimeout("location.href='store/account'",1500);
-       		  }else{
-    	   	   	  $("#modalMes").html(jsonData.message);
-    	   	      $("#operationMesModal").modal("show");
-       		  }
-       	  },
-    	  error: function(xhr, status, exception){
-       	   	  $("#modalMes").html(status + '</br>' + exception);
-       	      $("#operationMesModal").modal("show");
-    	  }
-      });
-    }
-    
     </script>
   </body>
 </html>
