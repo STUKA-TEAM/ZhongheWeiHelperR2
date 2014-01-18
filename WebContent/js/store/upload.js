@@ -26,7 +26,7 @@ $(document).ready(function(){
 	        },
 	        success: function(data){
 	        	var id = form.id;
-	        	completeHandler(id, data);
+	        	completeHandler(id, data, form);
 	        },
 	        error: function(xhr, status, exception){
 	        	errorHandler(status, exception);
@@ -52,7 +52,7 @@ $(document).ready(function(){
 	        },
 	        success: function(data){
 	        	var id = form.id;
-	        	completeHandler(id, data);
+	        	completeHandler(id, data ,form);
 	        },
 	        error: function(xhr, status, exception){
 	        	errorHandler(status, exception);
@@ -78,7 +78,7 @@ $(document).ready(function(){
 	        },
 	        success: function(data){
 	        	var id = form.id;
-	        	completeHandler(id, data);
+	        	completeHandler(id, data, form);
 	        },
 	        error: function(xhr, status, exception){
 	        	errorHandler(status, exception);
@@ -98,6 +98,7 @@ $(document).ready(function(){
 			alert('请选择图片！');
 			xhr.abort();
 		}
+		($(($(form).children())[1])).append("<div id=\""+$(form).attr("id")+"-mes\"class=\"text-success\">正在上传...");
 	}
 	
     $('.video-file').change(function(){
@@ -122,7 +123,7 @@ $(document).ready(function(){
 	        },
 	        success: function(data){
 	        	var id = form.id;
-	        	completeHandler(id, data);
+	        	completeHandler(id, data, form);
 	        },
 	        error: function(xhr, status, exception){
 	        	errorHandler(status, exception);
@@ -142,6 +143,7 @@ $(document).ready(function(){
 			alert('请选择视频！');
 			xhr.abort();
 		}
+		($(($(form).children())[1])).append("<div id=\""+$(form).attr("id")+"-mes\"class=\"text-success\">正在上传...");
 	}
 	
 	$(document).on('change','.audio-file',function(){
@@ -166,7 +168,7 @@ $(document).ready(function(){
 	        },
 	        success: function(data){
 	        	var id = form.id;
-	        	completeHandler(id, data);
+	        	completeHandler(id, data, form);
 	        },
 	        error: function(xhr, status, exception){
 	        	errorHandler(status, exception);
@@ -186,9 +188,10 @@ $(document).ready(function(){
 			alert('请选择音乐！');
 			xhr.abort();
 		}
+		($(($(form).children())[1])).append("<div id=\""+$(form).attr("id")+"-mes\"class=\"text-success\">正在上传。。。");
 	}
 	
-	function completeHandler(id, data){
+	function completeHandler(id, data, form){
 		var result = $.parseJSON(data);
 		if(result.status == true){
 			successProcess(id, result.link);
@@ -196,8 +199,12 @@ $(document).ready(function(){
 		else{
 			alert(result.message);
 		}
+		$("#"+$(form).attr("id")+"-mes").html("上传成功！");
+		setTimeout(function(){
+			$("#"+$(form).attr("id")+"-mes").remove();
+		},1500);		
 	}
-	
+
 	function successProcess(id, link){
 		if(id == 'upload1'){			
 			add_pic_preview(id, link);
