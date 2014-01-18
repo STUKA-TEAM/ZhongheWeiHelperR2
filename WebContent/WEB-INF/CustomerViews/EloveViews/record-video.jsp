@@ -6,7 +6,7 @@
   <c:if test="${recordVideo!=null}">
     <div class=" video-container">
       <div class="container-fulid">
-        <video id="my_video_1" class="video-js vjs-default-skin vjs-big-play-centered video" controls preload="auto">
+        <video id="my_video_1" class="video-js vjs-default-skin vjs-big-play-centered video" height="200" controls preload="auto">
           <source src="${recordVideo}.mp4" type='video/mp4'>
           <source src="${recordVideo}.webm" type='video/webm'>
         </video>
