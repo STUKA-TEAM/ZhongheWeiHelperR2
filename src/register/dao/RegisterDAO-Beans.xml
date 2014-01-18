@@ -19,5 +19,8 @@
     <bean id="UserInfoDAO" class="register.dao.UserInfoDAO">
 	    <property name="dataSource" ref="dataSource" />
     </bean>
+    <bean id="WelcomeDAO" class="register.dao.WelcomeDAO">
+      <property name="dataSource"  ref="dataSource" />    
+   </bean>
       
 </beans>

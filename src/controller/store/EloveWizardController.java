@@ -11,6 +11,8 @@ import message.ResponseMessage;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 import register.dao.AppInfoDAO;
+import security.User;
 import tools.CommonValidationTools;
 
 import com.google.gson.Gson;
@@ -197,6 +200,9 @@ public class EloveWizardController {
 		AppInfoDAO appInfoDao = (AppInfoDAO) context.getBean("AppInfoDAO");
 		((ConfigurableApplicationContext)context).close();
 		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = (User)auth.getPrincipal();
+		
 		Gson gson = new Gson();
 		Step6Info step6Info = gson.fromJson(json, Step6Info.class);
 		eloveWizard.setFooterText(step6Info.getFooterText());
@@ -227,9 +233,9 @@ public class EloveWizardController {
 				message.setMessage("请重新登录！");
 			}
 			else {
-				if (appid == "" || appInfoDao.getAppNumByAppid(appid) == 0) {               //需先创建app或appid无效
+				if (appid == "" || appInfoDao.checkAppExistsByUser(user.getSid(), appid) == 0) {               //需先创建app或appid无效
 					message.setStatus(false);
-					message.setMessage("还未关联任何微信公众账号，请先关联微信公众账号!");
+					message.setMessage("当前管理的公众账号无效，请先选择或关联微信公众账号!");
 				}
 				else {
 					eloveWizard.setAppid(appid);

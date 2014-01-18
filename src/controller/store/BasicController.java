@@ -95,7 +95,8 @@ public class BasicController {
 				System.out.println(e.getMessage());
 			}
 			
-			if (appid != null && !appid.equals("") && appInfoDao.getAppNumByAppid(appid) == 1) {  //1.不为空 2.确实是appid 
+			if (appid != null && !appid.equals("") && appInfoDao.checkAppExistsByUser(
+					user.getSid(), appid) == 1) {                                           //1.不为空 2.确实是appid 
 				for (int i = 0; i < appInfoList.size(); i++) {
 					AppInfo appInfo = appInfoList.get(i);
 					appInfo.setUrl(applicationPath + "zhongheapi/weixin?appid=" + appInfo.getAppid());
@@ -125,6 +126,9 @@ public class BasicController {
 					response.addCookie(cookie);
 				}
 			}
+			
+		}else {
+			System.out.println("Can not get appInfoList from the database!");
 		}	    
 	    model.addAttribute("appInfoList", appInfoList);
 	    

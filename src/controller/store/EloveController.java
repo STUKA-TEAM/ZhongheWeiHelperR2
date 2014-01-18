@@ -51,12 +51,16 @@ public class EloveController {
 		EloveInfoDAO eloveInfoDao = (EloveInfoDAO) context.getBean("EloveInfoDAO");
 		((ConfigurableApplicationContext)context).close();
 		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = (User)auth.getPrincipal();
+		
 		if (appid == null) {       //异常
 			return "redirect:/store/account";     
 		}
 		else {
-			if (appid.equals("") || appInfoDao.getAppNumByAppid(appid) == 0) {       //需先创建app或appid无效
-				request.setAttribute("message", "还未关联任何微信公众账号，请先关联微信公众账号！");
+			if (appid.equals("") || appInfoDao.checkAppExistsByUser(user.getSid(), 
+					appid) == 0) {                                                          //需先创建app或appid无效
+				request.setAttribute("message", "当前管理的公众账号无效，请先选择或关联微信公众账号!");
 				request.setAttribute("jumpLink", "store/account");
 				return "forward:/store/transfer";   
 			}
@@ -78,9 +82,7 @@ public class EloveController {
 				//get consume information
 				Integer notPayNumber = eloveInfoDao.getConsumeRecord(appid);
 				model.addAttribute("notPayNumber", notPayNumber);
-				
-				Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-				User user = (User)auth.getPrincipal();
+
 				BigDecimal price = authPriceDao.getPrice(user.getSid(), "elove");
 				BigDecimal debt = null;
 				if (notPayNumber != null && price != null) {

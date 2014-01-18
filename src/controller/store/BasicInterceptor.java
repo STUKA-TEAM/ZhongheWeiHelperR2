@@ -63,7 +63,8 @@ public class BasicInterceptor implements HandlerInterceptor {
 		
 		List<AppInfo> appInfoList = appInfoDao.getBasicAppInfo(user.getSid());
 		List<String> authPinyinList = null;
-		if (appid != null && !appid.equals("") && appInfoDao.getAppNumByAppid(appid) == 1) {  //1.不为空 2.确实是appid 
+		if (appid != null && !appid.equals("") && appInfoDao.checkAppExistsByUser(
+				user.getSid(), appid) == 1) {                                               //1.不为空 2.确实是appid 
 			for (int i = 0; i < appInfoList.size(); i++) {
 				AppInfo appInfo = appInfoList.get(i);
 				if (appInfo.getAppid().equals(appid)) {
