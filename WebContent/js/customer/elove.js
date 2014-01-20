@@ -11,6 +11,13 @@ var sidebar_up = function(){
     $(".sidebar-bg").removeClass("sidebar-bg-miss");
     $(".sidebar-bg").removeClass("hidden");
   }
+  var iOS = ( navigator.userAgent.match(/(iPad|iPhone|iPod)/g) ? true : false );
+	if(iOS && document.getElementById("my_video_1") != null){
+		fix_touch();
+	}
+};
+var fix_touch = function(){
+	window.scrollTo(0,350);
 };
 var sidebar_dismiss = function(){
   if(sidebar_tip=="true"){
@@ -51,36 +58,53 @@ var audio_switch = function(themeid){
  	  flag="off";
  	}
 };
-
+firstFlag=true;
+function firstPlay(){
+	if(firstFlag){
+		audio_switch();
+	}
+	firstFlag=false;
+}
 function changeHover(thisNode){
 	$(".active").removeClass("active");
 	$(thisNode).addClass("active");
 }
 $(document).ready(function(){
-	  audio_switch();
+	var iOS = ( navigator.userAgent.match(/(iPad|iPhone|iPod)/g) ? true : false );
+	if(!iOS){
+		firstPlay();
+	}
+	$(document).on('click','#content-container',function(){
+		firstPlay();
+	});
+	document.body.addEventListener(("ontouchstart" in window)?"touchend":"click",firstPlay,false);
 	  $("#story").click(function(){
 		  changeHover("#story");
-		  window.scrollTo(0, 0);
-		  $("#content-container").load("customer/elove/story?eloveid="+$("#eloveid").val());
-		  sidebar_dismiss();
+		  $("#content-container").load("customer/elove/story?eloveid="+$("#eloveid").val(), function(){
+			  window.scrollTo(0, 0);
+			  sidebar_dismiss();  
+		  });
 		});
 	  $("#dress").click(function(){
 		  changeHover("#dress");
-		  window.scrollTo(0, 0);
-		  $("#content-container").load("customer/elove/dress?eloveid="+$("#eloveid").val());
-		  sidebar_dismiss();
+		  $("#content-container").load("customer/elove/dress?eloveid="+$("#eloveid").val(), function(){
+			  window.scrollTo(0, 0);
+			  sidebar_dismiss();  
+		  });
 		});
 	  $("#info").click(function(){
 		  changeHover("#info");
-		  window.scrollTo(0, 0);
-		  $("#content-container").load("customer/elove/info?eloveid="+$("#eloveid").val());
-		  sidebar_dismiss();
+		  $("#content-container").load("customer/elove/info?eloveid="+$("#eloveid").val(), function(){
+			  window.scrollTo(0, 0);
+			  sidebar_dismiss();  
+		  });
 		});
 	  $("#record").click(function(){
 		  changeHover("#record");
-		  window.scrollTo(0, 0);
-		  $("#content-container").load("customer/elove/record?eloveid="+$("#eloveid").val());
-		  sidebar_dismiss();
+		  $("#content-container").load("customer/elove/record?eloveid="+$("#eloveid").val(), function(){
+			  window.scrollTo(0, 0);
+			  sidebar_dismiss();  
+		  });
 		});
 });
 
@@ -151,6 +175,7 @@ var switch_guide = function(bg, img){
   $(bg).removeClass("hidden");
   $(img).removeClass("hidden");
   window.scrollTo(0, 0);
+  sidebar_dismiss();
 };
 var close_guide = function(bg, img){
   $(bg).addClass("hidden");

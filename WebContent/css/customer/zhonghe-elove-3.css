@@ -43,7 +43,7 @@ div {
   display: block;
   height: 100%;
   width: 150px;
-  z-Index: 1040px;
+  z-Index: 1040;
   background-color: #fef8c8;
   overflow: hidden;
 }
@@ -98,7 +98,7 @@ div {
   top: 0px;
   width: 100%;
   height: 100%;
-  z-index: 520px;
+  z-index: 520;
 }
 .sidebar-bg-miss {
   width: 0;
@@ -134,7 +134,7 @@ div {
 }
 .sidebar-guide {
   position: fixed;
-  top: 280px;
+  top: 370px;
   left: 5px;
   width:65px;
 }
@@ -155,6 +155,7 @@ div {
   color: #ffe61d;
   padding: 10px;
   clear: both;
+  margin-top:15px;
 }
 .audio-logo {
   float: left;
