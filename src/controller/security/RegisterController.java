@@ -1,8 +1,10 @@
 package controller.security;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import register.dao.AuthPriceDAO;
+import register.Authority;
 import register.UserInfo;
 import register.dao.UserInfoDAO;
 
@@ -79,7 +82,6 @@ public class RegisterController {
 			AuthPriceDAO authPriceDao = (AuthPriceDAO) context.getBean("AuthPriceDAO");
 			((ConfigurableApplicationContext)context).close();
 			
-			userInfo.setRoleid(1);   //default 'ROLE_USER'
 			String original = userInfo.getPassword();
 			userInfo.setPassword(passwordEncoder.encode(original));
 			Timestamp current = new Timestamp(System.currentTimeMillis());
@@ -94,37 +96,67 @@ public class RegisterController {
 			
 			InputStream inputStream = RegisterController.class.getResourceAsStream("/defaultValue.properties");
 			Properties properties = new Properties();
-			BigDecimal elovePrice = null;
 			try {
 				properties.load(inputStream);
-				elovePrice = new BigDecimal(Double.parseDouble((String)properties.get("defaultElovePrice")));
-			} catch (Exception e) {
+			} catch (IOException e) {
 				System.out.println(e.getMessage());
 			}
 			
-			if(elovePrice != null){
+			List<Authority> authorities = authPriceDao.getAllAuthorities();
+			if (authorities != null) {
+				userInfo.setRoleid(1);   //default 'CUSTOMER'
 				int sid = userInfoDao.insertUserInfo(userInfo);
-				authPriceDao.insertPrice(sid, "elove", elovePrice);
 				
-				UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
-		                userInfo.getUsername(), original);
-				try{
-					token.setDetails(new WebAuthenticationDetails(request));
-			        Authentication authenticatedUser = authenticationManager.authenticate(token);
-			        SecurityContextHolder.getContext().setAuthentication(authenticatedUser);
-			        request.getSession().setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
-			        		SecurityContextHolder.getContext());
-				 }
-		        catch( AuthenticationException e ){
-		            System.out.println("Authentication failed: " + e.getMessage());
-		            return "register";
-		        }
+				BigDecimal price = null;
+				long lifeCycle = 365;
+				try {
+					lifeCycle = Long.parseLong((String)properties.get("authorityLifeCycleByDay"));
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
+				}
+				Timestamp expiredTime = new Timestamp(System.currentTimeMillis() + lifeCycle * 
+						24 * 60 * 60 * 1000);
+				for (int i = 0; i < authorities.size(); i++) {
+					Authority authority = authorities.get(i);
+					authPriceDao.insertCAR(sid, authority.getAuthid(), expiredTime);
+					try {
+						price = new BigDecimal(Double.parseDouble((String)properties.get(
+								authority.getAuthPinyin() + "Price")));
+					} catch (Exception e) {
+						price = new BigDecimal(Double.parseDouble((String)properties.get("defaultPrice")));   
+						System.out.println(e.getMessage());
+					}					
+					authPriceDao.insertPrice(sid, authority.getAuthid(), price);
+				}
 				
-				return "redirect:../store/account";			}
-			else {
-				System.out.println("elovePrice配置信息丢失");
+				int appUpperLimit = 0;
+				try {
+					appUpperLimit = Integer.parseInt((String)properties.get("appUpperLimit"));
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
+				}
+				userInfoDao.insertAppUpperLimit(sid, appUpperLimit);
+				
+			}else {
+				System.out.println("can not get authority list!");
 				return "register";
 			}
+			
+			UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
+	                userInfo.getUsername(), original);
+			try{
+				token.setDetails(new WebAuthenticationDetails(request));
+		        Authentication authenticatedUser = authenticationManager.authenticate(token);
+		        SecurityContextHolder.getContext().setAuthentication(authenticatedUser);
+		        request.getSession().setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
+		        		SecurityContextHolder.getContext());
+			 }
+	        catch( AuthenticationException e ){
+	            System.out.println("Authentication failed: " + e.getMessage());
+	            return "register";
+	        }
+			
+			return "redirect:../store/account";
 		}
 	}
 }

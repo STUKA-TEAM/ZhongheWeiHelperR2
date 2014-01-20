@@ -107,6 +107,19 @@ public class UserInfoDAO {
 		return result <= 0 ? 0 : result;
 	}
 	
+	/**
+	 * @title: insertAppUpperLimit
+	 * @description: 插入账户对应的app默认上限数
+	 * @param sid
+	 * @param appUpperLimit
+	 * @return
+	 */
+	public int insertAppUpperLimit(int sid, int appUpperLimit){
+		String SQL = "INSERT INTO customer_app_count VALUES (default, ?, ?)";
+		int result = jdbcTemplate.update(SQL, sid, appUpperLimit);
+		return result <= 0 ? 0 : result;
+	}
+	
 	//delete
 	/**
 	 * @title: deleteUserInfo

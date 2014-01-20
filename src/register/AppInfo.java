@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class AppInfo {
 	private int sid;
-	private List<String> authNameList;
+	private List<Integer> authidList;
 	private String appid;
 	private String wechatToken;
 	private String wechatName;
@@ -34,17 +34,11 @@ public class AppInfo {
 	public void setSid(int sid) {
 		this.sid = sid;
 	}
-	/**
-	 * @return the authNameList
-	 */
-	public List<String> getAuthNameList() {
-		return authNameList;
+	public List<Integer> getAuthidList() {
+		return authidList;
 	}
-	/**
-	 * @param authNameList the authNameList to set
-	 */
-	public void setAuthNameList(List<String> authNameList) {
-		this.authNameList = authNameList;
+	public void setAuthidList(List<Integer> authidList) {
+		this.authidList = authidList;
 	}
 	/**
 	 * @return the appid
