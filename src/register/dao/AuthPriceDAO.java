@@ -1,26 +1,22 @@
 package register.dao;
 
 import java.math.BigDecimal;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 
 import register.AuthPrice;
+import register.Authority;
 
 /**
  * @Title: AuthPriceDAO
- * @Description: DAO for authPrice model
+ * @Description: DAO for both authPrice and authority model
  * @Company: ZhongHe
  * @author ben
  * @date 2013年12月27日
@@ -39,32 +35,27 @@ public class AuthPriceDAO {
 	 * @title: insertPrice
 	 * @description: 插入价格相关信息
 	 * @param sid
-	 * @param authName
+	 * @param authid
 	 * @param price
 	 * @return
 	 */
-	public int insertPrice(final int sid, String authName, final BigDecimal price){
-		final String SQL = "INSERT INTO store_auth_price VALUES (default, ?, ?, ?)";
-		Integer id = getAuthid(authName);
-		if (id == null) {
-			return 0;
-		}
-		final int authid = id;
-		int result = 0;
-				
-		KeyHolder kHolder = new GeneratedKeyHolder();
-		result = jdbcTemplate.update(new PreparedStatementCreator() {
-		    public PreparedStatement createPreparedStatement(Connection connection) throws SQLException{
-		        PreparedStatement ps =
-		            connection.prepareStatement(SQL,Statement.RETURN_GENERATED_KEYS);
-		        ps.setInt(1, sid);
-		        ps.setInt(2, authid);
-		        ps.setBigDecimal(3, price);
-		        return ps;
-		    }
-		}, kHolder);
-		
-		return result;
+	public int insertPrice(int sid, int authid, BigDecimal price){
+		String SQL = "INSERT INTO store_auth_price VALUES (default, ?, ?, ?)";		
+		int result = jdbcTemplate.update(SQL, sid, authid, price);		
+		return result <= 0 ? 0 : result;
+	}
+	
+	/**
+	 * @title: insertCAR
+	 * @description: customer authority relationship management
+	 * @param sid
+	 * @param authid
+	 * @return
+	 */
+	public int insertCAR(int sid, int authid, Timestamp expiredTime){
+		String SQL = "INSERT INTO customer_authority VALUES (default, ?, ?, ?)";
+		int result = jdbcTemplate.update(SQL, sid, authid, expiredTime);
+		return result <= 0 ? 0 : result;
 	}
 	
 	//query
@@ -74,7 +65,7 @@ public class AuthPriceDAO {
 	 * @param authName
 	 * @return
 	 */
-	private Integer getAuthid(String authName){
+	public Integer getAuthid(String authName){
 		String SQL = "SELECT authid FROM authority WHERE authName = ?";
 		Integer authid = null;
 		try {
@@ -146,5 +137,33 @@ public class AuthPriceDAO {
 			BigDecimal price = rs.getBigDecimal("price");
 			return price;
 		}		
+	}
+	
+	/**
+	 * @title: getAllAuthorities
+	 * @description: 获取所有的权限信息
+	 * @return
+	 */
+	public List<Authority> getAllAuthorities(){
+		String SQL = "SELECT * FROM authority";
+		List<Authority> aList = null;
+		
+		try {
+			aList = jdbcTemplate.query(SQL, new FullAuthorityMapper());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return aList;
+	}
+	
+	private static final class FullAuthorityMapper implements RowMapper<Authority>{
+		@Override
+		public Authority mapRow(ResultSet rs, int arg1) throws SQLException {
+			Authority authority = new Authority();
+			authority.setAuthid(rs.getInt("authid"));
+			authority.setAuthName(rs.getString("authName"));
+			authority.setAuthPinyin(rs.getString("authPinyin"));
+			return authority;
+		}	
 	}
 }

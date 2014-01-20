@@ -1,6 +1,7 @@
 package controller.store;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -62,7 +63,7 @@ public class BasicInterceptor implements HandlerInterceptor {
 		}
 		
 		List<AppInfo> appInfoList = appInfoDao.getBasicAppInfo(user.getSid());
-		List<String> authPinyinList = null;
+		Map<String, Boolean> authPinyinList = null;
 		if (appid != null && !appid.equals("") && appInfoDao.checkAppExistsByUser(
 				user.getSid(), appid) == 1) {                                               //1.不为空 2.确实是appid 
 			for (int i = 0; i < appInfoList.size(); i++) {

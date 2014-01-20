@@ -1,7 +1,6 @@
 package controller.store;
 
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
@@ -200,18 +199,16 @@ public class BasicController {
 		AppInfoDAO appInfoDao = (AppInfoDAO) context.getBean("AppInfoDAO");
 		((ConfigurableApplicationContext)context).close();
 		
-		InputStream inputStream = BasicController.class.getResourceAsStream("/defaultValue.properties");
-		Properties properties = new Properties();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = (User)auth.getPrincipal();
+		
 		int appUpperLimit = 0;
 		try {
-			properties.load(inputStream);
-			appUpperLimit = Integer.parseInt((String)properties.get("appUpperLimit"));
+			appUpperLimit = appInfoDao.getAppUpperLimit(user.getSid());
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-		
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		User user = (User)auth.getPrincipal();
+
 		int actualAppNum = appInfoDao.getAppNumBySid(user.getSid());
 		
 		Gson gson = new Gson();
@@ -223,9 +220,8 @@ public class BasicController {
 			AppInfo appInfo = gson.fromJson(json, AppInfo.class);
 			appInfo.setAppid(generateRandomAppid());
 			appInfo.setSid(user.getSid());
-			List<String> authNameList = new ArrayList<String>();
-			authNameList.add("elove");
-			appInfo.setAuthNameList(authNameList);
+			List<Integer> authidList = appInfoDao.getAuthidList(user.getSid());
+			appInfo.setAuthidList(authidList);
 			
 			if (!CommonValidationTools.checkAppInfo(appInfo)) {
 				message.setStatus(false);

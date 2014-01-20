@@ -5,7 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -16,6 +20,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
 import register.AppInfo;
+import register.Authority;
 
 /**
  * @Title: AppInfoDAO
@@ -66,7 +71,7 @@ public class AppInfoDAO {
 				return -1;
 			}
 			
-			result = insertAppAuthRelation(appInfo.getAuthNameList(), appInfo.getAppid());
+			result = insertAppAuthRelation(appInfo.getAuthidList(), appInfo.getAppid());
 			if (result == 0) {
 				return -2;
 			}
@@ -105,21 +110,19 @@ public class AppInfoDAO {
 	 * @param appid
 	 * @return
 	 */
-	private int insertAppAuthRelation(List<String> authNameList, String appid){
+	private int insertAppAuthRelation(List<Integer> authidList, String appid){
 		String SQL = "INSERT INTO application_authority VALUES (default, ?, ?)";
 		int result = 0;
 
-		for (int i = 0; i < authNameList.size(); i++) {
-			String authName = authNameList.get(i);
-			Integer authid = getAuthid(authName);
-			if (authid == null) {
-				return 0;
-			}
-			int id = authid.intValue();
-			
-			result = jdbcTemplate.update(SQL, appid, id);		
-			if (result <= 0) {
-				return 0;
+		if (authidList == null) {
+			return 0;
+		}else {
+			for (int i = 0; i < authidList.size(); i++) {
+				int authid = authidList.get(i);		
+				result = jdbcTemplate.update(SQL, appid, authid);		
+				if (result <= 0) {
+					return 0;
+				}
 			}
 		}
 		
@@ -254,23 +257,6 @@ public class AppInfoDAO {
 		return count;
 	}
 	
-	/**
-	 * @title: getAuthid
-	 * @description: 查询权限名字对应的id
-	 * @param authName
-	 * @return
-	 */
-	private Integer getAuthid(String authName){
-		String SQL = "SELECT authid FROM authority WHERE authName = ?";
-		Integer authid = null;
-		try {
-			authid = jdbcTemplate.queryForObject(SQL, new Object[]{authName}, new AuthidMapper());
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-		return authid;
-	}
-	
 	private static final class AuthidMapper implements RowMapper<Integer>{
 		@Override
 		public Integer mapRow(ResultSet rs, int arg1) throws SQLException {
@@ -280,28 +266,116 @@ public class AppInfoDAO {
 	}
 	
 	/**
+	 * @title: getAuthidList
+	 * @description: 获取指定账户下的权限id列表 from customer_authority
+	 * @param sid
+	 * @return
+	 */
+	public List<Integer> getAuthidList(int sid){
+		String SQL = "SELECT authid FROM customer_authority WHERE sid = ?";
+		List<Integer> authidList = null;
+		
+		try {
+			authidList = jdbcTemplate.query(SQL, new Object[]{sid}, new AuthidMapper());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return authidList;
+	}
+	
+	/**
 	 * @title: getAuthPinyinList
 	 * @description: 根据appid来获取对应权限拼音列表
 	 * @param appid
 	 * @return
 	 */
-	public List<String> getAuthPinyinList(String appid){
-		String SQL = "SELECT A.authPinyin FROM authority A, application_authority B"
+	public Map<String, Boolean> getAuthPinyinList(String appid){
+		String SQL = "SELECT A.authPinyin, A.authid FROM authority A, application_authority B"
 				+ " WHERE A.authid = B.authid AND B.appid = ?";
-		List<String> authPinyinList = null;
+		List<Authority> authorityList = null;
+		
 		try {
-			authPinyinList = jdbcTemplate.query(SQL, new Object[]{appid}, new AuthPinyinMapper());
+			authorityList = jdbcTemplate.query(SQL, new Object[]{appid}, new AuthorityMapper());
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-		return authPinyinList;
+		
+		if (authorityList == null) {
+			return null;
+		}else {
+			Map<String, Boolean> result = new HashMap<String, Boolean>();
+			Timestamp current = new Timestamp(System.currentTimeMillis());
+			
+			for (int i = 0; i < authorityList.size(); i++) {
+				String authPinyin = authorityList.get(i).getAuthPinyin(); 
+				Timestamp expiredTime = getAuthExpiredTime(appid, authorityList.get(i).getAuthid());
+				result.put(authPinyin, expiredTime.after(current));
+			}
+			return result;
+		}
 	}
 	
-	private static final class AuthPinyinMapper implements RowMapper<String>{
+	private static final class AuthorityMapper implements RowMapper<Authority>{
 		@Override
-		public String mapRow(ResultSet rs, int arg1) throws SQLException {
-			String authPinyin = rs.getString("A.authPinyin");
-			return authPinyin;
+		public Authority mapRow(ResultSet rs, int arg1) throws SQLException {
+			Authority authority = new Authority();
+			authority.setAuthid(rs.getInt("A.authid"));
+			authority.setAuthPinyin(rs.getString("A.authPinyin"));
+			return authority;
+		}		
+	}
+	
+	/**
+	 * @title: getAppUpperLimit
+	 * @description: 根据sid获取appUpperLimit
+	 * @param sid
+	 * @return
+	 */
+	public Integer getAppUpperLimit(int sid){
+		String SQL = "SELECT appUpperLimit FROM customer_app_count WHERE sid = ?";
+		Integer appUpperLimit = null;
+		
+		try {
+			appUpperLimit = jdbcTemplate.queryForObject(SQL, new Object[]{sid}, new AppUpperLimitMapper());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return appUpperLimit;
+	}
+	
+	private static final class AppUpperLimitMapper implements RowMapper<Integer>{
+		@Override
+		public Integer mapRow(ResultSet rs, int arg1) throws SQLException {
+			Integer appUpperLimit = rs.getInt("appUpperLimit");
+			return appUpperLimit;
+		}	
+	}
+	
+	/**
+	 * @title: getAuthExpiredTime
+	 * @description: 获取权限过期时间
+	 * @param appid
+	 * @param authid
+	 * @return
+	 */
+	public Timestamp getAuthExpiredTime(String appid, int authid){
+		String SQL = "SELECT C.expiredTime FROM customer_authority C, storeuser_application S "
+				+ "WHERE C.sid = S.sid AND S.appid = ? AND C.authid = ?";
+		Timestamp expiredTime = null;
+		
+		try {
+			expiredTime = jdbcTemplate.queryForObject(SQL, new Object[]{appid, authid}, new AuthExpiredTimeMapper());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return expiredTime;
+	}
+	
+	private static final class AuthExpiredTimeMapper implements RowMapper<Timestamp>{
+		@Override
+		public Timestamp mapRow(ResultSet rs, int arg1) throws SQLException {
+			Timestamp expiredTime = rs.getTimestamp("C.expiredTime");
+			return expiredTime;
 		}		
 	}
 	
