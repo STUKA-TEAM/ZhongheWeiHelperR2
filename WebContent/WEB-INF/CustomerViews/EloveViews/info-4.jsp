@@ -27,9 +27,9 @@
             <p>${elove.weddingDate}</p>
           </div>
         </li>
-        <li onclick="map_switch()">
+        <li onclick="location.href='http://api.map.baidu.com/marker?location=${elove.lat},${elove.lng}&amp;title=${elove.weddingAddress}&amp;name=${elove.weddingAddress}&amp;content=${elove.weddingAddress}&amp;output=html'">
           <div class="info-title">
-            <p>婚礼<br>地点</p>
+            <p>地址<br>导航</p>
           </div>
           <div class="info-content">
             <p>${elove.weddingAddress}</p>

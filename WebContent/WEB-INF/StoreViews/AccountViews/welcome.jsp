@@ -22,12 +22,14 @@
 		        <div class="tab-pane" id="tab_b">
 		        <div class="form-horizontal">
 		        <button type="button" class="btn btn-primary" onclick="addMessageItem()">添加消息</button> 
-		        <div id="messageItems">         
+		        <div id="messageItems">
+		        <c:forEach items="${welcome.contents}" var="item">         
 			    <div class="thumbnail form-group messageItem">
-                    <input type="text" class="form-control" placeholder="消息标题"/>
-                    <input type="text" class="form-control" placeholder="消息链接"/>
+                    <input type="text" class="form-control" placeholder="消息标题" value="${item.content}"/>
+                    <input type="text" class="form-control" placeholder="消息链接" value="${item.link}"/>
                     <button type="button" class="btn btn-danger" onclick="deleteItem(this)">删除</button>
 			    </div>	
+			    </c:forEach>
 			    </div>				    					  					    
               <form  class="form-group" role="form" enctype="multipart/form-data" id="upload2">
                 <label class="col-sm-3 control-label">为上面消息配图</label>

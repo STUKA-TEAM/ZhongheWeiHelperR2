@@ -80,7 +80,7 @@ public class EloveInteractDAO {
 	            ps.setInt(1, eloveJoinInfo.getEloveid());
 	            ps.setTimestamp(2, eloveJoinInfo.getCreateTime());
 	            ps.setString(3, eloveJoinInfo.getName());
-	            ps.setString(4, eloveJoinInfo.getName());
+	            ps.setString(4, eloveJoinInfo.getPhone());
 	            ps.setInt(5, eloveJoinInfo.getNumber());
 	            return ps;
 	        }

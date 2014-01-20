@@ -7,14 +7,7 @@
       <img src="img/elove/records_title_2.jpg" class="img-responsive title" alt="title background"/>
     </div><!-- title -->
   <div class="record-bg">
-    <div class=" video-container">
-      <div class="container-fulid">
-        <video id="my_video_1" class="video-js vjs-default-skin vjs-big-play-centered video" controls preload="auto">
-          <source src="${dressVideo}.mp4" type='video/mp4'>
-          <source src="${dressVideo}.webm" type='video/webm'>
-        </video>
-      </div><!-- video -->
-    </div>
+    <%@ include file="dress-video.jsp"%>
     <div class="container-fulid">
       <div class="container-fulid">
         <img src="img/elove/records_photo_title_2.png" class="img-responsive"/>

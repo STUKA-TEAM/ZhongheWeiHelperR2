@@ -50,25 +50,25 @@
                 </div>
               </div>
           </div>                       
-		<form  class="form-group" role="form" enctype="multipart/form-data" id="upload1single">
+		<form  class="form-group" role="form" enctype="multipart/form-data" id="upload1single-png">
 		  <label for="elove_pic" class="col-md-3 control-label">相遇相知文字图片</label>
 		  <div class="col-md-7">
 		    <input type="file" name="file" class="image-file hidden" onchange="ye.value=value" accept="image/*">
 		    <input type="text" name=ye class="form-control file-path-elove">
 		    <input type="button" value="选择文件" onclick="file.click()" class="btn btn-sm btn-info">
-		    <input type="button" value="上传" class="image-original btn btn-sm btn-info">
+		    <input type="button" value="上传" class="image-original-png btn btn-sm btn-info">
 		  </div>
 		</form>
 		<div class="form-group">
 		  <div class="col-md-7 col-md-offset-3">
-		    <div class="row" id="upload1single-images">
+		    <div class="row" id="upload1single-png-images">
 		    <c:if test="${eloveWizard.storyTextImagePath!=null}">
-		    <div id="${eloveWizard.storyTextImagePath}" class="col-md-6 pic-preview-div"><img src="${eloveWizard.storyTextImagePath}_original.jpg" class="pic-preview img-thumbnail img-responsive"/>
+		    <div id="${eloveWizard.storyTextImagePath}" class="col-md-6 pic-preview-div"><img src="${eloveWizard.storyTextImagePath}_original.png" class="pic-preview img-thumbnail img-responsive"/>
 		      <span class="glyphicon glyphicon-trash" onclick="deleteThisImage('${eloveWizard.storyTextImagePath}')"> </span>
 		    </div>
 		    </c:if>
 		    </div>
-		    <div id="upload1single-links">
+		    <div id="upload1single-png-links">
 		    <c:if test="${eloveWizard.storyTextImagePath!=null}">
 		    <input id="${eloveWizard.storyTextImagePath}-input" type="hidden" value="${eloveWizard.storyTextImagePath}"/>
 		    </c:if>

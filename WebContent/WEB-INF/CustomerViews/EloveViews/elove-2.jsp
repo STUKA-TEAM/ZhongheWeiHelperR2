@@ -45,7 +45,9 @@
         <li id="story" class="active"><a href="javascript:void(0)"><span class="sidebar-encount">相知相遇</span></a></li>
         <li id="dress"><a href="javascript:void(0)"><span class="sidebar-photo">婚纱剪影</span></a></li>
         <li id="info"><a href="javascript:void(0)"><span class="sidebar-info">婚礼信息</span></a></li>
+        <c:if test="${recordImages.size()!=0}">
         <li id="record"><a href="javascript:void(0)"><span class="sidebar-record">婚礼记录</span></a></li>
+        </c:if>        
         <li id="viewAccount"><a href="javascript:void(0)" onclick="switch_guide('#account_guide_bg','#account_guide_img')">
           <span class="sidebar-viewAccount">关注账号</span></a>
         </li>
@@ -56,7 +58,6 @@
       <img id="account_guide_img" class="guide-pic img-responsive hidden" src="img/common/account_guide.png"/>
     </div>
     <script type="text/javascript" src="js/customer/jquery-1.10.2.min.js"></script>
-    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=PWFniUmG9SMyIVlp7Nm24MRC"></script>
     <script type="text/javascript" src="js/customer/elove.js"></script>
     <script type="text/javascript" src="js/customer/modal.min.js"></script>    
     <script type="text/javascript" src="js/customer/video.js"></script>  
