@@ -45,6 +45,26 @@ public class ThemeInfoDAO {
 		return themeList;
 	}
 	
+	public String getThemeName(int themeid){
+		String SQL = "SELECT themeName FROM elove_theme WHERE id = ?";
+		String themeName = null;
+		
+		try {
+			themeName = jdbcTemplate.queryForObject(SQL, new Object[] {themeid}, new ThemeNameMapper());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return themeName;
+	}
+	
+	private static final class ThemeNameMapper implements RowMapper<String>{
+		@Override
+		public String mapRow(ResultSet rs, int arg1) throws SQLException {
+			String themeName = rs.getString("themeName");
+			return themeName;
+		}		
+	}
+	
 	private static final class ThemeInfoMapper implements RowMapper<ThemeInfo>{
 		@Override
 		public ThemeInfo mapRow(ResultSet rs, int arg1) throws SQLException {

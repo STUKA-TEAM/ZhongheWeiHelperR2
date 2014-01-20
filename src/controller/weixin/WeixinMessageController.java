@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import elove.EloveWizard;
 import elove.dao.EloveWizardDAO;
+import elove.dao.ThemeInfoDAO;
 import register.Welcome;
 import register.WelcomeContent;
 import register.dao.WelcomeDAO;
@@ -66,8 +67,10 @@ public class WeixinMessageController {
 					ApplicationContext context = 
 							new ClassPathXmlApplicationContext("All-Modules.xml");
 					EloveWizardDAO eloveWizardDAO = (EloveWizardDAO) context.getBean("EloveWizardDAO");
+					ThemeInfoDAO themeInfoDAO = (ThemeInfoDAO)context.getBean("ThemeInfoDAO");
 					((ConfigurableApplicationContext)context).close();
-					Integer eloveid = eloveWizardDAO.getEloveid(appid, xmlMap.get("Content"));
+					String textContent = xmlMap.get("Content");
+					Integer eloveid = eloveWizardDAO.getEloveid(appid, textContent);
 					if (eloveid != null) {
 						NewsItemToResponse elove = new NewsItemToResponse();
 						NewsItemToResponse wish = new NewsItemToResponse();
@@ -91,6 +94,21 @@ public class WeixinMessageController {
 						articles.add(wish);
 						articles.add(join);
 					    return WeixinMessageUtil.newsMessageToXmlForResponse(xmlMap, articles);					
+					}
+					if(textContent.equals("elovedemo")){
+						ArrayList<Integer> themeidList = (ArrayList<Integer>) MethodUtils.getEloveDemoIdList();
+						List<NewsItemToResponse> articles = new ArrayList<NewsItemToResponse>();
+
+						for (Integer integer : themeidList) {
+							EloveWizard eloveWizard = eloveWizardDAO.getElove(integer);
+							NewsItemToResponse theme = new NewsItemToResponse();
+							theme.setTitle(themeInfoDAO.getThemeName(eloveWizard.getThemeid()));
+							theme.setPicUrl(MethodUtils.getImageHost()+eloveWizard.getCoverPic()+"_standard.jpg");
+							theme.setUrl(MethodUtils.getApplicationPath()+"customer/elove/elove?eloveid=" + integer );
+							articles.add(theme);
+						}
+												
+					    return WeixinMessageUtil.newsMessageToXmlForResponse(xmlMap, articles);
 					}
 						return WeixinMessageUtil.textMessageToXmlForResponse(xmlMap,
 								"对不起，您的输入有误，请重新输入。");	

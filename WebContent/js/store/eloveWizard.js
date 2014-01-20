@@ -108,7 +108,6 @@ function getStep3Data(){
 function validateStep3(step3Info){
 	var blankInputArray = new Array();
 	if(step3Info.dressImagePath.length==0)blankInputArray.push("上传婚纱照");
-	if(step3Info.dressVideoPath==null)blankInputArray.push("上传婚纱照视频");
 	if(blankInputArray.length==0){
 		return true;
 	}else{

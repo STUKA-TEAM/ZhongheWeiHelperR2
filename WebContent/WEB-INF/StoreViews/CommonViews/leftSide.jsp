@@ -23,11 +23,14 @@
         <ul class="nav nav-pills nav-stacked">
           <li><a href="store/account">账号管理</a></li>
           <c:forEach items="${authPinyinList}" var="auth">
-          <c:if test="${auth=='elove'}">
+          <c:if test="${auth.key=='elove' && auth.value==true}">
              <li><a href="store/elove/detail">Elove管理</a></li>
           </c:if>
-          
-          <!--<c:if test="${auth=='dingcan'}">-->
+          <c:if test="${auth.key=='website' && auth.value==true}">
+             <li><a href="store/website">微网站管理</a></li>
+          </c:if>
+          </c:forEach>
+          <!--
           <li><a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">订餐管理</a>
             <div id="collapseOne" class="panel-collapse collapse">
               <ul class="nav submenu">
@@ -37,7 +40,7 @@
               </ul>
             </div>
           </li>
-          <!--</c:if>-->
+
           
           <c:if test="${auth=='weihuodong'}">
           <li><a href="./vote.html">投票管理</a></li>
@@ -46,6 +49,7 @@
           <c:if test="${auth=='weihuodong'}">
           <li><a href="./lottery.html">抽奖管理</a></li>
           </c:if>
-          </c:forEach>
+          
+          -->
         </ul>
       </div>

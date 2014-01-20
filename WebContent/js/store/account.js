@@ -58,10 +58,12 @@
            		  $("#related").modal("hide");
            		  var jsonData=JSON.parse(data);
            		  if(jsonData.status==true){
+           			  $("#modalTitle").html("提示：");
         	   	   	  $("#modalMes").html("创建成功，已经可以关联新的公众账号，请到腾讯公众平台进行API绑定！");
         	   	      $("#operationMesModal").modal("show");
         	   	      setTimeout("location.href='store/account'",2500);
            		  }else{
+           			  $("#modalTitle").html("提示：");
         	   	   	  $("#modalMes").html(jsonData.message);
         	   	      $("#operationMesModal").modal("show");
            		  }

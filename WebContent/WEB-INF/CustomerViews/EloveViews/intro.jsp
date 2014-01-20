@@ -23,7 +23,7 @@
       <div id='mySwipe' class='swipe'>
         <div class='swipe-wrap'>
         <c:forEach items="${userInfo.imageList}" var="images">
-          <div><img src = '${images}_standard.jpg'></div>
+          <div><img src = '${images}_standard.jpg' class="img-responsive center-block"></div>
         </c:forEach>
         </div>
         <nav id="position" class="images-pointer">

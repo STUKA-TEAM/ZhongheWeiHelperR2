@@ -46,7 +46,7 @@ public class AppInfoDAO {
 	 * @return
 	 */
 	public int insertAppInfo(final AppInfo appInfo){
-		final String SQL = "INSERT INTO application VALUES (default, ?, ?, ?, ?, ?, ?, ?)";
+		final String SQL = "INSERT INTO application (id, appid, wechatToken, wechatName, wechatOriginalId, wechatNumber, address, industry) VALUES (default, ?, ?, ?, ?, ?, ?, ?)";
 		int result = 0;
 		
 		KeyHolder kHolder = new GeneratedKeyHolder();
@@ -61,6 +61,7 @@ public class AppInfoDAO {
 		        ps.setString(5, appInfo.getWechatNumber());
 		        ps.setString(6, appInfo.getAddress());
 		        ps.setString(7, appInfo.getIndustry());
+
 		        return ps;
 		    }
 		}, kHolder);

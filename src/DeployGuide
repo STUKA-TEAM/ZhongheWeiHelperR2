@@ -1,5 +1,11 @@
+主项目：
+1.配置environment.properties
+2.配置jdbc.properties
+3.配置upload.js
+4.限制远程mysql链接
+5.demo id
+
+文件上传项目：
 1.配置environment.properties
 2.配置jdbc.properties
 3.配置resources项目ffmpeg路径
-4.配置upload.js
-5.限制远程mysql链接

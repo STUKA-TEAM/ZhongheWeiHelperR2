@@ -9,7 +9,7 @@
       <div class="container-fulid photo-container">
         <div class="container-fulid photo">
           <img src="${elove.majorGroupPhoto}_original.jpg" class="img-responsive center-block"/>
-          <p class="couple-name">李雷雷 <img src="img/elove/heart.png"/> 韩梅梅</p>
+          <p class="couple-name">${elove.xinLang} <img src="img/elove/heart.png"/> ${elove.xinNiang}</p>
         </div>
       </div>
     </div>
