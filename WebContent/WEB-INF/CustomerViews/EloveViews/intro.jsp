@@ -11,7 +11,7 @@
     <meta name="author" content="zhonghe">
     <c:set var="request" value="${pageContext.request}" />
     <base href="${fn:replace(request.requestURL, request.requestURI, request.contextPath)}/" />
-    <title>Elove</title>
+    <title>${userInfo.storeName}</title>
     
     <!-- 微喜帖css -->
     <link href="css/customer/bootstrap.min.css" rel="stylesheet">
@@ -38,7 +38,7 @@
         </nav>
       </div>
     <div class="container-fulid">
-      <div class="info" onclick="map_switch()">
+      <div class="info" onclick="location.href='http://api.map.baidu.com/marker?location=${userInfo.lat},${userInfo.lng}&amp;title=${userInfo.storeName}&amp;name=${userInfo.address}&amp;content=${userInfo.address}&amp;output=html'">
         <p class="info-t">地址:</p>
         <p class="info-c">${userInfo.address}</p>
         <img class="info-i" src="./img/company/green_arrow_right.png" />
@@ -75,7 +75,6 @@
       <div id="baidumap" style="visibility:hidden;"><div id="pic"></div></div>
     </div>
     <script type="text/javascript" src="js/customer/jquery-1.10.2.min.js"></script>
-    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=PWFniUmG9SMyIVlp7Nm24MRC"></script>
     <script src="js/customer/swipe.js"></script>
     <script type="text/javascript">
     $(document).ready(function(){
@@ -98,23 +97,6 @@
     	});
     }
     );
-    
-    var map_switch = function(){
-    	  var box=document.getElementById("baidumap");
-    	  if(box.style.visibility == "hidden"){
-    	  var map = new BMap.Map("baidumap");  
-    	  map.clearOverlays();
-    	  map.enableScrollWheelZoom(); 
-    	  var point = new BMap.Point($("#lng").val(),$("#lat").val());
-    	  map.centerAndZoom(point, 16);
-    	  map.addOverlay(new BMap.Marker(point)); 
-    	  map.centerAndZoom(point, 16);  
-    	  map.addOverlay(new BMap.Marker(point)); 
-    	    box.style.visibility = "visible";
-    	  }else{
-    	    box.style.visibility = "hidden";
-    	  }
-    	};
     </script>
   </body>
 </html>

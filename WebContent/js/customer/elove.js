@@ -156,23 +156,3 @@ var close_guide = function(bg, img){
   $(bg).addClass("hidden");
   $(img).addClass("hidden");
 };
-
-//info sub page
-//创建地址解析器实例  
-
-var map_switch = function(){
-  var box=document.getElementById("baidumap");
-  if(box.style.visibility == "hidden"){
-  var map = new BMap.Map("baidumap");  
-  map.clearOverlays();
-  map.enableScrollWheelZoom(); 
-  var point = new BMap.Point($("#lng").val(),$("#lat").val());
-  map.centerAndZoom(point, 16);
-  map.addOverlay(new BMap.Marker(point)); 
-  map.centerAndZoom(point, 16);  
-  map.addOverlay(new BMap.Marker(point)); 
-    box.style.visibility = "visible";
-  }else{
-    box.style.visibility = "hidden";
-  }
-};
