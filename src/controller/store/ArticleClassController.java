@@ -106,12 +106,23 @@ public class ArticleClassController {
 				return "forward:/store/transfer";   
 			}
 			else {
+				List<Integer> selectedList = null;
+				
 				if (classid != null && classid > 0) {
 					ArticleClass articleClass = articleDao.getClassContent(classid);
+					selectedList = articleClass.getArticleidList();
 					model.addAttribute("class", articleClass);
 				}
 				
 				List<Article> articleList = articleDao.getBasicArticleinfos(appid);
+				if (selectedList != null) {
+					for (int i = 0; i < articleList.size(); i++) {
+						Article article = articleList.get(i);
+						if (selectedList.contains(article.getArticleid())) {
+							article.setSelected(true);
+						}
+					}
+				}
 				model.addAttribute("articleList", articleList);
 				return "ArticleViews/edit_articleclass";
 			}

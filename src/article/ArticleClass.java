@@ -17,6 +17,7 @@ public class ArticleClass {
 	private Timestamp createTime;
 	private List<Integer> articleidList;
 	private int articleCount;
+	private boolean selected;
 	
 	/**
 	 * @return the classid
@@ -89,5 +90,17 @@ public class ArticleClass {
 	 */
 	public void setArticleCount(int articleCount) {
 		this.articleCount = articleCount;
+	}
+	/**
+	 * @return the selected
+	 */
+	public boolean getSelected() {
+		return selected;
+	}
+	/**
+	 * @param selected the selected to set
+	 */
+	public void setSelected(boolean selected) {
+		this.selected = selected;
 	}
 }

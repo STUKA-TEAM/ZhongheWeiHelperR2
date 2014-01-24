@@ -18,6 +18,7 @@ public class Article {
 	private Timestamp createTime;
 	private String content;
 	private List<Integer> classidList;
+	private boolean selected;
 	
 	/**
 	 * @return the articleid
@@ -102,5 +103,17 @@ public class Article {
 	 */
 	public void setClassidList(List<Integer> classidList) {
 		this.classidList = classidList;
+	}
+	/**
+	 * @return the selected
+	 */
+	public boolean getSelected() {
+		return selected;
+	}
+	/**
+	 * @param selected the selected to set
+	 */
+	public void setSelected(boolean selected) {
+		this.selected = selected;
 	}
 }
