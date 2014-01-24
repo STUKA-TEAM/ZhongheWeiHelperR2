@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -43,7 +44,9 @@ public class UserInfoDAO {
 	 */
 	public int insertUserInfo(final UserInfo userInfo){
 		int result = 0;
-		final String SQL = "INSERT INTO storeuser VALUES (default, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		final String SQL = "INSERT INTO storeuser (sid, roleid, username, password, "
+				+ "createDate, storeName, email, phone, cellPhone, address, corpMoreInfoLink, "
+				+ "lng, lat) VALUES (default, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	
 		KeyHolder kHolder = new GeneratedKeyHolder();		
 		result = jdbcTemplate.update(new PreparedStatementCreator() {
@@ -78,7 +81,7 @@ public class UserInfoDAO {
 	 */
 	private int insertImageList(int sid, List<String> imageList){
 		int result = 0;
-		String SQL = "INSERT INTO storeimage VALUES (default, ?, ?)";
+		String SQL = "INSERT INTO storeimage (id, sid, imagePath) VALUES (default, ?, ?)";
 		
 		for (int i = 0; i < imageList.size(); i++) {
 			String imagePath = imageList.get(i);
@@ -100,7 +103,7 @@ public class UserInfoDAO {
 	 */
 	private int insertImageTempRecord(String imagePath, Timestamp current){
 		int result = 0;
-		String SQL = "INSERT INTO image_temp_record VALUES (default, ?, ?)";
+		String SQL = "INSERT INTO image_temp_record (id, imagePath, createDate) VALUES (default, ?, ?)";
 		
 		result = jdbcTemplate.update(SQL, imagePath, current);
 		
@@ -115,7 +118,7 @@ public class UserInfoDAO {
 	 * @return
 	 */
 	public int insertAppUpperLimit(int sid, int appUpperLimit){
-		String SQL = "INSERT INTO customer_app_count VALUES (default, ?, ?)";
+		String SQL = "INSERT INTO customer_app_count (id, sid, appUpperLimit) VALUES (default, ?, ?)";
 		int result = jdbcTemplate.update(SQL, sid, appUpperLimit);
 		return result <= 0 ? 0 : result;
 	}
@@ -263,9 +266,11 @@ public class UserInfoDAO {
 	public List<String> getUserImages(int sid){
 		String SQL = "SELECT imagePath FROM storeimage WHERE sid = ?";
 		List<String> imageList = null;
+		
 		try {
 			imageList = jdbcTemplate.query(SQL, new Object[]{sid}, new ImagePathMapper());
 		} catch (Exception e) {
+			imageList = new ArrayList<String>();
 			System.out.println(e.getMessage());
 		}
 		return imageList;

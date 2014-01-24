@@ -2,6 +2,7 @@ package elove.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -40,6 +41,7 @@ public class EloveInfoDAO {
 		try {
 			infoList = jdbcTemplate.query(SQL, new Object[]{appid}, new EloveInfoMapper());
 		} catch (Exception e) {
+			infoList = new ArrayList<EloveInfo>();
 			System.out.println(e.getMessage());
 		}
         return infoList;

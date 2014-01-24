@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -40,7 +41,7 @@ public class AuthPriceDAO {
 	 * @return
 	 */
 	public int insertPrice(int sid, int authid, BigDecimal price){
-		String SQL = "INSERT INTO store_auth_price VALUES (default, ?, ?, ?)";		
+		String SQL = "INSERT INTO store_auth_price (id, sid, authid, price) VALUES (default, ?, ?, ?)";		
 		int result = jdbcTemplate.update(SQL, sid, authid, price);		
 		return result <= 0 ? 0 : result;
 	}
@@ -53,7 +54,7 @@ public class AuthPriceDAO {
 	 * @return
 	 */
 	public int insertCAR(int sid, int authid, Timestamp expiredTime){
-		String SQL = "INSERT INTO customer_authority VALUES (default, ?, ?, ?)";
+		String SQL = "INSERT INTO customer_authority (id, sid, authid, expiredTime) VALUES (default, ?, ?, ?)";
 		int result = jdbcTemplate.update(SQL, sid, authid, expiredTime);
 		return result <= 0 ? 0 : result;
 	}
@@ -97,6 +98,7 @@ public class AuthPriceDAO {
 		try {
 			priceList = jdbcTemplate.query(SQL, new Object[]{sid}, new AuthPriceMapper());
 		} catch (Exception e) {
+			priceList = new ArrayList<AuthPrice>();
 			System.out.println(e.getMessage());
 		}
 		return priceList;
@@ -151,6 +153,7 @@ public class AuthPriceDAO {
 		try {
 			aList = jdbcTemplate.query(SQL, new FullAuthorityMapper());
 		} catch (Exception e) {
+			aList = new ArrayList<Authority>();
 			System.out.println(e.getMessage());
 		}
 		return aList;

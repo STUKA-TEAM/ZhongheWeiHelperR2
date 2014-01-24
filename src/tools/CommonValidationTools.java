@@ -13,6 +13,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import article.Article;
+import article.ArticleClass;
 import elove.EloveWizard;
 import elove.dao.EloveWizardDAO;
 import register.AppInfo;
@@ -232,7 +234,7 @@ public class CommonValidationTools {
 		}
 		
 		List<Integer> themeidList = eloveWizardDao.getThemeidList();
-		if (themeidList == null || !themeidList.contains(themeid)) {
+		if (!themeidList.contains(themeid)) {
 			return "elove主题信息非法！";
 		}
 		
@@ -246,6 +248,38 @@ public class CommonValidationTools {
 	 * @return
 	 */
 	public static boolean checkWelcome(Welcome welcome){
+		return true;
+	}
+	
+	/**
+	 * @title: checkArticle
+	 * @description: 检查文章信息
+	 * @param article
+	 * @return
+	 */
+	public static boolean checkArticle(Article article){
+		if (article.getTitle() == null || article.getContent() == null) {
+			return false;
+		}
+		if (article.getArticleid() < 0) {
+			return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * @title: checkArticleClass
+	 * @description: 检查文章类别信息
+	 * @param articleClass
+	 * @return
+	 */
+	public static boolean checkArticleClass(ArticleClass articleClass){
+		if (articleClass.getClassName() == null) {
+			return false;
+		}
+		if (articleClass.getClassid() < 0) {
+			return false;
+		}
 		return true;
 	}
 }

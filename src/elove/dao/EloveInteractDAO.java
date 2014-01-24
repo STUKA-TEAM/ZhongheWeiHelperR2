@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -29,7 +30,7 @@ public class EloveInteractDAO {
 	
 	public int insertMessage(final EloveMessage eloveMessage){
 		int result = 0;
-	    final String SQL = "INSERT INTO elove_message VALUES (default, ?, ?, ?, ?)";
+	    final String SQL = "INSERT INTO elove_message (id, eloveid, createTime, name, content) VALUES (default, ?, ?, ?, ?)";
 
 		KeyHolder kHolder = new GeneratedKeyHolder();		
 		result = jdbcTemplate.update(new PreparedStatementCreator() {
@@ -52,6 +53,7 @@ public class EloveInteractDAO {
 		try {
 			messageList = jdbcTemplate.query(SQL, new Object[]{eloveid}, new EloveMessageMapper());
 		} catch (Exception e) {
+			messageList = new ArrayList<EloveMessage>();
 			System.out.println(e.getMessage());
 		}
 		return messageList;
@@ -95,6 +97,7 @@ public class EloveInteractDAO {
 		try {
 			joinInfoList = jdbcTemplate.query(SQL, new Object[]{eloveid}, new EloveJoinInfoMapper());
 		} catch (Exception e) {
+			joinInfoList = new ArrayList<EloveJoinInfo>();
 			System.out.println(e.getMessage());
 		}
 		return joinInfoList;

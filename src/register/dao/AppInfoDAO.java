@@ -96,7 +96,7 @@ public class AppInfoDAO {
 	 * @return
 	 */
 	private int insertUserAppRelation(int sid, String appid){
-		String SQL = "INSERT INTO storeuser_application VALUES (default, ?, ?)";
+		String SQL = "INSERT INTO storeuser_application (id, sid, appid) VALUES (default, ?, ?)";
 		int result = 0;
 		
 		result = jdbcTemplate.update(SQL, sid, appid);
@@ -112,7 +112,7 @@ public class AppInfoDAO {
 	 * @return
 	 */
 	private int insertAppAuthRelation(List<Integer> authidList, String appid){
-		String SQL = "INSERT INTO application_authority VALUES (default, ?, ?)";
+		String SQL = "INSERT INTO application_authority (id, appid, authid) VALUES (default, ?, ?)";
 		int result = 0;
 
 		if (authidList == null) {
@@ -125,9 +125,8 @@ public class AppInfoDAO {
 					return 0;
 				}
 			}
+			return result;
 		}
-		
-		return result;
 	}
 	
 	/**
@@ -137,7 +136,7 @@ public class AppInfoDAO {
 	 * @return
 	 */
 	private int insertConsumeRecord(String appid){
-		String SQL = "INSERT INTO elove_consume_record VALUES (default, ?, 0)";
+		String SQL = "INSERT INTO elove_consume_record (id, appid, notPayNumber) VALUES (default, ?, 0)";
 		int result = jdbcTemplate.update(SQL, appid);
 		return result <= 0 ? 0 : result;
 	}
@@ -156,6 +155,7 @@ public class AppInfoDAO {
 		try {
 			appInfoList = jdbcTemplate.query(SQL, new Object[]{sid}, new AppInfoMapper());
 		} catch (Exception e) {
+			appInfoList = new ArrayList<AppInfo>();
 			System.out.println(e.getMessage());
 		}
         return appInfoList;
@@ -189,6 +189,7 @@ public class AppInfoDAO {
 		try {
 			appInfoList = jdbcTemplate.query(SQL, new Object[]{sid}, new BasicAppInfoMapper());
 		} catch (Exception e) {
+			appInfoList = new ArrayList<AppInfo>();
 			System.out.println(e.getMessage());
 		}
         return appInfoList;
@@ -279,6 +280,7 @@ public class AppInfoDAO {
 		try {
 			authidList = jdbcTemplate.query(SQL, new Object[]{sid}, new AuthidMapper());
 		} catch (Exception e) {
+			authidList = new ArrayList<Integer>();
 			System.out.println(e.getMessage());
 		}
 		return authidList;
@@ -298,22 +300,19 @@ public class AppInfoDAO {
 		try {
 			authorityList = jdbcTemplate.query(SQL, new Object[]{appid}, new AuthorityMapper());
 		} catch (Exception e) {
+			authorityList = new ArrayList<Authority>();
 			System.out.println(e.getMessage());
 		}
 		
-		if (authorityList == null) {
-			return null;
-		}else {
-			Map<String, Boolean> result = new HashMap<String, Boolean>();
-			Timestamp current = new Timestamp(System.currentTimeMillis());
-			
-			for (int i = 0; i < authorityList.size(); i++) {
-				String authPinyin = authorityList.get(i).getAuthPinyin(); 
-				Timestamp expiredTime = getAuthExpiredTime(appid, authorityList.get(i).getAuthid());
-				result.put(authPinyin, expiredTime.after(current));
-			}
-			return result;
+		Map<String, Boolean> result = new HashMap<String, Boolean>();
+		Timestamp current = new Timestamp(System.currentTimeMillis());
+		
+		for (int i = 0; i < authorityList.size(); i++) {
+			String authPinyin = authorityList.get(i).getAuthPinyin(); 
+			Timestamp expiredTime = getAuthExpiredTime(appid, authorityList.get(i).getAuthid());
+			result.put(authPinyin, expiredTime.after(current));
 		}
+		return result;
 	}
 	
 	private static final class AuthorityMapper implements RowMapper<Authority>{
