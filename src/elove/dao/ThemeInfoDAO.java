@@ -2,6 +2,7 @@ package elove.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -40,11 +41,18 @@ public class ThemeInfoDAO {
 		try {
 			themeList = jdbcTemplate.query(SQL, new ThemeInfoMapper());
 		} catch (Exception e) {
+			themeList = new ArrayList<ThemeInfo>();
 			System.out.println(e.getMessage());
 		}
 		return themeList;
 	}
 	
+	/**
+	 * @title: getThemeName
+	 * @description: 根据主题id获取主题name
+	 * @param themeid
+	 * @return
+	 */
 	public String getThemeName(int themeid){
 		String SQL = "SELECT themeName FROM elove_theme WHERE id = ?";
 		String themeName = null;

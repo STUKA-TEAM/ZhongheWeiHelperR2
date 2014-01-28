@@ -92,7 +92,9 @@ public class RegisterController {
 					webSite = "http://".concat(webSite);
 					userInfo.setCorpMoreInfoLink(webSite);
 				}
-			}
+			}						
+			userInfo.setRoleid(1);   //default 'CUSTOMER'
+			int sid = userInfoDao.insertUserInfo(userInfo);
 			
 			InputStream inputStream = RegisterController.class.getResourceAsStream("/defaultValue.properties");
 			Properties properties = new Properties();
@@ -102,45 +104,37 @@ public class RegisterController {
 				System.out.println(e.getMessage());
 			}
 			
-			List<Authority> authorities = authPriceDao.getAllAuthorities();
-			if (authorities != null) {
-				userInfo.setRoleid(1);   //default 'CUSTOMER'
-				int sid = userInfoDao.insertUserInfo(userInfo);
-				
-				BigDecimal price = null;
-				long lifeCycle = 365;
-				try {
-					lifeCycle = Long.parseLong((String)properties.get("authorityLifeCycleByDay"));
-				} catch (Exception e) {
-					System.out.println(e.getMessage());
-				}
-				Timestamp expiredTime = new Timestamp(System.currentTimeMillis() + lifeCycle * 
-						24 * 60 * 60 * 1000);
-				for (int i = 0; i < authorities.size(); i++) {
-					Authority authority = authorities.get(i);
-					authPriceDao.insertCAR(sid, authority.getAuthid(), expiredTime);
-					try {
-						price = new BigDecimal(Double.parseDouble((String)properties.get(
-								authority.getAuthPinyin() + "Price")));
-					} catch (Exception e) {
-						price = new BigDecimal(Double.parseDouble((String)properties.get("defaultPrice")));   
-						System.out.println(e.getMessage());
-					}					
-					authPriceDao.insertPrice(sid, authority.getAuthid(), price);
-				}
-				
-				int appUpperLimit = 0;
-				try {
-					appUpperLimit = Integer.parseInt((String)properties.get("appUpperLimit"));
-				} catch (Exception e) {
-					System.out.println(e.getMessage());
-				}
-				userInfoDao.insertAppUpperLimit(sid, appUpperLimit);
-				
-			}else {
-				System.out.println("can not get authority list!");
-				return "register";
+			long lifeCycle = 365;
+			try {
+				lifeCycle = Long.parseLong((String)properties.get("authorityLifeCycleByDay"));
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
 			}
+			Timestamp expiredTime = new Timestamp(System.currentTimeMillis() + lifeCycle * 
+					24 * 60 * 60 * 1000);
+			
+			BigDecimal price = null;			
+			List<Authority> authorities = authPriceDao.getAllAuthorities();
+			for (int i = 0; i < authorities.size(); i++) {
+				Authority authority = authorities.get(i);
+				authPriceDao.insertCAR(sid, authority.getAuthid(), expiredTime);
+				try {
+					price = new BigDecimal(Double.parseDouble((String)properties.get(
+							authority.getAuthPinyin() + "Price")));
+				} catch (Exception e) {
+					price = new BigDecimal(Double.parseDouble((String)properties.get("defaultPrice")));   
+					System.out.println(e.getMessage());
+				}					
+				authPriceDao.insertPrice(sid, authority.getAuthid(), price);
+			}
+			
+			int appUpperLimit = 0;
+			try {
+				appUpperLimit = Integer.parseInt((String)properties.get("appUpperLimit"));
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
+			userInfoDao.insertAppUpperLimit(sid, appUpperLimit);
 			
 			UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
 	                userInfo.getUsername(), original);

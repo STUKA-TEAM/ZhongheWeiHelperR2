@@ -2,6 +2,7 @@ package register.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -62,7 +63,7 @@ public class WelcomeDAO {
 	 * @return
 	 */
 	private int insertWelcomeContent(String appid, WelcomeContent wContent){
-		String SQL = "INSERT INTO welcome VALUES (default, ?, ?, ?, ?)";
+		String SQL = "INSERT INTO welcome (id, appid, content, coverPic, link) VALUES (default, ?, ?, ?, ?)";
 		int effected = jdbcTemplate.update(SQL, appid, wContent.getContent(), 
 				wContent.getCoverPic(), wContent.getLink());
 		return effected <= 0 ? 0 : effected;
@@ -149,6 +150,7 @@ public class WelcomeDAO {
 		try {
 			contents = jdbcTemplate.query(SQL, new Object[]{appid}, new WelcomeContentMapper());
 		} catch (Exception e) {
+			contents = new ArrayList<WelcomeContent>();
 			System.out.println(e.getMessage());
 		}
 		return contents;

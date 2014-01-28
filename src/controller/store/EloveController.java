@@ -67,16 +67,14 @@ public class EloveController {
 			else {				
 				//get elove information
 				List<EloveInfo> infoList = eloveInfoDao.getEloveInfoList(appid);
-				if (infoList != null) {
-					for (int i = 0; i < infoList.size(); i++) {
-						EloveInfo temp = infoList.get(i);
-						if (temp.getExpiredTime().before(new Timestamp(System.currentTimeMillis()))) {
-							temp.setIsVaild(false);
-						}else {
-							temp.setIsVaild(true);
-						}
+				for (int i = 0; i < infoList.size(); i++) {
+					EloveInfo temp = infoList.get(i);
+					if (temp.getExpiredTime().before(new Timestamp(System.currentTimeMillis()))) {
+						temp.setIsVaild(false);
+					}else {
+						temp.setIsVaild(true);
 					}
-				}				
+				}			
 				model.addAttribute("infoList", infoList);
 				
 				//get consume information
