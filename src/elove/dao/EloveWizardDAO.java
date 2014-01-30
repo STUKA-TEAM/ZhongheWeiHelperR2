@@ -117,14 +117,14 @@ public class EloveWizardDAO {
 			Integer notPayNumber = getConsumeRecord(eloveWizard.getAppid());                //更新elove消费情况
 			if (notPayNumber != null) {
 				result = updateConsumeRecord(notPayNumber + 1, eloveWizard.getAppid());
-				if (result <= 0) {
+				if (result == 0) {
 					return -6;
 				}
 			}else {
 				return -7;
 			}			
 			
-			return eloveid;
+			return result;
 		}
 		else {
 			return 0;
@@ -427,7 +427,7 @@ public class EloveWizardDAO {
 	private int updateConsumeRecord(int notPayNumber, String appid){
 		String SQL = "UPDATE elove_consume_record SET notPayNumber = ? WHERE appid = ?";
 		int effected = jdbcTemplate.update(SQL, new Object[]{notPayNumber, appid});
-		return effected;
+		return effected <= 0 ? 0 : effected;
 	}
 	
 	//query

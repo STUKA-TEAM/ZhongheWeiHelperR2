@@ -21,6 +21,8 @@ import register.AppInfo;
 import register.UserInfo;
 import register.Welcome;
 import register.dao.UserInfoDAO;
+import website.Website;
+import website.dao.WebsiteDAO;
 
 
 public class CommonValidationTools {
@@ -58,6 +60,13 @@ public class CommonValidationTools {
 		return count == 0;
 	}
 	
+	/**
+	 * @title: checkLocation
+	 * @description: 验证地址坐标信息是否有误
+	 * @param lng
+	 * @param lat
+	 * @return
+	 */
 	public static boolean checkLocation(BigDecimal lng, BigDecimal lat){
 		if (lng == null || lat == null) {
 			return false;
@@ -281,5 +290,48 @@ public class CommonValidationTools {
 			return false;
 		}
 		return true;
+	}
+	
+	/**
+	 * @title: checkWebsite
+	 * @description: 检查微官网创建向导中的信息
+	 * @param website
+	 * @return
+	 */
+	public static String checkWebsite(Website website){
+		ApplicationContext context = 
+				new ClassPathXmlApplicationContext("All-Modules.xml");
+		WebsiteDAO websiteDao = (WebsiteDAO) context.getBean("WebsiteDAO");
+		((ConfigurableApplicationContext)context).close();
+		
+		if (website.getGetCode() == null || website.getTitle() == null || 
+				website.getPhone() == null || website.getAddress() == null ||
+				website.getCoverPic() == null || website.getCoverText() == null || 
+				website.getShareTitle() == null || website.getShareContent() == null || 
+				website.getFooterText() == null ) {
+			return "微官网提交信息不完整！";
+		}
+		
+		if (!checkLocation(website.getLng(), website.getLat())) {
+			return "地址请重新定位！";
+		}
+		
+		List<Integer> themeidList = websiteDao.getThemeidList();
+		if (!themeidList.contains(website.getThemeId())) {
+			return "微官网主题信息非法！";
+		}
+		
+		if (website.getWebsiteid() < 0) {
+			return "微官网提交信息非法！";
+		}else{
+			if (website.getWebsiteid() == 0) {
+				if (website.getAppid() == null || website.getCreateTime() == null || 
+						website.getExpiredTime() == null) {   
+					return  "微官网操作信息不完整!";
+				}
+			}
+		}
+		
+		return "pass";
 	}
 }

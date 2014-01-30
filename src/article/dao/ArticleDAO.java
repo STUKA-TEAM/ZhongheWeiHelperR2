@@ -590,7 +590,7 @@ public class ArticleDAO {
 	
 	/**
 	 * @title: getDetailedClassinfos
-	 * @description: 获取比较详细的文章类别信息列表
+	 * @description: 获取比较详细的文章类别信息列表 (文章类别id, 类别名称, 创建时间)
 	 * @param appid
 	 * @return
 	 */

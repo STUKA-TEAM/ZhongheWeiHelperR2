@@ -1,4 +1,4 @@
-package elove;
+package register;
 
 /**
  * @Title: ThemeInfo

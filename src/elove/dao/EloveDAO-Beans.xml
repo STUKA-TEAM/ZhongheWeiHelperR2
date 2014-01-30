@@ -10,9 +10,6 @@
    <bean id="EloveWizardDAO" class="elove.dao.EloveWizardDAO">
       <property name="dataSource"  ref="dataSource" />    
    </bean>
-   <bean id="ThemeInfoDAO" class="elove.dao.ThemeInfoDAO">
-      <property name="dataSource"  ref="dataSource" />    
-   </bean>
    <bean id="EloveInteractDAO" class="elove.dao.EloveInteractDAO">
       <property name="dataSource"  ref="dataSource" />    
    </bean>
