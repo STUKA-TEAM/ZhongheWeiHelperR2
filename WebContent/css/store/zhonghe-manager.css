@@ -160,6 +160,9 @@ fieldset[disabled] .btn-user.active {
 .elove-tab {
   margin-top: 20px;
 }
+.website-tab {
+  margin-top: 20px;
+}
 .form-btn {
   margin-top: 40px;
 }
@@ -169,7 +172,7 @@ fieldset[disabled] .btn-user.active {
 }
 .file-path-elove {
   display: inline;
-  width: 76%;
+  width: 43%;
 }
 .account-select {
   width: 170px;
@@ -183,3 +186,6 @@ fieldset[disabled] .btn-user.active {
 .progress { position:relative; width:350px; border: 1px solid #ddd; padding: 1px; border-radius: 3px; }
 .bar { background-color: #B4F5B4; width:0%; height:20px; border-radius: 3px; }
 .percent { position:absolute; display:inline-block; top:3px; left:48%; }
+.table-space {
+  margin-top: 20px;
+}
