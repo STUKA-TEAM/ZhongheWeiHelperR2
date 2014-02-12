@@ -81,53 +81,48 @@ public class BasicController {
 		
 		UserInfo userInfo = userInfoDao.getUserInfo(user.getSid());
 	    model.addAttribute("userInfo", userInfo);
-        
-	    List<AppInfo> appInfoList = appInfoDao.getAppInfoBySid(user.getSid());
-	    if (appInfoList != null) {
-	    	InputStream inputStream = BasicController.class.getResourceAsStream("/environment.properties");
-			Properties properties = new Properties();
-			String applicationPath = null;
-			try {
-				properties.load(inputStream);
-				applicationPath = (String)properties.get("applicationPath");
-			} catch (Exception e) {
-				System.out.println(e.getMessage());
+	    
+	    InputStream inputStream = BasicController.class.getResourceAsStream("/environment.properties");
+		Properties properties = new Properties();
+		String applicationPath = null;
+		try {
+			properties.load(inputStream);
+			applicationPath = (String)properties.get("applicationPath");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
+		List<AppInfo> appInfoList = appInfoDao.getAppInfoBySid(user.getSid());
+		if (appid != null && !appid.equals("") && appInfoDao.checkAppExistsByUser(
+				user.getSid(), appid) == 1) {                                           //1.不为空 2.确实是appid 
+			for (int i = 0; i < appInfoList.size(); i++) {
+				AppInfo appInfo = appInfoList.get(i);
+				appInfo.setUrl(applicationPath + "zhongheapi/weixin?appid=" + appInfo.getAppid());
+				if (appInfo.getAppid().equals(appid)) {
+					appInfo.setIsCharged(true);
+				}else {
+					appInfo.setIsCharged(false);
+				}
 			}
-			
-			if (appid != null && !appid.equals("") && appInfoDao.checkAppExistsByUser(
-					user.getSid(), appid) == 1) {                                           //1.不为空 2.确实是appid 
-				for (int i = 0; i < appInfoList.size(); i++) {
-					AppInfo appInfo = appInfoList.get(i);
-					appInfo.setUrl(applicationPath + "zhongheapi/weixin?appid=" + appInfo.getAppid());
-					if (appInfo.getAppid().equals(appid)) {
-						appInfo.setIsCharged(true);
-					}else {
-						appInfo.setIsCharged(false);
-					}
+		}else {
+			if (appInfoList.size() > 0) {
+	    		AppInfo appInfo = appInfoList.get(0);
+	    		appInfo.setIsCharged(true);
+	    		appInfo.setUrl(applicationPath + "zhongheapi/weixin?appid=" + appInfo.getAppid());
+	    		
+	    		Cookie cookie = new Cookie("appid", appInfoList.get(0).getAppid());
+	    		cookie.setPath("/");
+		    	response.addCookie(cookie);
+				for (int i = 1; i < appInfoList.size(); i++) {
+					AppInfo temp = appInfoList.get(i);
+					temp.setIsCharged(false);
+					temp.setUrl(applicationPath + "zhongheapi/weixin?appid=" + temp.getAppid());
 				}
 			}else {
-				if (appInfoList.size() > 0) {
-		    		AppInfo appInfo = appInfoList.get(0);
-		    		appInfo.setIsCharged(true);
-		    		appInfo.setUrl(applicationPath + "zhongheapi/weixin?appid=" + appInfo.getAppid());
-		    		
-		    		Cookie cookie = new Cookie("appid", appInfoList.get(0).getAppid());
-		    		cookie.setPath("/");
-			    	response.addCookie(cookie);
-					for (int i = 1; i < appInfoList.size(); i++) {
-						AppInfo temp = appInfoList.get(i);
-						temp.setIsCharged(false);
-						temp.setUrl(applicationPath + "zhongheapi/weixin?appid=" + temp.getAppid());
-					}
-				}else {
-					Cookie cookie = new Cookie("appid", null);
-					cookie.setPath("/");
-					response.addCookie(cookie);
-				}
+				Cookie cookie = new Cookie("appid", null);
+				cookie.setPath("/");
+				response.addCookie(cookie);
 			}
-			
-		}else {
-			System.out.println("Can not get appInfoList from the database!");
 		}	    
 	    model.addAttribute("appInfoList", appInfoList);
 	    
@@ -276,16 +271,14 @@ public class BasicController {
 				eloveWizardDao.deleteConsumeRecord(appid);
 				
 				List<Integer> eloveidList = eloveWizardDao.getEloveidList(appid);
-				if (eloveidList != null) {
-					for (int i = 0; i < eloveidList.size(); i++) {
-						int eloveid = eloveidList.get(i);
-						eloveWizardDao.deleteImage(eloveid);
-						eloveWizardDao.deleteVideo(eloveid);
-						eloveWizardDao.deleteJoin(eloveid);
-						eloveWizardDao.deleteMessage(eloveid);
-						eloveWizardDao.deleteElove(eloveid);
-					}
-			    }
+				for (int i = 0; i < eloveidList.size(); i++) {
+					int eloveid = eloveidList.get(i);
+					eloveWizardDao.deleteImage(eloveid);
+					eloveWizardDao.deleteVideo(eloveid);
+					eloveWizardDao.deleteJoin(eloveid);
+					eloveWizardDao.deleteMessage(eloveid);
+					eloveWizardDao.deleteElove(eloveid);
+				}
 				
 				message.setStatus(true);
 				message.setMessage("删除成功！");

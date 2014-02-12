@@ -25,7 +25,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
+import register.ThemeInfo;
 import register.dao.AppInfoDAO;
+import register.dao.ThemeInfoDAO;
 import security.User;
 import tools.CommonValidationTools;
 
@@ -38,9 +40,7 @@ import elove.Step3Info;
 import elove.Step4Info;
 import elove.Step5Info;
 import elove.Step6Info;
-import elove.ThemeInfo;
 import elove.dao.EloveWizardDAO;
-import elove.dao.ThemeInfoDAO;
 
 /**
  * @Title: EloveWizardController
@@ -60,7 +60,7 @@ public class EloveWizardController {
 		ThemeInfoDAO themeInfoDao = (ThemeInfoDAO) context.getBean("ThemeInfoDAO");
 		((ConfigurableApplicationContext)context).close();
 		
-		List<ThemeInfo> themeInfoList = themeInfoDao.getThemeInfos();
+		List<ThemeInfo> themeInfoList = themeInfoDao.getEloveThemeInfos();
 		model.addAttribute("themeInfoList", themeInfoList);
 		
 		EloveWizard eloveWizard = new EloveWizard();
@@ -77,7 +77,7 @@ public class EloveWizardController {
 		ThemeInfoDAO themeInfoDao = (ThemeInfoDAO) context.getBean("ThemeInfoDAO");
 		((ConfigurableApplicationContext)context).close();
 		
-		List<ThemeInfo> themeInfoList = themeInfoDao.getThemeInfos();
+		List<ThemeInfo> themeInfoList = themeInfoDao.getEloveThemeInfos();
 		model.addAttribute("themeInfoList", themeInfoList);
 		
 		EloveWizard eloveWizard = eloveWizardDao.getElove(eloveid);
@@ -92,7 +92,7 @@ public class EloveWizardController {
 		ThemeInfoDAO themeInfoDao = (ThemeInfoDAO) context.getBean("ThemeInfoDAO");
 		((ConfigurableApplicationContext)context).close();
 		
-		List<ThemeInfo> themeInfoList = themeInfoDao.getThemeInfos();
+		List<ThemeInfo> themeInfoList = themeInfoDao.getEloveThemeInfos();
 		model.addAttribute("themeInfoList", themeInfoList);
 		
 		model.addAttribute("eloveWizard", eloveWizard);
@@ -223,7 +223,8 @@ public class EloveWizardController {
 					status.setComplete();
 				}else {
 					message.setStatus(false);
-					message.setMessage("Error " + effected);
+					message.setMessage("elove信息更新失败！");
+					System.out.println("Error " + effected);
 				}	
 			}
 			
@@ -260,15 +261,16 @@ public class EloveWizardController {
 						message.setStatus(false);
 						message.setMessage(checkInfo);
 					}else{
-						int eloveid = eloveWizardDao.insertElove(eloveWizard);
+						int result = eloveWizardDao.insertElove(eloveWizard);
 						
-						if (eloveid > 0) {
+						if (result > 0) {
 							message.setStatus(true);
 							message.setMessage("elove创建成功！");
 							status.setComplete();
 						}else {
 							message.setStatus(false);
-							message.setMessage("Error " + eloveid);
+							message.setMessage("elove创建失败！");
+							System.out.println("Error " + result);
 						}	
 					}			
 				}

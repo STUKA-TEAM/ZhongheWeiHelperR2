@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import elove.EloveWizard;
 import elove.dao.EloveWizardDAO;
-import elove.dao.ThemeInfoDAO;
 import register.Welcome;
 import register.WelcomeContent;
+import register.dao.ThemeInfoDAO;
 import register.dao.WelcomeDAO;
 import tools.MethodUtils;
 import weixinmessage.response.NewsItemToResponse;
@@ -102,7 +102,7 @@ public class WeixinMessageController {
 						for (Integer integer : themeidList) {
 							EloveWizard eloveWizard = eloveWizardDAO.getElove(integer);
 							NewsItemToResponse theme = new NewsItemToResponse();
-							theme.setTitle(themeInfoDAO.getThemeName(eloveWizard.getThemeid()));
+							theme.setTitle(themeInfoDAO.getEloveThemeName(eloveWizard.getThemeid()));
 							theme.setPicUrl(MethodUtils.getImageHost()+eloveWizard.getCoverPic()+"_standard.jpg");
 							theme.setUrl(MethodUtils.getApplicationPath()+"customer/elove/elove?eloveid=" + integer );
 							articles.add(theme);

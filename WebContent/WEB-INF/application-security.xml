@@ -13,7 +13,7 @@
     <http auto-config="true" use-expressions="true">
        <intercept-url pattern="/security/*" access="permitAll"/>      
        <intercept-url pattern="/j_spring_security_check" access="permitAll"/>
-       <!--<intercept-url pattern="/store/**" access="hasRole('CUSTOMER', 'ADMINISTRATOR')" />-->   
+       <intercept-url pattern="/store/**" access="hasAnyRole('CUSTOMER','ADMINISTRATOR')" />   
        <form-login login-page="/security/login" default-target-url="/store/account" always-use-default-target="false" authentication-failure-url="/security/accessdenied" />
        <logout logout-success-url="/index.html"  invalidate-session="true" delete-cookies="JSESSIONID"/>
        
