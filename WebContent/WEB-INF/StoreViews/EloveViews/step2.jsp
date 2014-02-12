@@ -14,13 +14,13 @@
       <div class="panel-body row">
         <div  class="form-horizontal">
           <div class="form-group">
-            <label for="story_groom" class="col-md-3 control-label">新郎</label>
+            <label for="story_groom" class="col-md-3 control-label">新郎（照片左）</label>
             <div class="col-md-7">
               <input type="text" class="form-control" id="story_groom" placeholder="" value="${eloveWizard.xinLang}">
             </div>
           </div>
           <div class="form-group">
-            <label for="story_bride" class="col-md-3 control-label">新娘</label>
+            <label for="story_bride" class="col-md-3 control-label">新人（照片右）</label>
             <div class="col-md-7">
               <input type="text" class="form-control" id="story_bride" placeholder="" value="${eloveWizard.xinNiang}">
             </div>
