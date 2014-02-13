@@ -27,7 +27,14 @@
              <li><a href="store/elove/detail">Elove管理</a></li>
           </c:if>
           <c:if test="${auth.key=='website' && auth.value==true}">
-             <li><a href="store/website">微网站管理</a></li>
+             <li><a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">微官网管理</a>
+            <div id="collapseOne" class="panel-collapse collapse in">
+              <ul class="nav submenu">
+                <li><a href="store/articlelist?classid=0">文章管理</a></li>
+                <li><a href="./paper-type-manager.html">文章类别管理</a></li>
+                <li><a href="./website-manager.html">微官网配置</a></li>
+              </ul>
+            </div></li>
           </c:if>
           </c:forEach>
           <!--

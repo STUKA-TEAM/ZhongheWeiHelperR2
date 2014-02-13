@@ -25,50 +25,52 @@
       <%@ include file="../CommonViews/leftSide.jsp"%>    
       <div class="col-md-10 manager-content">
         <ol class="breadcrumb">
-          <li class="active">Elove管理</li>
+          <li class="active">文章管理</li>
         </ol>
         <div class="row">
           <div class="col-md-2 col-md-offset-1">
-            <a href="./store/elove/wizard/initial/create" class="btn btn-info btn-block">新建Elove</a>
+            <a href="./paper-manager-create.html" class="btn btn-info btn-block">新建文章</a>
           </div>
           <div class="col-md-2">
-            <a class="btn btn-info btn-block" data-toggle="modal" data-target="#elove_count">消费统计</a>
+            <form>
+              <select class="form-control account-select">
+                <option>所有类别</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+              </select>
+            </form>
           </div>
         </div>
-        <div class="row elove-tab">
+        <div class="row website-tab">
           <div class="col-md-10 col-md-offset-1">
             <table class="table table-striped table-bordered">
               <tr>
                 <th>创建时间</th>
-                <th>过期时间</th>
-                <th>状态</th>
-                <th>密码</th>
-                <th>新郎</th>
-                <th>新娘</th>
+                <th>文章标题</th>
+                <th>文章消息图片</th>
+                <th></th>
                 <th></th>
               </tr>
-               <c:forEach items = "${infoList}" var = "eloveInfo" >           
-               <tr>
-                <td><fmt:formatDate value="${eloveInfo.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-                <td><fmt:formatDate value="${eloveInfo.expiredTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-                <td>
-                <c:if test="${eloveInfo.isVaild==true}">
-                <p class="text-success">有效</p>
-                </c:if>
-                <c:if test="${eloveInfo.isVaild==false}">
-                <p class="text-danger">已过期</p>
-                </c:if>
-                </td>
-                <td>${eloveInfo.password}</td>
-                <td>${eloveInfo.xinLang}</td>
-                <td>${eloveInfo.xinNiang}</td>
-                <td><a href="./store/elove/wizard/initial/edit?eloveid=${eloveInfo.eloveid}" class="btn btn-sm btn-user">编辑</a></td>
-               </tr>
-               </c:forEach>
+              <tr>
+                <td>2014-1-23 22:59:33</td>
+                <td>金牌司仪小李</td>
+                <td><img src="./img/manager/theme2.png" class="pic-preview img-thumbnail img-responsive"/></td>
+                <td><a class="btn btn-sm btn-info">编辑</a></td>
+                <td><a class="btn btn-sm btn-danger">删除</a></td>
+              </tr>
+              <tr>
+                <td>2014-1-23 22:59:33</td>
+                <td>全新进口摄影机</td>
+                <td>未添加</td>
+                <td><a class="btn btn-sm btn-info">编辑</a></td>
+                <td><a class="btn btn-sm btn-danger">删除</a></td>
+              </tr>
             </table>
           </div>
-        </div>
       </div>
+    </div>
     </div>
     
     <div class="modal fade" id="elove_count" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -98,5 +100,6 @@
     <%@ include file="../CommonViews/footer.jsp"%>
     <!-- include jQuery -->
     <%@ include file="../CommonViews/commonJSList.jsp"%>
+    <script type="text/javascript" src="js/store/upload.js"></script>
   </body>
 </html>

@@ -39,14 +39,10 @@
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->   
-    <div id="footer">
-      <div class="container text-center">
-        <p class="text-muted credit">Copyright ? 2013 zhonghesoftware.com All Rights Reserved. 众合网络科技有限公司 版权所有</p>
-      </div>
-    </div><!-- footer -->
+    <%@ include file="../CommonViews/footer.jsp"%>
     <!-- include jQuery + carouFredSel plugin -->
     <%@ include file="../CommonViews/commonJSList.jsp"%>
-    <script src="js/store/upload.js"></script>
+    <script type="text/javascript" src="js/store/upload.js"></script>
     <script type="text/javascript" src="./js/store/eloveWizard.js"></script>
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=PWFniUmG9SMyIVlp7Nm24MRC"></script>
   </body>

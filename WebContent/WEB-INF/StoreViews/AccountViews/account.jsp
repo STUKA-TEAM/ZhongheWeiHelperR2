@@ -329,11 +329,7 @@
 
     </div><!-- /.modal -->  
     
-    <div id="footer">
-      <div class="container text-center">
-        <p class="text-muted credit">Copyright ? 2013 zhonghesoftware.com All Rights Reserved. 众合网络科技有限公司 版权所有</p>
-      </div>
-    </div><!-- footer -->
+    <%@ include file="../CommonViews/footer.jsp"%>
 
     <!-- Bootstrap core JavaScript
     ================================================== -->

@@ -119,7 +119,7 @@
 <!-- catch exception page -->
 <error-page>
    <error-code>404</error-code>
-   <location>/index.html</location>
+   <location>/404.html</location>
 </error-page>
 <!-- ******************** -->
 
