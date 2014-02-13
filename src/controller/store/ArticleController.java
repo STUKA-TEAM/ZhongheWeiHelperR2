@@ -88,19 +88,54 @@ public class ArticleController {
 				allType.setClassName("所有类别");
 				classes.add(allType);
 				model.addAttribute("classList", classes);
-				return "ArticleViews/articlelist";
+				return "ArticleViews/articleList";
 			}
 		}
 	}
 	
 	/**
-	 * @description: 新建或编辑文章(第一步)
+	 * @description: 创建新的文章(第一步)
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/article/edit/insert", method = RequestMethod.GET)
+	public String editInsertArticle(@CookieValue(value = "appid", required = false) String appid, 
+			Model model, HttpServletRequest request){	
+		ApplicationContext context = 
+				new ClassPathXmlApplicationContext("All-Modules.xml");
+		AppInfoDAO appInfoDao = (AppInfoDAO) context.getBean("AppInfoDAO");
+		ArticleDAO articleDao = (ArticleDAO) context.getBean("ArticleDAO");
+		((ConfigurableApplicationContext)context).close();
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = (User)auth.getPrincipal();
+		
+		if (appid == null) {       //异常
+			return "redirect:/store/account";     
+		}
+		else {
+			if (appid.equals("") || appInfoDao.checkAppExistsByUser(user.getSid(), 
+					appid) == 0) {                                                          //需先创建app或appid无效
+				request.setAttribute("message", "当前管理的公众账号无效，请先选择或关联微信公众账号!");
+				request.setAttribute("jumpLink", "store/account");
+				return "forward:/store/transfer";   
+			}
+			else {				
+			    List<ArticleClass> classList = articleDao.getBasicClassinfos(appid);
+			    model.addAttribute("classList", classList);
+			    return "ArticleViews/insertArticle";
+			}
+		}
+	}
+	
+	/**
+	 * @description: 编辑已有的文章(第一步)
 	 * @param articleid
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/article/edit", method = RequestMethod.GET)
-	public String editArticle(@CookieValue(value = "appid", required = false) String appid, 
+	@RequestMapping(value = "/article/edit/update", method = RequestMethod.GET)
+	public String editUpdateArticle(@CookieValue(value = "appid", required = false) String appid, 
 			@RequestParam(value = "articleid", required = false) Integer articleid, Model model, 
 			HttpServletRequest request){	
 		ApplicationContext context = 
@@ -142,7 +177,7 @@ public class ArticleController {
 					}
 				}
 			    model.addAttribute("classList", classList);
-			    return "ArticleViews/edit_article";
+			    return "ArticleViews/updateArticle";
 			}
 		}
 	}

@@ -71,19 +71,54 @@ public class ArticleClassController {
 			else {	
 				List<ArticleClass> classList = articleDao.getDetailedClassinfos(appid);
 				model.addAttribute("classList", classList);
-				return "ArticleViews/articleclasslist";
+				return "ArticleViews/articleclassList";
 			}
 		}
 	}
 	
 	/**
-	 * @description: 新建或编辑文章类别(第一步)
+	 * @description: 创建新的文章类别(第一步)
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/articleclass/edit/insert", method = RequestMethod.GET)
+	public String editInsertArticleClass(@CookieValue(value = "appid", required = false) String appid, 
+			Model model, HttpServletRequest request){	
+		ApplicationContext context = 
+				new ClassPathXmlApplicationContext("All-Modules.xml");
+		AppInfoDAO appInfoDao = (AppInfoDAO) context.getBean("AppInfoDAO");
+		ArticleDAO articleDao = (ArticleDAO) context.getBean("ArticleDAO");
+		((ConfigurableApplicationContext)context).close();
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = (User)auth.getPrincipal();
+		
+		if (appid == null) {       //异常
+			return "redirect:/store/account";     
+		}
+		else {
+			if (appid.equals("") || appInfoDao.checkAppExistsByUser(user.getSid(), 
+					appid) == 0) {                                                          //需先创建app或appid无效
+				request.setAttribute("message", "当前管理的公众账号无效，请先选择或关联微信公众账号!");
+				request.setAttribute("jumpLink", "store/account");
+				return "forward:/store/transfer";   
+			}
+			else {
+				List<Article> articleList = articleDao.getBasicArticleinfos(appid);
+				model.addAttribute("articleList", articleList);
+				return "ArticleViews/updateArticleClass";
+			}
+		}
+	}
+	
+	/**
+	 * @description: 编辑已有的文章类别(第一步)
 	 * @param classid
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/articleclass/edit", method = RequestMethod.GET)
-	public String editArticleClass(@CookieValue(value = "appid", required = false) String appid, 
+	@RequestMapping(value = "/articleclass/edit/update", method = RequestMethod.GET)
+	public String editUpdateArticleClass(@CookieValue(value = "appid", required = false) String appid, 
 			@RequestParam(value = "classid", required = false) Integer classid, Model model,
 			HttpServletRequest request){	
 		ApplicationContext context = 
@@ -124,7 +159,7 @@ public class ArticleClassController {
 					}
 				}
 				model.addAttribute("articleList", articleList);
-				return "ArticleViews/edit_articleclass";
+				return "ArticleViews/updateArticleClass";
 			}
 		}
 	}
