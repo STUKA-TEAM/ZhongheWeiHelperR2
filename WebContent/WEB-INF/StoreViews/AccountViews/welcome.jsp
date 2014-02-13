@@ -25,7 +25,7 @@
 		        <div id="messageItems">
 		        <c:forEach items="${welcome.contents}" var="item">         
 			    <div class="thumbnail form-group messageItem">
-                    <input type="text" class="form-control" placeholder="消息标题" value="${item.content}"/>
+                    <input type="text" class="form-control" placeholder="消息标题" value='${item.content}'/>
                     <input type="text" class="form-control" placeholder="消息链接" value="${item.link}"/>
                     <button type="button" class="btn btn-danger" onclick="deleteItem(this)">删除</button>
 			    </div>	

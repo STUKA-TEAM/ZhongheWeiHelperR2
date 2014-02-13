@@ -8,8 +8,8 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div id="modalbody" class="modal-body">
-            <input id="wishname" class="modal-input" type="text" placeholder="称呼" />
             <textarea id="wishcontent" class="modal-text" rows=4 placeholder="请留下您对我们的祝福吧！" ></textarea>
+            <input id="wishname" class="modal-input" type="text" placeholder="您的称呼" />
             <p>
               <a class="modal-btn btn btn-elove" onclick="submitWish()">发送祝福</a>
               <a class="modal-btn btn btn-elove" data-dismiss="modal">取消</a>

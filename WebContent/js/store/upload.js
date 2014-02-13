@@ -123,8 +123,10 @@ $(document).ready(function(){
 		if(length == 0){
 			alert('请选择图片！');
 			xhr.abort();
+		}else{
+			($(($(form).children())[1])).append("<div id=\""+$(form).attr("id")+"-mes\"class=\"text-success\">正在上传...");			
 		}
-		($(($(form).children())[1])).append("<div id=\""+$(form).attr("id")+"-mes\"class=\"text-success\">正在上传...");
+
 	}
 	
     $('.video-file').change(function(){
@@ -168,8 +170,10 @@ $(document).ready(function(){
 		if(length == 0){
 			alert('请选择视频！');
 			xhr.abort();
+		}else{
+			($(($(form).children())[1])).append("<div id=\""+$(form).attr("id")+"-mes\"class=\"text-success\">正在上传...");			
 		}
-		($(($(form).children())[1])).append("<div id=\""+$(form).attr("id")+"-mes\"class=\"text-success\">正在上传...");
+
 	}
 	
 	$(document).on('change','.audio-file',function(){
@@ -213,8 +217,10 @@ $(document).ready(function(){
 		if(length == 0){
 			alert('请选择音乐！');
 			xhr.abort();
+		}else{
+			($(($(form).children())[1])).append("<div id=\""+$(form).attr("id")+"-mes\"class=\"text-success\">正在上传...");			
 		}
-		($(($(form).children())[1])).append("<div id=\""+$(form).attr("id")+"-mes\"class=\"text-success\">正在上传...");
+
 	}
 	
 	function completeHandler(id, data, form){
