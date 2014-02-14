@@ -48,7 +48,7 @@ public class ArticleController {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(value = "/articlelist", method = RequestMethod.GET)
+	@RequestMapping(value = "/article/list", method = RequestMethod.GET)
 	public String getArticleList(@CookieValue(value = "appid", required = false) String appid, 
 			@RequestParam(value = "classid", required = true) int classid, Model model, 
 			HttpServletRequest request){

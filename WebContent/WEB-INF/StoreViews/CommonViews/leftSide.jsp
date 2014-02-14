@@ -30,8 +30,8 @@
              <li><a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">微官网管理</a>
             <div id="collapseOne" class="panel-collapse collapse in">
               <ul class="nav submenu">
-                <li><a href="store/articlelist?classid=0">文章管理</a></li>
-                <li><a href="./paper-type-manager.html">文章类别管理</a></li>
+                <li><a href="store/article/list?classid=0">文章管理</a></li>
+                <li><a href="store/articleclass/list">文章类别管理</a></li>
                 <li><a href="./website-manager.html">微官网配置</a></li>
               </ul>
             </div></li>

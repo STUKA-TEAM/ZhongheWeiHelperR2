@@ -46,7 +46,7 @@ public class ArticleClassController {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(value = "/articleclasslist", method = RequestMethod.GET)
+	@RequestMapping(value = "/articleclass/list", method = RequestMethod.GET)
 	public String getArticleClassList(@CookieValue(value = "appid", required = false) String appid, 
 			Model model, HttpServletRequest request){
 		ApplicationContext context = 
@@ -106,7 +106,7 @@ public class ArticleClassController {
 			else {
 				List<Article> articleList = articleDao.getBasicArticleinfos(appid);
 				model.addAttribute("articleList", articleList);
-				return "ArticleViews/updateArticleClass";
+				return "ArticleViews/addArticleclassDialog";
 			}
 		}
 	}
@@ -146,7 +146,7 @@ public class ArticleClassController {
 				if (classid != null && classid > 0) {
 					ArticleClass articleClass = articleDao.getClassContent(classid);
 					selectedList = articleClass.getArticleidList();
-					model.addAttribute("class", articleClass);
+					model.addAttribute("articleclass", articleClass);
 				}
 				
 				List<Article> articleList = articleDao.getBasicArticleinfos(appid);
@@ -159,7 +159,7 @@ public class ArticleClassController {
 					}
 				}
 				model.addAttribute("articleList", articleList);
-				return "ArticleViews/updateArticleClass";
+				return "ArticleViews/editArticleclassDialog";
 			}
 		}
 	}
