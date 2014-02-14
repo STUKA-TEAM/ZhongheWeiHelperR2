@@ -119,7 +119,7 @@ public class ArticleClassController {
 	 */
 	@RequestMapping(value = "/articleclass/edit/update", method = RequestMethod.GET)
 	public String editUpdateArticleClass(@CookieValue(value = "appid", required = false) String appid, 
-			@RequestParam(value = "classid", required = false) Integer classid, Model model,
+			@RequestParam(value = "classid", required = true) Integer classid, Model model,
 			HttpServletRequest request){	
 		ApplicationContext context = 
 				new ClassPathXmlApplicationContext("All-Modules.xml");

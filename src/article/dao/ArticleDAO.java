@@ -202,12 +202,19 @@ public class ArticleDAO {
 		Article temp = getArticleBasicMedia(articleid);
 		if (temp != null) {
 			Timestamp current = new Timestamp(System.currentTimeMillis());
-			insertImageTempRecord(temp.getCoverPic(), current);
 			
-			Document doc = Jsoup.parse(temp.getContent());
-			Elements imgs = doc.select("img[src]");
-			for (int i = 0; i < imgs.size(); i++) {
-				insertImageTempRecord(imgs.get(i).attr("src"), current);
+			String coverPic = temp.getCoverPic();
+			if (coverPic != null && !coverPic.equals("")) {
+				insertImageTempRecord(coverPic, current);
+			}
+			
+			String content = temp.getContent();
+			if (content != null && !content.equals("")) {
+				Document doc = Jsoup.parse(content);
+				Elements imgs = doc.select("img[src]");
+				for (int i = 0; i < imgs.size(); i++) {
+					insertImageTempRecord(imgs.get(i).attr("src"), current);
+				}
 			}			
 		}else {
 			return 0;
@@ -294,7 +301,7 @@ public class ArticleDAO {
 		}else {
 			return 0;
 		}
-		
+
 		int result = jdbcTemplate.update(SQL, article.getTitle(), article.getCoverPic(), 
 				article.getContent(), article.getArticleid());
 		
@@ -346,7 +353,7 @@ public class ArticleDAO {
 	 * @return
 	 */
 	public List<ArticleClass> getBasicClassinfos(String appid){
-		String SQL = "SELECT classid, className FROM articleclass WHERE appid = ?";
+		String SQL = "SELECT classid, className FROM articleclass WHERE appid = ? ORDER BY classid ASC";
 		List<ArticleClass> classList = null;
 		
 		try {
@@ -355,6 +362,7 @@ public class ArticleDAO {
 			classList = new ArrayList<ArticleClass>();
 			System.out.println(e.getMessage());
 		}
+		
 		return classList;
 	}
 	

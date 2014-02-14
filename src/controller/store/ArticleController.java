@@ -86,8 +86,14 @@ public class ArticleController {
 				ArticleClass allType = new ArticleClass();
 				allType.setClassid(0);
 				allType.setClassName("所有类别");
-				classes.add(allType);
-				model.addAttribute("classList", classes);
+				classes.add(0, allType);
+				for (int i = 0; i < classes.size(); i++) {
+					if (classid == classes.get(i).getClassid()) {
+						classes.get(i).setSelected(true);
+						break;
+					}
+				}
+				model.addAttribute("classList", classes);		
 				return "ArticleViews/articleList";
 			}
 		}
@@ -136,7 +142,7 @@ public class ArticleController {
 	 */
 	@RequestMapping(value = "/article/edit/update", method = RequestMethod.GET)
 	public String editUpdateArticle(@CookieValue(value = "appid", required = false) String appid, 
-			@RequestParam(value = "articleid", required = false) Integer articleid, Model model, 
+			@RequestParam(value = "articleid", required = true) Integer articleid, Model model, 
 			HttpServletRequest request){	
 		ApplicationContext context = 
 				new ClassPathXmlApplicationContext("All-Modules.xml");
