@@ -154,7 +154,7 @@ function submitDeleteArticleclass(classid){
     $("#articleclassidhidden").val(classid);
     $("#confirmModal").modal("show");
 }
-function confirmDelete(){
+function confirmDeleteclass(){
 	var articleclassid = $("#articleclassidhidden").val();
     $.ajax({
   	  type: "POST",

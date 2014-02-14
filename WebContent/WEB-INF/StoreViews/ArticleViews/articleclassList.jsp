@@ -73,7 +73,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="confirmDelete()">确认删除</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="confirmDeleteclass()">确认删除</button>
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
