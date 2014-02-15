@@ -52,6 +52,7 @@ function submitArticle(operation){
 	if(operation=="insert"){
 		url="store/article/insert";
 	}else{
+		article.articleid=$("#editarticleid").val();
 		url="store/article/update";
 	}
  	  $.ajax({
@@ -120,6 +121,7 @@ function submitArticleclass(operation){
 	if(operation=="insert"){
 		url="store/articleclass/insert";
 	}else{
+		articleclass.classid=$("#editclassid").val();
 		url="store/articleclass/update";
 	}
 	  $.ajax({

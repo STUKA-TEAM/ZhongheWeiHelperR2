@@ -35,7 +35,7 @@
             <form>
               <select class="form-control account-select" onchange="filterArticleByType(this.options[this.options.selectedIndex].value)">
                 <c:forEach items="${classList}" var="item">
-                <option value="${item.classid}">${item.className}</option>
+                <option value="${item.classid}" <c:if test="${item.selected}">selected</c:if> >${item.className}</option>
                 ${item.selected}
 				</c:forEach>
               </select>

@@ -30,8 +30,8 @@
                   </div>
                 </li>
               </c:forEach>
-
               </ul>
+              <input id="editclassid" type="hidden" value="${articleclass.classid}">
             </div>
           </div>
         </div>

@@ -38,6 +38,7 @@
               <div  class="form-horizontal">
                 <%@ include file="./articleSubArea.jsp"%>
                 <div class="form-group form-btn">
+                  <input id="editarticleid" type="hidden" value="${article.articleid}">
                   <a class="btn btn-lg btn-info col-md-3 col-md-offset-2 text-center" href="javascript:void(0);" onclick="submitArticle('update')">完成编辑</a>
                   <a class="btn btn-lg btn-info col-md-3 col-md-offset-1 text-center" href="store/article/list?classid=0">取消</a>
                 </div>
