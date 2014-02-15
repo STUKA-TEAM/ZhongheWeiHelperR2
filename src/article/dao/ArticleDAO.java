@@ -66,8 +66,10 @@ public class ArticleDAO {
 		}, kHolder);
 		
 		if (result > 0) {
-			int articleid = kHolder.getKey().intValue();
-			deleteImageTempRecord(article.getCoverPic());
+			String coverPic = article.getCoverPic();
+			if (coverPic != null && !coverPic.equals("")) {
+				deleteImageTempRecord(coverPic);
+			}
 			
 			Document doc = Jsoup.parse(article.getContent());
 			Elements imgs = doc.select("img[src]");
@@ -75,6 +77,7 @@ public class ArticleDAO {
 				deleteImageTempRecord(imgs.get(i).attr("src"));
 			}
 			
+			int articleid = kHolder.getKey().intValue();
 			result = insertACR(articleid, article.getClassidList());
 			if (result == 0) {
 				return -1;
@@ -209,7 +212,7 @@ public class ArticleDAO {
 			}
 			
 			String content = temp.getContent();
-			if (content != null && !content.equals("")) {
+			if (!content.equals("")) {
 				Document doc = Jsoup.parse(content);
 				Elements imgs = doc.select("img[src]");
 				for (int i = 0; i < imgs.size(); i++) {
@@ -290,14 +293,21 @@ public class ArticleDAO {
 		
 		Article temp = getArticleBasicMedia(article.getArticleid());
 		if (temp != null) {
-			Timestamp current = new Timestamp(System.currentTimeMillis());
-			insertImageTempRecord(temp.getCoverPic(), current);
+            Timestamp current = new Timestamp(System.currentTimeMillis());
 			
-			Document doc = Jsoup.parse(temp.getContent());
-			Elements imgs = doc.select("img[src]");
-			for (int i = 0; i < imgs.size(); i++) {
-				insertImageTempRecord(imgs.get(i).attr("src"), current);
-			}			
+			String coverPic = temp.getCoverPic();
+			if (coverPic != null && !coverPic.equals("")) {
+				insertImageTempRecord(coverPic, current);
+			}
+			
+			String content = temp.getContent();
+			if (!content.equals("")) {
+				Document doc = Jsoup.parse(content);
+				Elements imgs = doc.select("img[src]");
+				for (int i = 0; i < imgs.size(); i++) {
+					insertImageTempRecord(imgs.get(i).attr("src"), current);
+				}
+			}
 		}else {
 			return 0;
 		}
@@ -306,7 +316,11 @@ public class ArticleDAO {
 				article.getContent(), article.getArticleid());
 		
 		if (result > 0) {
-			deleteImageTempRecord(article.getCoverPic());			
+			String coverPic = article.getCoverPic();
+			if (coverPic != null && !coverPic.equals("")) {
+				deleteImageTempRecord(coverPic);
+			}
+						
 			Document doc = Jsoup.parse(article.getContent());
 			Elements imgs = doc.select("img[src]");
 			for (int i = 0; i < imgs.size(); i++) {
