@@ -8,4 +8,4 @@
 文件上传项目：
 1.配置environment.properties
 2.配置jdbc.properties
-3.配置resources项目ffmpeg路径
+3.配置ffmpeg环境变量

@@ -1,3 +1,28 @@
-1.role表导入数据
-2.authority表导入数据
-3.elove_theme表、website_theme表导入数据
+1. role表导入数据
+    default:
+        id      roleName
+    -------------------------    
+        1		CUSTOMER
+        2	    ADMINISTRATOR
+        3       AGENT
+
+2. authority表导入数据
+    default:
+    	authid		authName		authPinyin
+    ----------------------------------------------
+    	1			微官网			website
+    	2			elove           elove
+
+3. elove_theme表导入数据
+	default:
+		id		themeName		themePath
+	-----------------------------------------
+		1		缘落花海-粉色系	test
+		2		蓝色爱之旅-蓝色系	test
+		3		蝶恋花-浅黄系		test
+		4		缘定今生-粉金系	test
+
+4. website_theme表导入数据
+	default:
+		themeid		themeName		themePath
+	---------------------------------------------
