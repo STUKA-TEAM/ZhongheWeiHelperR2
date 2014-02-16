@@ -420,7 +420,6 @@ public class WebsiteDAO {
 		if (website != null) {
 			website.setImageList(getWebsiteImagesWithType(websiteid, "introduction"));
 			website.setNodeList(getWebsiteNodeList(websiteid));
-			website.setRootNodeId(getNodeId(websiteid, "root"));
 		}
 		return website;
 	}

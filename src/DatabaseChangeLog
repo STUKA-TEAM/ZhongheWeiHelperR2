@@ -1,0 +1,12 @@
+Windows:
+[2014-1-31][index: 0001]表website删除rootNodeId字段
+[2014-1-31][index: 0002]表website_node添加websiteid字段     type: int(11)  NULL: No  Default: 0  Comment: 微官网id  
+[2014-1-31][index: 0003]添加表website_nodetree 
+            Name         Type         NULL       Default                Primary Key         Comment
+        ---------------------------------------------------------------------------------------------------------------------------------
+            id           int(11)      No         <auto_increment>       Yes                 
+            nodeid       int(11)      No         0                      No                  节点id
+            childid      int(11)      No         0                      Np                  子节点id (子节点： node|article|articleclass)
+
+
+Linux:
