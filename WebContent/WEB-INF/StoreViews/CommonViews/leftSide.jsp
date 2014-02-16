@@ -32,7 +32,7 @@
               <ul class="nav submenu">
                 <li><a href="store/article/list?classid=0">文章管理</a></li>
                 <li><a href="store/articleclass/list">文章类别管理</a></li>
-                <li><a href="./website-manager.html">微官网配置</a></li>
+                <li><a href="store/website/home">微官网配置</a></li>
               </ul>
             </div></li>
           </c:if>

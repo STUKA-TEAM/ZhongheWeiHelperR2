@@ -11,6 +11,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,6 +36,7 @@ import website.dao.WebsiteDAO;
  * @author ben
  * @date 2014年1月24日
  */
+@Controller
 public class WebsiteController {
 	/**
 	 * @description: 访问微官网配置主页
