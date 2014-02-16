@@ -22,7 +22,6 @@ public class Website {
 	private BigDecimal lat;
 	private Timestamp createTime;
 	private Timestamp expiredTime;
-	private int rootNodeId;
 	private String coverPic;
 	private String coverText;
 	private String shareTitle;
@@ -151,18 +150,6 @@ public class Website {
 	 */
 	public void setExpiredTime(Timestamp expiredTime) {
 		this.expiredTime = expiredTime;
-	}
-	/**
-	 * @return the rootNodeId
-	 */
-	public int getRootNodeId() {
-		return rootNodeId;
-	}
-	/**
-	 * @param rootNodeId the rootNodeId to set
-	 */
-	public void setRootNodeId(int rootNodeId) {
-		this.rootNodeId = rootNodeId;
 	}
 	/**
 	 * @return the coverPic
