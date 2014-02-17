@@ -221,9 +221,13 @@ function addNode(){
 	$("#add_child_column").modal("hide");
 }
 function addNodeItem(node){
+	var picHTML = "";
+	if(node.nodePic!=null){
+		picHTML = "<img src=\""+node.nodePic+"_original.jpg"+"\" class=\"pic-preview img-thumbnail img-responsive\"/>";
+	}
     var html="<tr id=\""+node.UUID+"\">"
     +"<td>"+node.nodeName+"</td>"
-    +"<td><img src=\""+node.nodePic+"_original.jpg"+"\" class=\"pic-preview img-thumbnail img-responsive\"/></td>"
+    +"<td>"+picHTML+"</td>"
     +"<td id=\""+node.UUID+"-content"+"\"></td>"
     +"<td><a class=\"btn btn-sm btn-info\" data-toggle=\"modal\" onclick=\"createChildNode(\'"+node.UUID+"\')"+"\">为本栏目添加子栏目</a></td>"
     +"<td><a class=\"btn btn-sm btn-info\" onclick=\"relateArticleWindow(\'"+node.UUID+"\')"+"\">关联文章</a></td>"
@@ -275,13 +279,21 @@ function generateFatherLayer(){
 function editNodeWindow(uuid){
 	var node = getNodeFromUUID(uuid);
 	$("#edit-node-Name").val(node.nodeName);
-	$("#edit-filetext").val("");
+	$("#edit-filetext").val("");	
+	var picHTML = "";
+	if(node.nodePic!=null){
+		picHTML = "<img src=\""+node.nodePic+"_original.jpg"+"\" class=\"pic-preview img-thumbnail img-responsive\"/>";
+	}
 	var imageHTML = "<div id=\""+node.nodePic+"\" class=\"col-md-6 pic-preview-div\">"
-	                +"<img src=\""+node.nodePic+"_original.jpg\" class=\"pic-preview img-thumbnail img-responsive\">"
+	                +picHTML
 	                +"<span class=\"glyphicon glyphicon-trash\" onclick=\"deleteThisImage('"+node.nodePic+"')\"> </span>"
 	                +"</div>";
 	$("#upload2single-images").html(imageHTML);
-	var inputHTML = "<input id=\""+node.nodePic+"-input\" type=\"hidden\" value=\""+node.nodePic+"\">";
+
+	var inputHTML = "";
+	if(node.nodePic!=null){
+		inputHTML = "<input id=\""+node.nodePic+"-input\" type=\"hidden\" value=\""+node.nodePic+"\">";
+	}
 	$("#upload2single-links").html(inputHTML);
 	$("#editNodeUUID").val(uuid);
 	$("#edit_child_column").modal("show");
@@ -303,24 +315,25 @@ function editNode(){
 function editNodeItem(node){
 	var list = $("#"+node.UUID).children();
 	$(list[0]).html(node.nodeName);
-	$(list[1]).html("<img src=\""+node.nodePic+"_original.jpg"+"\" class=\"pic-preview img-thumbnail img-responsive\"/>");
+	var picHTML = "";
+	if(node.nodePic!=null){
+		picHTML = "<img src=\""+node.nodePic+"_original.jpg"+"\" class=\"pic-preview img-thumbnail img-responsive\"/>";
+	}
+	$(list[1]).html(picHTML);
 }
 
 function deleteNode(uuid){
 	if(getChildNodeList(uuid).length==0){
 		var deleteKey = getNodeKeyFromUUID(uuid);
-	    alert("deleting"+nodeList[deleteKey].nodeName);
 	    nodeList.splice(deleteKey,1);
 	    $("#"+uuid).remove();
 		return;
 	}else{
 		var list = getChildNodeList(uuid);
-		alert(list.length);
 		for(var i=0; i<list.length; i++){
 			deleteNode(list[i].UUID);
 		}
 		var deleteKey = getNodeKeyFromUUID(uuid);
-	    alert("deleting"+nodeList[deleteKey].nodeName);
 	    nodeList.splice(deleteKey,1);
 	    $("#"+uuid).remove();
 	    
@@ -328,6 +341,12 @@ function deleteNode(uuid){
 
 }
 
+function deleteChildNode(uuid){
+	var list = getChildNodeList(uuid);
+	for(var i=0; i<list.length; i++){
+		deleteNode(list[i].UUID);
+	}
+}
 
 function relateArticleWindow(uuid){
 	var inputList = new Array();
@@ -361,7 +380,8 @@ function relateArticle(){
 		node.childrenType = "article";
 		node.articleid=checkedVal;
 		node.classid=null;
-		$("#"+node.UUID+"-content").html("关联文章");		
+		$("#"+node.UUID+"-content").html("关联文章");
+		deleteChildNode(node.UUID);
 	}
 	$("#relate_doc").modal("hide");
 }
@@ -400,6 +420,7 @@ function relateClass(){
 		node.classid=checkedVal;
 		node.articleid=null;
 		$("#"+node.UUID+"-content").html("关联文章列表");
+		deleteChildNode(node.UUID);
 	}
 	$("#relate_doc_type").modal("hide");
 }
@@ -448,16 +469,20 @@ function getNodeChildHTML(uuid){
 		    var nodetypeText = ""; 
 		    if(node.childrenType=="node"){
 		    	nodetypeText = "关联子栏目";
-		    }else{
-		    	if(node.childrenType=="article"){
-		    		nodetypeText = "关联文章";
-		    	}else{
-		    		nodetypeText = "关联文章列表";
-		    	}
 		    }
+		    if(node.childrenType=="article"){
+		    	nodetypeText = "关联文章";
+		    }
+		    if(node.childrenType=="articleclass"){
+		    	nodetypeText = "关联文章列表";
+		    }
+			var picHTML = "";
+			if(node.nodePic!=null){
+				picHTML = "<img src=\""+node.nodePic+"_original.jpg"+"\" class=\"pic-preview img-thumbnail img-responsive\"/>";
+			}
             html = html + "<tr id=\""+node.UUID+"\">"
 		    +"<td>"+node.nodeName+"</td>"
-		    +"<td><img src=\""+node.nodePic+"_original.jpg"+"\" class=\"pic-preview img-thumbnail img-responsive\"/></td>"
+		    +"<td>"+picHTML+"</td>"
 		    +"<td id=\""+node.UUID+"-content"+"\">"+nodetypeText+"</td>"
 		    +"<td><a class=\"btn btn-sm btn-info\" data-toggle=\"modal\" onclick=\"createChildNode(\'"+node.UUID+"\')"+"\">为本栏目添加子栏目</a></td>"
 		    +"<td><a class=\"btn btn-sm btn-info\" onclick=\"relateArticleWindow(\'"+node.UUID+"\')"+"\">关联文章</a></td>"
