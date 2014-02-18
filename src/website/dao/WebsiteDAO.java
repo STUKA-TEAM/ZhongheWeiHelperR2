@@ -446,6 +446,45 @@ public class WebsiteDAO {
 	}
 	
 	/**
+	 * @title: getWebsiteInfoForCustomer
+	 * @description: 根据微官网id获取手机端所需微官网基本信息
+	 * @param websiteid
+	 * @return
+	 */
+	public Website getWebsiteInfoForCustomer(int websiteid){
+		String SQL = "SELECT title, phone, address, lng, lat, "
+				+ "coverPic, coverText, shareTitle, shareContent, "
+				+ "footerText, themeId FROM website WHERE websiteid = ?";
+		Website website = null;
+		
+		try {
+			website = jdbcTemplate.queryForObject(SQL, new Object[]{websiteid}, new CustomerWebsiteInfoMapper());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return website;
+	}
+		
+	private static final class CustomerWebsiteInfoMapper implements RowMapper<Website>{
+		@Override
+		public Website mapRow(ResultSet rs, int arg1) throws SQLException {
+			Website website = new Website();
+			website.setTitle(rs.getString("title"));
+			website.setPhone(rs.getString("phone"));
+			website.setAddress(rs.getString("address"));
+			website.setLng(rs.getBigDecimal("lng"));
+			website.setLat(rs.getBigDecimal("lat"));
+			website.setCoverPic(rs.getString("coverPic"));
+			website.setCoverText(rs.getString("coverText"));
+			website.setShareTitle(rs.getString("shareTitle"));
+			website.setShareContent(rs.getString("shareContent"));
+			website.setFooterText(rs.getString("footerText"));
+			website.setThemeId(rs.getInt("themeId"));
+			return website;
+		}		
+	}
+	
+	/**
 	 * @title: getBasicWebsiteInfo
 	 * @description: 获取微官网基本信息
 	 * @param appid
@@ -521,6 +560,48 @@ public class WebsiteDAO {
 			String imagePath = rs.getString("imagePath");
 			return imagePath;
 		}	
+	}
+	
+	/**
+	 * @title: getFirstLayerNodeList
+	 * @description: 根据websiteid查找第一层子节点详细信息
+	 * @param websiteid
+	 * @return
+	 */
+	public List<WebsiteNode> getFirstLayerNodeList(int websiteid){
+		List<WebsiteNode> nodeList = new ArrayList<WebsiteNode>();
+		
+		Integer rootid = getNodeId(websiteid, "root");
+		if (rootid == null) {
+			return nodeList;
+		}else {
+			List<Integer> childidList = getNodeChildid(rootid);
+			for (int i = 0; i < childidList.size(); i++) {
+				WebsiteNode node = getWebsiteNode(childidList.get(i));
+				if (node != null) {
+					nodeList.add(node);
+				}
+			}
+			return nodeList;
+		}
+	}
+	
+	/**
+	 * @title: getWebsiteNode
+	 * @description: 根据nodeid查找单个节点详细信息
+	 * @param nodeid
+	 * @return
+	 */
+	public WebsiteNode getWebsiteNode(int nodeid){
+		String SQL = "SELECT nodeid, nodeName, nodePic, childrenType FROM website_node WHERE nodeid = ?";
+		WebsiteNode node = null;
+		
+		try {
+			node = jdbcTemplate.queryForObject(SQL, new Object[]{nodeid}, new WebsiteNodeMapper());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return node;
 	}
 	
 	/**
