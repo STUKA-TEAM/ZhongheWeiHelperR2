@@ -476,6 +476,66 @@ public class ArticleDAO {
 	}
 	
 	/**
+	 * @title: getArticleForCustomer
+	 * @description: 根据articleid获取手机端单篇文章所需信息
+	 * @param articleid
+	 * @return
+	 */
+	public Article getArticleForCustomer(int articleid){
+		String SQL = "SELECT articleid, title, createTime, content FROM article WHERE articleid = ?";
+		Article article = null;
+		
+		try {
+			article = jdbcTemplate.queryForObject(SQL, new Object[]{articleid}, new CustomerArticleMapper());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return article;
+	}
+	
+	private static final class CustomerArticleMapper implements RowMapper<Article>{
+		@Override
+		public Article mapRow(ResultSet rs, int arg1) throws SQLException {
+			Article article = new Article();
+			article.setArticleid(rs.getInt("articleid"));
+			article.setTitle(rs.getString("title"));
+			article.setCreateTime(rs.getTimestamp("createTime"));
+			article.setContent(rs.getString("content"));
+			return article;
+		}	
+	}
+	
+	/**
+	 * @title: getArticleIntroinfo
+	 * @description: 根据articleid获取手机端文章列表展示时单篇文章信息
+	 * @param articleid
+	 * @return
+	 */
+	public Article getArticleIntroinfo(int articleid){
+		String SQL = "SELECT articleid, title, coverPic, createTime FROM article WHERE articleid = ?";
+		Article article = null;
+		
+		try {
+			article = jdbcTemplate.queryForObject(SQL, new Object[]{articleid}, new ArticleIntroinfoMapper());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return article;
+	}
+	
+	private static final class ArticleIntroinfoMapper implements RowMapper<Article>{
+		@Override
+		public Article mapRow(ResultSet rs, int arg1) throws SQLException {
+			Article article = new Article();
+			article.setArticleid(rs.getInt("articleid"));
+			article.setTitle(rs.getString("title"));
+			article.setCreateTime(rs.getTimestamp("coverPic"));
+			article.setContent(rs.getString("createTime"));
+			return article;
+		}	
+	}
+	
+	/**
 	 * @title: getArticleidList
 	 * @description: 由类别id获取所包含文章id列表
 	 * @param classid

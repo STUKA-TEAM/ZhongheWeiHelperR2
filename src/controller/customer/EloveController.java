@@ -42,17 +42,21 @@ public String eloveIndex(Model model, @RequestParam(value = "eloveid", required 
 	((ConfigurableApplicationContext)context).close();
 	
 	EloveWizard eloveWizard = eloveWizardDao.getOnlyElove(eloveid);
-	model.addAttribute("elove", eloveWizard);
+	Timestamp current = new Timestamp(System.currentTimeMillis());
+	String viewName = "EloveViews/";
 	
-	List<String> recordImagePath = eloveWizardDao.getImageListWithType(eloveid, "record");
-	model.addAttribute("recordImages", recordImagePath);
-	
-	List<String> storyImagePath = eloveWizardDao.getImageListWithType(eloveid, "story");
-	model.addAttribute("storyImagePath", storyImagePath);
-	
-	String viewName = "EloveViews/elove-";
-	if (eloveWizard != null) {
-		viewName = viewName + eloveWizard.getThemeid();
+	if (eloveWizard != null && eloveWizard.getExpiredTime().after(current)) {
+		model.addAttribute("elove", eloveWizard);
+		
+		List<String> recordImagePath = eloveWizardDao.getImageListWithType(eloveid, "record");
+		model.addAttribute("recordImages", recordImagePath);
+		
+		List<String> storyImagePath = eloveWizardDao.getImageListWithType(eloveid, "story");
+		model.addAttribute("storyImagePath", storyImagePath);
+		
+		viewName = viewName + "elove-" + eloveWizard.getThemeid();
+	}else {
+		viewName = viewName + "expired";
 	}
 	
 	return viewName;
