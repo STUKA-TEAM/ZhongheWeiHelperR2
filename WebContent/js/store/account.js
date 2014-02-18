@@ -10,7 +10,7 @@
       $.each(linkInputArray,function(key,val){
     	  linkArray.push($(val).val());
       });
-      userInfo.imageList=linkArray;;
+      userInfo.imageList=linkArray;
       userInfo.corpMoreInfoLink=$("#info_link").val();
       userInfo.lng=$("#lng").val();
       userInfo.lat=$("#lat").val();
