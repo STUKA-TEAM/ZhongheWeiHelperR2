@@ -848,4 +848,22 @@ public class WebsiteDAO {
 			return themeid;
 		}	
 	}
+	
+	/**
+	 * @title: getWebsiteNum
+	 * @description: 根据appid查询已关联微官网的数量
+	 * @param appid
+	 * @return
+	 */
+	public int getWebsiteNum(String appid){
+		String SQL = "SELECT COUNT(*) FROM website WHERE appid = ?";
+		int count = 1;
+		
+		try {
+			count = jdbcTemplate.queryForObject(SQL, Integer.class, appid);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());		
+	    }
+		return count;
+	}
 }
