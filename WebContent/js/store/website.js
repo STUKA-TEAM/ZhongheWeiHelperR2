@@ -77,7 +77,7 @@ function validateStep1(step1Info){
 		return true;
 	}else{
 		showBlankInputHtml(blankInputArray);
-		return true;
+		return false;
 	}
 }
 
@@ -163,6 +163,7 @@ $(document).ready(function(){
 	root.UUID = (new UUID()).id;
 	root.nodeName = "root";
 	root.childrenType = "node";
+	root.fatherUUID="";
 	$("#fatheruuid").val(root.UUID);
 	nodeList.push(root);
 });
