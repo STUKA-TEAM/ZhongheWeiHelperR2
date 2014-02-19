@@ -1,5 +1,5 @@
 ﻿# Host: localhost  (Version: 5.5.32)
-# Date: 2014-01-24 21:34:52
+# Date: 2014-02-19 21:05:02
 # Generator: MySQL-Front 5.3  (Build 4.89)
 
 /*!40101 SET NAMES utf8 */;
@@ -47,7 +47,7 @@ CREATE TABLE `article` (
   `createTime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建时间',
   `content` text NOT NULL COMMENT '文章内容',
   PRIMARY KEY (`articleid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 #
 # Structure for table "article_articleclass"
@@ -59,7 +59,7 @@ CREATE TABLE `article_articleclass` (
   `articleid` int(11) NOT NULL COMMENT '文章id',
   `classid` int(11) NOT NULL COMMENT '文章类别id',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 #
 # Structure for table "articleclass"
@@ -72,7 +72,7 @@ CREATE TABLE `articleclass` (
   `className` varchar(20) NOT NULL COMMENT '文章类别名称',
   `createTime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建时间',
   PRIMARY KEY (`classid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 #
 # Structure for table "authority"
@@ -96,7 +96,7 @@ CREATE TABLE `customer_app_count` (
   `sid` int(11) NOT NULL DEFAULT '0',
   `appUpperLimit` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 #
 # Structure for table "customer_authority"
@@ -109,7 +109,7 @@ CREATE TABLE `customer_authority` (
   `authid` int(11) NOT NULL COMMENT '权限id',
   `expiredTime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '权限过期时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 #
 # Structure for table "elove"
@@ -245,7 +245,7 @@ CREATE TABLE `image_temp_record` (
   `imagePath` varchar(80) NOT NULL COMMENT '临时图片路径（未完全）',
   `createDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
 
 #
 # Structure for table "role"
@@ -269,7 +269,7 @@ CREATE TABLE `store_auth_price` (
   `authid` int(11) NOT NULL COMMENT '权限id',
   `price` decimal(15,2) NOT NULL COMMENT '单价',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COMMENT='customer类型user对应的权限价格';
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COMMENT='customer类型user对应的权限价格';
 
 #
 # Structure for table "storeimage"
@@ -303,7 +303,7 @@ CREATE TABLE `storeuser` (
   `lng` decimal(12,6) NOT NULL COMMENT '地址经度',
   `lat` decimal(12,6) NOT NULL COMMENT '地址纬度',
   PRIMARY KEY (`sid`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8 COMMENT='user类型 (平台内账户类型)';
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8 COMMENT='user类型 (平台内账户类型)';
 
 #
 # Structure for table "storeuser_application"
@@ -327,7 +327,7 @@ CREATE TABLE `video_temp_record` (
   `videoPath` varchar(80) NOT NULL COMMENT '临时视频路径',
   `createDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建日期',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8;
 
 #
 # Structure for table "website"
@@ -345,7 +345,6 @@ CREATE TABLE `website` (
   `lat` decimal(12,5) NOT NULL DEFAULT '0.00000' COMMENT '地址纬度',
   `createTime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '创建时间',
   `expiredTime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '资源过期时间',
-  `rootNodeId` int(11) NOT NULL COMMENT '子模块树根节点',
   `coverPic` varchar(80) NOT NULL COMMENT '微信图文消息图片',
   `coverText` varchar(200) NOT NULL COMMENT '微信图文消息文字',
   `shareTitle` varchar(40) NOT NULL COMMENT '分享消息标题',
@@ -375,6 +374,7 @@ CREATE TABLE `website_image` (
 DROP TABLE IF EXISTS `website_node`;
 CREATE TABLE `website_node` (
   `nodeid` int(11) NOT NULL AUTO_INCREMENT,
+  `websiteid` int(11) NOT NULL DEFAULT '0' COMMENT '微官网id',
   `nodeName` varchar(20) NOT NULL COMMENT '模块名称',
   `nodePic` varchar(80) DEFAULT NULL COMMENT '模块图片',
   `childrenType` varchar(10) NOT NULL COMMENT '子节点类别 (node,article,articleclass)',
@@ -416,6 +416,18 @@ CREATE TABLE `website_node_structure` (
   `fatherid` int(11) NOT NULL COMMENT '父节点id',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#
+# Structure for table "website_nodetree"
+#
+
+DROP TABLE IF EXISTS `website_nodetree`;
+CREATE TABLE `website_nodetree` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nodeid` int(11) NOT NULL DEFAULT '0' COMMENT '节点id',
+  `childid` int(11) NOT NULL DEFAULT '0' COMMENT '子节点id（子节点 : node | article | articleclass）',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='微官网节点树关系表';
 
 #
 # Structure for table "website_theme"
