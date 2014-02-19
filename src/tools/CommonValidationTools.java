@@ -329,6 +329,11 @@ public class CommonValidationTools {
 						website.getExpiredTime() == null) {   
 					return  "微官网操作信息不完整!";
 				}
+				
+				int count = websiteDao.getWebsiteNum(website.getAppid());
+				if (count != 0) {
+					return "抱歉，创建失败！此公众账号已经创建了一个微官网";
+				}
 			}
 		}
 		
