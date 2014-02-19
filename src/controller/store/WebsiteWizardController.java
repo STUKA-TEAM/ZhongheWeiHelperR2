@@ -32,6 +32,7 @@ import tools.CommonValidationTools;
 import website.Step1Info;
 import website.Step2Info;
 import website.Website;
+import website.WebsiteNode;
 import website.dao.WebsiteDAO;
 
 /**
@@ -113,6 +114,23 @@ public class WebsiteWizardController {
 		website.setThemeId(step1Info.getThemeId());
 		model.addAttribute("websiteWizard", website);
 		return "WebsiteViews/step2";
+	}
+	
+	@RequestMapping(value = "/getnodes", method = RequestMethod.GET)
+	@ResponseBody
+	public String getNodes(final @ModelAttribute("websiteWizard") Website website, 
+			Model model){
+		ApplicationContext context = 
+				new ClassPathXmlApplicationContext("All-Modules.xml");
+		WebsiteDAO websiteDao = (WebsiteDAO) context.getBean("WebsiteDAO");
+		((ConfigurableApplicationContext)context).close();
+		
+		Gson gson = new Gson();	
+		int websiteid = website.getWebsiteid();
+		List<WebsiteNode> nodeList = websiteDao.getWebsiteNodeList(websiteid);
+		
+		String response = gson.toJson(nodeList);
+		return response;
 	}
 	
 	@RequestMapping(value = "/finish", method = RequestMethod.POST)

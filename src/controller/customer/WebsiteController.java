@@ -48,7 +48,7 @@ public class WebsiteController {
 		if (website != null && website.getExpiredTime().after(current)) {
 			model.addAttribute("website", website);
 			
-			List<String> imageList = websiteDao.getWebsiteImagesWithType(websiteid, "introduction");
+			List<String> imageList = websiteDao.getWebsiteImagesWithType(websiteid, "introduce");
 			model.addAttribute("images", imageList);
 			
 			List<WebsiteNode> nodeList = websiteDao.getFirstLayerNodeList(websiteid);
