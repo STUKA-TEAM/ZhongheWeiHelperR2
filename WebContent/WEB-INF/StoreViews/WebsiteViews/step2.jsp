@@ -36,8 +36,10 @@
         <button type="button" class="btn btn-lg btn-info col-md-2 col-md-offset-1 text-center" onclick="nextStep('finish')">完成微官网创建</button>
       </div>
     </div>
-  </div>
+  </div>  
 </div>
+
+
     <div class="modal fade" id="add_child_column" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">

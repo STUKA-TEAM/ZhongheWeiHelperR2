@@ -83,38 +83,8 @@ function validateStep1(step1Info){
 
 function getStep2Data(){
 	var step2Info = new Object();
-	step2Info.xinLang=$("#story_groom").val();
-	step2Info.xinNiang=$("#story_bride").val();
-    var linkInputArray=$("#upload1-links").children();
-    var linkArray=new Array();
-    $.each(linkInputArray,function(key,val){
-  	  linkArray.push($(val).val());
-    });
-	step2Info.storyImagePath=linkArray;
-	var storyTextImagePathStr=$("#upload1single-png-links").children();
-	if(storyTextImagePathStr.length!=0){
-		step2Info.storyTextImagePath=storyTextImagePathStr[0].value;
-	}else{
-		step2Info.storyTextImagePath=null;
-	}
-	if(validateStep2(step2Info)){
-		return step2Info;		
-	}else{
-		return null;
-	}
-}
-function validateStep2(step2Info){
-	var blankInputArray = new Array();
-	if(step2Info.xinLang=="")blankInputArray.push("新郎");
-	if(step2Info.xinNiang=="")blankInputArray.push("新娘");
-    if(step2Info.storyImagePath.length==0)blankInputArray.push("相遇相知图片");
-	if(step2Info.storyTextImagePath==null)blankInputArray.push("相遇相知文字图片");
-	if(blankInputArray.length==0){
-		return true;
-	}else{
-		showBlankInputHtml(blankInputArray);
-		return false;
-	}
+	step2Info.nodeList=nodeList;
+	return step2Info;
 }
 
 function showBlankInputHtml(blankInputArray){
@@ -216,6 +186,7 @@ function addNode(){
 	}else{
 		node.nodePic=null;
 	}
+	node.childrenType = "node";
 	nodeList.push(node);
 	addNodeItem(node);
 	$("#add_child_column").modal("hide");
