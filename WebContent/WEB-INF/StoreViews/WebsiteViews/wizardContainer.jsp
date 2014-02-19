@@ -58,5 +58,6 @@
     <script type="text/javascript" src="js/store/upload.js"></script>
     <script type="text/javascript" src="js/store/uuid.js"></script>
     <script type="text/javascript" src="js/store/website.js"></script>
+    <script type="text/javascript" src="js/store/websitewizard.js"></script>
   </body>
 </html>
