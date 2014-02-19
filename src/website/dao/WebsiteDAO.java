@@ -79,7 +79,7 @@ public class WebsiteDAO {
 			
 			int websiteid = kHolder.getKey().intValue();
 			
-			result = insertImage(websiteid, "introduction", website.getImageList());        //插入微官网介绍图片
+			result = insertImage(websiteid, "introduce", website.getImageList());        //插入微官网介绍图片
             if (result == 0) {
 				return -1;
 			}
@@ -382,7 +382,7 @@ public class WebsiteDAO {
 			deleteImage(websiteid);
 			deleteNodes(websiteid);
 			
-			result = insertImage(websiteid, "introduction", website.getImageList());        //插入微官网介绍图片
+			result = insertImage(websiteid, "introduce", website.getImageList());        //插入微官网介绍图片
             if (result == 0) {
 				return -1;
 			}
@@ -418,7 +418,7 @@ public class WebsiteDAO {
 		}
 		
 		if (website != null) {
-			website.setImageList(getWebsiteImagesWithType(websiteid, "introduction"));
+			website.setImageList(getWebsiteImagesWithType(websiteid, "introduce"));
 			website.setNodeList(getWebsiteNodeList(websiteid));
 		}
 		return website;
@@ -536,7 +536,7 @@ public class WebsiteDAO {
 	
 	/**
 	 * @title: getWebsiteImagesWithType
-	 * @description: 根据网站id和图片类型选择图片。 可选图片类型：  introduction;
+	 * @description: 根据网站id和图片类型选择图片。 可选图片类型：  introduce;
 	 * @param websiteid
 	 * @param imageType
 	 * @return
@@ -606,7 +606,8 @@ public class WebsiteDAO {
 	
 	/**
 	 * @title: getWebsiteNodeList
-	 * @description: 根据微官网id读取网站树状结构节点信息
+	 * @description: 根据微官网id读取节点信息nodeid, nodeName, nodePic, childrenType 以及
+	 * 节点关联信息 fatherid, articleid, classid
 	 * @param websiteid
 	 * @return
 	 */
