@@ -7,10 +7,10 @@ div {
   max-width: 360px;
   text-align: center; 
 }
-h4, small {
+h4 {
   font-family:"Microsoft YaHei";
-  padding-top: 10px;
   padding-left: 20px;
+  margin-bottom: 2px;
 }
 h5 {
   font-family:"Microsoft YaHei";
@@ -31,11 +31,14 @@ a:hover {
 }
 .article-model-header {
   width: 100%;
-  text-align: left; 
+  text-align: left;
+  padding-top: 10px;
 }
 .article-model-header > small {
   color: #999999;
   font-size: 14px;
+  font-family:"Microsoft YaHei";
+  padding-left: 20px;
 }
 .article-model-content {
   width: 100%;

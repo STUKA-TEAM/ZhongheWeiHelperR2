@@ -48,8 +48,9 @@ div {
 .contentlist-item:hover,
 .contentlist-item:focus {
   float: left;
-  width: 48%;
-  margin: 2px 1% 2px 1%;
+  width: 46%;
+  max-height: 103px;
+  margin: 5px 2%;
   background-color: #ffffff;
   text-align: left;
   font-size: 14px;
@@ -59,8 +60,8 @@ div {
   background-color: #cccccc;
 }
 .contentlist-text {
-  padding: 20px 5px;
-  font-size: 15px;
+  padding: 5px 10px 1px 10px;
+  font-size: 14px;
 }
 .list-item {
   padding: 13px;
