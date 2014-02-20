@@ -23,7 +23,7 @@
         <div class="form-group">
           <label for="story_bride" class="col-md-3 control-label">获取码</label>
           <div class="col-md-7">
-            <input type="text" class="form-control" id="getCode" placeholder="">
+            <input type="text" class="form-control" id="getCode" placeholder="" value="${websiteWizard.getCode}">
           </div>
         </div>
         <form  class="form-group" role="form" enctype="multipart/form-data" id="upload1">
@@ -54,7 +54,7 @@
         <div class="form-group">
           <label for="story_bride" class="col-md-3 control-label">联系电话</label>
           <div class="col-md-7">
-            <input type="text" class="form-control" id="phone" placeholder="">
+            <input type="text" class="form-control" id="phone" placeholder="" value="${websiteWizard.phone}">
           </div>
         </div>
         <div class="form-group">
@@ -99,25 +99,25 @@
         <div class="form-group">
           <label for="story_bride" class="col-md-3 control-label">图文消息文字</label>
           <div class="col-md-7">
-            <input type="text" class="form-control" id="coverText" placeholder="">
+            <input type="text" class="form-control" id="coverText" placeholder="" value="${websiteWizard.coverText}">
           </div>
         </div>
         <div class="form-group">
           <label for="story_bride" class="col-md-3 control-label">分享消息标题</label>
           <div class="col-md-7">
-            <input type="text" class="form-control" id="shareTitle" placeholder="">
+            <input type="text" class="form-control" id="shareTitle" placeholder="" value="${websiteWizard.shareTitle}">
           </div>
         </div>
         <div class="form-group">
           <label for="story_bride" class="col-md-3 control-label">分享消息文字</label>
           <div class="col-md-7">
-            <input type="text" class="form-control" id="shareContent" placeholder="">
+            <input type="text" class="form-control" id="shareContent" placeholder="" value="${websiteWizard.shareContent}">
           </div>
         </div>
         <div class="form-group">
           <label for="story_bride" class="col-md-3 control-label">页面脚注</label>
           <div class="col-md-7">
-            <input type="text" class="form-control" id="footerText" placeholder="">
+            <input type="text" class="form-control" id="footerText" placeholder="" value="${websiteWizard.footerText}">
           </div>
         </div>
         <div class="form-group">

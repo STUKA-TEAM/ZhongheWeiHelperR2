@@ -49,7 +49,7 @@
                 <td><fmt:formatDate value="${website.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                 <td>${website.getCode}</td>
                 <td>${website.title}</td>
-                <td><a class="btn btn-sm btn-info">编辑</a></td>
+                <td><a class="btn btn-sm btn-info" href="store/website/wizard/initial/edit?websiteid=${website.websiteid}">编辑</a></td>
                 <td><a class="btn btn-sm btn-danger" onclick="submitDeleteWebsite('${website.websiteid}')">删除</a></td>
               </tr>
               </c:if>
