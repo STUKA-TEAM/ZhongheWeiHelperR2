@@ -1,0 +1,72 @@
+html, header, body {
+  max-width: 360px;
+  background-color: #E8E7E4;
+  font-family:"Microsoft YaHei";
+  color: #666666;
+}
+div {
+  max-width: 360px;
+  text-align:center; 
+}
+.navbar-icon {
+  width: 23px;
+  height: auto;
+}
+.navbar-item {
+  font-size: 14px;
+  width: 22%;
+  height: 100%;
+  margin-left: 1%;
+  padding-top: 10px;
+  padding-bottom: 5px;
+}
+.navbar-item-border {
+  border-right-style: dashed;
+  border-right-color: #3eb2fb;
+  border-right-width: 1px;
+}
+.navbar-bg {
+  width: 100%;
+  height: 50px;
+}
+.navbar-bottom {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 50px;
+  background-color: #F5F4F3;
+  border-top-style: solid;
+  border-top-color: #C3C0B9;
+  border-top-width: 1px;
+  padding: 5px 0;
+}
+.list-item {
+  padding: 13px;
+  background-color: #f4f4f4;
+  border-bottom-style: solid;
+  border-bottom-color: #3eb2fb;
+  border-bottom-width: 1px;
+  color: #666666;
+  font-size: 18px;
+  text-align: left; 
+}
+.list-item:hover,
+.list-item:focus {
+  padding: 13px;
+  background-color: #ffffff;
+  border-bottom-style: solid;
+  border-bottom-color: #3eb2fb;
+  border-bottom-width: 1px;
+  color: #666666;
+  font-size: 18px;
+  text-align: left; 
+}
+.list-item-icon,
+.list-item-arrow {
+  width: 25px;
+  height: 25px;
+}
+.list-item-arrow {
+  float: right;
+}
