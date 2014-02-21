@@ -5,6 +5,10 @@ html, header, body {
 }
 body {
   background-repeat: no-repeat;
+  background-size:100%;"
+}
+#module-list{
+  margin-top:35px;
 }
 div {
   max-width: 360px;
@@ -25,12 +29,12 @@ div {
   display: block;
 }
 .contentlist {
-  max-width: 300px;
+  max-width: 280px;
 }
 .contentlist-item {
   float: left;
-  width: 90px;
-  height: 90px;
+  width: 80px;
+  height: 80px;
   color: #ffffff;
   text-align: center;
   margin: 10px;
