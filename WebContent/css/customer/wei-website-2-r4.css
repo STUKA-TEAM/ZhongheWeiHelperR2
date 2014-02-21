@@ -25,6 +25,9 @@ div {
   width: 30px;
   display: block;
 }
+.contentlist {
+  max-width: 300px;
+}
 .contentlist-item {
   float: left;
   width: 90px;
