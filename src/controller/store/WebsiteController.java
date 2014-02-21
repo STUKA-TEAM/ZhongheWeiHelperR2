@@ -69,6 +69,10 @@ public class WebsiteController {
 			}
 			else {
 				Website website = websiteDao.getBasicWebsiteInfo(appid);
+				if (website != null) {
+					website.setExpiredTime(websiteDao.getExpiredTime(user.getSid(),
+							"website"));
+				}
 				model.addAttribute("website", website);
 				return "WebsiteViews/home";
 			}

@@ -185,9 +185,7 @@ public class WebsiteWizardController {
 					website.setAppid(appid);
 					
 					Timestamp createTime = new Timestamp(System.currentTimeMillis());
-					Timestamp expiredTime = websiteDao.getExpiredTime(user.getSid(), "website");
 					website.setCreateTime(createTime);
-					website.setExpiredTime(expiredTime);
 					
 					String checkInfo = CommonValidationTools.checkWebsite(website);
 					if (!checkInfo.equals("pass")) {

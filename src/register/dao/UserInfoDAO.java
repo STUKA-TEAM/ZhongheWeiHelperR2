@@ -258,6 +258,38 @@ public class UserInfoDAO {
 	}
 	
 	/**
+	 * @title: getCustomerInfoList
+	 * @description: 获取CUSTOMER类型用户的信息列表
+	 * @return
+	 */
+	public List<UserInfo> getCustomerInfoList(){
+		String SQL = "SELECT sid, createDate, storeName, phone, cellPhone FROM "
+				+ "storeuser WHERE roleid = 1";                                             //default 'CUSTOMER' -- 1
+		List<UserInfo> infoList = null;
+		
+		try {
+			infoList = jdbcTemplate.query(SQL, new CustomerInfoMapper());
+		} catch (Exception e) {
+			infoList = new ArrayList<UserInfo>();
+			System.out.println(e.getMessage());
+		}
+		return infoList;
+	}
+	
+	private static final class CustomerInfoMapper implements RowMapper<UserInfo>{
+		@Override
+		public UserInfo mapRow(ResultSet rs, int arg1) throws SQLException {
+			UserInfo userInfo = new UserInfo();
+			userInfo.setSid(rs.getInt("sid"));
+			userInfo.setCreateDate(rs.getTimestamp("createDate"));
+			userInfo.setStoreName(rs.getString("storeName"));
+			userInfo.setPhone(rs.getString("phone"));
+			userInfo.setCellPhone(rs.getString("cellPhone"));
+			return userInfo;
+		}
+	}
+	
+	/**
 	 * @title: getUserImages
 	 * @description: 通过sid获取相关联的图片列表
 	 * @param sid
@@ -313,6 +345,24 @@ public class UserInfoDAO {
 		
 		try {
 			sid = jdbcTemplate.queryForObject(SQL, new Object[]{eloveid}, new SidMapper());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return sid;
+	}
+	
+	/**
+	 * @title: getSidByAppid
+	 * @description: 由appid查询sid
+	 * @param appid
+	 * @return
+	 */
+	public Integer getSidByAppid(String appid){
+		String SQL = "SELECT S.sid FROM storeuser_application S WHERE S.appid = ?";
+		Integer sid = null;
+		
+		try {
+			sid = jdbcTemplate.queryForObject(SQL, new Object[]{appid}, new SidMapper());
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

@@ -325,8 +325,7 @@ public class CommonValidationTools {
 			return "微官网提交信息非法！";
 		}else{
 			if (website.getWebsiteid() == 0) {
-				if (website.getAppid() == null || website.getCreateTime() == null || 
-						website.getExpiredTime() == null) {   
+				if (website.getAppid() == null || website.getCreateTime() == null) {   
 					return  "微官网操作信息不完整!";
 				}
 				

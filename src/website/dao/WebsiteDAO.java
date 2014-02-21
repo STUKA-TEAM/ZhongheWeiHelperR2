@@ -46,7 +46,7 @@ public class WebsiteDAO {
 	public int insertWebsite(final Website website){
 		int result = 0;
 		final String SQL = "INSERT INTO website (websiteid, appid, getCode, title, "
-				+ "phone, address, lng, lat, createTime, expiredTime, coverPic, "
+				+ "phone, address, lng, lat, createTime, coverPic, "
 				+ "coverText, shareTitle, shareContent, footerText, themeId) "
 				+ "VALUES (default, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
@@ -63,7 +63,6 @@ public class WebsiteDAO {
 		        ps.setBigDecimal(6, website.getLng());
 		        ps.setBigDecimal(7, website.getLat());
 		        ps.setTimestamp(8, website.getCreateTime());
-		        ps.setTimestamp(9, website.getExpiredTime());
 		        ps.setString(10, website.getCoverPic());
 		        ps.setString(11, website.getCoverText());
 		        ps.setString(12, website.getShareTitle());
@@ -452,7 +451,7 @@ public class WebsiteDAO {
 	 * @return
 	 */
 	public Website getWebsiteInfoForCustomer(int websiteid){
-		String SQL = "SELECT title, phone, address, lng, lat, "
+		String SQL = "SELECT appid, title, phone, address, lng, lat, "
 				+ "coverPic, coverText, shareTitle, shareContent, "
 				+ "footerText, themeId FROM website WHERE websiteid = ?";
 		Website website = null;
@@ -469,6 +468,7 @@ public class WebsiteDAO {
 		@Override
 		public Website mapRow(ResultSet rs, int arg1) throws SQLException {
 			Website website = new Website();
+			website.setAppid(rs.getString("appid"));
 			website.setTitle(rs.getString("title"));
 			website.setPhone(rs.getString("phone"));
 			website.setAddress(rs.getString("address"));
@@ -491,7 +491,7 @@ public class WebsiteDAO {
 	 * @return
 	 */
 	public Website getBasicWebsiteInfo(String appid){
-		String SQL = "SELECT websiteid, getCode, title, createTime, expiredTime FROM website WHERE appid = ?";
+		String SQL = "SELECT websiteid, getCode, title, createTime FROM website WHERE appid = ?";
 		Website website = null;
 		
 		try {
@@ -510,7 +510,6 @@ public class WebsiteDAO {
 			website.setGetCode(rs.getString("getCode"));
 			website.setTitle(rs.getString("title"));
 			website.setCreateTime(rs.getTimestamp("createTime"));
-			website.setExpiredTime(rs.getTimestamp("expiredTime"));
 			return website;
 		}		
 	}

@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import register.dao.AppInfoDAO;
+import register.dao.UserInfoDAO;
 import article.Article;
 import article.dao.ArticleDAO;
 import website.Website;
@@ -39,13 +41,23 @@ public class WebsiteController {
 		ApplicationContext context = 
 				new ClassPathXmlApplicationContext("All-Modules.xml");
 		WebsiteDAO websiteDao = (WebsiteDAO) context.getBean("WebsiteDAO");
+		UserInfoDAO userInfoDao = (UserInfoDAO) context.getBean("UserInfoDAO");
 		((ConfigurableApplicationContext)context).close();
 		
 		Website website = websiteDao.getWebsiteInfoForCustomer(websiteid);
 		Timestamp current = new Timestamp(System.currentTimeMillis());
+		Timestamp expiredTime = null;
 		String viewName = "WebsiteViews/";
 		
-		if (website != null && website.getExpiredTime().after(current)) {
+		if (website != null) {
+			Integer sid = userInfoDao.getSidByAppid(website.getAppid());
+			if (sid != null) {
+				website.setExpiredTime(websiteDao.getExpiredTime(sid, "website"));
+			}
+			expiredTime = website.getExpiredTime();
+		}
+		
+		if (expiredTime != null && expiredTime.after(current)) {
 			model.addAttribute("website", website);
 			
 			List<String> imageList = websiteDao.getWebsiteImagesWithType(websiteid, "introduce");
