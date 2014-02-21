@@ -1,0 +1,9 @@
+html, header, body {
+  max-width: 360px;
+  background-color: #E8E7E4;
+  font-family:"Microsoft YaHei";
+  color: #666666;
+}
+.bill-value {
+  padding-left: 10px;
+}
