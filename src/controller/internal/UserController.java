@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import elove.dao.EloveInfoDAO;
 import register.UserInfo;
+import register.dao.AppInfoDAO;
 import register.dao.AuthInfoDAO;
 import register.dao.UserInfoDAO;
 
@@ -49,6 +51,8 @@ public class UserController {
 		ApplicationContext context = 
 				new ClassPathXmlApplicationContext("All-Modules.xml");
 		AuthInfoDAO authInfoDao = (AuthInfoDAO) context.getBean("AuthInfoDAO");
+		AppInfoDAO appInfoDao = (AppInfoDAO) context.getBean("AppInfoDAO");
+		EloveInfoDAO eloveInfoDao = (EloveInfoDAO) context.getBean("EloveInfoDAO");
 		((ConfigurableApplicationContext)context).close();
 		
 		//website
@@ -60,6 +64,24 @@ public class UserController {
 		//elove
 		Timestamp eloveExpired = authInfoDao.getExpiredTime(sid, "elove");
 		BigDecimal elovePrice = authInfoDao.getPrice(sid, "elove");
+		List<String> appidList = appInfoDao.getAppidList(sid);
+		int consumedSum = 0;
+		int notPaySum = 0;
+		for (int i = 0; i < appidList.size(); i++) {
+			String appid = appidList.get(i);
+			
+			int consumed = eloveInfoDao.getEloveNum(appid);
+			consumedSum += consumed;
+			
+			Integer notPay = eloveInfoDao.getConsumeRecord(appid);
+			if (notPay != null) {
+				notPaySum += notPay;
+			}
+		}	
+		BigDecimal consumedMoney = elovePrice.multiply(new BigDecimal(consumedSum));
+		BigDecimal notPayMoney = elovePrice.multiply(new BigDecimal(notPaySum));
+		model.addAttribute("eloveExpired", eloveExpired);
+		model.addAttribute("elovePrice", elovePrice);
 		
 		return "customerInfo";
 	}

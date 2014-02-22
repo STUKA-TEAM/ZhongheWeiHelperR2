@@ -27,6 +27,8 @@ public class UserInfo {
 	private String corpMoreInfoLink;
 	private BigDecimal lng;
 	private BigDecimal lat;
+
+	private String contact;
 	
 	/**
 	 * @return the sid
@@ -207,5 +209,17 @@ public class UserInfo {
 	 */
 	public void setLat(BigDecimal lat) {
 		this.lat = lat;
+	}
+	/**
+	 * @return the contact
+	 */
+	public String getContact() {
+		return contact;
+	}
+	/**
+	 * @param contact the contact to set
+	 */
+	public void setContact(String contact) {
+		this.contact = contact;
 	}
 }

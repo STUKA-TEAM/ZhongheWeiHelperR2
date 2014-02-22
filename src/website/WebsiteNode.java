@@ -17,7 +17,7 @@ public class WebsiteNode {
 	private String childrenType;
 	private int articleid;
 	private int classid;
-	
+	private int websiteid;
 	/**
 	 * @return the nodeid
 	 */
@@ -125,5 +125,17 @@ public class WebsiteNode {
 	 */
 	public void setClassid(int classid) {
 		this.classid = classid;
+	}
+	/**
+	 * @return the websiteid
+	 */
+	public int getWebsiteid() {
+		return websiteid;
+	}
+	/**
+	 * @param websiteid the websiteid to set
+	 */
+	public void setWebsiteid(int websiteid) {
+		this.websiteid = websiteid;
 	}
 }
