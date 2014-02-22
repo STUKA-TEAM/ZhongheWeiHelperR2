@@ -27,7 +27,7 @@
     </div>
     <div class="container navlist-right">
       <ul class="list-unstyled navlist">
-        <li class="navlist-item"><a class="noneStyleLink"><img src="./img/icon_lib/home-black.png" class="navlist-icon" alt="home"> 首页</a></li>
+        <li class="navlist-item"><a href="customer/website/home?websiteid=${website.websiteid}" class="noneStyleLink"><img src="./img/icon_lib/home-black.png" class="navlist-icon" alt="home"> 首页</a></li>
         <li onclick="location.href='http://api.map.baidu.com/marker?location=${website.lat},${website.lng}&amp;title=${website.address}&amp;name=${website.address}&amp;content=${website.address}&amp;output=html'" class="navlist-item"><a class="noneStyleLink"><img src="./img/icon_lib/gps-black.png" class="navlist-icon" alt="gps"> 导航</a></li>
         <li class="navlist-item"><a class="noneStyleLink" href="tel:${website.phone}"><img src="./img/icon_lib/phone-black.png" class="navlist-icon" alt="phone"> 电话</a></li>
         <li class="navlist-item"><a onclick="switch_guide('#guide_bg','#guide_img')" class="noneStyleLink"><img src="./img/icon_lib/share-black.png" class="navlist-icon" alt="share"> 分享</a></li>

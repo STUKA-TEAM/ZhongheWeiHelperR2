@@ -18,20 +18,35 @@
     <link href="./css/customer/wei-website-modulelist.css" rel="stylesheet">
   </head>
   <body>
-
+      <div id='mySwipe' class='swipe'>
+        <div class='swipe-wrap'>
+        <c:forEach items="${imageList}" var="images">
+          <div><img src = '${images}_standard.jpg' class="img-responsive center-block"></div>
+        </c:forEach>
+        </div>
+        <nav id="position" class="images-pointer">
+          <c:forEach var="x" begin="1" end="${imageList.size()}" step="1">
+		  <c:if test="${x=='1'}">
+		  <a class="on"></a>
+		  </c:if>
+		  <c:if test="${x!='1'}">
+		  <a class="off"></a>
+		  </c:if>
+          </c:forEach>
+        </nav>
+      </div>
     <div class="website-list">
       <ul class="list-unstyled">
-
-        <li class="list-item"><a class="noneStyleLink" href="wei-article-list.html"><img src="./img/icon_lib/client-blue.png" class="list-item-icon" alt="home"> 公司介绍 <img src="./img/icon_lib/arrow_blue.png" class="list-item-arrow" alt="home"></a></li>
-        <li class="list-item"><a class="noneStyleLink"><img src="./img/icon_lib/circle-blue.png" class="list-item-icon" alt="home"> 创意团队 <img src="./img/icon_lib/arrow_blue.png" class="list-item-arrow" alt="home"></a></li>
-        <li class="list-item"><a class="noneStyleLink"><img src="./img/icon_lib/mail-blue.png" class="list-item-icon" alt="home"> 联系方式 <img src="./img/icon_lib/arrow_blue.png" class="list-item-arrow" alt="home"></a></li>
+		<c:forEach items="${nodeList}" var="item">
+        <li class="list-item"><a class="noneStyleLink" href="customer/website/resources?nodeid=${item.nodeid}l"><img src="${item.nodePic}_small.jpg" class="list-item-icon" alt="home"> ${item.nodeName} <img src="./img/icon_lib/arrow_blue.png" class="list-item-arrow" alt="home"></a></li>
+        </c:forEach>
       </ul>
     </div>
     <div class="navbar-bg"></div>
     <div class="navbar-bottom">
       <ul class="list-inline">
        
-        <li class="navbar-item navbar-item-border"><a href="wei-website-2.html" class="noneStyleLink"><img src="./img/icon_lib/home-blue.png" class="navbar-icon" alt="home"> 首页</a> </li>
+        <li class="navbar-item navbar-item-border"><a href="customer/website/home?websiteid=${website.websiteid}" class="noneStyleLink"><img src="./img/icon_lib/home-blue.png" class="navbar-icon" alt="home"> 首页</a> </li>
         <li onclick="location.href='http://api.map.baidu.com/marker?location=31.24232,121.527883&amp;title=上海市浦东新区东方路286号（东方路乳山路）&amp;name=上海市浦东新区东方路286号（东方路乳山路）&amp;content=上海市浦东新区东方路286号（东方路乳山路）&amp;output=html'"  class="navbar-item navbar-item-border"><a class="noneStyleLink"><img src="./img/icon_lib/gps-blue.png" class="navbar-icon" alt="gps"> 导航</a> </li>
         <li class="navbar-item navbar-item-border"><a class="noneStyleLink" href="tel:58762744"><img src="./img/icon_lib/phone-blue.png" class="navbar-icon" alt="phone"> 电话 </a></li>
         <li class="navbar-item"><a onclick="switch_guide('#guide_bg','#guide_img')" class="noneStyleLink"><img src="./img/icon_lib/share-blue.png" class="navbar-icon" alt="share"> 分享</a> </li>
@@ -43,6 +58,29 @@
     <script type="text/javascript" src="./js/customer/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="js/customer/mobile-common.js"></script>
     <script src="./js/customer/bootstrap.min.js"></script>
+    <script src="js/customer/swipe.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function(){
+    	var elem = document.getElementById('mySwipe');
+    	selectedId = 0;
+    	window.mySwipe = Swipe(elem, {
+    	  // startSlide: 4,
+    	  auto: 4000,
+    	  continuous: true,
+    	  // disableScroll: true,
+    	  // stopPropagation: true,
+    	  callback: function(index, element) {
+    		var children = $("#position").children();
+    		//alert(childNodes.length);
+    	    children[selectedId].className = 'off';
+    		selectedId = index;
+    		children[selectedId].className = 'on';
+    	  },
+    	  // transitionEnd: function(index, element) {}
+    	});
+    }
+    );
+    </script>
   </body>
 </html>
 
