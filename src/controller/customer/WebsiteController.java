@@ -138,7 +138,6 @@ public class WebsiteController {
 		}else {
 			viewName = viewName + "exception";
 		}
-		
 		return viewName;
 	}
 	

@@ -1,3 +1,7 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -5,28 +9,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="description" content="">
     <meta name="author" content="zhonghe">
-
-    <title>西洋婚纱摄影·婚礼策划</title>
-    <!-- 微喜帖css -->
+    <c:set var="request" value="${pageContext.request}" />
+    <base href="${fn:replace(request.requestURL, request.requestURI, request.contextPath)}/" />
+    <title>${website.title}</title>
     <link href="./css/customer/bootstrap.min.css" rel="stylesheet">
     <link href="./css/customer/wei-website-2-b1.css" rel="stylesheet">
     <link href="./css/customer/wei-website-b-common.css" rel="stylesheet">
     <link href="./css/customer/mobile-common.css" rel="stylesheet">
   </head>
-  <body style="background-image: url(img/website/780.jpg);">
+  <body style="background-image: url('${images[0]}_original.jpg');">
     <div class="container" id="module-list">
       <div class="contentlist clearfix">
-        <div class="contentlist-item"><a href="wei-website-modulelist.html" class="noneStyleLinkWhite"><img src="./img/icon_lib/home-white.png" class="contentlist-icon" alt="home">首页</a></div>
-        <div class="contentlist-item"><a class="noneStyleLinkWhite"><img src="./img/icon_lib/client-white.png" class="contentlist-icon" alt="home">公司介绍</a></div>
-        <div class="contentlist-item"><a class="noneStyleLinkWhite"><img src="./img/icon_lib/gps-white.png" class="contentlist-icon" alt="home">导航</a></div>
-        <div class="contentlist-item"><a class="noneStyleLinkWhite"><img src="./img/icon_lib/mail-white.png" class="contentlist-icon" alt="home">联系方式</a></div>
+      <c:forEach items="${nodes}" var="item">
+        <div class="contentlist-item"><a href="customer/website/resources?nodeid=${item.nodeid}" class="noneStyleLinkWhite"><img src="${item.nodePic}_small.jpg" class="contentlist-icon">${item.nodeName}</a></div>
+      </c:forEach>
       </div>
     </div>
     <div class="container navlist-right">
       <ul class="list-unstyled navlist">
         <li class="navlist-item"><a class="noneStyleLink"><img src="./img/icon_lib/home-black.png" class="navlist-icon" alt="home"> 首页</a></li>
-        <li onclick="location.href='http://api.map.baidu.com/marker?location=31.24232,121.527883&amp;title=上海市浦东新区东方路286号（东方路乳山路）&amp;name=上海市浦东新区东方路286号（东方路乳山路）&amp;content=上海市浦东新区东方路286号（东方路乳山路）&amp;output=html'" class="navlist-item"><a class="noneStyleLink"><img src="./img/icon_lib/gps-black.png" class="navlist-icon" alt="gps"> 导航</a></li>
-        <li class="navlist-item"><a class="noneStyleLink" href="tel:58762744"><img src="./img/icon_lib/phone-black.png" class="navlist-icon" alt="phone"> 电话</a></li>
+        <li onclick="location.href='http://api.map.baidu.com/marker?location=${website.lat},${website.lng}&amp;title=${website.address}&amp;name=${website.address}&amp;content=${website.address}&amp;output=html'" class="navlist-item"><a class="noneStyleLink"><img src="./img/icon_lib/gps-black.png" class="navlist-icon" alt="gps"> 导航</a></li>
+        <li class="navlist-item"><a class="noneStyleLink" href="tel:${website.phone}"><img src="./img/icon_lib/phone-black.png" class="navlist-icon" alt="phone"> 电话</a></li>
         <li class="navlist-item"><a onclick="switch_guide('#guide_bg','#guide_img')" class="noneStyleLink"><img src="./img/icon_lib/share-black.png" class="navlist-icon" alt="share"> 分享</a></li>
       </ul>
     </div>

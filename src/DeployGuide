@@ -4,8 +4,10 @@
 3.配置upload.js
 4.限制远程mysql链接
 5.demo id
+6.更新icon_lib
 
 文件上传项目：
 1.配置environment.properties
 2.配置jdbc.properties
 3.配置ffmpeg环境变量
+4.更新icon_lib

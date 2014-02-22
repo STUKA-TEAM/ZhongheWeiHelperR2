@@ -126,7 +126,7 @@ div {
 .swipe-wrap {
   overflow: hidden;
   position: relative;
-  max-width: 1080px;
+  max-width: 3600px;
 }
 .swipe-wrap > div {
   float:left;
