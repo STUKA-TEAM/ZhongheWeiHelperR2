@@ -6,7 +6,16 @@ Windows:
         ---------------------------------------------------------------------------------------------------------------------------------
             id           int(11)      No         <auto_increment>       Yes                 
             nodeid       int(11)      No         0                      No                  节点id
-            childid      int(11)      No         0                      Np                  子节点id (子节点： node|article|articleclass)
+            childid      int(11)      No         0                      No                  子节点id (子节点： node|article|articleclass)
 [2014-2-21][index: 0004]表website删除expiredTime字段
+[2014-2-22][index: 0005]添加表customer_contact
+            Name         Type         NULL       Default                Primary Key         Comment
+        ---------------------------------------------------------------------------------------------------------------------------------
+            id           int(11)      No         <auto_increment>       Yes                 
+            sid          int(11)      No         0                      No                  商家id
+            contact      varchar(14)  No                                No                  联系方式 (手机号)
+[2014-2-22][index: 0006]删除表website_node_acticle
+[2014-2-22][index: 0007]删除表website_node_acticleclass
+[2014-2-22][index: 0006]删除表website_node_structure
 
 Linux:
