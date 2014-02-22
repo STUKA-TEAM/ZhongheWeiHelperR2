@@ -51,6 +51,7 @@ public class WebsiteController {
 		String viewName = "WebsiteViews/";
 		
 		if (website != null) {
+			website.setWebsiteid(websiteid);
 			Integer sid = userInfoDao.getSidByAppid(website.getAppid());
 			if (sid != null) {
 				website.setExpiredTime(authInfoDao.getExpiredTime(sid, "website"));
@@ -86,6 +87,7 @@ public class WebsiteController {
 		ApplicationContext context = 
 				new ClassPathXmlApplicationContext("All-Modules.xml");
 		WebsiteDAO websiteDao = (WebsiteDAO) context.getBean("WebsiteDAO");
+		UserInfoDAO userInfoDao = (UserInfoDAO) context.getBean("UserInfoDAO");
 		ArticleDAO articleDao = (ArticleDAO) context.getBean("ArticleDAO");
 		((ConfigurableApplicationContext)context).close();
 		
@@ -93,6 +95,7 @@ public class WebsiteController {
 		String viewName = "WebsiteViews/";
 		
 		if (node != null) {
+	        model.addAttribute("websiteid", node.getWebsiteid());
 			String childrenType = node.getChildrenType();
 			List<Integer> nodeidList = websiteDao.getNodeChildid(nodeid);
 			
@@ -105,6 +108,13 @@ public class WebsiteController {
 					}
 				}
 				
+				Integer sid = userInfoDao.getSidByWebsiteid(node.getWebsiteid());
+				List<String> imageList = null;
+				if (sid != null) {
+					imageList = userInfoDao.getUserImages(sid);
+				}
+				
+				model.addAttribute("imageList", imageList);
 				model.addAttribute("nodeList", nodeList);
 				viewName = viewName + "nodeList";
 				
@@ -148,7 +158,8 @@ public class WebsiteController {
 	 * @return
 	 */
 	@RequestMapping(value = "/article", method = RequestMethod.GET)
-	public String getArticle(Model model, @RequestParam(value = "articleid", required = true) int articleid){
+	public String getArticle(Model model, @RequestParam(value = "articleid", required = true) int articleid,
+			@RequestParam(value = "websiteid", required = true) int websiteid){
 		ApplicationContext context = 
 				new ClassPathXmlApplicationContext("All-Modules.xml");
 		ArticleDAO articleDao = (ArticleDAO) context.getBean("ArticleDAO");
@@ -160,6 +171,7 @@ public class WebsiteController {
 		if (article != null) {
 			article.setContent(convertSymbol(article.getContent()));
 			
+			model.addAttribute("websiteid", websiteid);
 			model.addAttribute("article", article);
 			viewName = viewName + "article";
 			

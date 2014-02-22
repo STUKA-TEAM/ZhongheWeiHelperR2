@@ -592,7 +592,8 @@ public class WebsiteDAO {
 	 * @return
 	 */
 	public WebsiteNode getWebsiteNode(int nodeid){
-		String SQL = "SELECT nodeid, nodeName, nodePic, childrenType FROM website_node WHERE nodeid = ?";
+		String SQL = "SELECT nodeid, websiteid, nodeName, nodePic, childrenType"
+				+ " FROM website_node WHERE nodeid = ?";
 		WebsiteNode node = null;
 		
 		try {
@@ -611,7 +612,8 @@ public class WebsiteDAO {
 	 * @return
 	 */
 	public List<WebsiteNode> getWebsiteNodeList(int websiteid){
-		String SQL = "SELECT nodeid, nodeName, nodePic, childrenType FROM website_node WHERE websiteid = ?";
+		String SQL = "SELECT nodeid, websiteid, nodeName, nodePic, childrenType"
+				+ " FROM website_node WHERE websiteid = ?";
 		List<WebsiteNode> nodeList = null;
 		
 		try {
@@ -658,6 +660,7 @@ public class WebsiteDAO {
 		public WebsiteNode mapRow(ResultSet rs, int arg1) throws SQLException {
 			WebsiteNode node = new WebsiteNode();
 			node.setNodeid(rs.getInt("nodeid"));
+			node.setWebsiteid(rs.getInt("websiteid"));
 			node.setNodeName(rs.getString("nodeName"));
 			node.setNodePic(rs.getString("nodePic"));
 			node.setChildrenType(rs.getString("childrenType"));

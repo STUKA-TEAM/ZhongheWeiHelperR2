@@ -263,7 +263,7 @@ public class UserInfoDAO {
 	 * @return
 	 */
 	public List<UserInfo> getCustomerInfoList(){
-		String SQL = "SELECT sid, createDate, storeName, phone, cellPhone FROM "
+		String SQL = "SELECT sid, createDate, storeName FROM "
 				+ "storeuser WHERE roleid = 1";                                             //default 'CUSTOMER' -- 1
 		List<UserInfo> infoList = null;
 		
@@ -272,6 +272,11 @@ public class UserInfoDAO {
 		} catch (Exception e) {
 			infoList = new ArrayList<UserInfo>();
 			System.out.println(e.getMessage());
+		}
+		
+		for (int i = 0; i < infoList.size(); i++) {
+			UserInfo temp = infoList.get(i);
+			temp.setContact(getContactInfo(temp.getSid()));
 		}
 		return infoList;
 	}
@@ -283,8 +288,6 @@ public class UserInfoDAO {
 			userInfo.setSid(rs.getInt("sid"));
 			userInfo.setCreateDate(rs.getTimestamp("createDate"));
 			userInfo.setStoreName(rs.getString("storeName"));
-			userInfo.setPhone(rs.getString("phone"));
-			userInfo.setCellPhone(rs.getString("cellPhone"));
 			return userInfo;
 		}
 	}
@@ -352,6 +355,24 @@ public class UserInfoDAO {
 	}
 	
 	/**
+	 * @title: getSidByWebsiteid
+	 * @description: 由websiteid查询sid
+	 * @param websiteid
+	 * @return
+	 */
+	public Integer getSidByWebsiteid(int websiteid){
+		String SQL = "SELECT S.sid FROM storeuser_application S, website W WHERE S.appid = W.appid AND W.websiteid = ?";
+		Integer sid = null;
+		
+		try {
+			sid = jdbcTemplate.queryForObject(SQL, new Object[]{websiteid}, new SidMapper());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return sid;
+	}
+	
+	/**
 	 * @title: getSidByAppid
 	 * @description: 由appid查询sid
 	 * @param appid
@@ -375,5 +396,31 @@ public class UserInfoDAO {
 			Integer sid = rs.getInt("S.sid");
 			return sid;
 		}		
+	}
+	
+	/**
+	 * @title: getContactInfo
+	 * @description: 根据sid查找商家联系方式
+	 * @param sid
+	 * @return
+	 */
+	public String getContactInfo(int sid){
+		String SQL = "SELECT contact FROM customer_contact WHERE sid = ?";
+		String contact = null;
+		
+		try {
+			contact = jdbcTemplate.queryForObject(SQL, new Object[]{sid}, new ContactInfoMapper());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return contact;
+	}
+	
+	private static final class ContactInfoMapper implements RowMapper<String>{
+		@Override
+		public String mapRow(ResultSet rs, int arg1) throws SQLException {
+			String contact = rs.getString("contact");
+			return contact;
+		}	
 	}
 }
