@@ -712,34 +712,6 @@ public class WebsiteDAO {
 	}
 	
 	/**
-	 * @title: getExpiredTime
-	 * @description: 根据sid和authPinyin查询过期时间expiredTime
-	 * @param sid
-	 * @param authPinyin
-	 * @return
-	 */
-	public Timestamp getExpiredTime(int sid, String authPinyin){
-		String SQL = "SELECT C.expiredTime FROM customer_authority C, authority A "
-				+ "WHERE C.authid = A.authid AND C.sid = ? AND A.authPinyin = ?";
-		Timestamp expiredTime = null;
-		
-		try {
-			expiredTime = jdbcTemplate.queryForObject(SQL, new Object[]{sid, authPinyin}, new ExpiredTimeMapper());
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-		return expiredTime;
-	}
-	
-	private static final class ExpiredTimeMapper implements RowMapper<Timestamp>{
-		@Override
-		public Timestamp mapRow(ResultSet rs, int arg1) throws SQLException {
-			Timestamp expiredTime = rs.getTimestamp("C.expiredTime");
-			return expiredTime;
-		}	
-	}
-	
-	/**
 	 * @title: getNodeId
 	 * @description: 根据websiteid和nodeName查找节点id
 	 * @param websiteid

@@ -31,7 +31,7 @@ import com.google.gson.Gson;
 import register.AppInfo;
 import register.AuthPrice;
 import register.dao.AppInfoDAO;
-import register.dao.AuthPriceDAO;
+import register.dao.AuthInfoDAO;
 import elove.dao.EloveWizardDAO;
 import register.UserInfo;
 import register.dao.UserInfoDAO;
@@ -73,7 +73,7 @@ public class BasicController {
 				new ClassPathXmlApplicationContext("All-Modules.xml");
 		UserInfoDAO userInfoDao = (UserInfoDAO) context.getBean("UserInfoDAO");
 		AppInfoDAO appInfoDao = (AppInfoDAO) context.getBean("AppInfoDAO");
-		AuthPriceDAO authPriceDao = (AuthPriceDAO) context.getBean("AuthPriceDAO");
+		AuthInfoDAO authInfoDao = (AuthInfoDAO) context.getBean("AuthInfoDAO");
 		((ConfigurableApplicationContext)context).close(); 
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -126,7 +126,7 @@ public class BasicController {
 		}	    
 	    model.addAttribute("appInfoList", appInfoList);
 	    
-	    List<AuthPrice> priceList = authPriceDao.getPriceBySid(user.getSid());
+	    List<AuthPrice> priceList = authInfoDao.getPriceBySid(user.getSid());
 	    model.addAttribute("priceList", priceList);
 		
         return "AccountViews/account";

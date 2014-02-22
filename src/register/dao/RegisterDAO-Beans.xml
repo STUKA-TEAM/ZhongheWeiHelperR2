@@ -7,7 +7,7 @@
     <bean id="AppInfoDAO" class="register.dao.AppInfoDAO">
       <property name="dataSource"  ref="dataSource" />    
     </bean>
-    <bean id="AuthPriceDAO" class="register.dao.AuthPriceDAO">
+    <bean id="AuthInfoDAO" class="register.dao.AuthInfoDAO">
       <property name="dataSource"  ref="dataSource" />    
     </bean>
     <bean id="UserInfoDAO" class="register.dao.UserInfoDAO">

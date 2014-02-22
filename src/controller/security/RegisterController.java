@@ -27,9 +27,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import register.dao.AuthPriceDAO;
 import register.Authority;
 import register.UserInfo;
+import register.dao.AuthInfoDAO;
 import register.dao.UserInfoDAO;
 
 /**
@@ -79,7 +79,7 @@ public class RegisterController {
 			ApplicationContext context = 
 					new ClassPathXmlApplicationContext("All-Modules.xml");
 			UserInfoDAO userInfoDao = (UserInfoDAO) context.getBean("UserInfoDAO");
-			AuthPriceDAO authPriceDao = (AuthPriceDAO) context.getBean("AuthPriceDAO");
+			AuthInfoDAO authInfoDao = (AuthInfoDAO) context.getBean("AuthInfoDAO");
 			((ConfigurableApplicationContext)context).close();
 			
 			String original = userInfo.getPassword();
@@ -114,10 +114,10 @@ public class RegisterController {
 					24 * 60 * 60 * 1000);
 			
 			BigDecimal price = null;			
-			List<Authority> authorities = authPriceDao.getAllAuthorities();
+			List<Authority> authorities = authInfoDao.getAllAuthorities();
 			for (int i = 0; i < authorities.size(); i++) {
 				Authority authority = authorities.get(i);
-				authPriceDao.insertCAR(sid, authority.getAuthid(), expiredTime);
+				authInfoDao.insertCAR(sid, authority.getAuthid(), expiredTime);
 				try {
 					price = new BigDecimal(Double.parseDouble((String)properties.get(
 							authority.getAuthPinyin() + "Price")));
@@ -125,7 +125,7 @@ public class RegisterController {
 					price = new BigDecimal(Double.parseDouble((String)properties.get("defaultPrice")));   
 					System.out.println(e.getMessage());
 				}					
-				authPriceDao.insertPrice(sid, authority.getAuthid(), price);
+				authInfoDao.insertPrice(sid, authority.getAuthid(), price);
 			}
 			
 			int appUpperLimit = 0;

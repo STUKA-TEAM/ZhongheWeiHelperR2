@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import register.dao.AppInfoDAO;
+import register.dao.AuthInfoDAO;
 import register.dao.UserInfoDAO;
 import article.Article;
 import article.dao.ArticleDAO;
@@ -41,6 +41,7 @@ public class WebsiteController {
 		ApplicationContext context = 
 				new ClassPathXmlApplicationContext("All-Modules.xml");
 		WebsiteDAO websiteDao = (WebsiteDAO) context.getBean("WebsiteDAO");
+		AuthInfoDAO authInfoDao = (AuthInfoDAO) context.getBean("AuthInfoDAO");
 		UserInfoDAO userInfoDao = (UserInfoDAO) context.getBean("UserInfoDAO");
 		((ConfigurableApplicationContext)context).close();
 		
@@ -52,7 +53,7 @@ public class WebsiteController {
 		if (website != null) {
 			Integer sid = userInfoDao.getSidByAppid(website.getAppid());
 			if (sid != null) {
-				website.setExpiredTime(websiteDao.getExpiredTime(sid, "website"));
+				website.setExpiredTime(authInfoDao.getExpiredTime(sid, "website"));
 			}
 			expiredTime = website.getExpiredTime();
 		}

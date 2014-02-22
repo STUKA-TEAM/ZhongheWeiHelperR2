@@ -25,6 +25,7 @@ import article.Article;
 import article.ArticleClass;
 import article.dao.ArticleDAO;
 import register.dao.AppInfoDAO;
+import register.dao.AuthInfoDAO;
 import security.User;
 import website.Website;
 import website.dao.WebsiteDAO;
@@ -51,6 +52,7 @@ public class WebsiteController {
 		ApplicationContext context = 
 				new ClassPathXmlApplicationContext("All-Modules.xml");
 		AppInfoDAO appInfoDao = (AppInfoDAO) context.getBean("AppInfoDAO");
+		AuthInfoDAO authInfoDao = (AuthInfoDAO) context.getBean("AuthInfoDAO");
 		WebsiteDAO websiteDao = (WebsiteDAO) context.getBean("WebsiteDAO");
 		((ConfigurableApplicationContext)context).close();
 		
@@ -70,7 +72,7 @@ public class WebsiteController {
 			else {
 				Website website = websiteDao.getBasicWebsiteInfo(appid);
 				if (website != null) {
-					website.setExpiredTime(websiteDao.getExpiredTime(user.getSid(),
+					website.setExpiredTime(authInfoDao.getExpiredTime(user.getSid(),
 							"website"));
 				}
 				model.addAttribute("website", website);

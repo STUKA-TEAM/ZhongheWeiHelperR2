@@ -16,13 +16,13 @@ import register.AuthPrice;
 import register.Authority;
 
 /**
- * @Title: AuthPriceDAO
+ * @Title: AuthInfoDAO
  * @Description: DAO for both authPrice and authority model
  * @Company: ZhongHe
  * @author ben
  * @date 2013年12月27日
  */
-public class AuthPriceDAO {
+public class AuthInfoDAO {
 	private DataSource dataSource;
 	private JdbcTemplate jdbcTemplate;
 	
@@ -58,6 +58,8 @@ public class AuthPriceDAO {
 		int result = jdbcTemplate.update(SQL, sid, authid, expiredTime);
 		return result <= 0 ? 0 : result;
 	}
+	
+	//update
 	
 	//query
 	/**
@@ -136,9 +138,37 @@ public class AuthPriceDAO {
 	private static final class PriceMapper implements RowMapper<BigDecimal>{
 		@Override
 		public BigDecimal mapRow(ResultSet rs, int arg1) throws SQLException {
-			BigDecimal price = rs.getBigDecimal("price");
+			BigDecimal price = rs.getBigDecimal("S.price");
 			return price;
 		}		
+	}
+	
+	/**
+	 * @title: getExpiredTime
+	 * @description: 根据sid和authPinyin查询过期时间expiredTime
+	 * @param sid
+	 * @param authPinyin
+	 * @return
+	 */
+	public Timestamp getExpiredTime(int sid, String authPinyin){
+		String SQL = "SELECT C.expiredTime FROM customer_authority C, authority A "
+				+ "WHERE C.authid = A.authid AND C.sid = ? AND A.authPinyin = ?";
+		Timestamp expiredTime = null;
+		
+		try {
+			expiredTime = jdbcTemplate.queryForObject(SQL, new Object[]{sid, authPinyin}, new ExpiredTimeMapper());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return expiredTime;
+	}
+	
+	private static final class ExpiredTimeMapper implements RowMapper<Timestamp>{
+		@Override
+		public Timestamp mapRow(ResultSet rs, int arg1) throws SQLException {
+			Timestamp expiredTime = rs.getTimestamp("C.expiredTime");
+			return expiredTime;
+		}	
 	}
 	
 	/**
