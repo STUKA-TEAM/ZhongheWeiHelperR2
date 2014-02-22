@@ -43,7 +43,7 @@ public class UserDAO {
 		try {
 			user = jdbcTemplate.queryForObject(SQL, new Object[]{username}, new UserInfoMapper());
 		} catch (Exception e) {
-			System.out.println(e.toString());
+			System.out.println(e.getMessage());
 		}
         return user;
     }

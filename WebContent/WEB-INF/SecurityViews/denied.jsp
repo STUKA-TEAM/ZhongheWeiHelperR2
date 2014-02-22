@@ -3,6 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <c:if test="${not empty error}">
-{"status":"error",
-  "data":"${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message}"}
+{"status":false,
+  "message":"${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message}"}
 </c:if>
