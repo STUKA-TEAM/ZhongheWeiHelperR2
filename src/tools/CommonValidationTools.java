@@ -18,6 +18,7 @@ import article.ArticleClass;
 import elove.EloveWizard;
 import elove.dao.EloveWizardDAO;
 import register.AppInfo;
+import register.AuthInfo;
 import register.UserInfo;
 import register.Welcome;
 import register.dao.UserInfoDAO;
@@ -337,5 +338,20 @@ public class CommonValidationTools {
 		}
 		
 		return "pass";
+	}
+	
+	/**
+	 * @title: checkAuthInfo
+	 * @description: 检查权限更新时的关键信息
+	 * @param authInfo
+	 * @return
+	 */
+	public static boolean checkAuthInfo(AuthInfo authInfo){
+		if (authInfo.getSid() <= 0 || authInfo.getAuthPinyin() == null || 
+				authInfo.getExpiredTime() == null || authInfo.getPrice() == null) {
+			return false;
+		}
+
+		return true;
 	}
 }

@@ -451,8 +451,7 @@ public class WebsiteDAO {
 	 * @return
 	 */
 	public Website getWebsiteInfoForCustomer(int websiteid){
-		String SQL = "SELECT appid, title, phone, address, lng, lat, "
-				+ "coverPic, coverText, shareTitle, shareContent, "
+		String SQL = "SELECT websiteid, appid, title, phone, address, lng, lat, "
 				+ "footerText, themeId FROM website WHERE websiteid = ?";
 		Website website = null;
 		
@@ -468,16 +467,13 @@ public class WebsiteDAO {
 		@Override
 		public Website mapRow(ResultSet rs, int arg1) throws SQLException {
 			Website website = new Website();
+			website.setWebsiteid(rs.getInt("websiteid"));
 			website.setAppid(rs.getString("appid"));
 			website.setTitle(rs.getString("title"));
 			website.setPhone(rs.getString("phone"));
 			website.setAddress(rs.getString("address"));
 			website.setLng(rs.getBigDecimal("lng"));
 			website.setLat(rs.getBigDecimal("lat"));
-			website.setCoverPic(rs.getString("coverPic"));
-			website.setCoverText(rs.getString("coverText"));
-			website.setShareTitle(rs.getString("shareTitle"));
-			website.setShareContent(rs.getString("shareContent"));
 			website.setFooterText(rs.getString("footerText"));
 			website.setThemeId(rs.getInt("themeId"));
 			return website;
