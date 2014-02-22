@@ -15,7 +15,6 @@ public class AuthInfo {
 	private String authPinyin;
 	private BigDecimal price;
 	private Timestamp expiredTime;
-	private int notPayNumber;
 	
 	/**
 	 * @return the sid
@@ -64,17 +63,5 @@ public class AuthInfo {
 	 */
 	public void setExpiredTime(Timestamp expiredTime) {
 		this.expiredTime = expiredTime;
-	}
-	/**
-	 * @return the notPayNumber
-	 */
-	public int getNotPayNumber() {
-		return notPayNumber;
-	}
-	/**
-	 * @param notPayNumber the notPayNumber to set
-	 */
-	public void setNotPayNumber(int notPayNumber) {
-		this.notPayNumber = notPayNumber;
 	}
 }

@@ -15,6 +15,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import article.Article;
 import article.ArticleClass;
+import elove.EloveNotpay;
 import elove.EloveWizard;
 import elove.dao.EloveWizardDAO;
 import register.AppInfo;
@@ -351,7 +352,35 @@ public class CommonValidationTools {
 				authInfo.getExpiredTime() == null || authInfo.getPrice() == null) {
 			return false;
 		}
-
+		return true;
+	}
+	
+	/**
+	 * @title: checkEloveNotpay
+	 * @description: 检查更新时提交的elove未支付信息
+	 * @param eloveNotpay
+	 * @return
+	 */
+	public static boolean checkEloveNotpay(List<EloveNotpay> eloveNotpayList){
+		for (int i = 0; i < eloveNotpayList.size(); i++) {
+			EloveNotpay eloveNotpay = eloveNotpayList.get(i);
+			if (eloveNotpay.getNotPayNumber() < 0 || eloveNotpay.getAppid() == null) {
+				return false;
+			}
+		}	
+		return true;
+	}
+	
+	/**
+	 * @title: checkContactInfo
+	 * @description: 检查更新时提交的商家联系方式
+	 * @param userInfo
+	 * @return
+	 */
+	public static boolean checkContactInfo(UserInfo userInfo){
+		if (userInfo.getSid() <= 0 || userInfo.getContact() == null) {
+			return false;
+		}
 		return true;
 	}
 }

@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
 import elove.EloveInfo;
+import elove.EloveNotpay;
 
 /**
  * @Title: EloveInfoDAO
@@ -26,6 +27,38 @@ public class EloveInfoDAO {
 	public void setDataSource(DataSource dataSource){
 		this.dataSource = dataSource;
 		this.jdbcTemplate = new JdbcTemplate(dataSource);
+	}
+	
+	//update
+	/**
+	 * @title: updateConsumeRecord
+	 * @description: 更新elove消费记录
+	 * @param eloveNotpay
+	 * @return
+	 */
+	public int updateConsumeRecord(EloveNotpay eloveNotpay){
+		String SQL = "UPDATE elove_consume_record SET notPayNumber = ? WHERE appid = ?";
+		int effected = jdbcTemplate.update(SQL, new Object[]{
+				eloveNotpay.getNotPayNumber(), eloveNotpay.getAppid()});
+		return effected <= 0 ? 0 : effected;
+	}
+	
+	/**
+	 * @title: updateConsumeList
+	 * @description: 更新elove消费记录列表
+	 * @param notpayList
+	 * @return
+	 */
+	public int updateConsumeList(List<EloveNotpay> notpayList){
+		int result = 1;
+		
+		for (int i = 0; i < notpayList.size(); i++) {
+			result = updateConsumeRecord(notpayList.get(i));
+			if (result == 0) {
+				return result;
+			}
+		}	
+		return result;
 	}
 	
 	//query
