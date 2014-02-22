@@ -1,5 +1,7 @@
 package controller.internal;
 
+import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.context.ApplicationContext;
@@ -9,8 +11,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import register.UserInfo;
+import register.dao.AuthInfoDAO;
 import register.dao.UserInfoDAO;
 
 /**
@@ -23,7 +27,7 @@ import register.dao.UserInfoDAO;
 @Controller
 public class UserController {
 	/**
-	 * @description: 
+	 * @description: 获取商家CUSTOMER的信息列表
 	 * @param model
 	 * @return
 	 */
@@ -40,5 +44,23 @@ public class UserController {
 		return "customerList";
 	}
 	
-	
+	@RequestMapping(value = "/customer/edit", method = RequestMethod.GET)
+	public String editCustomerInfo(Model model, @RequestParam(value = "sid", required = true) int sid){
+		ApplicationContext context = 
+				new ClassPathXmlApplicationContext("All-Modules.xml");
+		AuthInfoDAO authInfoDao = (AuthInfoDAO) context.getBean("AuthInfoDAO");
+		((ConfigurableApplicationContext)context).close();
+		
+		//website
+		Timestamp websiteExpired = authInfoDao.getExpiredTime(sid, "website");
+		BigDecimal websitePrice = authInfoDao.getPrice(sid, "website");
+		model.addAttribute("websiteExpired", websiteExpired);
+		model.addAttribute("websitePrice", websitePrice);
+		
+		//elove
+		Timestamp eloveExpired = authInfoDao.getExpiredTime(sid, "elove");
+		BigDecimal elovePrice = authInfoDao.getPrice(sid, "elove");
+		
+		return "customerInfo";
+	}
 }
