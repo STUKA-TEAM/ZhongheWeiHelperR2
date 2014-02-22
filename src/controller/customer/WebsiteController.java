@@ -51,7 +51,6 @@ public class WebsiteController {
 		String viewName = "WebsiteViews/";
 		
 		if (website != null) {
-			website.setWebsiteid(websiteid);
 			Integer sid = userInfoDao.getSidByAppid(website.getAppid());
 			if (sid != null) {
 				website.setExpiredTime(authInfoDao.getExpiredTime(sid, "website"));
@@ -95,7 +94,9 @@ public class WebsiteController {
 		String viewName = "WebsiteViews/";
 		
 		if (node != null) {
-	        model.addAttribute("websiteid", node.getWebsiteid());
+			Website website = websiteDao.getWebsiteInfoForCustomer(node.getWebsiteid());
+	        model.addAttribute("website", website);
+			
 			String childrenType = node.getChildrenType();
 			List<Integer> nodeidList = websiteDao.getNodeChildid(nodeid);
 			
@@ -162,6 +163,7 @@ public class WebsiteController {
 			@RequestParam(value = "websiteid", required = true) int websiteid){
 		ApplicationContext context = 
 				new ClassPathXmlApplicationContext("All-Modules.xml");
+		WebsiteDAO websiteDao = (WebsiteDAO) context.getBean("WebsiteDAO");
 		ArticleDAO articleDao = (ArticleDAO) context.getBean("ArticleDAO");
 		((ConfigurableApplicationContext)context).close();
 		
@@ -169,9 +171,10 @@ public class WebsiteController {
 		String viewName = "WebsiteViews/";
 		
 		if (article != null) {
-			article.setContent(convertSymbol(article.getContent()));
+			article.setContent(convertSymbol(article.getContent()));	
+			Website website = websiteDao.getWebsiteInfoForCustomer(websiteid);
 			
-			model.addAttribute("websiteid", websiteid);
+	        model.addAttribute("website", website);
 			model.addAttribute("article", article);
 			viewName = viewName + "article";
 			

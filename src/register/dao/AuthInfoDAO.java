@@ -12,6 +12,7 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
+import register.AuthInfo;
 import register.AuthPrice;
 import register.Authority;
 
@@ -60,6 +61,62 @@ public class AuthInfoDAO {
 	}
 	
 	//update
+	/**
+	 * @title: updateAuthInfo
+	 * @description: 更新权限过期时间和价格
+	 * @param authInfo
+	 * @return
+	 */
+	public int updateAuthInfo(AuthInfo authInfo){
+		int result = 0;
+		
+		Integer authid = getAuthid(authInfo.getAuthPinyin());
+		if (authid != null) {
+			int sid = authInfo.getSid();
+			Timestamp expiredTime = authInfo.getExpiredTime();
+			BigDecimal price = authInfo.getPrice();
+			
+			result = updateExpiredTime(sid, authid, expiredTime);
+			if (result != 0) {
+				result = updatePrice(sid, authid, price);
+				return result;
+			}else {
+				return -1;
+			}
+		}else {
+			return -2;
+		}
+	}
+	
+	/**
+	 * @title: updateExpiredTime
+	 * @description: 更新权限过期时间
+	 * @param sid
+	 * @param authid
+	 * @param expiredTime
+	 * @return
+	 */
+	public int updateExpiredTime(int sid, int authid, Timestamp expiredTime){
+		String SQL = "UPDATE customer_authority SET expiredTime = ? WHERE "
+				+ "sid = ? AND authid = ?";
+		int result = jdbcTemplate.update(SQL, expiredTime, sid, authid);
+		return result <= 0 ? 0 : result;
+	}
+	
+	/**
+	 * @title: updatePrice
+	 * @description: 更新权限价格
+	 * @param sid
+	 * @param authid
+	 * @param price
+	 * @return
+	 */
+	public int updatePrice(int sid, int authid, BigDecimal price){
+		String SQL = "UPDATE store_auth_price SET price = ? WHERE sid = ? AND "
+				+ "authid = ?";
+		int result = jdbcTemplate.update(SQL, price, sid, authid);
+		return result <= 0 ? 0 : result;
+	}
 	
 	//query
 	/**
