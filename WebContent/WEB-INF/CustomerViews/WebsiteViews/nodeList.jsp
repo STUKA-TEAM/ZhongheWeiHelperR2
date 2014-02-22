@@ -11,7 +11,7 @@
     <meta name="author" content="zhonghe">
     <c:set var="request" value="${pageContext.request}" />
     <base href="${fn:replace(request.requestURL, request.requestURI, request.contextPath)}/" />
-    <title>Elove</title>
+    <title>${website.title}</title>
     
     <link href="./css/customer/bootstrap.min.css" rel="stylesheet">
     <link href="./css/customer/mobile-common.css" rel="stylesheet">
@@ -44,11 +44,10 @@
     </div>
     <div class="navbar-bg"></div>
     <div class="navbar-bottom">
-      <ul class="list-inline">
-       
+      <ul class="list-inline">      
         <li class="navbar-item navbar-item-border"><a href="customer/website/home?websiteid=${website.websiteid}" class="noneStyleLink"><img src="./img/icon_lib/home-blue.png" class="navbar-icon" alt="home"> 首页</a> </li>
-        <li onclick="location.href='http://api.map.baidu.com/marker?location=31.24232,121.527883&amp;title=上海市浦东新区东方路286号（东方路乳山路）&amp;name=上海市浦东新区东方路286号（东方路乳山路）&amp;content=上海市浦东新区东方路286号（东方路乳山路）&amp;output=html'"  class="navbar-item navbar-item-border"><a class="noneStyleLink"><img src="./img/icon_lib/gps-blue.png" class="navbar-icon" alt="gps"> 导航</a> </li>
-        <li class="navbar-item navbar-item-border"><a class="noneStyleLink" href="tel:58762744"><img src="./img/icon_lib/phone-blue.png" class="navbar-icon" alt="phone"> 电话 </a></li>
+        <li onclick="location.href='http://api.map.baidu.com/marker?location=${website.lat},${website.lng}&amp;title=${website.address}&amp;name=${website.address}&amp;content=${website.address}&amp;output=html'"  class="navbar-item navbar-item-border"><a class="noneStyleLink"><img src="./img/icon_lib/gps-blue.png" class="navbar-icon" alt="gps"> 导航</a> </li>
+        <li class="navbar-item navbar-item-border"><a class="noneStyleLink" href="tel:${website.phone}"><img src="./img/icon_lib/phone-blue.png" class="navbar-icon" alt="phone"> 电话 </a></li>
         <li class="navbar-item"><a onclick="switch_guide('#guide_bg','#guide_img')" class="noneStyleLink"><img src="./img/icon_lib/share-blue.png" class="navbar-icon" alt="share"> 分享</a> </li>
       </ul>
     </div>
