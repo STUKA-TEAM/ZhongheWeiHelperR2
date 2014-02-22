@@ -12,20 +12,19 @@
     <c:set var="request" value="${pageContext.request}" />
     <base href="${fn:replace(request.requestURL, request.requestURI, request.contextPath)}/" />
     <title>${website.title}</title>
-    
-    <link href="./css/customer/bootstrap.min.css" rel="stylesheet">
-    <link href="./css/customer/mobile-common.css" rel="stylesheet">
-    <link href="./css/customer/wei-website-modulelist.css" rel="stylesheet">
+    <link href="css/customer/bootstrap.min.css" rel="stylesheet">
+    <link href="css/customer/wei-website-1-a.css" rel="stylesheet">
+    <link href="css/customer/mobile-common.css" rel="stylesheet">
   </head>
   <body>
       <div id='mySwipe' class='swipe'>
         <div class='swipe-wrap'>
-        <c:forEach items="${imageList}" var="image">
+        <c:forEach items="${images}" var="image">
           <div><img src = '${image}_standard.jpg' class="img-responsive center-block"></div>
         </c:forEach>
         </div>
         <nav id="position" class="images-pointer">
-          <c:forEach var="x" begin="1" end="${imageList.size()}" step="1">
+          <c:forEach var="x" begin="1" end="${images.size()}" step="1">
 		  <c:if test="${x=='1'}">
 		  <a class="on"></a>
 		  </c:if>
@@ -35,18 +34,21 @@
           </c:forEach>
         </nav>
       </div>
-    <div class="website-list">
-      <ul class="list-unstyled">
-		<c:forEach items="${nodeList}" var="item">
-        <li class="list-item"><a class="noneStyleLink" href="customer/website/resources?nodeid=${item.nodeid}">
-        <c:if test="${item.nodePic!=null}"><img src="${item.nodePic}_small.jpg" class="list-item-icon" alt="home"></c:if> ${item.nodeName} <img src="./img/icon_lib/arrow_blue.png" class="list-item-arrow" alt="home"></a></li>
-        </c:forEach>
-      </ul>
+    <div class="website-content">
+      <div class="contentlist">
+      <c:forEach items="${nodes}" var="item">
+          <div class="contentlist-item">
+            <a href="customer/website/resources?nodeid=${item.nodeid}" class="noneStyleLinkGray">
+            <img src="${item.nodePic}_small.jpg" class="img-responsive">
+            <p class="contentlist-text">${item.nodeName}</p>
+            </a>
+          </div>
+      </c:forEach>
+      </div>
     </div>
     <%@ include file="bottom.jsp"%>
     <script type="text/javascript" src="./js/customer/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="js/customer/mobile-common.js"></script>
-    <script src="./js/customer/bootstrap.min.js"></script>
     <script src="js/customer/swipe.js"></script>
     <script type="text/javascript">
     $(document).ready(function(){
@@ -72,5 +74,3 @@
     </script>
   </body>
 </html>
-
-

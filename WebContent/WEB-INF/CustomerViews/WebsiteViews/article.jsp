@@ -15,34 +15,26 @@
     <title>${website.title}</title>
     
     <link href="./css/customer/bootstrap.min.css" rel="stylesheet">
-    <link href="./css/customer/wei-article-list.css" rel="stylesheet">
+    <link href="./css/customer/wei-article.css" rel="stylesheet">
     <link href="./css/customer/mobile-common.css" rel="stylesheet">
   </head>
   <body>
-  
     <div class="container">
-      <c:forEach items="${articleList}" var="item">
-      <div class="article-model">
-        <div class="article-model-header">
-          <h4>${item.title}</h4>
-          <small><fmt:formatDate value="${item.createTime}" pattern="yyyy-MM-dd"/></small>
-        </div>
-        <div class="article-model-content">
-          <div  class="article-image">
-            <img src="${item.coverPic}_standard.jpg" class="img-responsive" alt="article">
-          </div>
-        </div>
-        <a class="noneStyleLink" href="customer/article?websiteid=${website.websiteid}&articleid=${item.articleid}">
-        <div class="article-model-footer">
-          <h5>查看全文</h5>
-        </div>
-        </a>
+      <div class="article-title">
+        <h4>${article.title}</h4>
+        <small><fmt:formatDate value="${article.createTime}" pattern="yyyy-MM-dd"/></small>
       </div>
-      </c:forEach>
+      <div class="article-content">
+       ${article.content}
+      </div>
+      <div class="article-btn-group">
+        <button onclick="switch_guide('#guide_bg','#guide_img')" type="button" class="btn btn-default article-btn"><img src="./img/icon_lib/share-grey.png" class="btn-icon"> 发送给朋友</button>
+        <button onclick="switch_guide('#guide_bg','#guide_img')" type="button" class="btn btn-default article-btn"><img src="./img/icon_lib/icon_timeline.png" class="btn-icon"> 分享到朋友圈</button>
+      </div>
     </div>
-    <%@ include file="bottom.jsp"%>
+    <%@ include file="bottom.jsp"%> 
     <script type="text/javascript" src="./js/customer/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="js/customer/mobile-common.js"></script>
-    <script src="./js/customer/bootstrap.min.js"></script>
+    <script src="./js/customer/bootstrap.min.js"></script>    
   </body>
 </html>

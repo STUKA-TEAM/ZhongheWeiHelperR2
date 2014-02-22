@@ -529,8 +529,8 @@ public class ArticleDAO {
 			Article article = new Article();
 			article.setArticleid(rs.getInt("articleid"));
 			article.setTitle(rs.getString("title"));
-			article.setCreateTime(rs.getTimestamp("coverPic"));
-			article.setContent(rs.getString("createTime"));
+			article.setCreateTime(rs.getTimestamp("createTime"));
+			article.setCoverPic(rs.getString("coverPic"));
 			return article;
 		}	
 	}

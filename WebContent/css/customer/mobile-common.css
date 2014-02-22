@@ -64,6 +64,30 @@ a:focus.noneStyleLinkWhite{
 	text-decoration:none;
 }
 
+.noneStyleLinkGray{
+	color:#666666;
+	display:block;
+}
+a:visited.noneStyleLinkGray{
+	color:#666666;
+	display:block;
+	text-decoration:none;
+}
+a:hover.noneStyleLinkGray{
+	color:#666666;
+	display:block;
+	text-decoration:none;
+}
+a:active.noneStyleLinkGray{
+	color:#666666;
+	display:block;
+	text-decoration:none;
+}
+a:focus.noneStyleLinkGray{
+	color:#666666;
+	display:block;
+	text-decoration:none;
+}
 .swipe {
   overflow: hidden;
   visibility: hidden;

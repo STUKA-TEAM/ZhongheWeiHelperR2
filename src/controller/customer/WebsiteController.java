@@ -122,7 +122,6 @@ public class WebsiteController {
 			}else {
 				if (childrenType.equals("article") && nodeidList.size() == 1) {
 					Article article = articleDao.getArticleForCustomer(nodeidList.get(0));
-					article.setContent(convertSymbol(article.getContent()));
 
 					model.addAttribute("article", article);
 					viewName = viewName + "article";
@@ -170,8 +169,7 @@ public class WebsiteController {
 		Article article = articleDao.getArticleForCustomer(articleid);
 		String viewName = "WebsiteViews/";
 		
-		if (article != null) {
-			article.setContent(convertSymbol(article.getContent()));	
+		if (article != null) {	
 			Website website = websiteDao.getWebsiteInfoForCustomer(websiteid);
 			
 	        model.addAttribute("website", website);
@@ -183,19 +181,5 @@ public class WebsiteController {
 		}
 		
 		return viewName;
-	}
-	
-	/**
-	 * @title: convertSymbol
-	 * @description: 转换符号，使之在编辑器中正确显示
-	 * @param str
-	 * @return
-	 */
-	private String convertSymbol(String str) {
-		str = str.replaceAll("&", "&amp;");
-		str = str.replaceAll("<", "&lt;");
-		str = str.replaceAll(">", "&gt;");
-		str = str.replaceAll("\"", "&quot;");
-		return str;
 	}
 }
