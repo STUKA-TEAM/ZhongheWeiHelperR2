@@ -376,8 +376,6 @@ function relateClassWindow(uuid){
 			  $("#relate_doc_type").modal("show");
 		  }
 		});
-
-
 }
 
 function relateClass(){

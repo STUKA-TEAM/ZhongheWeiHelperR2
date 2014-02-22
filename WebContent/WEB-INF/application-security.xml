@@ -15,7 +15,7 @@
        <intercept-url pattern="/j_spring_security_check" access="permitAll"/>
        <intercept-url pattern="/store/**" access="hasAnyRole('CUSTOMER','ADMINISTRATOR')" />   
        <intercept-url pattern="/internal/**" access="hasRole('ADMINISTRATOR')" /> 
-       <form-login login-page="/security/login" default-target-url="/security/success/login" always-use-default-target="false" authentication-failure-url="/security/accessdenied" />
+       <form-login login-page="/security/login" default-target-url="/security/success/login" always-use-default-target="true" authentication-failure-url="/security/accessdenied" />
        <logout logout-success-url="/index.html"  invalidate-session="true" delete-cookies="JSESSIONID"/>
        
        <session-management   session-fixation-protection = "migrateSession" >

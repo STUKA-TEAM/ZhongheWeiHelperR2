@@ -64,20 +64,16 @@
             <h4 class="modal-title">编辑联系电话</h4>
           </div>
           <div class="modal-body">
-
               <div class="form-group">
-                <label for="store_contact" class="col-sm-2 control-label">联系电话</label>
-                <div class="col-sm-10">
+                <label for="store_contact" class="col-sm-3 control-label">联系电话:</label>
+                <div class="col-sm-9">
                   <input type="text" class="form-control" id="store_contact" placeholder="">
                   <input type="hidden" class="form-control" id="store_id" placeholder="">
                 </div>
               </div>
-              <div class="form-group">
-                <div class="col-sm-offset-10 col-sm-2">
-                  <button type="submit" class="btn btn-default" onclick="submitEditContact()">确定</button>
-                </div>
-              </div>
-            </form>
+          </div>       
+          <div class="modal-footer">
+              <button type="button" class="btn btn-default" onclick="submitEditContact()">确定</button>
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
