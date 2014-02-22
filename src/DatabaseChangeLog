@@ -16,6 +16,7 @@ Windows:
             contact      varchar(14)  No                                No                  联系方式 (手机号)
 [2014-2-22][index: 0006]删除表website_node_acticle
 [2014-2-22][index: 0007]删除表website_node_acticleclass
-[2014-2-22][index: 0006]删除表website_node_structure
+[2014-2-22][index: 0008]删除表website_node_structure
+[2014-2-22][index: 0009]表website_node修改childrenType字段  Length由10改为12
 
 Linux:

@@ -2,6 +2,7 @@ package controller.internal;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import message.ResponseMessage;
@@ -18,8 +19,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import elove.EloveNotpay;
 import elove.dao.EloveInfoDAO;
+import register.AppInfo;
 import register.AuthInfo;
 import register.UserInfo;
 import register.dao.AppInfoDAO;
@@ -113,14 +117,14 @@ public class UserController {
 	}
 	
 	/**
-	 * @description: 更新微官网信息 
+	 * @description: 更新基本信息： 过期时间和价格 (通用)
 	 * @param model
 	 * @param json
 	 * @return
 	 */
-	@RequestMapping(value = "/customer/website/update", method = RequestMethod.POST)
+	@RequestMapping(value = "/customer/basic/update", method = RequestMethod.POST)
 	@ResponseBody
-	public String updateWebsite(Model model, @RequestBody String json){
+	public String updateBasic(Model model, @RequestBody String json){
 		ApplicationContext context = 
 				new ClassPathXmlApplicationContext("All-Modules.xml");
 		AuthInfoDAO authInfoDao = (AuthInfoDAO) context.getBean("AuthInfoDAO");
@@ -132,15 +136,15 @@ public class UserController {
 		
 		if (!CommonValidationTools.checkAuthInfo(authInfo)) {
 			message.setStatus(false);
-			message.setMessage("权限信息不完整！");
+			message.setMessage("权限信息不完整或有误！");
 		}else {
 			int result = authInfoDao.updateAuthInfo(authInfo);
 			if (result > 0) {
 				message.setStatus(true);
-				message.setMessage("更新成功！");
+				message.setMessage("更改成功！");
 			}else {
 				message.setStatus(false);
-				message.setMessage("更新失败！");
+				message.setMessage("更改失败！");
 				System.out.println("Error " + result);
 			}
 		}
@@ -149,30 +153,103 @@ public class UserController {
 		return response;
 	}
 	
-	@RequestMapping(value = "/customer/elove/update", method = RequestMethod.POST)
-	@ResponseBody
-	public String updateElove(Model model, @RequestBody String json){
+	/**
+	 * @description: 获取elove未支付信息列表 
+	 * @param model
+	 * @param json
+	 * @return
+	 */
+	@RequestMapping(value = "/customer/elove/notpaylist/query", method = RequestMethod.GET)
+	public String getEloveNotPay(Model model, @RequestParam(value = "sid", required = true) int sid){
 		ApplicationContext context = 
 				new ClassPathXmlApplicationContext("All-Modules.xml");
-		AuthInfoDAO authInfoDao = (AuthInfoDAO) context.getBean("AuthInfoDAO");
+		AppInfoDAO appInfoDao = (AppInfoDAO) context.getBean("AppInfoDAO");
+		EloveInfoDAO eloveInfoDao = (EloveInfoDAO) context.getBean("EloveInfoDAO");
+		((ConfigurableApplicationContext)context).close();
+		
+		List<EloveNotpay> notpayList = new ArrayList<EloveNotpay>();
+		List<AppInfo> appInfoList = appInfoDao.getBasicAppInfo(sid);
+		for (int i = 0; i < appInfoList.size(); i++) {
+			AppInfo appInfo = appInfoList.get(i);
+			Integer notPay = eloveInfoDao.getConsumeRecord(appInfo.getAppid());
+			
+			EloveNotpay eloveNotpay = new EloveNotpay();
+			eloveNotpay.setAppid(appInfo.getAppid());
+			eloveNotpay.setNotPayNumber(notPay);
+			eloveNotpay.setWechatName(appInfo.getWechatName());
+			notpayList.add(eloveNotpay);
+		}
+		
+		model.addAttribute("notpayList", notpayList);
+		return "eloveNotpay";
+	}
+	
+	/**
+	 * @description: 更新elove未支付信息列表
+	 * @param model
+	 * @param json
+	 * @return
+	 */
+	@RequestMapping(value = "/customer/elove/notpaylist/update", method = RequestMethod.POST)
+	@ResponseBody
+	public String updateEloveNotpay(Model model, @RequestBody String json){
+		ApplicationContext context = 
+				new ClassPathXmlApplicationContext("All-Modules.xml");
+		EloveInfoDAO eloveInfoDao = (EloveInfoDAO) context.getBean("EloveInfoDAO");
 		((ConfigurableApplicationContext)context).close();
 		
 		Gson gson = new Gson();
-		AuthInfo authInfo = gson.fromJson(json, AuthInfo.class);
+		List<EloveNotpay> notpayList = gson.fromJson(json, 
+				new TypeToken<ArrayList<EloveNotpay>>(){}.getType());
 		ResponseMessage message = new ResponseMessage();
 		
-		if (!CommonValidationTools.checkAuthInfo(authInfo)) {
+		if (!CommonValidationTools.checkEloveNotpay(notpayList)) {
 			message.setStatus(false);
-			message.setMessage("权限信息不完整！");
+			message.setMessage("未支付信息不完整或有误！");
 		}else {
-			int result = authInfoDao.updateAuthInfo(authInfo);
+			int result = eloveInfoDao.updateConsumeList(notpayList);
 			if (result > 0) {
 				message.setStatus(true);
-				message.setMessage("更新成功！");
+				message.setMessage("更改成功！");
 			}else {
 				message.setStatus(false);
-				message.setMessage("更新失败！");
-				System.out.println("Error " + result);
+				message.setMessage("更改失败！");
+			}
+		}
+		
+		String response = gson.toJson(message);
+		return response;
+	}
+	
+	/**
+	 * @description: 更改商家的联系方式
+	 * @param model
+	 * @param json
+	 * @return
+	 */
+	@RequestMapping(value = "/customer/contact/update", method = RequestMethod.POST)
+	@ResponseBody
+	public String updateContact(Model model, @RequestBody String json){
+		ApplicationContext context = 
+				new ClassPathXmlApplicationContext("All-Modules.xml");
+		UserInfoDAO userInfoDao = (UserInfoDAO) context.getBean("UserInfoDAO");
+		((ConfigurableApplicationContext)context).close();
+		
+		Gson gson = new Gson();
+		UserInfo userInfo = gson.fromJson(json, UserInfo.class);
+		ResponseMessage message = new ResponseMessage();
+		
+		if (!CommonValidationTools.checkContactInfo(userInfo)) {
+			message.setStatus(false);
+			message.setMessage("联系方式信息不完整或有误！");
+		}else {
+			int result = userInfoDao.updateContactInfo(userInfo);
+			if (result > 0) {
+				message.setStatus(true);
+				message.setMessage("更改成功！");
+			}else {
+				message.setStatus(false);
+				message.setMessage("更改失败！");
 			}
 		}
 		

@@ -69,7 +69,7 @@ public class AuthInfoDAO {
 	 */
 	public int updateAuthInfo(AuthInfo authInfo){
 		int result = 0;
-		
+
 		Integer authid = getAuthid(authInfo.getAuthPinyin());
 		if (authid != null) {
 			int sid = authInfo.getSid();
@@ -77,7 +77,7 @@ public class AuthInfoDAO {
 			BigDecimal price = authInfo.getPrice();
 			
 			result = updateExpiredTime(sid, authid, expiredTime);
-			if (result != 0) {
+			if (result > 0) {
 				result = updatePrice(sid, authid, price);
 				return result;
 			}else {

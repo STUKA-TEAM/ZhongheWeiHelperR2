@@ -216,6 +216,18 @@ public class UserInfoDAO {
 		return result;
 	}
 	
+	/**
+	 * @title: updateContactInfo
+	 * @description: 更新商家联系方式
+	 * @param userInfo
+	 * @return
+	 */
+	public int updateContactInfo(UserInfo userInfo){
+		String SQL = "UPDATE customer_contact SET contact = ? WHERE sid = ?";
+		int result = jdbcTemplate.update(SQL, userInfo.getContact(), userInfo.getSid());
+		return result <= 0 ? 0 : result;
+	}
+	
 	//query
 	/**
 	 * @Title: getUserInfo
