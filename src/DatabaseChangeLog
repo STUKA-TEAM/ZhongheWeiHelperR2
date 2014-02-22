@@ -7,6 +7,6 @@ Windows:
             id           int(11)      No         <auto_increment>       Yes                 
             nodeid       int(11)      No         0                      No                  节点id
             childid      int(11)      No         0                      Np                  子节点id (子节点： node|article|articleclass)
-
+[2014-2-21][index: 0004]表website删除expiredTime字段
 
 Linux:

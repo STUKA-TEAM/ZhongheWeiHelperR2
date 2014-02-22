@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import elove.EloveInfo;
 import register.dao.AppInfoDAO;
-import register.dao.AuthPriceDAO;
+import register.dao.AuthInfoDAO;
 import elove.dao.EloveInfoDAO;
 import security.User;
 
@@ -46,7 +46,7 @@ public class EloveController {
     		@CookieValue(value = "appid", required = false) String appid) {
 		ApplicationContext context = 
 				new ClassPathXmlApplicationContext("All-Modules.xml");
-		AuthPriceDAO authPriceDao = (AuthPriceDAO) context.getBean("AuthPriceDAO");
+		AuthInfoDAO authInfoDao = (AuthInfoDAO) context.getBean("AuthInfoDAO");
 		AppInfoDAO appInfoDao = (AppInfoDAO) context.getBean("AppInfoDAO");
 		EloveInfoDAO eloveInfoDao = (EloveInfoDAO) context.getBean("EloveInfoDAO");
 		((ConfigurableApplicationContext)context).close();
@@ -81,7 +81,7 @@ public class EloveController {
 				Integer notPayNumber = eloveInfoDao.getConsumeRecord(appid);
 				model.addAttribute("notPayNumber", notPayNumber);
 
-				BigDecimal price = authPriceDao.getPrice(user.getSid(), "elove");
+				BigDecimal price = authInfoDao.getPrice(user.getSid(), "elove");
 				BigDecimal debt = null;
 				if (notPayNumber != null && price != null) {
 					debt = price.multiply(new BigDecimal(notPayNumber));

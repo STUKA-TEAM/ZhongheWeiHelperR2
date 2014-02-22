@@ -206,6 +206,33 @@ public class AppInfoDAO {
 	}
 	
 	/**
+	 * @title: getAppidList
+	 * @description: 根据sid获取appid列表
+	 * @param sid
+	 * @return
+	 */
+	public List<String> getAppidList(int sid){
+		String SQL = "SELECT appid FROM storeuser_application WHERE sid = ?";
+		List<String> appidList = null;
+		
+		try {
+			appidList = jdbcTemplate.query(SQL, new Object[]{sid}, new AppidMapper());
+		} catch (Exception e) {
+			appidList = new ArrayList<String>();
+			System.out.println(e.getMessage());
+		}
+		return appidList;
+	}
+	
+	private static final class AppidMapper implements RowMapper<String>{
+		@Override
+		public String mapRow(ResultSet rs, int arg1) throws SQLException {
+			String appid = rs.getString("appid");
+			return appid;
+		}		
+	}
+	
+	/**
 	 * @title: getAppNumBySid
 	 * @description: 查询一个用户账号下已创建的app数量
 	 * @param sid
@@ -358,7 +385,7 @@ public class AppInfoDAO {
 	 * @param authid
 	 * @return
 	 */
-	public Timestamp getAuthExpiredTime(String appid, int authid){
+	private Timestamp getAuthExpiredTime(String appid, int authid){
 		String SQL = "SELECT C.expiredTime FROM customer_authority C, storeuser_application S "
 				+ "WHERE C.sid = S.sid AND S.appid = ? AND C.authid = ?";
 		Timestamp expiredTime = null;
