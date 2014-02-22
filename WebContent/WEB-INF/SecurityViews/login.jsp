@@ -61,14 +61,13 @@
 	  	    url: 'j_spring_security_check',
 	  	    method: 'POST',
 	  	    data: $('#loginForm').serialize()
-	  	}).done(function (response) {
-	  		try{
-	  			var res = JSON.parse(response);
-	  			$("#loginMes").html(res.data);
-	  		}catch(e){
-	  			location.href="store/account";
-	  		}
-	  		
+	  	}).done(function (data) {
+	  			var jsonData = JSON.parse(data);
+	  			if(jsonData.status==true){
+					location.href=jsonData.message;
+		     	}else{
+		     		  $("#loginMes").html(jsonData.message);
+		        }	  			
 	  	}).fail(function () {
 	  	    // Whoops; show an error.
 	  	});
