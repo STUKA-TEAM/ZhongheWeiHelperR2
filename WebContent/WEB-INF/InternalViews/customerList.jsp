@@ -39,7 +39,7 @@
               </tr>
               <c:forEach items="${infoList}" var="item">
               <tr>
-                <td><fmt:formatDate value="${item.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+                <td><fmt:formatDate value="${item.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                 <td>${item.storeName}</td>
                 <td id="${item.sid}_contact">${item.contact}</td>
                 <td>
