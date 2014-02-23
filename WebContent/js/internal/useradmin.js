@@ -46,9 +46,10 @@ function editNotPay(sid){
 }
 
 function submitEditNotPay(){
-	var eloveNotPay = new Object();
+	
 	var notPayList = new Array();
 	$(".notPayInput").each(function(){
+		var eloveNotPay = new Object();
 		eloveNotPay.notPayNumber = $(this).val();
 		eloveNotPay.appid = $(this).attr("id");
 		notPayList.push(eloveNotPay);
