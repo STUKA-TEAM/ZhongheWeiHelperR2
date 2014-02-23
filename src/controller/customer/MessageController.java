@@ -69,8 +69,15 @@ public class MessageController {
 		return response;
 	}
 	
+	/**
+	 * @description: 查询账单详情
+	 * @param model
+	 * @param key
+	 * @return
+	 */
 	@RequestMapping(value = "/elove/bill", method = RequestMethod.GET)
-	public String getEloveDetail(Model model, @RequestParam(value = "sid", required = true) int sid){
+	public String getEloveDetail(Model model, @RequestParam(value = "key", required = true) String key){
+		
 		return "";
 	}
 }
