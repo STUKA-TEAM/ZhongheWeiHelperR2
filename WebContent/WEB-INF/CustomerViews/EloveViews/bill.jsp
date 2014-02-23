@@ -53,7 +53,7 @@
               <p class="pull-left"><strong>未付款金额:</strong></p>
               <p class="bill-value pull-left">240元</p>
             </div>
-            <p><strong>如有问题，请联系我们的客户经理白先生 </strong>13818031305</p>
+            <p><strong>如有问题，请联系您的客户经理白先生 </strong>13818031305</p>
           </div>
         </div>
       </div>
