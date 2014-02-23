@@ -124,7 +124,7 @@ public class BillController {
 				source[i] = move(source[i]);
 			}
 		}
-		return source.toString();
+		return String.valueOf(source);
 	}
 	
 	/**
