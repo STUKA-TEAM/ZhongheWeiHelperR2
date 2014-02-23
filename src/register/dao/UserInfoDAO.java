@@ -484,4 +484,30 @@ public class UserInfoDAO {
 			return storeName;
 		}	
 	}
+	
+	/**
+	 * @title: getUsername
+	 * @description: 根据sid查找商家账户名称
+	 * @param sid
+	 * @return
+	 */
+	public String getUsername(int sid){
+		String SQL = "SELECT username FROM storeuser WHERE sid = ?";
+		String username = null;
+		
+		try {
+			username = jdbcTemplate.queryForObject(SQL, new Object[]{sid}, new UsernameMapper());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return username;
+	}
+	
+	private static final class UsernameMapper implements RowMapper<String>{
+		@Override
+		public String mapRow(ResultSet rs, int arg1) throws SQLException {
+			String username = rs.getString("username");
+			return username;
+		}	
+	}
 }

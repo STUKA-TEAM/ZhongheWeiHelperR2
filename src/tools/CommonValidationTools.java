@@ -64,6 +64,23 @@ public class CommonValidationTools {
 	}
 	
 	/**
+	 * @title: checkUsernameFormat
+	 * @description: 检查用户名格式，必须为小写字母或数字
+	 * @param username
+	 * @return
+	 */
+	public static boolean checkUsernameFormat(String username){
+		char[] source = username.toCharArray();
+		for (int i = 0; i < source.length; i++) {
+			char temp = source[i];
+			if (temp < '0' || temp > 'z' || (temp < 'a' && temp > '9')) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	/**
 	 * @title: checkLocation
 	 * @description: 验证地址坐标信息是否有误
 	 * @param lng
