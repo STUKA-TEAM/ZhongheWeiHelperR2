@@ -71,6 +71,9 @@ public class CommonValidationTools {
 	 */
 	public static boolean checkUsernameFormat(String username){
 		char[] source = username.toCharArray();
+		if (source.length < 4 || source.length > 20) {
+			return false;
+		}
 		for (int i = 0; i < source.length; i++) {
 			char temp = source[i];
 			if (temp < '0' || temp > 'z' || (temp < 'a' && temp > '9')) {
