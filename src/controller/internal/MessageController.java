@@ -55,7 +55,7 @@ public class MessageController {
 		Gson gson = new Gson();
 		ResponseMessage message = new ResponseMessage();
 		
-		String content = "图卡网络提醒您：您当月的Elove款项已经付清，谢谢您的使用!";
+		String content = "尊敬的Elove用户：您当月的Elove款项已经付清，谢谢您的使用!";
 		String contact = userInfoDao.getContactInfo(sid);
 		if (contact != null) {
 			int result = 0;
@@ -208,7 +208,7 @@ public class MessageController {
 		post.addRequestHeader("Content-Type","application/x-www-form-urlencoded;"
 				+ "charset=utf8");                                                          //在头文件中设置转码
 		
-		InputStream inputStream = MessageController.class.getResourceAsStream("/defaultValue.properties");
+		InputStream inputStream = MessageController.class.getResourceAsStream("/environment.properties");
 		Properties properties = new Properties();
 		String messageKey = null;
 		try {

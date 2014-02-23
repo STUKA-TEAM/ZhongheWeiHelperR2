@@ -191,7 +191,7 @@ function addNode(){
 function addNodeItem(node){
 	var picHTML = "";
 	if(node.nodePic!=null){
-		picHTML = "<img src=\""+node.nodePic+"_original.jpg"+"\" class=\"pic-preview img-thumbnail img-responsive\"/>";
+		picHTML = "<img src=\""+node.nodePic+"_original.jpg"+"\" class=\"pic-preview img-responsive\"/>";
 	}
     var html="<tr id=\""+node.UUID+"\">"
     +"<td>"+node.nodeName+"</td>"
@@ -250,7 +250,7 @@ function editNodeWindow(uuid){
 	$("#edit-filetext").val("");	
 	var picHTML = "";
 	if(node.nodePic!=null){
-		picHTML = "<img src=\""+node.nodePic+"_original.jpg"+"\" class=\"pic-preview img-thumbnail img-responsive\"/>";
+		picHTML = "<img src=\""+node.nodePic+"_original.jpg"+"\" class=\"pic-preview img-responsive\"/>";
 	}
 	var imageHTML = "<div id=\""+node.nodePic+"\" class=\"col-md-6 pic-preview-div\">"
 	                +picHTML
@@ -285,7 +285,7 @@ function editNodeItem(node){
 	$(list[0]).html(node.nodeName);
 	var picHTML = "";
 	if(node.nodePic!=null){
-		picHTML = "<img src=\""+node.nodePic+"_original.jpg"+"\" class=\"pic-preview img-thumbnail img-responsive\"/>";
+		picHTML = "<img src=\""+node.nodePic+"_original.jpg"+"\" class=\"pic-preview img-responsive\"/>";
 	}
 	$(list[1]).html(picHTML);
 }
@@ -444,7 +444,7 @@ function getNodeChildHTML(uuid){
 		    }
 			var picHTML = "";
 			if(node.nodePic!=null){
-				picHTML = "<img src=\""+node.nodePic+"_original.jpg"+"\" class=\"pic-preview img-thumbnail img-responsive\"/>";
+				picHTML = "<img src=\""+node.nodePic+"_original.jpg"+"\" class=\"pic-preview img-responsive\"/>";
 			}
             html = html + "<tr id=\""+node.UUID+"\">"
 		    +"<td>"+node.nodeName+"</td>"
@@ -496,7 +496,7 @@ function selectIcon(){
 		   		  if(jsonData.status==true){
 		   			var picHTML = "";
 		   			if(jsonData.link!=null){
-		   				picHTML = "<img src=\""+jsonData.link+"_original.jpg"+"\" class=\"pic-preview img-thumbnail img-responsive\"/>";
+		   				picHTML = "<img src=\""+jsonData.link+"_original.jpg"+"\" class=\"pic-preview img-responsive\"/>";
 		   			}
 		   			var imageHTML = "<div id=\""+jsonData.link+"\" class=\"col-md-6 pic-preview-div\">"
 		   			                +picHTML

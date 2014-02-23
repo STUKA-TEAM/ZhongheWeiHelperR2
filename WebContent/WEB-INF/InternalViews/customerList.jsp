@@ -43,8 +43,9 @@
                 <td>${item.storeName}</td>
                 <td id="${item.sid}_contact">${item.contact}</td>
                 <td>
-                <a class="btn btn-sm btn-info" href="internal/customer/edit?sid=${item.sid}">编辑</a>
+                <a class="btn btn-sm btn-info" href="internal/customer/edit?sid=${item.sid}">管理</a>
                 <a class="btn btn-sm btn-info" onclick="editContact('${item.sid}')">编辑联系电话</a>
+                <a class="btn btn-sm btn-info" onclick="sendMessageWindow('${item.sid}')">发送短信</a>
                 </td>
               </tr>
               </c:forEach>
@@ -74,6 +75,32 @@
           </div>       
           <div class="modal-footer">
               <button type="button" class="btn btn-default" onclick="submitEditContact()">确定</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    
+    <!-- Send Message Modal -->
+    <div class="modal fade" id="sendMessage" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">发送短信</h4>
+          </div>
+          <div class="modal-body">
+          <div class="form-horizontal" role="form">
+              <div class="form-group">
+                <label for="store_contact" class="col-sm-3 control-label">发送内容:</label>
+                <div class="col-sm-9">
+                  <textarea rows="4" cols="15"  class="form-control" id="messageContent" ></textarea>
+                  <input type="hidden" class="form-control" id="message_sid" placeholder="">
+                </div>
+              </div>
+          </div>
+          </div>       
+          <div class="modal-footer">
+              <button type="button" class="btn btn-default" onclick="sendMessage()">确定</button>
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->

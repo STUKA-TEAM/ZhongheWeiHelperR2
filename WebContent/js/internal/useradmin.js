@@ -126,7 +126,81 @@ function submitEditAuthInfo(){
 	  });
 }
 
+function alertMessage(sid){
+	$.ajax({
+	  	  type: "GET",
+	  	  url: "internal/message/elove/alert",
+	  	  data: "sid="+sid,
+	   	  success: function (data) {
+	   		  $("#editInfo").modal("hide");
+	   		  var jsonData=JSON.parse(data);		 
+	   		  if(jsonData.status==true){
+		   	   	  $("#modalMes").html(jsonData.message);
+		   	      $("#operationMesModal").modal("show");
+	   		  }else{
+		   	   	  $("#modalMes").html(jsonData.message);
+		   	      $("#operationMesModal").modal("show");
+	   		  }
+	   	  },
+		  error: function(xhr, status, exception){
+	   	   	  $("#modalMes").html(status + '</br>' + exception);
+	   	      $("#operationMesModal").modal("show");
+		  }
+	  });
+}
 
+function ensureMessage(sid){
+	$.ajax({
+	  	  type: "GET",
+	  	  url: "internal/message/elove/ensure",
+	  	  data: "sid="+sid,
+	   	  success: function (data) {
+	   		  $("#editInfo").modal("hide");
+	   		  var jsonData=JSON.parse(data);		 
+	   		  if(jsonData.status==true){
+		   	   	  $("#modalMes").html(jsonData.message);
+		   	      $("#operationMesModal").modal("show");
+	   		  }else{
+		   	   	  $("#modalMes").html(jsonData.message);
+		   	      $("#operationMesModal").modal("show");
+	   		  }
+	   	  },
+		  error: function(xhr, status, exception){
+	   	   	  $("#modalMes").html(status + '</br>' + exception);
+	   	      $("#operationMesModal").modal("show");
+		  }
+	  });
+}
+
+function sendMessageWindow(sid){
+	 $("#messageContent").html("");
+	 $("#message_sid").val(sid);
+	 $("#sendMessage").modal("show");
+	 
+}
+
+function sendMessage(){
+	$.ajax({
+	  	  type: "GET",
+	  	  url: "internal/message/elove/alert",
+	  	  data: "sid="+$("#message_sid").val()+"&content="+$("#messageContent").val(),
+	   	  success: function (data) {
+	   		  $("#editInfo").modal("hide");
+	   		  var jsonData=JSON.parse(data);		 
+	   		  if(jsonData.status==true){
+		   	   	  $("#modalMes").html(jsonData.message);
+		   	      $("#operationMesModal").modal("show");
+	   		  }else{
+		   	   	  $("#modalMes").html(jsonData.message);
+		   	      $("#operationMesModal").modal("show");
+	   		  }
+	   	  },
+		  error: function(xhr, status, exception){
+	   	   	  $("#modalMes").html(status + '</br>' + exception);
+	   	      $("#operationMesModal").modal("show");
+		  }
+	  });
+}
 
 
 

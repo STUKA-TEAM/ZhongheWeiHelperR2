@@ -12,7 +12,7 @@
     <div class="panel-heading">
       <h4>栏目管理 </h4>
     </div>
-    <div class="panel-body">
+    <div class="panel-body"  style="background-color:#f5f5f5">
       <div class="row">
           <button type="button" class="btn btn-md btn-info col-md-2 col-md-offset-1 text-center" onclick="addNodeWindow()">添加栏目</button>
           <button id = "fatherholder" type="button" class="btn btn-md btn-info col-md-2 col-md-offset-2 text-center" onclick="generateFatherLayer()">返回上一级<div id="fatherName"></div></button>
@@ -47,7 +47,7 @@
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             <h4 class="modal-title" id="myModalLabel">新建类别</h4>
           </div>
-          <div class="modal-body">
+          <div class="modal-body"  style="background-color:#f5f5f5">
             <div  class="form-horizontal">
               <div class="form-group">
                 <label for="node-Name" class="col-md-3 control-label">栏目名称</label>
@@ -95,7 +95,7 @@
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             <h4 class="modal-title" id="myModalLabel">编辑类别</h4>
           </div>
-          <div class="modal-body">
+          <div class="modal-body"  style="background-color:#f5f5f5">
             <div  class="form-horizontal">
               <div class="form-group">
                 <label for="node-Name" class="col-md-3 control-label">栏目名称</label>
