@@ -17,6 +17,7 @@ import article.Article;
 import article.ArticleClass;
 import elove.EloveNotpay;
 import elove.EloveWizard;
+import elove.dao.EloveInfoDAO;
 import elove.dao.EloveWizardDAO;
 import register.AppInfo;
 import register.AuthInfo;
@@ -362,9 +363,19 @@ public class CommonValidationTools {
 	 * @return
 	 */
 	public static boolean checkEloveNotpay(List<EloveNotpay> eloveNotpayList){
+		ApplicationContext context = 
+				new ClassPathXmlApplicationContext("All-Modules.xml");
+		EloveInfoDAO eloveInfoDao = (EloveInfoDAO) context.getBean("EloveInfoDAO");
+		((ConfigurableApplicationContext)context).close();
+		
 		for (int i = 0; i < eloveNotpayList.size(); i++) {
-			EloveNotpay eloveNotpay = eloveNotpayList.get(i);
+			EloveNotpay eloveNotpay = eloveNotpayList.get(i);			
 			if (eloveNotpay.getNotPayNumber() < 0 || eloveNotpay.getAppid() == null) {
+				return false;
+			}
+			
+			Integer totalNum = eloveInfoDao.getEloveNum(eloveNotpay.getAppid());
+			if (totalNum == null || eloveNotpay.getNotPayNumber() > totalNum) {
 				return false;
 			}
 		}	

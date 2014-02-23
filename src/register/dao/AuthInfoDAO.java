@@ -122,14 +122,14 @@ public class AuthInfoDAO {
 	/**
 	 * @title: getAuthid
 	 * @description: 查询权限名字对应的id
-	 * @param authName
+	 * @param authPinyin
 	 * @return
 	 */
-	public Integer getAuthid(String authName){
-		String SQL = "SELECT authid FROM authority WHERE authName = ?";
+	public Integer getAuthid(String authPinyin){
+		String SQL = "SELECT authid FROM authority WHERE authPinyin = ?";
 		Integer authid = null;
 		try {
-			authid = jdbcTemplate.queryForObject(SQL, new Object[]{authName}, new AuthidMapper());
+			authid = jdbcTemplate.queryForObject(SQL, new Object[]{authPinyin}, new AuthidMapper());
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -177,15 +177,15 @@ public class AuthInfoDAO {
 	 * @title: getPrice
 	 * @description: 获取指定用户某项权限的售价
 	 * @param sid
-	 * @param authName
+	 * @param authPinyin
 	 * @return
 	 */
-	public BigDecimal getPrice(int sid, String authName){
+	public BigDecimal getPrice(int sid, String authPinyin){
 		String SQL = "SELECT S.price FROM store_auth_price S, "
-				+ "authority A WHERE S.authid = A.authid AND A.authName = ? AND S.sid = ?";
+				+ "authority A WHERE S.authid = A.authid AND A.authPinyin = ? AND S.sid = ?";
 		BigDecimal price = null;
 		try {
-			price = jdbcTemplate.queryForObject(SQL, new Object[]{authName, sid}, new PriceMapper());
+			price = jdbcTemplate.queryForObject(SQL, new Object[]{authPinyin, sid}, new PriceMapper());
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

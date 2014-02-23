@@ -123,6 +123,18 @@ public class UserInfoDAO {
 		return result <= 0 ? 0 : result;
 	}
 	
+	/**
+	 * @title: insertContactInfo
+	 * @description: 插入商家联系方式信息
+	 * @param userInfo
+	 * @return
+	 */
+	public int insertContactInfo(UserInfo userInfo){
+		String SQL = "INSERT INTO customer_contact (id, sid, contact) VALUES (default, ?, ?)";
+		int result = jdbcTemplate.update(SQL, userInfo.getSid(), userInfo.getContact());
+		return result <= 0 ? 0 : result;
+	}
+	
 	//delete
 	/**
 	 * @title: deleteUserInfo
@@ -223,9 +235,20 @@ public class UserInfoDAO {
 	 * @return
 	 */
 	public int updateContactInfo(UserInfo userInfo){
-		String SQL = "UPDATE customer_contact SET contact = ? WHERE sid = ?";
-		int result = jdbcTemplate.update(SQL, userInfo.getContact(), userInfo.getSid());
-		return result <= 0 ? 0 : result;
+		int result = 1;
+		String contact = getContactInfo(userInfo.getSid());
+		if (contact == null) {
+			result = insertContactInfo(userInfo);
+			return result;
+		}else {
+			if (contact.equals(userInfo.getContact())) {
+				return result;
+			}else {
+				String SQL = "UPDATE customer_contact SET contact = ? WHERE sid = ?";
+				result = jdbcTemplate.update(SQL, userInfo.getContact(), userInfo.getSid());
+				return result <= 0 ? 0 : result;
+			}
+		}
 	}
 	
 	//query
@@ -433,6 +456,32 @@ public class UserInfoDAO {
 		public String mapRow(ResultSet rs, int arg1) throws SQLException {
 			String contact = rs.getString("contact");
 			return contact;
+		}	
+	}
+	
+	/**
+	 * @title: getStoreName
+	 * @description: 根据sid查找商家名称
+	 * @param sid
+	 * @return
+	 */
+	public String getStoreName(int sid){
+		String SQL = "SELECT storeName FROM storeuser WHERE sid = ?";
+		String storeName = null;
+		
+		try {
+			storeName = jdbcTemplate.queryForObject(SQL, new Object[]{sid}, new StoreNameMapper());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return storeName;
+	}
+	
+	private static final class StoreNameMapper implements RowMapper<String>{
+		@Override
+		public String mapRow(ResultSet rs, int arg1) throws SQLException {
+			String storeName = rs.getString("storeName");
+			return storeName;
 		}	
 	}
 }
