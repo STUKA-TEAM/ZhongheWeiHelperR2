@@ -1,3 +1,7 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -5,11 +9,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="description" content="">
     <meta name="author" content="tuka">
-
-    <title>bill</title>
-    <!-- 微喜帖css -->
-    <link href="./css/store/bootstrap.min.css" rel="stylesheet">
-    <link href="./css/store/bill.css" rel="stylesheet">
+    <c:set var="request" value="${pageContext.request}" />
+    <base href="${fn:replace(request.requestURL, request.requestURI, request.contextPath)}/" />
+    <title>Elove使用记录</title>
+ 
+    <link href="css/store/bootstrap.min.css" rel="stylesheet">
+    <link href="css/store/bill.css" rel="stylesheet">
   </head>
   <body>
     <div class="container">
