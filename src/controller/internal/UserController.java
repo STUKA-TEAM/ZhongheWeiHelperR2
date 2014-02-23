@@ -70,6 +70,7 @@ public class UserController {
 				new ClassPathXmlApplicationContext("All-Modules.xml");
 		AuthInfoDAO authInfoDao = (AuthInfoDAO) context.getBean("AuthInfoDAO");
 		AppInfoDAO appInfoDao = (AppInfoDAO) context.getBean("AppInfoDAO");
+		UserInfoDAO userInfoDao = (UserInfoDAO) context.getBean("UserInfoDAO");
 		EloveInfoDAO eloveInfoDao = (EloveInfoDAO) context.getBean("EloveInfoDAO");
 		((ConfigurableApplicationContext)context).close();
 		
@@ -112,7 +113,9 @@ public class UserController {
 		model.addAttribute("notPaySum", notPaySum);
 		model.addAttribute("notPayMoney", notPayMoney);
 		
+		String storeName = userInfoDao.getStoreName(sid);
 		model.addAttribute("sid", sid);
+		model.addAttribute("storeName", storeName);
 		return "customerInfo";
 	}
 	
