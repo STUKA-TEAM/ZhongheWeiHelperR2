@@ -89,7 +89,7 @@
             </dl>
           </div>
           <div class="modal-footer">
-            <p class="pull-left">如有问题，请致电：${phoneNum}</p>
+            <p class="pull-left">如有问题，请联系您的客户经理：${phoneNum}</p>
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
