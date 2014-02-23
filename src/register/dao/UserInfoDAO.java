@@ -425,6 +425,24 @@ public class UserInfoDAO {
 		return sid;
 	}
 	
+	/**
+	 * @title: getSidByUsername
+	 * @description: 由username查询sid
+	 * @param username
+	 * @return
+	 */
+	public Integer getSidByUsername(String username){
+		String SQL = "SELECT S.sid FROM storeuser S WHERE S.username = ?";
+		Integer sid = null;
+		
+		try {
+			sid = jdbcTemplate.queryForObject(SQL, new Object[]{username}, new SidMapper());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return sid;
+	}
+	
 	private static final class SidMapper implements RowMapper<Integer>{
 		@Override
 		public Integer mapRow(ResultSet rs, int arg1) throws SQLException {
