@@ -108,7 +108,7 @@ public class EloveInfoDAO {
 		List<EloveInfo> infoList = null;
 		
 		try {
-			infoList = jdbcTemplate.query(SQL, new Object[]{appid}, new BillEloveInfoMapper());
+			infoList = jdbcTemplate.query(SQL, new Object[]{appid, limit}, new BillEloveInfoMapper());
 		} catch (Exception e) {
 			infoList = new ArrayList<EloveInfo>();
 			System.out.println(e.getMessage());

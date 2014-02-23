@@ -246,7 +246,7 @@ public class MessageController {
 				source[i] = move(source[i]);
 			}
 		}
-		return source.toString();
+		return String.valueOf(source);
 	}
 	
 	/**
