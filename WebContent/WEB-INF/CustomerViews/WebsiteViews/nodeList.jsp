@@ -39,7 +39,7 @@
       <ul class="list-unstyled">
 		<c:forEach items="${nodeList}" var="item">
         <li class="list-item"><a class="noneStyleLink" href="customer/website/resources?nodeid=${item.nodeid}">
-        <c:if test="${item.nodePic!=null}"><img src="${item.nodePic}_small.jpg" class="list-item-icon" alt="home"></c:if> ${item.nodeName} <img src="./img/icon_lib/arrow_blue.png" class="list-item-arrow" alt="home"></a></li>
+        <c:if test="${item.nodePic!=null}"><img src="${item.nodePic}_original.jpg" class="list-item-icon" alt="home"></c:if> ${item.nodeName} <img src="./img/icon_lib/arrow_blue.png" class="list-item-arrow" alt="home"></a></li>
         </c:forEach>
       </ul>
     </div>

@@ -39,7 +39,7 @@
       <c:forEach items="${nodes}" var="item">
           <div class="contentlist-item">
             <a href="customer/website/resources?nodeid=${item.nodeid}" class="noneStyleLinkGray">
-            <img src="${item.nodePic}_small.jpg" class="img-responsive">
+            <img src="${item.nodePic}_original.jpg" class="img-responsive">
             <p class="contentlist-text">${item.nodeName}</p>
             </a>
           </div>
