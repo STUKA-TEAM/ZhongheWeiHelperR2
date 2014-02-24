@@ -179,7 +179,7 @@ public class MessageController {
 			
 			if (result > 0) {
 				message.setStatus(true);
-				message.setMessage("确认收款短信" + result + "条已成功发送！");
+				message.setMessage("自定义短信" + result + "条已成功发送！");
 			}else {
 				message.setStatus(false);
 				message.setMessage("短信发送失败！返回代码： " + result);
