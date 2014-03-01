@@ -26,6 +26,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import article.dao.ArticleDAO;
+
 import com.google.gson.Gson;
 
 import register.AppInfo;
@@ -37,6 +39,7 @@ import register.UserInfo;
 import register.dao.UserInfoDAO;
 import security.User;
 import tools.CommonValidationTools;
+import website.dao.WebsiteDAO;
 
 /**
  * @Title: BasicController
@@ -251,6 +254,8 @@ public class BasicController {
 				new ClassPathXmlApplicationContext("All-Modules.xml");
 		AppInfoDAO appInfoDao = (AppInfoDAO) context.getBean("AppInfoDAO");
 		EloveWizardDAO eloveWizardDao = (EloveWizardDAO) context.getBean("EloveWizardDAO");
+		WebsiteDAO websiteDao = (WebsiteDAO) context.getBean("WebsiteDAO");
+		ArticleDAO articleDao = (ArticleDAO) context.getBean("ArticleDAO");
 		((ConfigurableApplicationContext)context).close();
 		
 		Gson gson = new Gson();
@@ -268,8 +273,8 @@ public class BasicController {
 				appInfoDao.deleteAppAuthRelation(appid);
 				appInfoDao.deleteUserAppRelation(appid);
 				appInfoDao.deleteAppInfo(appid);
-				eloveWizardDao.deleteConsumeRecord(appid);
 				
+				eloveWizardDao.deleteConsumeRecord(appid);		
 				List<Integer> eloveidList = eloveWizardDao.getEloveidList(appid);
 				for (int i = 0; i < eloveidList.size(); i++) {
 					int eloveid = eloveidList.get(i);
@@ -278,6 +283,21 @@ public class BasicController {
 					eloveWizardDao.deleteJoin(eloveid);
 					eloveWizardDao.deleteMessage(eloveid);
 					eloveWizardDao.deleteElove(eloveid);
+				}
+				
+				Integer websiteid = websiteDao.getWebsiteidByAppid(appid);
+				if (websiteid != null) {
+					websiteDao.deleteWebsite(websiteid);
+				}
+				
+				List<Integer> articleidList = articleDao.getArticleidList(appid);
+				for (int i = 0; i < articleidList.size(); i++) {
+					articleDao.deleteArticle(articleidList.get(i));
+				}
+				
+				List<Integer> classidList = articleDao.getClassidList(appid);
+				for (int i = 0; i < classidList.size(); i++) {
+					articleDao.deleteArticleClass(classidList.get(i));
 				}
 				
 				message.setStatus(true);

@@ -11,6 +11,7 @@ public class EloveNotpay {
 	private String wechatName;
 	private String appid;
 	private int notPayNumber;
+	private int prePayNumber;
 	
 	/**
 	 * @return the wechatName
@@ -47,5 +48,17 @@ public class EloveNotpay {
 	 */
 	public void setNotPayNumber(int notPayNumber) {
 		this.notPayNumber = notPayNumber;
+	}
+	/**
+	 * @return the prePayNumber
+	 */
+	public int getPrePayNumber() {
+		return prePayNumber;
+	}
+	/**
+	 * @param prePayNumber the prePayNumber to set
+	 */
+	public void setPrePayNumber(int prePayNumber) {
+		this.prePayNumber = prePayNumber;
 	}
 }

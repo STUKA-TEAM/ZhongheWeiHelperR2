@@ -94,7 +94,7 @@ public class UserController {
 			consumedSum += consumed;
 			
 			Integer notPay = eloveInfoDao.getConsumeRecord(appid);
-			if (notPay != null) {
+			if (notPay != null && notPay > 0) {
 				notPaySum += notPay;
 			}
 		}
@@ -178,8 +178,20 @@ public class UserController {
 			
 			EloveNotpay eloveNotpay = new EloveNotpay();
 			eloveNotpay.setAppid(appInfo.getAppid());
-			eloveNotpay.setNotPayNumber(notPay);
 			eloveNotpay.setWechatName(appInfo.getWechatName());
+			if (notPay != null) {
+				if (notPay >= 0) {
+					eloveNotpay.setNotPayNumber(notPay);
+					eloveNotpay.setPrePayNumber(0);
+				}else {
+					eloveNotpay.setNotPayNumber(0);
+					eloveNotpay.setPrePayNumber(-notPay);
+				}
+				
+			}else {
+				eloveNotpay.setNotPayNumber(-1);
+				eloveNotpay.setPrePayNumber(-1);
+			}
 			notpayList.add(eloveNotpay);
 		}
 		

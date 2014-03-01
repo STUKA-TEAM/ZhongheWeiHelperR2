@@ -554,6 +554,25 @@ public class ArticleDAO {
 		return articleidList;
 	}
 	
+	/**
+	 * @title: getArticleidList
+	 * @description:  由appid获取所关联文章id列表
+	 * @param appid
+	 * @return
+	 */
+	public List<Integer> getArticleidList(String appid){
+		String SQL = "SELECT articleid FROM article WHERE appid = ?";
+        List<Integer> articleidList = null;
+		
+		try {
+			articleidList = jdbcTemplate.query(SQL, new Object[]{appid}, new ArticleidMapper());
+		} catch (Exception e) {
+			articleidList = new ArrayList<Integer>();
+			System.out.println(e.getMessage());
+		}
+		return articleidList;
+	}
+	
 	private static final class ArticleidMapper implements RowMapper<Integer>{
 		@Override
 		public Integer mapRow(ResultSet rs, int arg1) throws SQLException {
@@ -574,6 +593,25 @@ public class ArticleDAO {
 		
 		try {
 			classidList = jdbcTemplate.query(SQL, new Object[]{articleid}, new ClassidMapper());
+		} catch (Exception e) {
+			classidList = new ArrayList<Integer>();
+			System.out.println(e.getMessage());
+		}
+		return classidList;
+	}
+	
+	/**
+	 * @title: getClassidList
+	 * @description: 由appid获取所属类别id列表
+	 * @param appid
+	 * @return
+	 */
+	public List<Integer> getClassidList(String appid){
+		String SQL = "SELECT classid FROM articleclass WHERE appid = ?";
+		List<Integer> classidList = null;
+		
+		try {
+			classidList = jdbcTemplate.query(SQL, new Object[]{appid}, new ClassidMapper());
 		} catch (Exception e) {
 			classidList = new ArrayList<Integer>();
 			System.out.println(e.getMessage());

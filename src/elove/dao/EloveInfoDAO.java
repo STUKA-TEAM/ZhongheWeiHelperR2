@@ -39,7 +39,8 @@ public class EloveInfoDAO {
 	public int updateConsumeRecord(EloveNotpay eloveNotpay){
 		String SQL = "UPDATE elove_consume_record SET notPayNumber = ? WHERE appid = ?";
 		int effected = jdbcTemplate.update(SQL, new Object[]{
-				eloveNotpay.getNotPayNumber(), eloveNotpay.getAppid()});
+				eloveNotpay.getNotPayNumber() - eloveNotpay.getPrePayNumber(), 
+				eloveNotpay.getAppid()});
 		return effected <= 0 ? 0 : effected;
 	}
 	

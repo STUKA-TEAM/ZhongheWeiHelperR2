@@ -106,7 +106,7 @@ public class MessageController {
 		for (int i = 0; i < appidList.size(); i++) {
 			String appid = appidList.get(i);	
 			Integer notPay = eloveInfoDao.getConsumeRecord(appid);
-			if (notPay != null) {
+			if (notPay != null && notPay > 0) {
 				notPaySum += notPay;
 			}
 		}
