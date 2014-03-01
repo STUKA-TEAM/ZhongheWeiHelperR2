@@ -5,7 +5,7 @@
 4.限制远程mysql链接
 5.demo id
 6.更新icon_lib
-
+7.部署a.htm到服务器根目录
 文件上传项目：
 1.配置environment.properties
 2.配置jdbc.properties

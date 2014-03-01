@@ -182,10 +182,10 @@ function sendMessageWindow(sid){
 function sendMessage(){
 	$.ajax({
 	  	  type: "GET",
-	  	  url: "internal/message/elove/alert",
+	  	  url: "internal/message/elove/myalert",
 	  	  data: "sid="+$("#message_sid").val()+"&content="+$("#messageContent").val(),
 	   	  success: function (data) {
-	   		  $("#editInfo").modal("hide");
+	   		  $("#sendMessage").modal("hide");
 	   		  var jsonData=JSON.parse(data);		 
 	   		  if(jsonData.status==true){
 		   	   	  $("#modalMes").html(jsonData.message);
