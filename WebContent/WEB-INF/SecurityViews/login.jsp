@@ -55,24 +55,6 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="js/store/bootstrap.min.js"></script>
-    <script type="text/javascript">
-    function submitForm(){
-	  	$.ajax({
-	  	    url: 'j_spring_security_check',
-	  	    method: 'POST',
-	  	    data: $('#loginForm').serialize()
-	  	}).done(function (data) {
-	  			var jsonData = JSON.parse(data);
-	  			if(jsonData.status==true){
-					location.href=jsonData.message;
-		     	}else{
-		     		  $("#loginMes").html(jsonData.message);
-		        }	  			
-	  	}).fail(function () {
-	  	    // Whoops; show an error.
-	  	});
-    }
-
-    </script>
+    <script src="js/internal/login.js"></script>
   </body>
 </html>

@@ -48,7 +48,7 @@ public class WebsiteDAO {
 		final String SQL = "INSERT INTO website (websiteid, appid, getCode, title, "
 				+ "phone, address, lng, lat, createTime, coverPic, "
 				+ "coverText, shareTitle, shareContent, footerText, themeId) "
-				+ "VALUES (default, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+				+ "VALUES (default, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		KeyHolder kHolder = new GeneratedKeyHolder();
 		result = jdbcTemplate.update(new PreparedStatementCreator() {
@@ -63,12 +63,12 @@ public class WebsiteDAO {
 		        ps.setBigDecimal(6, website.getLng());
 		        ps.setBigDecimal(7, website.getLat());
 		        ps.setTimestamp(8, website.getCreateTime());
-		        ps.setString(10, website.getCoverPic());
-		        ps.setString(11, website.getCoverText());
-		        ps.setString(12, website.getShareTitle());
-		        ps.setString(13, website.getShareContent());
-		        ps.setString(14, website.getFooterText());
-		        ps.setInt(15, website.getThemeId());
+		        ps.setString(9, website.getCoverPic());
+		        ps.setString(10, website.getCoverText());
+		        ps.setString(11, website.getShareTitle());
+		        ps.setString(12, website.getShareContent());
+		        ps.setString(13, website.getFooterText());
+		        ps.setInt(14, website.getThemeId());
 		        return ps;
 		    }
 		}, kHolder);

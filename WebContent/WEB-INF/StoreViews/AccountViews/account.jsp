@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -41,7 +42,7 @@
                 <dt>用户名：</dt>
                 <dd>${userInfo.username}</dd>
                 <dt>创建时间：</dt>
-                <dd>${userInfo.createDate}</dd>
+                <dd><fmt:formatDate value="${userInfo.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></dd>
                 <dt>商户名称：</dt>
                 <dd>${userInfo.storeName}</dd>
                 <dt>邮箱：</dt>
@@ -340,10 +341,11 @@
     <script type="text/javascript" src="js/store/upload.js"></script>
     <script type="text/javascript" src="js/store/account.js"></script>
     <script type="text/javascript">
-    var myGeo = new BMap.Geocoder();  
-    var map = new BMap.Map("baidumap");
+    myGeo = new BMap.Geocoder();  
+    map = new BMap.Map("baidumap");
     map.centerAndZoom("上海", 12);  
     map.enableScrollWheelZoom();
+    
     map.addEventListener("click", function(e){
         map.clearOverlays();
         var point=new BMap.Point(e.point.lng, e.point.lat);
@@ -362,12 +364,11 @@
         	myGeo.getPoint("上海", function(point){  
         		if (point) { 	 
         		   document.getElementById("lng").value = point.lng;
-        		   document.getElementById("lat").value = point.lat;    
+        		   document.getElementById("lat").value = point.lat;   
         		 }  
         		}, "上海市"); 
-        	map.centerAndZoom("上海", 12);
         }
-        map.enableScrollWheelZoom();
+
     }
     function setPoint(){
     map.clearOverlays();
