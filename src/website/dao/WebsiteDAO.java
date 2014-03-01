@@ -836,4 +836,30 @@ public class WebsiteDAO {
 	    }
 		return count;
 	}
+	
+	/**
+	 * @title: getWebsiteidByAppid
+	 * @description: 根据appid获取websiteid
+	 * @param appid
+	 * @return
+	 */
+	public Integer getWebsiteidByAppid(String appid){
+		String SQL = "SELECT websiteid FROM website WHERE appid = ?";
+		Integer websiteid = null;
+		
+		try {
+			websiteid = jdbcTemplate.queryForObject(SQL, new Object[]{appid}, new WebsiteidMapper());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return websiteid;
+	}
+	
+	private static final class WebsiteidMapper implements RowMapper<Integer>{
+		@Override
+		public Integer mapRow(ResultSet rs, int arg1) throws SQLException {
+			Integer websiteid = rs.getInt("websiteid");
+			return websiteid;
+		}	
+	}
 }
