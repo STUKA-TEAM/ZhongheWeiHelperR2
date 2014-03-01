@@ -74,7 +74,9 @@ public class ArticleDAO {
 			Document doc = Jsoup.parse(article.getContent());
 			Elements imgs = doc.select("img[src]");
 			for (int i = 0; i < imgs.size(); i++) {
-				deleteImageTempRecord(imgs.get(i).attr("src"));
+				String imagePath = imgs.get(i).attr("src");
+				int index = imagePath.indexOf('_') - 1;
+				deleteImageTempRecord(imagePath.substring(0, index));
 			}
 			
 			int articleid = kHolder.getKey().intValue();
@@ -216,7 +218,9 @@ public class ArticleDAO {
 				Document doc = Jsoup.parse(content);
 				Elements imgs = doc.select("img[src]");
 				for (int i = 0; i < imgs.size(); i++) {
-					insertImageTempRecord(imgs.get(i).attr("src"), current);
+					String imagePath = imgs.get(i).attr("src");
+					int index = imagePath.indexOf('_') - 1;
+					insertImageTempRecord(imagePath.substring(0, index), current);
 				}
 			}			
 		}else {
@@ -254,7 +258,7 @@ public class ArticleDAO {
 	public int deleteACRByArticleid(int articleid){
 		String SQL = "DELETE FROM article_articleclass WHERE articleid = ?";
 		int result = jdbcTemplate.update(SQL, articleid);
-		return result;
+		return result <= 0 ? 0 : result;
 	}
 	
 	/**
@@ -266,7 +270,7 @@ public class ArticleDAO {
 	public int deleteACRByClassid(int classid){
 		String SQL = "DELETE FROM article_articleclass WHERE classid = ?";
 		int result = jdbcTemplate.update(SQL, classid);
-		return result;
+		return result <= 0 ? 0 : result;
 	}
 	
 	/**
@@ -278,7 +282,7 @@ public class ArticleDAO {
 	private int deleteImageTempRecord(String imagePath){
 		String SQL = "DELETE FROM image_temp_record WHERE imagePath = ?";
 		int effected = jdbcTemplate.update(SQL, imagePath);
-		return effected;
+		return effected <= 0 ? 0 : effected;
 	}
 	
 	//update
@@ -292,23 +296,7 @@ public class ArticleDAO {
 		String SQL = "UPDATE article SET title = ?, coverPic = ?, content = ? WHERE articleid = ?";
 		
 		Article temp = getArticleBasicMedia(article.getArticleid());
-		if (temp != null) {
-            Timestamp current = new Timestamp(System.currentTimeMillis());
-			
-			String coverPic = temp.getCoverPic();
-			if (coverPic != null && !coverPic.equals("")) {
-				insertImageTempRecord(coverPic, current);
-			}
-			
-			String content = temp.getContent();
-			if (!content.equals("")) {
-				Document doc = Jsoup.parse(content);
-				Elements imgs = doc.select("img[src]");
-				for (int i = 0; i < imgs.size(); i++) {
-					insertImageTempRecord(imgs.get(i).attr("src"), current);
-				}
-			}
-		}else {
+		if (temp == null) {
 			return 0;
 		}
 
@@ -316,15 +304,37 @@ public class ArticleDAO {
 				article.getContent(), article.getArticleid());
 		
 		if (result > 0) {
-			String coverPic = article.getCoverPic();
-			if (coverPic != null && !coverPic.equals("")) {
-				deleteImageTempRecord(coverPic);
+			Timestamp current = new Timestamp(System.currentTimeMillis());
+			
+			String originalCoverPic = temp.getCoverPic();
+			String currentCoverPic = article.getCoverPic();
+			if (currentCoverPic == null) {
+				currentCoverPic = "";
 			}
-						
-			Document doc = Jsoup.parse(article.getContent());
-			Elements imgs = doc.select("img[src]");
-			for (int i = 0; i < imgs.size(); i++) {
-				deleteImageTempRecord(imgs.get(i).attr("src"));
+			if (!currentCoverPic.equals(originalCoverPic)) {
+				if (originalCoverPic != null && !originalCoverPic.equals("")) {
+					insertImageTempRecord(originalCoverPic, current);
+				}
+				
+				if (!currentCoverPic.equals("")) {
+					deleteImageTempRecord(currentCoverPic);
+				}
+			}
+			
+			List<String> originalImages = parseEditorContent(temp.getContent());
+			List<String> currentImages = parseEditorContent(article.getContent());
+
+			for (int i = 0; i < originalImages.size(); i++) {
+				String imagePath = originalImages.get(i);
+				if (!currentImages.contains(imagePath)) {
+					insertImageTempRecord(imagePath, current);
+				}
+			}
+			for (int i = 0; i < currentImages.size(); i++) {
+				String imagePath = currentImages.get(i);
+				if (!originalImages.contains(imagePath)) {
+					deleteImageTempRecord(imagePath);
+				}
 			}
 			
 			deleteACRByArticleid(article.getArticleid());
@@ -336,6 +346,27 @@ public class ArticleDAO {
 		}else {
 			return 0;
 		}
+	}
+	
+	/**
+	 * @title: parseEditorContent
+	 * @description: 解析编辑器内容获取图片信息列表
+	 * @param content
+	 * @return
+	 */
+	private List<String> parseEditorContent(String content){
+		List<String> imageList = new ArrayList<String>();
+		
+		if (!content.equals("")) {
+			Document doc = Jsoup.parse(content);
+			Elements imgs = doc.select("img[src]");
+			for (int i = 0; i < imgs.size(); i++) {
+				String imagePath = imgs.get(i).attr("src");
+				int index = imagePath.indexOf('_') - 1;
+				imageList.add(imagePath.substring(0, index));
+			}
+		}
+		return imageList;
 	}
 	
 	/**

@@ -193,19 +193,19 @@ public class UserInfoDAO {
 			List<String> originalImages = getUserImages(userInfo.getSid());
 			List<String> currentImages = userInfo.getImageList();
 			
-			if (currentImages != null) {
-				for (int i = 0; i < originalImages.size(); i++) {
-					String temp = originalImages.get(i);
-					if (!currentImages.contains(temp)) {
-						deleteUserImage(temp);
-					}
+			if (currentImages == null) {
+				currentImages = new ArrayList<String>();
+			}
+			for (int i = 0; i < originalImages.size(); i++) {
+				String temp = originalImages.get(i);
+				if (!currentImages.contains(temp)) {
+					deleteUserImage(temp);
 				}
-				
-				for (int i = 0; i < currentImages.size(); i++) {
-					String temp = currentImages.get(i);
-					if (!originalImages.contains(temp)) {
-						insertImage(userInfo.getSid(), temp);
-					}
+			}		
+			for (int i = 0; i < currentImages.size(); i++) {
+				String temp = currentImages.get(i);
+				if (!originalImages.contains(temp)) {
+					insertImage(userInfo.getSid(), temp);
 				}
 			}
 			return effected;

@@ -78,14 +78,18 @@ public class WebsiteDAO {
 			
 			int websiteid = kHolder.getKey().intValue();
 			
-			result = insertImage(websiteid, "introduce", website.getImageList());        //插入微官网介绍图片
-            if (result == 0) {
-				return -1;
+			if (website.getImageList() != null) {
+				result = insertImage(websiteid, "introduce", website.getImageList());       //插入微官网介绍图片
+	            if (result == 0) {
+					return -1;
+				}
 			}
-            
-            result = insertNodeList(websiteid, website.getNodeList());                      //插入微官网节点信息
-            if (result == 0) {
-				return -2;
+			
+            if (website.getNodeList() != null) {
+            	result = insertNodeList(websiteid, website.getNodeList());                  //插入微官网节点信息
+                if (result == 0) {
+    				return -2;
+    			}
 			}
             
             return result;
@@ -103,10 +107,6 @@ public class WebsiteDAO {
 	 */
 	private int insertNodeList(int websiteid, List<WebsiteNode> nodeList){
 		int result = 1;
-		
-		if (nodeList == null) {
-			return result;
-		}
 		
 		for (int i = 0; i < nodeList.size(); i++) {
 			WebsiteNode node = nodeList.get(i);
@@ -211,24 +211,38 @@ public class WebsiteDAO {
 	private int insertImage(int websiteid, String imageType, List<String> imageList){
 	    String SQL = "INSERT INTO website_image (id, websiteid, imageType, imagePath) VALUES (default, ?, ?, ?)";
 		int result = 1;
-
-		if (imageList == null) {
-			return 1;
-		}
 		
 		for (int i = 0; i < imageList.size(); i++) {
 			String imagePath = imageList.get(i);
 			result = jdbcTemplate.update(SQL, websiteid, imageType, imagePath);
 			if (result <= 0) {
 				return 0;
+			}else {
+				result = deleteImageTempRecord(imageList.get(i));
+				if (result <= 0) {
+					return 0;
+				}
 			}
 		}
 		
-		for (int i = 0; i < imageList.size(); i++) {
-			deleteImageTempRecord(imageList.get(i));
-		}
-		
 		return result;
+	}
+	
+	/**
+	 * @title: insertImage
+	 * @description: 插入单个图片
+	 * @param websiteid
+	 * @param imageType
+	 * @param imagePath
+	 * @return
+	 */
+	private int insertImage(int websiteid, String imageType, String imagePath){
+		String SQL = "INSERT INTO website_image (id, websiteid, imageType, imagePath) VALUES (default, ?, ?, ?)";
+		int result = jdbcTemplate.update(SQL, websiteid, imageType, imagePath);
+		if (result > 0) {
+			result = deleteImageTempRecord(imagePath);
+		}
+		return result <= 0 ? 0 :result;
 	}
 	
 	/**
@@ -336,6 +350,22 @@ public class WebsiteDAO {
 	}
 	
 	/**
+	 * @title: deleteImage
+	 * @description: 根据imagePath删除website图片
+	 * @param imagePath
+	 * @return
+	 */
+	private int deleteImage(String imagePath){
+		String SQL = "DELETE FROM website_image WHERE imagePath = ?";
+		int result = jdbcTemplate.update(SQL, imagePath);
+		if (result > 0) {
+			Timestamp current = new Timestamp(System.currentTimeMillis());
+			result = insertImageTempRecord(imagePath, current);
+		}
+		return result <= 0 ? 0 : result;
+	}
+	
+	/**
 	 * @title: deleteImageTempRecord
 	 * @description: 删除图片在临时表中记录
 	 * @param imagePath
@@ -362,10 +392,7 @@ public class WebsiteDAO {
 		int result = 0;
 		
 		Website temp = getWebsiteBasicMedia(website.getWebsiteid());
-		if (temp != null) {
-			Timestamp current = new Timestamp(System.currentTimeMillis());
-			insertImageTempRecord(temp.getCoverPic(), current);
-		}else {
+		if (temp == null) {
 			return 0;
 		}
 		
@@ -375,17 +402,36 @@ public class WebsiteDAO {
 				website.getShareContent(), website.getFooterText(), website.getThemeId(), 
 				website.getWebsiteid());
 		if (result > 0) {
-			deleteImageTempRecord(website.getCoverPic());
+			Timestamp current = new Timestamp(System.currentTimeMillis());
+			if (!website.getCoverPic().equals(temp.getCoverPic())) {
+				insertImageTempRecord(temp.getCoverPic(), current);
+				deleteImageTempRecord(website.getCoverPic());
+			}
 			
 			int websiteid = website.getWebsiteid();
-			deleteImage(websiteid);
-			deleteNodes(websiteid);
+			//images for introduction
+			List<String> originalImages = getWebsiteImages(websiteid);
+			List<String> currentImages = website.getImageList();
 			
-			result = insertImage(websiteid, "introduce", website.getImageList());        //插入微官网介绍图片
-            if (result == 0) {
-				return -1;
+			if (currentImages == null) {
+				currentImages = new ArrayList<String>();
 			}
-            
+			for (int i = 0; i < originalImages.size(); i++) {
+				String imagePath = originalImages.get(i);
+				if (!currentImages.contains(imagePath)) {
+					deleteImage(imagePath);
+				}
+			}
+			for (int i = 0; i < currentImages.size(); i++) {
+				String imagePath = currentImages.get(i);
+				if (!originalImages.contains(imagePath)) {
+					insertImage(websiteid, "introduce", imagePath);
+				}
+			}
+			
+			//node images	
+			deleteNodes(websiteid);
+
             result = insertNodeList(websiteid, website.getNodeList());                      //插入微官网节点信息
             if (result == 0) {
 				return -2;
