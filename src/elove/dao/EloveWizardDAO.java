@@ -183,7 +183,7 @@ public class EloveWizardDAO {
 		if (result > 0) {
 			result = deleteImageTempRecord(imagePath);
 		}
-		return result <= 0 ? 0 :result;
+		return result <= 0 ? 0 : result;
 	}
 	
 	/**
@@ -200,7 +200,7 @@ public class EloveWizardDAO {
 		if (result > 0) {
 			result = deleteVideoTempRecord(videoPath);;
 		}	
-		return result <= 0 ? 0 :result;
+		return result <= 0 ? 0 : result;
 	}
 	
 	/**
@@ -243,17 +243,21 @@ public class EloveWizardDAO {
 	 * @return
 	 */
 	public int deleteImage(int eloveid){
-		int effected = 0;
 		String SQL = "DELETE FROM elove_images WHERE eloveid = ?";
-		
 		List<String> imageList = getImageList(eloveid);
-		Timestamp current = new Timestamp(System.currentTimeMillis());
-		for (int i = 0; i < imageList.size(); i++) {
-			String imagePath = imageList.get(i);
-			insertImageTempRecord(imagePath, current);
-		}
 		
-		effected = jdbcTemplate.update(SQL, new Object[]{eloveid});			
+		int effected = jdbcTemplate.update(SQL, new Object[]{eloveid});
+		if (effected > 0) {
+			Timestamp current = new Timestamp(System.currentTimeMillis());
+			for (int i = 0; i < imageList.size(); i++) {
+				String imagePath = imageList.get(i);
+				effected = insertImageTempRecord(imagePath, current);
+				if (effected == 0) {
+					return effected;
+				}
+			}
+		}
+					
 		return effected <= 0 ? 0 : effected;
 	}
 	
@@ -280,17 +284,21 @@ public class EloveWizardDAO {
 	 * @return
 	 */
 	public int deleteVideo(int eloveid){
-		int effected = 0;
 		String SQL = "DELETE FROM elove_video WHERE eloveid = ?";
-		
 		List<String> videoList = getVideoList(eloveid);
-		Timestamp current = new Timestamp(System.currentTimeMillis());
-		for (int i = 0; i < videoList.size(); i++) {
-			String videoPath = videoList.get(i);
-			insertVideoTempRecord(videoPath, current);
+		
+		int effected = jdbcTemplate.update(SQL, new Object[]{eloveid});
+		if (effected > 0) {
+			Timestamp current = new Timestamp(System.currentTimeMillis());
+			for (int i = 0; i < videoList.size(); i++) {
+				String videoPath = videoList.get(i);
+				effected = insertVideoTempRecord(videoPath, current);
+				if (effected == 0) {
+					return effected;
+				}
+			}
 		}
 		
-		effected = jdbcTemplate.update(SQL, new Object[]{eloveid});
 		return effected <= 0 ? 0 : effected;
 	}
 	
@@ -319,7 +327,7 @@ public class EloveWizardDAO {
 	public int deleteJoin(int eloveid){
 		String SQL = "DELETE FROM elove_join WHERE eloveid = ?";
 		int effected = jdbcTemplate.update(SQL, new Object[]{eloveid});
-		return effected;
+		return effected <= 0 ? 0 : effected;
 	}
 	
 	/**
@@ -331,7 +339,7 @@ public class EloveWizardDAO {
 	public int deleteMessage(int eloveid){
 		String SQL = "DELETE FROM elove_message WHERE eloveid = ?";
 		int effected = jdbcTemplate.update(SQL, new Object[]{eloveid});
-		return effected;
+		return effected <= 0 ? 0 : effected;
 	}
 	
 	/**
@@ -351,7 +359,7 @@ public class EloveWizardDAO {
 		insertVideoTempRecord(eloveWizard.getMusic(), current);
 		
 		int effected = jdbcTemplate.update(SQL, new Object[]{eloveid});
-		return effected;
+		return effected <= 0 ? 0 : effected;
 	}
 	
 	/**
@@ -363,7 +371,7 @@ public class EloveWizardDAO {
 	public int deleteConsumeRecord(String appid){
 		String SQL = "DELETE FROM elove_consume_record WHERE appid = ?";
 		int effected = jdbcTemplate.update(SQL, new Object[]{appid});
-		return effected;
+		return effected <= 0 ? 0 : effected;
 	}
 	
 	/**
@@ -375,7 +383,7 @@ public class EloveWizardDAO {
 	private int deleteImageTempRecord(String imagePath){
 		String SQL = "DELETE FROM image_temp_record WHERE imagePath = ?";
 		int effected = jdbcTemplate.update(SQL, imagePath);
-		return effected;
+		return effected <= 0 ? 0 : effected;
 	}
 	
 	/**
@@ -387,7 +395,7 @@ public class EloveWizardDAO {
 	private int deleteVideoTempRecord(String videoPath){
 		String SQL = "DELETE FROM video_temp_record WHERE videoPath = ?";
 		int effected = jdbcTemplate.update(SQL, videoPath);
-		return effected;
+		return effected <= 0 ? 0 : effected;
 	}
 	
 	//update
@@ -448,13 +456,19 @@ public class EloveWizardDAO {
 			for (int i = 0; i < originalStoryImages.size(); i++) {
 				String imagePath = originalStoryImages.get(i);
 				if (!currentStoryImages.contains(imagePath)) {
-				    deleteImage(imagePath);
+				    effected = deleteImage(imagePath);
+				    if (effected == 0) {
+						return -1;
+					}
 				}
 			}
 			for (int i = 0; i < currentStoryImages.size(); i++) {
 				String imagePath = currentStoryImages.get(i);
 				if (!originalStoryImages.contains(imagePath)) {
-					insertImage(eloveid, "story", imagePath);
+					effected = insertImage(eloveid, "story", imagePath);
+					if (effected == 0) {
+						return -2;
+					}
 				}
 			}
 			
@@ -468,13 +482,19 @@ public class EloveWizardDAO {
 			for (int i = 0; i < originalDressImages.size(); i++) {
 				String imagePath = originalDressImages.get(i);
 				if (!currentDressImages.contains(imagePath)) {
-				    deleteImage(imagePath);
+				    effected = deleteImage(imagePath);
+				    if (effected == 0) {
+						return -3;
+					}
 				}
 			}
 			for (int i = 0; i < currentDressImages.size(); i++) {
 				String imagePath = currentDressImages.get(i);
 				if (!originalDressImages.contains(imagePath)) {
-					insertImage(eloveid, "dress", imagePath);
+					effected = insertImage(eloveid, "dress", imagePath);
+					if (effected == 0) {
+						return -4;
+					}
 				}
 			}
 			
@@ -486,10 +506,16 @@ public class EloveWizardDAO {
 			}
 			if (!currentDressVideo.equals(originalDressVideo)) {
 				if (originalDressVideo != null) {
-					deleteVideo(originalDressVideo);
+					effected = deleteVideo(originalDressVideo);
+					if (effected == 0) {
+						return -5;
+					}
 				}
 				if (!currentDressVideo.equals("")) {
-					insertVideo(eloveid, "dress", currentDressVideo);
+					effected = insertVideo(eloveid, "dress", currentDressVideo);
+					if (effected == 0) {
+						return -6;
+					}
 				}
 			}
 			
@@ -503,13 +529,19 @@ public class EloveWizardDAO {
 			for (int i = 0; i < originalRecordImages.size(); i++) {
 				String imagePath = originalRecordImages.get(i);
 				if (!currentRecordImages.contains(imagePath)) {
-				    deleteImage(imagePath);
+				    effected = deleteImage(imagePath);
+				    if (effected == 0) {
+						return -7;
+					}
 				}
 			}
 			for (int i = 0; i < currentRecordImages.size(); i++) {
 				String imagePath = currentRecordImages.get(i);
 				if (!originalRecordImages.contains(imagePath)) {
-					insertImage(eloveid, "dress", imagePath);
+					effected = insertImage(eloveid, "dress", imagePath);
+					if (effected == 0) {
+						return -8;
+					}
 				}
 			}
 			
@@ -521,10 +553,16 @@ public class EloveWizardDAO {
 			}
 			if (!currentRecordVideo.equals(originalRecordVideo)) {
 				if (originalRecordVideo != null) {
-					deleteVideo(originalRecordVideo);
+					effected = deleteVideo(originalRecordVideo);
+					if (effected == 0) {
+						return -9;
+					}
 				}
 				if (!currentRecordVideo.equals("")) {
-					insertVideo(eloveid, "dress", currentRecordVideo);
+					effected = insertVideo(eloveid, "dress", currentRecordVideo);
+					if (effected == 0) {
+						return -10;
+					}
 				}
 			}
 			
