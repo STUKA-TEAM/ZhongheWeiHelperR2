@@ -132,7 +132,7 @@ public class UserInfoDAO {
 	//delete
 	/**
 	 * @title: deleteUserInfo
-	 * @description: 删除用户信息
+	 * @description: 删除用户信息   not used
 	 * @param sid
 	 * @return
 	 */
@@ -199,13 +199,19 @@ public class UserInfoDAO {
 			for (int i = 0; i < originalImages.size(); i++) {
 				String temp = originalImages.get(i);
 				if (!currentImages.contains(temp)) {
-					deleteUserImage(temp);
+					effected = deleteUserImage(temp);
+					if (effected == 0) {
+						return -1;
+					}
 				}
 			}		
 			for (int i = 0; i < currentImages.size(); i++) {
 				String temp = currentImages.get(i);
 				if (!originalImages.contains(temp)) {
-					insertImage(userInfo.getSid(), temp);
+					effected = insertImage(userInfo.getSid(), temp);
+					if (effected == 0) {
+						return -2;
+					}
 				}
 			}
 			return effected;
