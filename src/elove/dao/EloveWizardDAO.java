@@ -211,11 +211,8 @@ public class EloveWizardDAO {
 	 * @return
 	 */
 	private int insertImageTempRecord(String imagePath, Timestamp current){
-		int result = 0;
 		String SQL = "INSERT INTO image_temp_record (id, imagePath, createDate) VALUES (default, ?, ?)";
-		
-		result = jdbcTemplate.update(SQL, imagePath, current);
-		
+		int result = jdbcTemplate.update(SQL, imagePath, current);
 		return result <= 0 ? 0 : result;
 	}
 	
@@ -227,11 +224,8 @@ public class EloveWizardDAO {
 	 * @return
 	 */
 	private int insertVideoTempRecord(String videoPath, Timestamp current){
-		int result = 0;
 		String SQL = "INSERT INTO video_temp_record (id, videoPath, createDate) VALUES (default, ?, ?)";
-		
-		result = jdbcTemplate.update(SQL, videoPath, current);
-		
+		int result = jdbcTemplate.update(SQL, videoPath, current);
 		return result <= 0 ? 0 : result;
 	}
 
@@ -350,15 +344,32 @@ public class EloveWizardDAO {
 	 */
 	public int deleteElove(int eloveid){
 		String SQL = "DELETE FROM elove WHERE eloveid = ?";
+		int effected = 0;
 		
 		EloveWizard eloveWizard = getEloveBasicMedia(eloveid);                              //插入待删除资源到临时表
-		Timestamp current = new Timestamp(System.currentTimeMillis());
-		insertImageTempRecord(eloveWizard.getCoverPic(), current);
-		insertImageTempRecord(eloveWizard.getMajorGroupPhoto(), current);
-		insertImageTempRecord(eloveWizard.getStoryTextImagePath(), current);
-		insertVideoTempRecord(eloveWizard.getMusic(), current);
+		if (eloveWizard != null) {
+			Timestamp current = new Timestamp(System.currentTimeMillis());
+			effected = insertImageTempRecord(eloveWizard.getCoverPic(), current);
+			if (effected == 0) {
+				return effected;
+			}
+			effected = insertImageTempRecord(eloveWizard.getMajorGroupPhoto(), current);
+			if (effected == 0) {
+				return effected;
+			}
+			effected = insertImageTempRecord(eloveWizard.getStoryTextImagePath(), current);
+			if (effected == 0) {
+				return effected;
+			}
+			effected = insertVideoTempRecord(eloveWizard.getMusic(), current);
+			if (effected == 0) {
+				return effected;
+			}
+		}else {
+			return 0;
+		}
 		
-		int effected = jdbcTemplate.update(SQL, new Object[]{eloveid});
+		effected = jdbcTemplate.update(SQL, new Object[]{eloveid});
 		return effected <= 0 ? 0 : effected;
 	}
 	

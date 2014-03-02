@@ -313,11 +313,17 @@ public class ArticleDAO {
 			}
 			if (!currentCoverPic.equals(originalCoverPic)) {
 				if (originalCoverPic != null && !originalCoverPic.equals("")) {
-					insertImageTempRecord(originalCoverPic, current);
+					result = insertImageTempRecord(originalCoverPic, current);
+					if (result == 0) {
+						return -2;
+					}
 				}
 				
 				if (!currentCoverPic.equals("")) {
-					deleteImageTempRecord(currentCoverPic);
+					result = deleteImageTempRecord(currentCoverPic);
+					if (result == 0) {
+						return -3;
+					}
 				}
 			}
 			
@@ -327,13 +333,19 @@ public class ArticleDAO {
 			for (int i = 0; i < originalImages.size(); i++) {
 				String imagePath = originalImages.get(i);
 				if (!currentImages.contains(imagePath)) {
-					insertImageTempRecord(imagePath, current);
+					result = insertImageTempRecord(imagePath, current);
+					if (result == 0) {
+						return -4;
+					}
 				}
 			}
 			for (int i = 0; i < currentImages.size(); i++) {
 				String imagePath = currentImages.get(i);
 				if (!originalImages.contains(imagePath)) {
-					deleteImageTempRecord(imagePath);
+					result = deleteImageTempRecord(imagePath);
+					if (result == 0) {
+						return -5;
+					}
 				}
 			}
 			
