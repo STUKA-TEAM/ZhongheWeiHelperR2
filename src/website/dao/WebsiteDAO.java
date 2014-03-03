@@ -77,18 +77,14 @@ public class WebsiteDAO {
 			deleteImageTempRecord(website.getCoverPic());
 			
 			int websiteid = kHolder.getKey().intValue();
-			
 			if (website.getImageList() != null) {
-				result = insertImage(websiteid, "introduce", website.getImageList());       //插入微官网介绍图片
-	            if (result == 0) {
-					return -1;
-				}
+				insertImage(websiteid, "introduce", website.getImageList());                //插入微官网介绍图片
 			}
 			
             if (website.getNodeList() != null) {
             	result = insertNodeList(websiteid, website.getNodeList());                  //插入微官网节点信息
                 if (result == 0) {
-    				return -2;
+    				return -1;
     			}
 			}
             
@@ -118,6 +114,30 @@ public class WebsiteDAO {
 				if (nodePic != null && !nodePic.equals("")) {
 					deleteImageTempRecord(node.getNodePic());
 				}
+				node.setNodeid(result);
+			}
+		}
+		
+		result = insertNodeTree(nodeList);	
+		return result;
+	}
+	
+	/**
+	 * @title: insertNodeListWithoutPics
+	 * @description: 插入节点列表信息, 但不处理节点图片信息
+	 * @param websiteid
+	 * @param nodeList
+	 * @return
+	 */
+	private int insertNodeListWithoutPics(int websiteid, List<WebsiteNode> nodeList){
+		int result = 1;
+		
+		for (int i = 0; i < nodeList.size(); i++) {
+			WebsiteNode node = nodeList.get(i);
+			result = insertNode(websiteid, node);
+			if (result == 0) {
+				return result;
+			}else {
 				node.setNodeid(result);
 			}
 		}
@@ -218,10 +238,7 @@ public class WebsiteDAO {
 			if (result <= 0) {
 				return 0;
 			}else {
-				result = deleteImageTempRecord(imageList.get(i));
-				if (result <= 0) {
-					return 0;
-				}
+				deleteImageTempRecord(imageList.get(i));
 			}
 		}
 		
@@ -295,22 +312,44 @@ public class WebsiteDAO {
 	 * @return
 	 */
 	public int deleteNodes(int websiteid){
-		int effected = 0;
 		String SQL = "DELETE FROM website_node WHERE websiteid = ?";
-		
-		List<WebsiteNode> nodeList = getWebsiteNodeinfo(websiteid);
-		for (int i = 0; i < nodeList.size(); i++) {
-			WebsiteNode node = nodeList.get(i);
-			deleteNodeTree(node.getNodeid());
-			String nodePic = node.getNodePic();
-			if (nodePic != null && !nodePic.equals("")) {
-				Timestamp current = new Timestamp(System.currentTimeMillis());
-				insertImageTempRecord(nodePic, current);
-			}
+        List<WebsiteNode> nodeList = getWebsiteNodeinfo(websiteid);
+        
+        int effected = jdbcTemplate.update(SQL, websiteid);
+        if (effected > 0) {
+        	for (int i = 0; i < nodeList.size(); i++) {
+    			WebsiteNode node = nodeList.get(i);
+    			deleteNodeTree(node.getNodeid());
+    			String nodePic = node.getNodePic();
+    			if (nodePic != null && !nodePic.equals("")) {
+    				Timestamp current = new Timestamp(System.currentTimeMillis());
+    				insertImageTempRecord(nodePic, current);
+    			}
+    		}
 		}
 		
-		effected = jdbcTemplate.update(SQL, websiteid);
-		return effected;
+		return effected <= 0 ? 0 : effected;
+	}
+	
+	/**
+	 * @title: deleteNodesWithoutPics
+	 * @description: 删除节点关联信息,但保留节点图片信息
+	 * @param websiteid
+	 * @return
+	 */
+	public int deleteNodesWithoutPics(int websiteid){
+		String SQL = "DELETE FROM website_node WHERE websiteid = ?";
+        List<Integer> nodeidList = getNodeIdList(websiteid);
+        
+        int effected = jdbcTemplate.update(SQL, websiteid);
+        if (effected > 0) {
+        	for (int i = 0; i < nodeidList.size(); i++) {
+    			Integer nodeid = nodeidList.get(i);
+    			deleteNodeTree(nodeid);
+    		}
+		}
+		
+		return effected <= 0 ? 0 : effected;
 	}
 	
 	/**
@@ -322,7 +361,7 @@ public class WebsiteDAO {
 	public int deleteNodeTree(int nodeid){
 		String SQL = "DELETE FROM website_nodetree WHERE nodeid = ?";
 		int effected = jdbcTemplate.update(SQL, nodeid);
-		return effected;
+		return effected <= 0 ? 0 : effected;
 	}
 	
 	/**
@@ -332,18 +371,19 @@ public class WebsiteDAO {
 	 * @return
 	 */
 	public int deleteImage(int websiteid){
-		int effected = 0;
 		String SQL = "DELETE FROM website_image WHERE websiteid = ?";
-		
 		List<String> imageList = getWebsiteImages(websiteid);
-		Timestamp current = new Timestamp(System.currentTimeMillis());
-		for (int i = 0; i < imageList.size(); i++) {
-			String imagePath = imageList.get(i);
-			insertImageTempRecord(imagePath, current);
+		
+		int effected = jdbcTemplate.update(SQL, websiteid);
+		if (effected > 0) {
+			Timestamp current = new Timestamp(System.currentTimeMillis());
+			for (int i = 0; i < imageList.size(); i++) {
+				String imagePath = imageList.get(i);
+				insertImageTempRecord(imagePath, current);
+			}
 		}
 		
-		effected = jdbcTemplate.update(SQL, websiteid);			
-		return effected;
+		return effected <= 0 ? 0 : effected;
 	}
 	
 	/**
@@ -371,7 +411,7 @@ public class WebsiteDAO {
 	private int deleteImageTempRecord(String imagePath){
 		String SQL = "DELETE FROM image_temp_record WHERE imagePath = ?";
 		int effected = jdbcTemplate.update(SQL, imagePath);
-		return effected;
+		return effected <= 0 ? 0 : effected;
 	}
 	
 	//update
@@ -426,18 +466,54 @@ public class WebsiteDAO {
 				}
 			}
 			
-			//node images	
-			deleteNodes(websiteid);
+			//images for nodes	
+			List<String> originalNodePics = parseNodeList(getWebsiteNodeinfo(websiteid));
+			List<String> currentNodePics =  parseNodeList(website.getNodeList());
+			
+			for (int i = 0; i < originalNodePics.size(); i++) {
+				String imagePath = originalNodePics.get(i);
+				if (!currentNodePics.contains(imagePath)) {
+					insertImageTempRecord(imagePath, current);
+				}
+			}
+			for (int i = 0; i < currentNodePics.size(); i++) {
+				String imagePath = currentNodePics.get(i);
+				if (!originalNodePics.contains(imagePath)) {
+					deleteImageTempRecord(imagePath);
+				}
+			}
+			
+			//without image process
+			deleteNodesWithoutPics(websiteid);
 
-            result = insertNodeList(websiteid, website.getNodeList());                      //插入微官网节点信息
+            result = insertNodeListWithoutPics(websiteid, website.getNodeList());
             if (result == 0) {
-				return -2;
+				return -1;
 			}
 			
             return result;
 		}else {
 			return 0;
 		}		
+	}
+	
+	/**
+	 * @title: parseNodeList
+	 * @description: 获取节点列表中有效的节点图片信息列表
+	 * @param nodeList
+	 * @return
+	 */
+	private List<String> parseNodeList(List<WebsiteNode> nodeList){
+		List<String> imageList = new ArrayList<String>();
+		if (nodeList != null) {
+			for (int i = 0; i < nodeList.size(); i++) {
+				String imagePath = nodeList.get(i).getNodePic();
+				if (imagePath != null && !imagePath.equals("")) {
+					imageList.add(imagePath);
+				}
+			}
+		}
+		return imageList;
 	}
 	
 	//query
@@ -770,6 +846,25 @@ public class WebsiteDAO {
 			System.out.println(e.getMessage());
 		}
 		return nodeid;
+	}
+	
+	/**
+	 * @title: getNodeIdList
+	 * @description: 根据websiteid查找微官网下所有关联节点列表
+	 * @param websiteid
+	 * @return
+	 */
+	public List<Integer> getNodeIdList(int websiteid){
+		String SQL = "SELECT nodeid FROM website_node WHERE websiteid = ?";
+		List<Integer> nodeidList = null;
+		
+		try {
+			nodeidList = jdbcTemplate.query(SQL, new Object[]{websiteid}, new NodeidMapper());
+		} catch (Exception e) {
+			nodeidList = new ArrayList<Integer>();
+			System.out.println(e.getMessage());
+		}
+		return nodeidList;
 	}
 	
 	private static final class NodeidMapper implements RowMapper<Integer>{

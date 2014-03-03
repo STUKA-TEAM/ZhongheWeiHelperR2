@@ -90,48 +90,33 @@ public class EloveWizardDAO {
 			int eloveid = kHolder.getKey().intValue();
 			
 			if (eloveWizard.getStoryImagePath() != null) {
-				result = insertImage(eloveid, "story", eloveWizard.getStoryImagePath());    //插入相遇相知图片
-	            if (result == 0) {
-					return -1;
-				}
+				insertImage(eloveid, "story", eloveWizard.getStoryImagePath());             //插入相遇相知图片
 			}
 			
 			if (eloveWizard.getDressImagePath() != null) {
-				result = insertImage(eloveid, "dress", eloveWizard.getDressImagePath());    //插入婚纱剪影图片
-				if (result == 0) {
-					return -2;
-				}
+				insertImage(eloveid, "dress", eloveWizard.getDressImagePath());             //插入婚纱剪影图片
 			}
 			
 			if (eloveWizard.getDressVideoPath() != null) {
-				result = insertVideo(eloveid, "dress", eloveWizard.getDressVideoPath());    //插入婚纱剪影录像
-				if (result == 0) {
-					return -3;
-				}
+				insertVideo(eloveid, "dress", eloveWizard.getDressVideoPath());             //插入婚纱剪影录像
 			}
 			
 			if (eloveWizard.getRecordImagePath() != null) {
-				result = insertImage(eloveid, "record", eloveWizard.getRecordImagePath());  //插入婚礼纪录图片
-				if (result == 0) {
-					return -4;
-				}
+				insertImage(eloveid, "record", eloveWizard.getRecordImagePath());           //插入婚礼纪录图片
 			}
 			
 			if (eloveWizard.getRecordVideoPath() != null) {
-				result = insertVideo(eloveid, "record", eloveWizard.getRecordVideoPath());  //插入婚礼纪录录像
-				if (result == 0) {
-					return -5;
-				}
+				insertVideo(eloveid, "record", eloveWizard.getRecordVideoPath());           //插入婚礼纪录录像
 			}	
 			
 			Integer notPayNumber = getConsumeRecord(eloveWizard.getAppid());                //更新elove消费情况
 			if (notPayNumber != null) {
 				result = updateConsumeRecord(notPayNumber + 1, eloveWizard.getAppid());
 				if (result == 0) {
-					return -6;
+					return -1;
 				}
 			}else {
-				return -7;
+				return -2;
 			}			
 			
 			return result;
@@ -157,10 +142,7 @@ public class EloveWizardDAO {
 			String imagePath = imageList.get(i);
 			result = jdbcTemplate.update(SQL, eloveid, imagePath, imageType);
 			if (result > 0) {
-				result = deleteImageTempRecord(imageList.get(i));
-				if (result <= 0) {
-					return 0;
-				}
+				deleteImageTempRecord(imageList.get(i));
 			}else {
 				return 0;
 			}
@@ -245,10 +227,7 @@ public class EloveWizardDAO {
 			Timestamp current = new Timestamp(System.currentTimeMillis());
 			for (int i = 0; i < imageList.size(); i++) {
 				String imagePath = imageList.get(i);
-				effected = insertImageTempRecord(imagePath, current);
-				if (effected == 0) {
-					return effected;
-				}
+				insertImageTempRecord(imagePath, current);
 			}
 		}
 					
@@ -286,10 +265,7 @@ public class EloveWizardDAO {
 			Timestamp current = new Timestamp(System.currentTimeMillis());
 			for (int i = 0; i < videoList.size(); i++) {
 				String videoPath = videoList.get(i);
-				effected = insertVideoTempRecord(videoPath, current);
-				if (effected == 0) {
-					return effected;
-				}
+				insertVideoTempRecord(videoPath, current);
 			}
 		}
 		
@@ -349,22 +325,11 @@ public class EloveWizardDAO {
 		EloveWizard eloveWizard = getEloveBasicMedia(eloveid);                              //插入待删除资源到临时表
 		if (eloveWizard != null) {
 			Timestamp current = new Timestamp(System.currentTimeMillis());
-			effected = insertImageTempRecord(eloveWizard.getCoverPic(), current);
-			if (effected == 0) {
-				return effected;
-			}
-			effected = insertImageTempRecord(eloveWizard.getMajorGroupPhoto(), current);
-			if (effected == 0) {
-				return effected;
-			}
-			effected = insertImageTempRecord(eloveWizard.getStoryTextImagePath(), current);
-			if (effected == 0) {
-				return effected;
-			}
-			effected = insertVideoTempRecord(eloveWizard.getMusic(), current);
-			if (effected == 0) {
-				return effected;
-			}
+			insertImageTempRecord(eloveWizard.getCoverPic(), current);
+			insertImageTempRecord(eloveWizard.getMajorGroupPhoto(), current);
+			insertImageTempRecord(eloveWizard.getStoryTextImagePath(), current);
+			insertVideoTempRecord(eloveWizard.getMusic(), current);
+			
 		}else {
 			return 0;
 		}
@@ -438,7 +403,9 @@ public class EloveWizardDAO {
 		
 		if (effected > 0 ) {
 			Timestamp current = new Timestamp(System.currentTimeMillis());
-			if (!eloveWizard.getCoverPic().equals(temp.getCoverPic())) {                      //删除临时表中记录
+			
+			//compare and handle with basic media resources
+			if (!eloveWizard.getCoverPic().equals(temp.getCoverPic())) {
 				deleteImageTempRecord(eloveWizard.getCoverPic());
 				insertImageTempRecord(temp.getCoverPic(), current);
 			}
@@ -456,7 +423,6 @@ public class EloveWizardDAO {
 			}
 			
 			int eloveid = eloveWizard.getEloveid();
-
 			//story
 			List<String> originalStoryImages = getImageListWithType(eloveid, "story");
 			List<String> currentStoryImages = eloveWizard.getStoryImagePath();
@@ -467,19 +433,13 @@ public class EloveWizardDAO {
 			for (int i = 0; i < originalStoryImages.size(); i++) {
 				String imagePath = originalStoryImages.get(i);
 				if (!currentStoryImages.contains(imagePath)) {
-				    effected = deleteImage(imagePath);
-				    if (effected == 0) {
-						return -1;
-					}
+				    deleteImage(imagePath);
 				}
 			}
 			for (int i = 0; i < currentStoryImages.size(); i++) {
 				String imagePath = currentStoryImages.get(i);
 				if (!originalStoryImages.contains(imagePath)) {
-					effected = insertImage(eloveid, "story", imagePath);
-					if (effected == 0) {
-						return -2;
-					}
+					insertImage(eloveid, "story", imagePath);
 				}
 			}
 			
@@ -493,19 +453,13 @@ public class EloveWizardDAO {
 			for (int i = 0; i < originalDressImages.size(); i++) {
 				String imagePath = originalDressImages.get(i);
 				if (!currentDressImages.contains(imagePath)) {
-				    effected = deleteImage(imagePath);
-				    if (effected == 0) {
-						return -3;
-					}
+				    deleteImage(imagePath);
 				}
 			}
 			for (int i = 0; i < currentDressImages.size(); i++) {
 				String imagePath = currentDressImages.get(i);
 				if (!originalDressImages.contains(imagePath)) {
-					effected = insertImage(eloveid, "dress", imagePath);
-					if (effected == 0) {
-						return -4;
-					}
+					insertImage(eloveid, "dress", imagePath);
 				}
 			}
 			
@@ -517,16 +471,10 @@ public class EloveWizardDAO {
 			}
 			if (!currentDressVideo.equals(originalDressVideo)) {
 				if (originalDressVideo != null) {
-					effected = deleteVideo(originalDressVideo);
-					if (effected == 0) {
-						return -5;
-					}
+					deleteVideo(originalDressVideo);
 				}
 				if (!currentDressVideo.equals("")) {
-					effected = insertVideo(eloveid, "dress", currentDressVideo);
-					if (effected == 0) {
-						return -6;
-					}
+					insertVideo(eloveid, "dress", currentDressVideo);
 				}
 			}
 			
@@ -540,19 +488,13 @@ public class EloveWizardDAO {
 			for (int i = 0; i < originalRecordImages.size(); i++) {
 				String imagePath = originalRecordImages.get(i);
 				if (!currentRecordImages.contains(imagePath)) {
-				    effected = deleteImage(imagePath);
-				    if (effected == 0) {
-						return -7;
-					}
+				    deleteImage(imagePath);
 				}
 			}
 			for (int i = 0; i < currentRecordImages.size(); i++) {
 				String imagePath = currentRecordImages.get(i);
 				if (!originalRecordImages.contains(imagePath)) {
-					effected = insertImage(eloveid, "dress", imagePath);
-					if (effected == 0) {
-						return -8;
-					}
+					insertImage(eloveid, "dress", imagePath);
 				}
 			}
 			
@@ -564,16 +506,10 @@ public class EloveWizardDAO {
 			}
 			if (!currentRecordVideo.equals(originalRecordVideo)) {
 				if (originalRecordVideo != null) {
-					effected = deleteVideo(originalRecordVideo);
-					if (effected == 0) {
-						return -9;
-					}
+					deleteVideo(originalRecordVideo);
 				}
 				if (!currentRecordVideo.equals("")) {
-					effected = insertVideo(eloveid, "dress", currentRecordVideo);
-					if (effected == 0) {
-						return -10;
-					}
+					insertVideo(eloveid, "dress", currentRecordVideo);
 				}
 			}
 			

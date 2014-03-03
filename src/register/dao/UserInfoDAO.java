@@ -96,11 +96,8 @@ public class UserInfoDAO {
 	 * @return
 	 */
 	private int insertImageTempRecord(String imagePath, Timestamp current){
-		int result = 0;
 		String SQL = "INSERT INTO image_temp_record (id, imagePath, createDate) VALUES (default, ?, ?)";
-		
-		result = jdbcTemplate.update(SQL, imagePath, current);
-		
+		int result = jdbcTemplate.update(SQL, imagePath, current);
 		return result <= 0 ? 0 : result;
 	}
 	
@@ -130,18 +127,6 @@ public class UserInfoDAO {
 	}
 	
 	//delete
-	/**
-	 * @title: deleteUserInfo
-	 * @description: 删除用户信息   not used
-	 * @param sid
-	 * @return
-	 */
-	public int deleteUserInfo(int sid){
-		String SQL = "DELETE FROM storeuser WHERE sid = ?";
-		int effected = jdbcTemplate.update(SQL, sid);
-		return effected <= 0 ? 0 : effected;
-	}
-	
 	/**
 	 * @title: deleteUserImage
 	 * @description: 根据imagePath删除关联的图片信息
@@ -199,19 +184,13 @@ public class UserInfoDAO {
 			for (int i = 0; i < originalImages.size(); i++) {
 				String temp = originalImages.get(i);
 				if (!currentImages.contains(temp)) {
-					effected = deleteUserImage(temp);
-					if (effected == 0) {
-						return -1;
-					}
+					deleteUserImage(temp);
 				}
 			}		
 			for (int i = 0; i < currentImages.size(); i++) {
 				String temp = currentImages.get(i);
 				if (!originalImages.contains(temp)) {
-					effected = insertImage(userInfo.getSid(), temp);
-					if (effected == 0) {
-						return -2;
-					}
+					insertImage(userInfo.getSid(), temp);
 				}
 			}
 			return effected;

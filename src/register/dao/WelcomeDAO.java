@@ -99,21 +99,19 @@ public class WelcomeDAO {
 	 */
 	public int deleteWelcomeContent(String appid){
 		String SQL = "DELETE FROM welcome WHERE appid = ?";
-		int effected = 0;
-		
 		List<String> coverPics = getCoverPics(appid);
-		Timestamp current = new Timestamp(System.currentTimeMillis());
-		for (int i = 0; i < coverPics.size(); i++) {
-			String coverPic = coverPics.get(i);
-			if (coverPic != null && !coverPic.equals("")) {
-				effected = insertImageTempRecord(coverPic, current);
-				if (effected == 0) {
-					return effected;
+		
+		int effected = jdbcTemplate.update(SQL, appid);
+		if (effected > 0) {
+			Timestamp current = new Timestamp(System.currentTimeMillis());
+			for (int i = 0; i < coverPics.size(); i++) {
+				String coverPic = coverPics.get(i);
+				if (coverPic != null && !coverPic.equals("")) {
+					insertImageTempRecord(coverPic, current);
 				}
 			}
 		}
 		
-		effected = jdbcTemplate.update(SQL, appid);
 		return effected <= 0 ? 0 : effected;
 	}
 	

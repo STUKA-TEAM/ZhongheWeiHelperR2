@@ -185,11 +185,8 @@ public class ArticleDAO {
 	 * @return
 	 */
 	private int insertImageTempRecord(String imagePath, Timestamp current){
-		int result = 0;
-		String SQL = "INSERT INTO image_temp_record (id, imagePath, createDate) VALUES (default, ?, ?)";
-		
-		result = jdbcTemplate.update(SQL, imagePath, current);
-		
+		String SQL = "INSERT INTO image_temp_record (id, imagePath, createDate) VALUES (default, ?, ?)";		
+		int result = jdbcTemplate.update(SQL, imagePath, current);
 		return result <= 0 ? 0 : result;
 	}
 	
@@ -313,39 +310,26 @@ public class ArticleDAO {
 			}
 			if (!currentCoverPic.equals(originalCoverPic)) {
 				if (originalCoverPic != null && !originalCoverPic.equals("")) {
-					result = insertImageTempRecord(originalCoverPic, current);
-					if (result == 0) {
-						return -2;
-					}
+					insertImageTempRecord(originalCoverPic, current);
 				}
 				
 				if (!currentCoverPic.equals("")) {
-					result = deleteImageTempRecord(currentCoverPic);
-					if (result == 0) {
-						return -3;
-					}
+					deleteImageTempRecord(currentCoverPic);
 				}
 			}
 			
 			List<String> originalImages = parseEditorContent(temp.getContent());
 			List<String> currentImages = parseEditorContent(article.getContent());
-
 			for (int i = 0; i < originalImages.size(); i++) {
 				String imagePath = originalImages.get(i);
 				if (!currentImages.contains(imagePath)) {
-					result = insertImageTempRecord(imagePath, current);
-					if (result == 0) {
-						return -4;
-					}
+					insertImageTempRecord(imagePath, current);
 				}
 			}
 			for (int i = 0; i < currentImages.size(); i++) {
 				String imagePath = currentImages.get(i);
 				if (!originalImages.contains(imagePath)) {
-					result = deleteImageTempRecord(imagePath);
-					if (result == 0) {
-						return -5;
-					}
+					deleteImageTempRecord(imagePath);
 				}
 			}
 			
