@@ -75,6 +75,9 @@ public class ArticleDAO {
 			Elements imgs = doc.select("img[src]");
 			for (int i = 0; i < imgs.size(); i++) {
 				String imagePath = imgs.get(i).attr("src");
+				if (!imagePath.startsWith("/resources")) {
+					continue;
+				}
 				int index = imagePath.indexOf('_');
 				deleteImageTempRecord(imagePath.substring(0, index));
 			}
@@ -216,6 +219,9 @@ public class ArticleDAO {
 				Elements imgs = doc.select("img[src]");
 				for (int i = 0; i < imgs.size(); i++) {
 					String imagePath = imgs.get(i).attr("src");
+					if (!imagePath.startsWith("/resources")) {
+						continue;
+					}
 					int index = imagePath.indexOf('_');
 					insertImageTempRecord(imagePath.substring(0, index), current);
 				}
@@ -358,6 +364,9 @@ public class ArticleDAO {
 			Elements imgs = doc.select("img[src]");
 			for (int i = 0; i < imgs.size(); i++) {
 				String imagePath = imgs.get(i).attr("src");
+				if (!imagePath.startsWith("/resources")) {
+					continue;
+				}
 				int index = imagePath.indexOf('_');
 				imageList.add(imagePath.substring(0, index));
 			}
