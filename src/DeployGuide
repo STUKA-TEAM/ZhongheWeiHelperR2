@@ -5,6 +5,7 @@
 4.数据库结构、默认值
 5.更新icon_lib
 6.部署a.htm到服务器根目录
+7.elovedemo默认值
 文件上传项目：
 1.配置environment.properties
 2.配置jdbc.properties
