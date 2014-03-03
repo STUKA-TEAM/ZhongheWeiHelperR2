@@ -11,8 +11,8 @@
 
 KindEditor.plugin('baidumap', function(K) {
 	var self = this, name = 'baidumap', lang = self.lang(name + '.');
-	var mapWidth = K.undef(self.mapWidth, 360);
-	var mapHeight = K.undef(self.mapHeight, 280);
+	var mapWidth = K.undef(self.mapWidth, 310);
+	var mapHeight = K.undef(self.mapHeight, 260);
 	self.clickToolbar(name, function() {
 		var html = ['<div style="padding:10px 20px;">',
 			'<div class="ke-header">',
