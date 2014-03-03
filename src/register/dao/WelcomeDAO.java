@@ -78,6 +78,20 @@ public class WelcomeDAO {
 	}
 	
 	/**
+	 * @title: insertWelcomeContentWithoutPics
+	 * @description: 插入欢迎页内容，但不包含图片信息
+	 * @param appid
+	 * @param wContent
+	 * @return
+	 */
+	private int insertWelcomeContentWithoutPics(String appid, WelcomeContent wContent){
+		String SQL = "INSERT INTO welcome (id, appid, content, coverPic, link) VALUES (default, ?, ?, ?, ?)";
+		int effected = jdbcTemplate.update(SQL, appid, wContent.getContent(), 
+				wContent.getCoverPic(), wContent.getLink());		
+		return effected <= 0 ? 0 : effected;
+	}
+	
+	/**
 	 * @title: insertImageTempRecord
 	 * @description: 将要删除图片的信息存入临时表
 	 * @param imagePath
@@ -116,6 +130,18 @@ public class WelcomeDAO {
 	}
 	
 	/**
+	 * @title: deleteWelcomeContentWithoutPics
+	 * @description: 删除欢迎页内容，但保留图片信息
+	 * @param appid
+	 * @return
+	 */
+	private int deleteWelcomeContentWithoutPics(String appid){
+		String SQL = "DELETE FROM welcome WHERE appid = ?";	
+		int effected = jdbcTemplate.update(SQL, appid);
+		return effected <= 0 ? 0 : effected;
+	}
+	
+	/**
 	 * @title: deleteImageTempRecord
 	 * @description: 删除图片在临时表中记录
 	 * @param imagePath
@@ -135,23 +161,60 @@ public class WelcomeDAO {
 	 * @return
 	 */
 	public int updateWelcome(Welcome welcome){
-		int result = 0;
 		String appid = welcome.getAppid();
-		result = updateWelcomeType(appid, welcome.getType());
+		int result = updateWelcomeType(appid, welcome.getType());
 		if (result == 0) {
 			return 0;
 		}
 		
-		deleteWelcomeContent(appid);
+		Timestamp current = new Timestamp(System.currentTimeMillis());
+		//images for content
+		List<String> originalContentPics = parseContentList(getWelcomeContents(appid));
+		List<String> currentContentPics =  parseContentList(welcome.getContents());
+		
+		for (int i = 0; i < originalContentPics.size(); i++) {
+			String imagePath = originalContentPics.get(i);
+			if (!currentContentPics.contains(imagePath)) {
+				insertImageTempRecord(imagePath, current);
+			}
+		}
+		for (int i = 0; i < currentContentPics.size(); i++) {
+			String imagePath = currentContentPics.get(i);
+			if (!originalContentPics.contains(imagePath)) {
+				deleteImageTempRecord(imagePath);
+			}
+		}
+		
+		//without image process
+		deleteWelcomeContentWithoutPics(appid);
 		List<WelcomeContent> contents = welcome.getContents();
 		for (int i = 0; i < contents.size(); i++) {
-			result = insertWelcomeContent(appid, contents.get(i));
+			result = insertWelcomeContentWithoutPics(appid, contents.get(i));
 			if (result == 0) {
 				return 0;
 			}
 		}
 		
 		return result;
+	}
+	
+	/**
+	 * @title: parseContentList
+	 * @description: 解析欢迎页内容获取其中有效的图片信息列表
+	 * @param contents
+	 * @return
+	 */
+	private List<String> parseContentList(List<WelcomeContent> contents){
+		List<String> imageList = new ArrayList<String>();
+		if (contents != null) {
+			for (int i = 0; i < contents.size(); i++) {
+				String imagePath = contents.get(i).getCoverPic();
+				if (imagePath != null && !imagePath.equals("")) {
+					imageList.add(imagePath);
+				}
+			}
+		}
+		return imageList;
 	}
 	
 	/**
