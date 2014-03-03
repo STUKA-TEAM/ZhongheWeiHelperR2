@@ -95,7 +95,11 @@ public class EloveController {
 				BigDecimal price = authInfoDao.getPrice(user.getSid(), "elove");
 				BigDecimal debt = null;
 				if (notPayNumber != null && price != null) {
-					debt = price.multiply(new BigDecimal(notPayNumber));
+					if (notPayNumber > 0) {
+						debt = price.multiply(new BigDecimal(notPayNumber));
+					}else {
+						debt = new BigDecimal(0);
+					}
 				}
 				model.addAttribute("debt", debt);
 				

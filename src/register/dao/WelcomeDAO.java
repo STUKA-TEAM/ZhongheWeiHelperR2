@@ -2,6 +2,7 @@ package register.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,7 +67,27 @@ public class WelcomeDAO {
 		String SQL = "INSERT INTO welcome (id, appid, content, coverPic, link) VALUES (default, ?, ?, ?, ?)";
 		int effected = jdbcTemplate.update(SQL, appid, wContent.getContent(), 
 				wContent.getCoverPic(), wContent.getLink());
+		if (effected > 0) {
+			String coverPic = wContent.getCoverPic();
+			if (coverPic != null && !coverPic.equals("")) {
+				effected = deleteImageTempRecord(coverPic);
+			}
+		}
+		
 		return effected <= 0 ? 0 : effected;
+	}
+	
+	/**
+	 * @title: insertImageTempRecord
+	 * @description: 将要删除图片的信息存入临时表
+	 * @param imagePath
+	 * @param current
+	 * @return
+	 */
+	private int insertImageTempRecord(String imagePath, Timestamp current){
+		String SQL = "INSERT INTO image_temp_record (id, imagePath, createDate) VALUES (default, ?, ?)";
+		int result = jdbcTemplate.update(SQL, imagePath, current);
+		return result <= 0 ? 0 : result;
 	}
 	
 	//delete
@@ -78,7 +99,31 @@ public class WelcomeDAO {
 	 */
 	public int deleteWelcomeContent(String appid){
 		String SQL = "DELETE FROM welcome WHERE appid = ?";
+		List<String> coverPics = getCoverPics(appid);
+		
 		int effected = jdbcTemplate.update(SQL, appid);
+		if (effected > 0) {
+			Timestamp current = new Timestamp(System.currentTimeMillis());
+			for (int i = 0; i < coverPics.size(); i++) {
+				String coverPic = coverPics.get(i);
+				if (coverPic != null && !coverPic.equals("")) {
+					insertImageTempRecord(coverPic, current);
+				}
+			}
+		}
+		
+		return effected <= 0 ? 0 : effected;
+	}
+	
+	/**
+	 * @title: deleteImageTempRecord
+	 * @description: 删除图片在临时表中记录
+	 * @param imagePath
+	 * @return
+	 */
+	private int deleteImageTempRecord(String imagePath){
+		String SQL = "DELETE FROM image_temp_record WHERE imagePath = ?";
+		int effected = jdbcTemplate.update(SQL, imagePath);
 		return effected;
 	}
 	
@@ -165,6 +210,34 @@ public class WelcomeDAO {
 			wContent.setCoverPic(rs.getString("coverPic"));
 			wContent.setLink(rs.getString("link"));
 			return wContent;
+		}		
+	}
+	
+	/**
+	 * @title: getCoverPics
+	 * @description: 根据appid获取对应的欢迎页图片信息
+	 * @param appid
+	 * @return
+	 */
+	public List<String> getCoverPics(String appid){
+		String SQL = "SELECT coverPic FROM welcome WHERE appid = ?";
+		List<String> coverPics = null;
+		
+		try {
+			coverPics = jdbcTemplate.query(SQL, new Object[]{appid}, new CoverPicsMapper());
+		} catch (Exception e) {
+			coverPics = new ArrayList<String>();
+			System.out.println(e.getMessage());
+		}
+		return coverPics;
+	}
+	
+	private static final class CoverPicsMapper implements RowMapper<String>{
+		@Override
+		public String mapRow(ResultSet rs, int arg1)
+				throws SQLException {
+			String coverPic = rs.getString("coverPic");
+			return coverPic;
 		}		
 	}
 	

@@ -176,6 +176,7 @@ public class BasicController {
 			}else{
 				message.setStatus(false);
 				message.setMessage("用户信息修改失败！");
+				System.out.println("Error " + result);
 			}		
 		}	
 		

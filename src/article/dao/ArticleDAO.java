@@ -185,11 +185,8 @@ public class ArticleDAO {
 	 * @return
 	 */
 	private int insertImageTempRecord(String imagePath, Timestamp current){
-		int result = 0;
-		String SQL = "INSERT INTO image_temp_record (id, imagePath, createDate) VALUES (default, ?, ?)";
-		
-		result = jdbcTemplate.update(SQL, imagePath, current);
-		
+		String SQL = "INSERT INTO image_temp_record (id, imagePath, createDate) VALUES (default, ?, ?)";		
+		int result = jdbcTemplate.update(SQL, imagePath, current);
 		return result <= 0 ? 0 : result;
 	}
 	
@@ -323,7 +320,6 @@ public class ArticleDAO {
 			
 			List<String> originalImages = parseEditorContent(temp.getContent());
 			List<String> currentImages = parseEditorContent(article.getContent());
-
 			for (int i = 0; i < originalImages.size(); i++) {
 				String imagePath = originalImages.get(i);
 				if (!currentImages.contains(imagePath)) {
