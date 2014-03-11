@@ -48,12 +48,14 @@ function editNotPay(sid){
 function submitEditNotPay(){
 	
 	var notPayList = new Array();
-	$(".notPayInput").each(function(){
+	$(".inputInfo").each(function(){
 		var eloveNotPay = new Object();
-		eloveNotPay.notPayNumber = $(this).val();
+		eloveNotPay.notPayNumber = $("#"+$(this).attr("id")+"-not").val();
+		eloveNotPay.prePayNumber = $("#"+$(this).attr("id")+"-pre").val();
 		eloveNotPay.appid = $(this).attr("id");
 		notPayList.push(eloveNotPay);
 	});
+
 	$.ajax({
 	  	  type: "POST",
 	  	  url: "internal/customer/elove/notpaylist/update",

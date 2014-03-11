@@ -75,7 +75,7 @@
                     <td>${notPaySum}</td>
                     <td>${notPayMoney}</td>
                     <td><a class="btn btn-sm btn-info" href="javascript:void(0)" onclick="editAuthInfo('elove')">编辑</a></td>
-                    <td><a class="btn btn-sm btn-info" href="javascript:void(0)" onclick="editNotPay('${sid}')">未付款编辑</a></td>
+                    <td><a class="btn btn-sm btn-info" href="javascript:void(0)" onclick="editNotPay('${sid}')">缴款管理</a></td>
                     <td><a class="btn btn-sm btn-success" href="javascript:void(0)" onclick="alertMessage('${sid}')">催缴款</a></td>
                     <td><a class="btn btn-sm btn-danger" href="javascript:void(0)" onclick="ensureMessage('${sid}')">确认收款</a></td>
                   </tr>
