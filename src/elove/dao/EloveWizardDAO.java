@@ -494,7 +494,7 @@ public class EloveWizardDAO {
 			for (int i = 0; i < currentRecordImages.size(); i++) {
 				String imagePath = currentRecordImages.get(i);
 				if (!originalRecordImages.contains(imagePath)) {
-					insertImage(eloveid, "dress", imagePath);
+					insertImage(eloveid, "record", imagePath);
 				}
 			}
 			
@@ -509,7 +509,7 @@ public class EloveWizardDAO {
 					deleteVideo(originalRecordVideo);
 				}
 				if (!currentRecordVideo.equals("")) {
-					insertVideo(eloveid, "dress", currentRecordVideo);
+					insertVideo(eloveid, "record", currentRecordVideo);
 				}
 			}
 			
