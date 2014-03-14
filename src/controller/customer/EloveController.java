@@ -2,7 +2,6 @@ package controller.customer;
 
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.Random;
 
 import message.ResponseMessage;
 
@@ -22,7 +21,6 @@ import com.google.gson.Gson;
 import register.UserInfo;
 import register.dao.UserInfoDAO;
 import elove.EloveJoinInfo;
-import elove.EloveLottery;
 import elove.EloveMessage;
 import elove.EloveWizard;
 import elove.dao.EloveInteractDAO;
@@ -231,7 +229,7 @@ public class EloveController {
 	}
 	
 	/**
-	 * @description 模拟抽奖过程
+	 * @description 模拟抽奖过程, 现仅仅返回当前祝福语信息列表
 	 * @param model
 	 * @param eloveid
 	 * @return
@@ -244,33 +242,10 @@ public class EloveController {
 		((ConfigurableApplicationContext) context).close();
 		
 		List<EloveMessage> messageList = eloveInteractDao.getBasicMessageList(eloveid);
-		int lucky = lottery(messageList);
-		
-		EloveLottery lottery =new EloveLottery();
-		lottery.setMessageList(messageList);
-		lottery.setLucky(lucky);
-		if (lucky >= 0) {
-			lottery.setSuccess(true);
-		}
 		
 		Gson gson = new Gson();
-		String response = gson.toJson(lottery);
+		String response = gson.toJson(messageList);
 		return response;
-	}
-	
-	/**
-	 * @title lottery
-	 * @description 根据祝福语列表抽检; 目前方法: 随机抽取其中一条
-	 * @param messageList
-	 * @return 如果没有祝福语则返回-1，否则为其中一条祝福语的下标
-	 */
-	private int lottery(List<EloveMessage> messageList) {
-		int count = messageList.size();
-		if (count == 0) {
-			return -1;
-		}
-		Random random = new Random();
-		return random.nextInt(count);
 	}
 
 	/**
