@@ -15,6 +15,7 @@
     
     <link href="css/customer/bootstrap.min.css" rel="stylesheet">
     <link href="css/customer/zhonghe-elove-1.css" rel="stylesheet">
+    <link href="css/customer/elove-common.css" rel="stylesheet">
     
     <link href="css/customer/elove-story-1.css" rel="stylesheet">
     

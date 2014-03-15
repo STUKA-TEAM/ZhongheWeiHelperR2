@@ -227,14 +227,18 @@ $(document).ready(function(){
 		var result = $.parseJSON(data);
 		if(result.status == true){
 			successProcess(id, result.link);
+			$("#"+$(form).attr("id")+"-mes").html("上传成功！");
+			setTimeout(function(){
+				$("#"+$(form).attr("id")+"-mes").remove();
+			},1500);
 		}
 		else{
 			alert(result.message);
-		}
-		$("#"+$(form).attr("id")+"-mes").html("上传成功！");
-		setTimeout(function(){
-			$("#"+$(form).attr("id")+"-mes").remove();
-		},1500);		
+			$("#"+$(form).attr("id")+"-mes").html("上传失败！");
+			setTimeout(function(){
+				$("#"+$(form).attr("id")+"-mes").remove();
+			},1500);
+		}		
 	}
 
 	function successProcess(id, link){

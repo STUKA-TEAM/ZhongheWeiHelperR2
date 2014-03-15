@@ -45,16 +45,20 @@
                     <div class="row" id="upload2-images">
                     <c:if test="${welcome.type=='list'}">
                     <c:forEach items="${welcome.contents}" var="item">
+                    <c:if test="${item.coverPic!=null}">
                     <div id="${item.coverPic}" class="col-md-6 pic-preview-div"><img src="${item.coverPic}_original.jpg" class="pic-preview img-thumbnail img-responsive"/>
                     <span class="glyphicon glyphicon-trash" onclick="deleteThisImage('${item.coverPic}')"> </span>
                     </div>
+                    </c:if>
                     </c:forEach>
                     </c:if>
                     </div>
                     <div id="upload2-links">
                     <c:if test="${welcome.type=='list'}">
                     <c:forEach items="${welcome.contents}" var="item">
+                    <c:if test="${item.coverPic!=null}">
                     <input id="${item.coverPic}-input" type="hidden" value="${item.coverPic}"/>
+                    </c:if>
                     </c:forEach>
                     </c:if>
                     </div>

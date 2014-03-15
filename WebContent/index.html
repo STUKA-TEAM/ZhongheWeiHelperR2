@@ -39,6 +39,14 @@
         });
 
 			});
+			
+			$(function(){
+				var now = new Date();
+				var year = now.getFullYear();
+				var htmlText = "Copyright © "+ year +" tukacorp.com All Rights Reserved. 上海图卡网络科技有限公司 版权所有  沪ICP备14006765号";
+				$("#footerText").html(htmlText);
+				
+			});
 		</script>
   </head>
   <body>
@@ -166,7 +174,7 @@
     <div id="footer">
       <div class="container" style="text-align:center">
        <p class="text-muted credit">咨询热线：021-58359070 | 邮箱：service@tukacorp.com</p>
-        <p class="text-muted credit">Copyright © 2013 tukacorp.com All Rights Reserved. 上海图卡网络科技有限公司 版权所有  沪ICP备14006765号</p>
+        <p id="footerText" class="text-muted credit"></p>
         
       </div>
     </div><!-- footer -->
