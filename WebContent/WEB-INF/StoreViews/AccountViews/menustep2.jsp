@@ -13,13 +13,12 @@
     </div>
     <div class="panel-body row">
       <div class="form-horizontal">
-        <div class="form-group">
-          <div class="col-md-2">
-          </div>可创建最多 3 个一级菜单，每个一级菜单下可创建最多 5 个二级菜单。
-        </div>
+
+          <div class="form-group col-md-2"></div>
+          <div class="form-group col-md-9 alert alert-warning">可创建最多 3 个一级菜单，每个一级菜单下可创建最多 5 个二级菜单。创建自定义菜单后，由于微信客户端缓存，需要24小时微信客户端才会展现出来。建议测试时可以尝试取消关注公众账号后再次关注，则可以看到创建后的效果。</div>
         <div class="form-group col-md-2"></div>
         <div class="form-group col-md-10">
-        <div class="col-md-6">
+        <div class="col-md-8">
 		<div class="panel panel-default">
 		  <div class="panel-heading">菜单管理 
 		  <button type="button" class="btn btn-sm btn-primary col-md-offset-2" onclick="addFirstMenuWindow()">添加</button></div>

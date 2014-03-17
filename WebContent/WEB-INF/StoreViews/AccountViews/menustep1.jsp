@@ -13,9 +13,8 @@
     </div>
     <div class="panel-body row">
       <div class="form-horizontal">
-        <div class="form-group">
-          <div class="col-md-4">
-          </div>从微信公众平台后台“开发模式”栏目获取以下信息：
+        <div class="form-group col-md-2"></div>
+          <div class="form-group col-md-9 alert alert-warning">从微信公众平台后台“开发模式”栏目获取以下信息：
         </div>
         <div class="form-group">
           <label for="appid" class="col-md-3 control-label">AppId</label>
