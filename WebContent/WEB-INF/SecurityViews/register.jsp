@@ -111,11 +111,7 @@
       </div>
     </div><!-- /.row -->
     
-    <div id="footer">
-      <div class="container" style="text-align:center">
-        <p class="text-muted credit">Copyright ? 2013 zhonghesoftware.com All Rights Reserved. 众合网络科技有限公司 版权所有</p>
-      </div>
-    </div><!-- footer -->
+    <%@ include file="../SecurityViews/footer.jsp"%>
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
