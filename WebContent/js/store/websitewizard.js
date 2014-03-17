@@ -191,7 +191,7 @@ function addNode(){
 function addNodeItem(node){
 	var picHTML = "";
 	if(node.nodePic!=null){
-		picHTML = "<img src=\""+node.nodePic+"_original.jpg"+"\" class=\"pic-preview img-thumbnail img-responsive\"/>";
+		picHTML = "<img src=\""+node.nodePic+"_original.jpg"+"\" class=\"pic-preview img-responsive\"/>";
 	}
     var html="<tr id=\""+node.UUID+"\">"
     +"<td>"+node.nodeName+"</td>"
@@ -250,7 +250,7 @@ function editNodeWindow(uuid){
 	$("#edit-filetext").val("");	
 	var picHTML = "";
 	if(node.nodePic!=null){
-		picHTML = "<img src=\""+node.nodePic+"_original.jpg"+"\" class=\"pic-preview img-thumbnail img-responsive\"/>";
+		picHTML = "<img src=\""+node.nodePic+"_original.jpg"+"\" class=\"pic-preview img-responsive\"/>";
 	}
 	var imageHTML = "<div id=\""+node.nodePic+"\" class=\"col-md-6 pic-preview-div\">"
 	                +picHTML
@@ -285,7 +285,7 @@ function editNodeItem(node){
 	$(list[0]).html(node.nodeName);
 	var picHTML = "";
 	if(node.nodePic!=null){
-		picHTML = "<img src=\""+node.nodePic+"_original.jpg"+"\" class=\"pic-preview img-thumbnail img-responsive\"/>";
+		picHTML = "<img src=\""+node.nodePic+"_original.jpg"+"\" class=\"pic-preview img-responsive\"/>";
 	}
 	$(list[1]).html(picHTML);
 }
@@ -444,7 +444,7 @@ function getNodeChildHTML(uuid){
 		    }
 			var picHTML = "";
 			if(node.nodePic!=null){
-				picHTML = "<img src=\""+node.nodePic+"_original.jpg"+"\" class=\"pic-preview img-thumbnail img-responsive\"/>";
+				picHTML = "<img src=\""+node.nodePic+"_original.jpg"+"\" class=\"pic-preview img-responsive\"/>";
 			}
             html = html + "<tr id=\""+node.UUID+"\">"
 		    +"<td>"+node.nodeName+"</td>"
@@ -465,3 +465,72 @@ function getNodeChildHTML(uuid){
 function showList(){
 	alert(JSON.stringify(nodeList));
 }
+
+
+function getSysIcon(operation){
+	  $.ajax({
+		  type: "GET",
+		  url: "/resources/upload/image/iconlib/list",
+		  success: function (data) {		  				  
+			  var pathList=JSON.parse(data);
+			  var liList="";
+			  $.each(pathList,function(key,val){
+					liList=liList+"<div class=\"col-sm-2\"><input name=\"icon\" type=\"radio\" value=\""+val+"\">"+"<img src=\""+val+"\"/></div>";
+				  });
+			  $("#iconContent").html(liList);
+			  $("#selectType").val(operation);
+			  $("#sysIcon").modal("show");					
+		  }
+		});
+}
+
+function selectIcon(){
+	var operation = $("#selectType").val();
+
+		$.ajax({
+		  	  type: "POST",
+		  	  url: "/resources/upload/image/iconlib/copy",
+		  	  data: "filepath="+$("input[name=icon]:checked").val(),
+		   	  success: function (data) {
+		   		  var jsonData=JSON.parse(data);		 
+		   		  if(jsonData.status==true){
+		   			var picHTML = "";
+		   			if(jsonData.link!=null){
+		   				picHTML = "<img src=\""+jsonData.link+"_original.jpg"+"\" class=\"pic-preview img-responsive\"/>";
+		   			}
+		   			var imageHTML = "<div id=\""+jsonData.link+"\" class=\"col-md-6 pic-preview-div\">"
+		   			                +picHTML
+		   			                +"<span class=\"glyphicon glyphicon-trash\" onclick=\"deleteThisImage('"+jsonData.link+"')\"> </span>"
+		   			                +"</div>";
+		   			
+
+		   			var inputHTML = "";
+		   			if(jsonData.link!=null){
+		   				inputHTML = "<input id=\""+jsonData.link+"-input\" type=\"hidden\" value=\""+jsonData.link+"\">";
+		   			}
+		   			
+		   			
+		   			if(operation=="edit"){
+		   				$("#upload2single-images").html(imageHTML);
+		   				$("#upload2single-links").html(inputHTML);
+		   			}
+		   			if(operation=="add"){
+		   				$("#upload1single-images").html(imageHTML);
+		   				$("#upload1single-links").html(inputHTML);		   				
+		   			}
+		   			
+		   			$("#sysIcon").modal("hide");
+			   	      
+		   		  }else{
+			   	   	  $("#modalMes").html(jsonData.message);
+			   	      $("#operationMesModal").modal("show");
+		   		  }
+		   	  },
+			  error: function(xhr, status, exception){
+				  $("#editNotPay").modal("hide");
+		   	   	  $("#modalMes").html(status + '</br>' + exception);
+		   	      $("#operationMesModal").modal("show");
+			  }
+		  });
+}
+

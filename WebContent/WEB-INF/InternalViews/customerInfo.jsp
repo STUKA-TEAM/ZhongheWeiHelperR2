@@ -28,13 +28,13 @@
        <input type="hidden" id="store_id" value="${sid}"/>
         <ol class="breadcrumb">
           <li><a href="internal/customer/detail">用户管理</a></li>
-          <li class="active">小伦婚庆</li>
+          <li class="active">${storeName}</li>
         </ol>
         <div class="row website-tab">
           <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-info">
               <!-- Default panel contents -->
-              <div class="panel-heading">商户名称：小伦婚庆</div>
+              <div class="panel-heading">商户名称：${storeName}</div>
               <div class="panel-body">
                 <h4>微官网</h4>
                 <!-- Table -->
@@ -75,9 +75,9 @@
                     <td>${notPaySum}</td>
                     <td>${notPayMoney}</td>
                     <td><a class="btn btn-sm btn-info" href="javascript:void(0)" onclick="editAuthInfo('elove')">编辑</a></td>
-                    <td><a class="btn btn-sm btn-info" href="javascript:void(0)" onclick="editNotPay('${sid}')">未付款编辑</a></td>
-                    <td><a class="btn btn-sm btn-success" href="javascript:void(0)">催缴款</a></td>
-                    <td><a class="btn btn-sm btn-danger" href="javascript:void(0)">确认收款</a></td>
+                    <td><a class="btn btn-sm btn-info" href="javascript:void(0)" onclick="editNotPay('${sid}')">缴款管理</a></td>
+                    <td><a class="btn btn-sm btn-success" href="javascript:void(0)" onclick="alertMessage('${sid}')">催缴款</a></td>
+                    <td><a class="btn btn-sm btn-danger" href="javascript:void(0)" onclick="ensureMessage('${sid}')">确认收款</a></td>
                   </tr>
                 </table>
               </div>

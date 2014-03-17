@@ -46,13 +46,16 @@ function editNotPay(sid){
 }
 
 function submitEditNotPay(){
-	var eloveNotPay = new Object();
+	
 	var notPayList = new Array();
-	$(".notPayInput").each(function(){
-		eloveNotPay.notPayNumber = $(this).val();
+	$(".inputInfo").each(function(){
+		var eloveNotPay = new Object();
+		eloveNotPay.notPayNumber = $("#"+$(this).attr("id")+"-not").val();
+		eloveNotPay.prePayNumber = $("#"+$(this).attr("id")+"-pre").val();
 		eloveNotPay.appid = $(this).attr("id");
 		notPayList.push(eloveNotPay);
 	});
+
 	$.ajax({
 	  	  type: "POST",
 	  	  url: "internal/customer/elove/notpaylist/update",
@@ -125,7 +128,81 @@ function submitEditAuthInfo(){
 	  });
 }
 
+function alertMessage(sid){
+	$.ajax({
+	  	  type: "GET",
+	  	  url: "internal/message/elove/alert",
+	  	  data: "sid="+sid,
+	   	  success: function (data) {
+	   		  $("#editInfo").modal("hide");
+	   		  var jsonData=JSON.parse(data);		 
+	   		  if(jsonData.status==true){
+		   	   	  $("#modalMes").html(jsonData.message);
+		   	      $("#operationMesModal").modal("show");
+	   		  }else{
+		   	   	  $("#modalMes").html(jsonData.message);
+		   	      $("#operationMesModal").modal("show");
+	   		  }
+	   	  },
+		  error: function(xhr, status, exception){
+	   	   	  $("#modalMes").html(status + '</br>' + exception);
+	   	      $("#operationMesModal").modal("show");
+		  }
+	  });
+}
 
+function ensureMessage(sid){
+	$.ajax({
+	  	  type: "GET",
+	  	  url: "internal/message/elove/ensure",
+	  	  data: "sid="+sid,
+	   	  success: function (data) {
+	   		  $("#editInfo").modal("hide");
+	   		  var jsonData=JSON.parse(data);		 
+	   		  if(jsonData.status==true){
+		   	   	  $("#modalMes").html(jsonData.message);
+		   	      $("#operationMesModal").modal("show");
+	   		  }else{
+		   	   	  $("#modalMes").html(jsonData.message);
+		   	      $("#operationMesModal").modal("show");
+	   		  }
+	   	  },
+		  error: function(xhr, status, exception){
+	   	   	  $("#modalMes").html(status + '</br>' + exception);
+	   	      $("#operationMesModal").modal("show");
+		  }
+	  });
+}
+
+function sendMessageWindow(sid){
+	 $("#messageContent").html("");
+	 $("#message_sid").val(sid);
+	 $("#sendMessage").modal("show");
+	 
+}
+
+function sendMessage(){
+	$.ajax({
+	  	  type: "GET",
+	  	  url: "internal/message/elove/myalert",
+	  	  data: "sid="+$("#message_sid").val()+"&content="+$("#messageContent").val(),
+	   	  success: function (data) {
+	   		  $("#sendMessage").modal("hide");
+	   		  var jsonData=JSON.parse(data);		 
+	   		  if(jsonData.status==true){
+		   	   	  $("#modalMes").html(jsonData.message);
+		   	      $("#operationMesModal").modal("show");
+	   		  }else{
+		   	   	  $("#modalMes").html(jsonData.message);
+		   	      $("#operationMesModal").modal("show");
+	   		  }
+	   	  },
+		  error: function(xhr, status, exception){
+	   	   	  $("#modalMes").html(status + '</br>' + exception);
+	   	      $("#operationMesModal").modal("show");
+		  }
+	  });
+}
 
 
 

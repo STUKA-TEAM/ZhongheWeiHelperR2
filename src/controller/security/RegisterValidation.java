@@ -27,6 +27,9 @@ public class RegisterValidation implements Validator{
 		
 		UserInfo userInfo = (UserInfo)target;
 		
+		if(!CommonValidationTools.checkUsernameFormat(userInfo.getUsername())){
+			errors.rejectValue("username", "NotValid.UserInfo.username", "该用户名包含非法字符或长度非法");
+		}
 		if(!CommonValidationTools.checkUsername(userInfo.getUsername())){
 			errors.rejectValue("username", "NotValid.UserInfo.username", "该用户名已被注册");
 		}

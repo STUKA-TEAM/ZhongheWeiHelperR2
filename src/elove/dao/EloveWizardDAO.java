@@ -89,39 +89,34 @@ public class EloveWizardDAO {
 			
 			int eloveid = kHolder.getKey().intValue();
 			
-			result = insertImage(eloveid, "story", eloveWizard.getStoryImagePath());        //插入相遇相知图片
-            if (result == 0) {
-				return -1;
+			if (eloveWizard.getStoryImagePath() != null) {
+				insertImage(eloveid, "story", eloveWizard.getStoryImagePath());             //插入相遇相知图片
 			}
 			
-			result = insertImage(eloveid, "dress", eloveWizard.getDressImagePath());        //插入婚纱剪影图片
-			if (result == 0) {
-				return -2;
+			if (eloveWizard.getDressImagePath() != null) {
+				insertImage(eloveid, "dress", eloveWizard.getDressImagePath());             //插入婚纱剪影图片
 			}
 			
-			result = insertVideo(eloveid, "dress", eloveWizard.getDressVideoPath());        //插入婚纱剪影录像
-			if (result == 0) {
-				return -3;
+			if (eloveWizard.getDressVideoPath() != null) {
+				insertVideo(eloveid, "dress", eloveWizard.getDressVideoPath());             //插入婚纱剪影录像
 			}
 			
-			result = insertImage(eloveid, "record", eloveWizard.getRecordImagePath());      //插入婚礼纪录图片
-			if (result == 0) {
-				return -4;
+			if (eloveWizard.getRecordImagePath() != null) {
+				insertImage(eloveid, "record", eloveWizard.getRecordImagePath());           //插入婚礼纪录图片
 			}
 			
-			result = insertVideo(eloveid, "record", eloveWizard.getRecordVideoPath());      //插入婚礼纪录录像
-			if (result == 0) {
-				return -5;
-			}
+			if (eloveWizard.getRecordVideoPath() != null) {
+				insertVideo(eloveid, "record", eloveWizard.getRecordVideoPath());           //插入婚礼纪录录像
+			}	
 			
 			Integer notPayNumber = getConsumeRecord(eloveWizard.getAppid());                //更新elove消费情况
 			if (notPayNumber != null) {
 				result = updateConsumeRecord(notPayNumber + 1, eloveWizard.getAppid());
 				if (result == 0) {
-					return -6;
+					return -1;
 				}
 			}else {
-				return -7;
+				return -2;
 			}			
 			
 			return result;
@@ -142,24 +137,35 @@ public class EloveWizardDAO {
 	private int insertImage(int eloveid, String imageType, List<String> imageList){
 	    String SQL = "INSERT INTO elove_images (id, eloveid, imagePath, imageType) VALUES (default, ?, ?, ?)";
 		int result = 1;
-
-		if (imageList == null) {
-			return 1;
-		}
 		
 		for (int i = 0; i < imageList.size(); i++) {
 			String imagePath = imageList.get(i);
 			result = jdbcTemplate.update(SQL, eloveid, imagePath, imageType);
-			if (result <= 0) {
+			if (result > 0) {
+				deleteImageTempRecord(imageList.get(i));
+			}else {
 				return 0;
 			}
 		}
 		
-		for (int i = 0; i < imageList.size(); i++) {
-			deleteImageTempRecord(imageList.get(i));
-		}
-		
 		return result;
+	}
+	
+	/**
+	 * @title: insertImage
+	 * @description: 插入单个图片
+	 * @param eloveid
+	 * @param imageType
+	 * @param imagePath
+	 * @return
+	 */
+	private int insertImage(int eloveid, String imageType, String imagePath){
+		String SQL = "INSERT INTO elove_images (id, eloveid, imagePath, imageType) VALUES (default, ?, ?, ?)";
+		int result = jdbcTemplate.update(SQL, eloveid, imagePath, imageType);
+		if (result > 0) {
+			result = deleteImageTempRecord(imagePath);
+		}
+		return result <= 0 ? 0 : result;
 	}
 	
 	/**
@@ -172,19 +178,11 @@ public class EloveWizardDAO {
 	 */
 	private int insertVideo(int eloveid, String videoType, String videoPath){
 		String SQL = "INSERT INTO elove_video (id, eloveid, videoPath, videoType) VALUES (default, ?, ?, ?)";
-		int result = 1;
-
-		if (videoPath == null) {
-			return 1;
-		}
-		result = jdbcTemplate.update(SQL, eloveid, videoPath, videoType);
-		if (result <= 0) {
-			return 0;
-		}
-
-		deleteVideoTempRecord(videoPath);
-		
-		return result;
+		int result = jdbcTemplate.update(SQL, eloveid, videoPath, videoType);
+		if (result > 0) {
+			result = deleteVideoTempRecord(videoPath);;
+		}	
+		return result <= 0 ? 0 : result;
 	}
 	
 	/**
@@ -195,11 +193,8 @@ public class EloveWizardDAO {
 	 * @return
 	 */
 	private int insertImageTempRecord(String imagePath, Timestamp current){
-		int result = 0;
 		String SQL = "INSERT INTO image_temp_record (id, imagePath, createDate) VALUES (default, ?, ?)";
-		
-		result = jdbcTemplate.update(SQL, imagePath, current);
-		
+		int result = jdbcTemplate.update(SQL, imagePath, current);
 		return result <= 0 ? 0 : result;
 	}
 	
@@ -211,11 +206,8 @@ public class EloveWizardDAO {
 	 * @return
 	 */
 	private int insertVideoTempRecord(String videoPath, Timestamp current){
-		int result = 0;
 		String SQL = "INSERT INTO video_temp_record (id, videoPath, createDate) VALUES (default, ?, ?)";
-		
-		result = jdbcTemplate.update(SQL, videoPath, current);
-		
+		int result = jdbcTemplate.update(SQL, videoPath, current);
 		return result <= 0 ? 0 : result;
 	}
 
@@ -227,18 +219,35 @@ public class EloveWizardDAO {
 	 * @return
 	 */
 	public int deleteImage(int eloveid){
-		int effected = 0;
 		String SQL = "DELETE FROM elove_images WHERE eloveid = ?";
-		
 		List<String> imageList = getImageList(eloveid);
-		Timestamp current = new Timestamp(System.currentTimeMillis());
-		for (int i = 0; i < imageList.size(); i++) {
-			String imagePath = imageList.get(i);
-			insertImageTempRecord(imagePath, current);
-		}
 		
-		effected = jdbcTemplate.update(SQL, new Object[]{eloveid});			
-		return effected;
+		int effected = jdbcTemplate.update(SQL, new Object[]{eloveid});
+		if (effected > 0) {
+			Timestamp current = new Timestamp(System.currentTimeMillis());
+			for (int i = 0; i < imageList.size(); i++) {
+				String imagePath = imageList.get(i);
+				insertImageTempRecord(imagePath, current);
+			}
+		}
+					
+		return effected <= 0 ? 0 : effected;
+	}
+	
+	/**
+	 * @title: deleteImage
+	 * @description: 根据imagePath删除elove图片
+	 * @param imagePath
+	 * @return
+	 */
+	private int deleteImage(String imagePath){
+		String SQL = "DELETE FROM elove_images WHERE imagePath = ?";
+		int result = jdbcTemplate.update(SQL, imagePath);
+		if (result > 0) {
+			Timestamp current = new Timestamp(System.currentTimeMillis());
+			result = insertImageTempRecord(imagePath, current);
+		}
+		return result <= 0 ? 0 : result;
 	}
 	
 	/**
@@ -248,18 +257,35 @@ public class EloveWizardDAO {
 	 * @return
 	 */
 	public int deleteVideo(int eloveid){
-		int effected = 0;
 		String SQL = "DELETE FROM elove_video WHERE eloveid = ?";
-		
 		List<String> videoList = getVideoList(eloveid);
-		Timestamp current = new Timestamp(System.currentTimeMillis());
-		for (int i = 0; i < videoList.size(); i++) {
-			String videoPath = videoList.get(i);
-			insertVideoTempRecord(videoPath, current);
+		
+		int effected = jdbcTemplate.update(SQL, new Object[]{eloveid});
+		if (effected > 0) {
+			Timestamp current = new Timestamp(System.currentTimeMillis());
+			for (int i = 0; i < videoList.size(); i++) {
+				String videoPath = videoList.get(i);
+				insertVideoTempRecord(videoPath, current);
+			}
 		}
 		
-		effected = jdbcTemplate.update(SQL, new Object[]{eloveid});
-		return effected;
+		return effected <= 0 ? 0 : effected;
+	}
+	
+	/**
+	 * @title: deleteVideo
+	 * @description: 根据videoPath删除elove视频
+	 * @param videoPath
+	 * @return
+	 */
+	private int deleteVideo(String videoPath){
+		String SQL = "DELETE FROM elove_video WHERE videoPath = ?";
+		int result = jdbcTemplate.update(SQL, videoPath);
+		if (result > 0) {
+			Timestamp current = new Timestamp(System.currentTimeMillis());
+			result = insertVideoTempRecord(videoPath, current);
+		}
+		return result <= 0 ? 0 : result;
 	}
 	
 	/**
@@ -271,7 +297,7 @@ public class EloveWizardDAO {
 	public int deleteJoin(int eloveid){
 		String SQL = "DELETE FROM elove_join WHERE eloveid = ?";
 		int effected = jdbcTemplate.update(SQL, new Object[]{eloveid});
-		return effected;
+		return effected <= 0 ? 0 : effected;
 	}
 	
 	/**
@@ -283,7 +309,7 @@ public class EloveWizardDAO {
 	public int deleteMessage(int eloveid){
 		String SQL = "DELETE FROM elove_message WHERE eloveid = ?";
 		int effected = jdbcTemplate.update(SQL, new Object[]{eloveid});
-		return effected;
+		return effected <= 0 ? 0 : effected;
 	}
 	
 	/**
@@ -294,16 +320,22 @@ public class EloveWizardDAO {
 	 */
 	public int deleteElove(int eloveid){
 		String SQL = "DELETE FROM elove WHERE eloveid = ?";
+		int effected = 0;
 		
 		EloveWizard eloveWizard = getEloveBasicMedia(eloveid);                              //插入待删除资源到临时表
-		Timestamp current = new Timestamp(System.currentTimeMillis());
-		insertImageTempRecord(eloveWizard.getCoverPic(), current);
-		insertImageTempRecord(eloveWizard.getMajorGroupPhoto(), current);
-		insertImageTempRecord(eloveWizard.getStoryTextImagePath(), current);
-		insertVideoTempRecord(eloveWizard.getMusic(), current);
+		if (eloveWizard != null) {
+			Timestamp current = new Timestamp(System.currentTimeMillis());
+			insertImageTempRecord(eloveWizard.getCoverPic(), current);
+			insertImageTempRecord(eloveWizard.getMajorGroupPhoto(), current);
+			insertImageTempRecord(eloveWizard.getStoryTextImagePath(), current);
+			insertVideoTempRecord(eloveWizard.getMusic(), current);
+			
+		}else {
+			return 0;
+		}
 		
-		int effected = jdbcTemplate.update(SQL, new Object[]{eloveid});
-		return effected;
+		effected = jdbcTemplate.update(SQL, new Object[]{eloveid});
+		return effected <= 0 ? 0 : effected;
 	}
 	
 	/**
@@ -315,7 +347,7 @@ public class EloveWizardDAO {
 	public int deleteConsumeRecord(String appid){
 		String SQL = "DELETE FROM elove_consume_record WHERE appid = ?";
 		int effected = jdbcTemplate.update(SQL, new Object[]{appid});
-		return effected;
+		return effected <= 0 ? 0 : effected;
 	}
 	
 	/**
@@ -327,7 +359,7 @@ public class EloveWizardDAO {
 	private int deleteImageTempRecord(String imagePath){
 		String SQL = "DELETE FROM image_temp_record WHERE imagePath = ?";
 		int effected = jdbcTemplate.update(SQL, imagePath);
-		return effected;
+		return effected <= 0 ? 0 : effected;
 	}
 	
 	/**
@@ -339,7 +371,7 @@ public class EloveWizardDAO {
 	private int deleteVideoTempRecord(String videoPath){
 		String SQL = "DELETE FROM video_temp_record WHERE videoPath = ?";
 		int effected = jdbcTemplate.update(SQL, videoPath);
-		return effected;
+		return effected <= 0 ? 0 : effected;
 	}
 	
 	//update
@@ -357,13 +389,7 @@ public class EloveWizardDAO {
 				+ "sideCorpInfo = ?, themeid = ? WHERE eloveid = ?";
 		
 		EloveWizard temp = getEloveBasicMedia(eloveWizard.getEloveid());
-		if (temp != null) {
-			Timestamp current = new Timestamp(System.currentTimeMillis());
-			insertImageTempRecord(temp.getCoverPic(), current);
-			insertImageTempRecord(temp.getMajorGroupPhoto(), current);
-			insertImageTempRecord(temp.getStoryTextImagePath(), current);
-			insertVideoTempRecord(temp.getMusic(), current);
-		}else {
+		if (temp == null) {
 			return 0;
 		}
 		
@@ -374,40 +400,117 @@ public class EloveWizardDAO {
 				eloveWizard.getWeddingAddress(), eloveWizard.getLng(), eloveWizard.getLat(), 
 				eloveWizard.getShareTitle(), eloveWizard.getShareContent(), eloveWizard.getFooterText(), 
 				eloveWizard.getSideCorpInfo(), eloveWizard.getThemeid(), eloveWizard.getEloveid()});
+		
 		if (effected > 0 ) {
-			deleteImageTempRecord(eloveWizard.getCoverPic());                                 //删除临时表中记录
-			deleteImageTempRecord(eloveWizard.getMajorGroupPhoto());
-			deleteImageTempRecord(eloveWizard.getStoryTextImagePath());
-			deleteVideoTempRecord(eloveWizard.getMusic());
+			Timestamp current = new Timestamp(System.currentTimeMillis());
+			
+			//compare and handle with basic media resources
+			if (!eloveWizard.getCoverPic().equals(temp.getCoverPic())) {
+				deleteImageTempRecord(eloveWizard.getCoverPic());
+				insertImageTempRecord(temp.getCoverPic(), current);
+			}
+			if (!eloveWizard.getMajorGroupPhoto().equals(temp.getMajorGroupPhoto())) {
+				deleteImageTempRecord(eloveWizard.getMajorGroupPhoto());
+				insertImageTempRecord(temp.getMajorGroupPhoto(), current);
+			}
+			if (!eloveWizard.getStoryTextImagePath().equals(temp.getStoryTextImagePath())) {
+				deleteImageTempRecord(eloveWizard.getStoryTextImagePath());
+				insertImageTempRecord(temp.getStoryTextImagePath(), current);
+			}
+			if (!eloveWizard.getMusic().equals(temp.getMusic())) {
+				deleteVideoTempRecord(eloveWizard.getMusic());
+				insertVideoTempRecord(temp.getMusic(), current);
+			}
 			
 			int eloveid = eloveWizard.getEloveid();
-
-			deleteImage(eloveid);                                                             //删除所有相关的图片记录
-			deleteVideo(eloveid);                                                             //删除所有相关的视频记录
+			//story
+			List<String> originalStoryImages = getImageListWithType(eloveid, "story");
+			List<String> currentStoryImages = eloveWizard.getStoryImagePath();
 			
-			effected = insertImage(eloveid, "story", eloveWizard.getStoryImagePath());        //插入相遇相知图片
-            if (effected == 0) {
-				return -1;
+			if (currentStoryImages == null) {
+				currentStoryImages = new ArrayList<String>();
+			}
+			for (int i = 0; i < originalStoryImages.size(); i++) {
+				String imagePath = originalStoryImages.get(i);
+				if (!currentStoryImages.contains(imagePath)) {
+				    deleteImage(imagePath);
+				}
+			}
+			for (int i = 0; i < currentStoryImages.size(); i++) {
+				String imagePath = currentStoryImages.get(i);
+				if (!originalStoryImages.contains(imagePath)) {
+					insertImage(eloveid, "story", imagePath);
+				}
 			}
 			
-            effected = insertImage(eloveid, "dress", eloveWizard.getDressImagePath());        //插入婚纱剪影图片
-			if (effected == 0) {
-				return -2;
+			//dress
+			List<String> originalDressImages = getImageListWithType(eloveid, "dress");
+			List<String> currentDressImages = eloveWizard.getDressImagePath();
+			
+			if (currentDressImages == null) {
+				currentDressImages = new ArrayList<String>();
+			}
+			for (int i = 0; i < originalDressImages.size(); i++) {
+				String imagePath = originalDressImages.get(i);
+				if (!currentDressImages.contains(imagePath)) {
+				    deleteImage(imagePath);
+				}
+			}
+			for (int i = 0; i < currentDressImages.size(); i++) {
+				String imagePath = currentDressImages.get(i);
+				if (!originalDressImages.contains(imagePath)) {
+					insertImage(eloveid, "dress", imagePath);
+				}
 			}
 			
-			effected = insertVideo(eloveid, "dress", eloveWizard.getDressVideoPath());        //插入婚纱剪影录像
-			if (effected == 0) {
-				return -3;
+			String originalDressVideo = getVideoWithType(eloveid, "dress");
+			String currentDressVideo = eloveWizard.getDressVideoPath();
+			
+			if (currentDressVideo == null) {
+				currentDressVideo = "";
+			}
+			if (!currentDressVideo.equals(originalDressVideo)) {
+				if (originalDressVideo != null) {
+					deleteVideo(originalDressVideo);
+				}
+				if (!currentDressVideo.equals("")) {
+					insertVideo(eloveid, "dress", currentDressVideo);
+				}
 			}
 			
-			effected = insertImage(eloveid, "record", eloveWizard.getRecordImagePath());      //插入婚礼纪录图片
-			if (effected == 0) {
-				return -4;
+			//record
+			List<String> originalRecordImages = getImageListWithType(eloveid, "record");
+			List<String> currentRecordImages = eloveWizard.getRecordImagePath();
+			
+			if (currentRecordImages == null) {
+				currentRecordImages = new ArrayList<String>();
+			}
+			for (int i = 0; i < originalRecordImages.size(); i++) {
+				String imagePath = originalRecordImages.get(i);
+				if (!currentRecordImages.contains(imagePath)) {
+				    deleteImage(imagePath);
+				}
+			}
+			for (int i = 0; i < currentRecordImages.size(); i++) {
+				String imagePath = currentRecordImages.get(i);
+				if (!originalRecordImages.contains(imagePath)) {
+					insertImage(eloveid, "record", imagePath);
+				}
 			}
 			
-			effected = insertVideo(eloveid, "record", eloveWizard.getRecordVideoPath());      //插入婚礼纪录录像
-			if (effected == 0) {
-				return -5;
+			String originalRecordVideo = getVideoWithType(eloveid, "record");
+			String currentRecordVideo = eloveWizard.getRecordVideoPath();
+			
+			if (currentRecordVideo == null) {
+				currentRecordVideo = "";
+			}
+			if (!currentRecordVideo.equals(originalRecordVideo)) {
+				if (originalRecordVideo != null) {
+					deleteVideo(originalRecordVideo);
+				}
+				if (!currentRecordVideo.equals("")) {
+					insertVideo(eloveid, "record", currentRecordVideo);
+				}
 			}
 			
 			return effected;			

@@ -79,12 +79,27 @@ public class EloveController {
 				
 				//get consume information
 				Integer notPayNumber = eloveInfoDao.getConsumeRecord(appid);
-				model.addAttribute("notPayNumber", notPayNumber);
+				if (notPayNumber != null) {
+					if (notPayNumber >= 0) {
+						model.addAttribute("notPayNumber", notPayNumber);
+						model.addAttribute("prePayNumber", 0);
+					}else {
+						model.addAttribute("notPayNumber", 0);
+						model.addAttribute("prePayNumber", -notPayNumber);
+					}
+				}else {
+					model.addAttribute("notPayNumber", -1);
+					model.addAttribute("prePayNumber", -1);
+				}
 
 				BigDecimal price = authInfoDao.getPrice(user.getSid(), "elove");
 				BigDecimal debt = null;
 				if (notPayNumber != null && price != null) {
-					debt = price.multiply(new BigDecimal(notPayNumber));
+					if (notPayNumber > 0) {
+						debt = price.multiply(new BigDecimal(notPayNumber));
+					}else {
+						debt = new BigDecimal(0);
+					}
 				}
 				model.addAttribute("debt", debt);
 				

@@ -43,6 +43,7 @@
                 <th>微官网名称</th>
                 <th></th>
                 <th></th>
+                <th></th>
               </tr>
               <c:if test="${website!=null}">
               <tr>
@@ -51,6 +52,7 @@
                 <td>${website.title}</td>
                 <td><a class="btn btn-sm btn-info" href="store/website/wizard/initial/edit?websiteid=${website.websiteid}">编辑</a></td>
                 <td><a class="btn btn-sm btn-danger" onclick="submitDeleteWebsite('${website.websiteid}')">删除</a></td>
+                <td><a class="btn btn-sm btn-user" target="_blank" href="customer/website/home?websiteid=${website.websiteid}">预览</a></td>
               </tr>
               </c:if>
             </table>

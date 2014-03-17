@@ -84,12 +84,14 @@
               <dd><h4>${notPayNumber} <strong> 套</strong></h4></dd>
               <dt><h4><strong>未付款金额</strong></h4></dt>
               <dd><h4>${debt} <strong> 元</strong></h4></dd>
+              <dt><h4><strong>预付款剩余数量</strong></h4></dt>
+              <dd><h4>${prePayNumber} <strong> 套</strong></h4></dd>
               <dt><h4><strong>累计消费金额</strong></h4></dt>
               <dd><h4>${sumConsume} <strong> 元</strong></h4></dd>
             </dl>
           </div>
           <div class="modal-footer">
-            <p class="pull-left">如有问题，请致电：${phoneNum}</p>
+            <p class="pull-left">如有问题，请联系您的客户经理：${phoneNum}</p>
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->

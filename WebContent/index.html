@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="zhonghe">
 
-    <title>众合微信公共账号管理平台</title>
+    <title>图卡微信公共账号管理平台</title>
     <!-- Bootstrap core CSS -->
     <link href="./css/store/bootstrap.min.css" rel="stylesheet">
     <link href="./css/store/zhonghe-wechat.css" rel="stylesheet">
@@ -68,13 +68,13 @@
         </div>
         <div id="loginMes" class="control-group text-danger">
         </div>
-        <div class="checkbox">
+        <!--  <div class="checkbox">
           <label>
             <input id="login_checkbox" type="checkbox"> 记住我
           </label>
-        </div>
-        <a class="btn btn-success btn-large btn-block" href="javascript:void(0)" onclick="submitForm()">登录</a>
-        <a class="login-link" href="#">忘记密码?</a>
+        </div>-->
+        <a class="btn btn-success btn-large btn-block" href="javascript:void(0)" onclick="submitLogin()">登录</a>
+        <!--<a class="login-link" href="#">忘记密码?</a>-->
       </div>
     </div>
     <!-- Carousel
@@ -154,31 +154,13 @@
     
     <div id="footer">
       <div class="container" style="text-align:center">
-        <p class="text-muted credit">Copyright © 2013 zhonghesoftware.com All Rights Reserved. 众合网络科技有限公司 版权所有</p>
+        <p class="text-muted credit">Copyright © 2013 tukacorp.com All Rights Reserved. 上海图卡网络科技有限公司 版权所有</p>
       </div>
     </div><!-- footer -->
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="./js/store/bootstrap.min.js"></script>
-    <script type="text/javascript">
-    function submitForm(){
-	  	$.ajax({
-	  	    url: 'j_spring_security_check',
-	  	    method: 'POST',
-	  	    data: "j_username="+$("#username").val()+"&j_password="+$("#password").val()
-	  	}).done(function (data) {
-  			var jsonData = JSON.parse(data);
-  			if(jsonData.status==true){
-				location.href=jsonData.message;
-	     	}else{
-	     		  $("#loginMes").html(jsonData.message);
-	        }	
-	  	}).fail(function () {
-	  	    // Whoops; show an error.
-	  	});
-    }
-
-    </script>  
+    <script src="js/internal/login.js"></script>
   </body>
 </html>

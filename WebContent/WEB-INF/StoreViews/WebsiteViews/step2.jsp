@@ -12,7 +12,7 @@
     <div class="panel-heading">
       <h4>栏目管理 </h4>
     </div>
-    <div class="panel-body">
+    <div class="panel-body"  style="background-color:#f5f5f5">
       <div class="row">
           <button type="button" class="btn btn-md btn-info col-md-2 col-md-offset-1 text-center" onclick="addNodeWindow()">添加栏目</button>
           <button id = "fatherholder" type="button" class="btn btn-md btn-info col-md-2 col-md-offset-2 text-center" onclick="generateFatherLayer()">返回上一级<div id="fatherName"></div></button>
@@ -45,9 +45,9 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title" id="myModalLabel">编辑类别</h4>
+            <h4 class="modal-title" id="myModalLabel">新建类别</h4>
           </div>
-          <div class="modal-body">
+          <div class="modal-body"  style="background-color:#f5f5f5">
             <div  class="form-horizontal">
               <div class="form-group">
                 <label for="node-Name" class="col-md-3 control-label">栏目名称</label>
@@ -56,7 +56,7 @@
                 </div>
               </div>
 		        <form  class="form-group" role="form" enctype="multipart/form-data" id="upload1single">
-		          <label for="elove_pic" class="col-md-3 control-label">图文消息图片</label>
+		          <label for="elove_pic" class="col-md-3 control-label">栏目图标</label>
 		          <div class="col-md-7">
 		            <input type="file" name="file" class="image-file hidden" onchange="ye.value=value" accept="image/*">
 		            <input id="filetext" type="text" name=ye class="form-control file-path-elove">
@@ -73,7 +73,10 @@
 
 		            </div>
 		          </div>
-		      </div>   
+		      </div>  
+		      <div class="form-group">
+		      <button type="button" class="btn btn-info" onclick="getSysIcon('add')">选择系统图标</button>
+		      </div>  
             </div>
           </div>
           <div class="modal-footer">
@@ -92,7 +95,7 @@
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             <h4 class="modal-title" id="myModalLabel">编辑类别</h4>
           </div>
-          <div class="modal-body">
+          <div class="modal-body"  style="background-color:#f5f5f5">
             <div  class="form-horizontal">
               <div class="form-group">
                 <label for="node-Name" class="col-md-3 control-label">栏目名称</label>
@@ -101,7 +104,7 @@
                 </div>
               </div>
 		        <form  class="form-group" role="form" enctype="multipart/form-data" id="upload2single">
-		          <label for="elove_pic" class="col-md-3 control-label">图文消息图片</label>
+		          <label for="elove_pic" class="col-md-3 control-label">栏目图标</label>
 		          <div class="col-md-7">
 		            <input type="file" name="file" class="image-file hidden" onchange="ye.value=value" accept="image/*">
 		            <input id="edit-filetext" type="text" name=ye class="form-control file-path-elove">
@@ -118,7 +121,10 @@
 
 		            </div>
 		          </div>
-		      </div>   
+		      </div> 
+		      <div class="form-group">
+		      <button type="button" class="btn btn-info" onclick="getSysIcon('edit')">选择系统图标</button>
+		      </div>  
             </div>
           </div>
           <div class="modal-footer">
@@ -166,3 +172,28 @@
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
+    
+    
+    <!-- 系统图片提示框 -->
+<div class="modal fade"  id="sysIcon" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+<div class="modal-content">
+<input type="hidden" id="selectType"/>
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title">系统可选图标</h4>
+  </div>
+  <div class="modal-body">
+    <div  class="form-horizontal">
+
+      <div class="form-group" id="iconContent" style="background-color:#f5f5f5">
+
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-info" onclick="selectIcon()" >确定</button>
+  </div>
+</div><!-- /.modal-content -->
+</div>
+</div>

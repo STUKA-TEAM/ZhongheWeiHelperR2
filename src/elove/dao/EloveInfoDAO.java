@@ -39,7 +39,8 @@ public class EloveInfoDAO {
 	public int updateConsumeRecord(EloveNotpay eloveNotpay){
 		String SQL = "UPDATE elove_consume_record SET notPayNumber = ? WHERE appid = ?";
 		int effected = jdbcTemplate.update(SQL, new Object[]{
-				eloveNotpay.getNotPayNumber(), eloveNotpay.getAppid()});
+				eloveNotpay.getNotPayNumber() - eloveNotpay.getPrePayNumber(), 
+				eloveNotpay.getAppid()});
 		return effected <= 0 ? 0 : effected;
 	}
 	
@@ -71,6 +72,7 @@ public class EloveInfoDAO {
 	public List<EloveInfo> getEloveInfoList(String appid){
 		String SQL = "SELECT eloveid, createTime, expiredTime, password, xinNiang, xinLang FROM elove WHERE appid = ?";
 		List<EloveInfo> infoList = null;
+		
 		try {
 			infoList = jdbcTemplate.query(SQL, new Object[]{appid}, new EloveInfoMapper());
 		} catch (Exception e) {
@@ -88,6 +90,38 @@ public class EloveInfoDAO {
 			eloveInfo.setCreateTime(rs.getTimestamp("createTime"));
 			eloveInfo.setExpiredTime(rs.getTimestamp("expiredTime"));
 			eloveInfo.setPassword(rs.getString("password"));
+			eloveInfo.setXinNiang(rs.getString("xinNiang"));
+			eloveInfo.setXinLang(rs.getString("xinLang"));
+			return eloveInfo;
+		}		
+	}
+	
+	/**
+	 * @title: getBillEloveInfoList
+	 * @description: 获取elove未付款账单信息列表
+	 * @param appid
+	 * @param limit
+	 * @return
+	 */
+	public List<EloveInfo> getBillEloveInfoList(String appid, int limit){
+		String SQL = "SELECT createTime, xinNiang, xinLang FROM elove WHERE "
+				+ "appid = ? ORDER BY createTime DESC LIMIT ?";
+		List<EloveInfo> infoList = null;
+		
+		try {
+			infoList = jdbcTemplate.query(SQL, new Object[]{appid, limit}, new BillEloveInfoMapper());
+		} catch (Exception e) {
+			infoList = new ArrayList<EloveInfo>();
+			System.out.println(e.getMessage());
+		}
+        return infoList;
+	}
+	
+	private static final class BillEloveInfoMapper implements RowMapper<EloveInfo>{
+		@Override
+		public EloveInfo mapRow(ResultSet rs, int arg1) throws SQLException {
+			EloveInfo eloveInfo = new EloveInfo();
+			eloveInfo.setCreateTime(rs.getTimestamp("createTime"));
 			eloveInfo.setXinNiang(rs.getString("xinNiang"));
 			eloveInfo.setXinLang(rs.getString("xinLang"));
 			return eloveInfo;
