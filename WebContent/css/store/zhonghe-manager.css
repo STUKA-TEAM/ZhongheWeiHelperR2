@@ -189,3 +189,16 @@ fieldset[disabled] .btn-user.active {
 .table-space {
   margin-top: 20px;
 }
+.album-btn-group {
+  padding: 5px 0 20px 0;
+}
+.btn-margin {
+  margin-right: 40px;
+}
+.album-select {
+  width: 200px;
+}
+.file-path-album {
+  display: inline;
+  width: 58%;
+}
