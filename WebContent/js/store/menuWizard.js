@@ -93,6 +93,37 @@ function cancel(){
 	});
 }
 
+
+$(document).ready(function(){
+	nodeList = new Array();
+	  $.ajax({
+		  type: "GET",
+		  url: "store/menu/wizard/getnodes",
+		  success: function (data) {
+			  if(data=="[]"){
+					return;
+			  }else{
+				  nodeList=JSON.parse(data);
+				  for(var i=0;i<nodeList.length;i++){
+					  nodeList[i].UUID=getUUID();
+				  }
+				  for(var i=0;i<nodeList.length;i++){
+					  if(nodeList[i].nodeType="1"){
+						  nodeList[i].fatherUUID="";
+					  }else{
+						  for(var k=0;k<nodeList.length;k++){
+							  if(nodeList[i].fatherid==nodeList[k].nodeid){
+								  nodeList[i].fatherUUID=nodeList[k].UUID;
+							  }
+						  }
+					  }
+ 					  
+				  }
+			  }
+		  }
+		});
+});
+
 function addFirstMenuWindow(){
 	if($(".1st").length<=2){
 		$("#firstButtonName").val("");
@@ -121,6 +152,13 @@ function addFirstMenu(){
         +"</ul>"
         +"</div>"
         +"</li>";
+   var node = new Object();
+   node.UUID = uuid;
+   node.nodeName = $("#firstButtonName").val();
+   node.nodeLink = $("#firstButtonLink").val();
+   node.nodeType = "1";
+   node.fatherUUID = "";
+   nodeList.push(node);
    $("#menuButtons").append(addHtml);
    $("#addFirstButton").modal("hide");
 }
@@ -139,6 +177,8 @@ function addSecondMenuWindow(obj){
 }
 function addSecondMenu(){
 	var currentFirstMenu = $("#currentFirstMenu").val();
+	var currentFirstNode = getNodeFromUUID(currentFirstMenu);
+	currentFirstNode.nodeLink = "";
 	var uuid = getUUID();
     var addHtml = "<li id=\""+uuid+"\" class=\""+currentFirstMenu+"_2nd\">"
                   +"<a href=\"javascript:void(0)\"><span id=\""+uuid+"_name\"  class=\"col-md-6\">"+$("#secondButtonName").val()+"</span>"				
@@ -150,6 +190,13 @@ function addSecondMenu(){
 	              +"</button>"
 	              +"</a>"
                   +"</li>";
+    var node = new Object();
+    node.UUID = uuid;
+    node.nodeName = $("#secondButtonName").val();
+    node.nodeLink = $("#secondButtonLink").val();
+    node.nodeType = "2";
+    node.fatherUUID = currentFirstMenu;
+    nodeList.push(node);
    $("#"+currentFirstMenu+"_ul").append(addHtml);
    $("#"+currentFirstMenu+"_sub").collapse("show");
    $("#addSecondButton").modal("hide");
@@ -157,15 +204,45 @@ function addSecondMenu(){
 
 function editButtonWindow(obj){
 	var thisId = $(obj).parent().parent().attr("id");
+	var buttonNode = getNodeFromUUID(thisId);
+	var firstButtonHtml = "<div class=\"form-group\">"
+					        +"<label for=\"buttonName\" class=\"col-sm-3 control-label\">按钮名称</label>"
+					        +"<div class=\"col-sm-9\">"
+					        +"<input type=\"text\" class=\"form-control\" id=\"buttonName\" placeholder=\"\" value=\"\">"
+					        +"</div>"
+					        +"</div>";
+	var secondButtonHtml = "<div class=\"form-group\">"
+                           +"<label for=\"buttonName\" class=\"col-sm-3 control-label\">按钮名称</label>"
+                           +"<div class=\"col-sm-9\">"
+                           +"<input type=\"text\" class=\"form-control\" id=\"buttonName\" placeholder=\"\" value=\"\">"
+                           +"</div>"
+                           +"</div>"
+                           +"<div class=\"form-group\">"
+                           +"<label for=\"buttonLink\" class=\"col-sm-3 control-label\">关联链接</label>"
+                           +"<div class=\"col-sm-9\">"
+                           +"<input type=\"text\" class=\"form-control\" id=\"buttonLink\" placeholder=\"\" value=\"\">"
+                           +"</div>"
+                           +"</div>";
+    if(buttonNode.nodeType == "2" || $("#"+thisId+"_ul").children().length == 0){
+    	$("#editButtonBody").html(secondButtonHtml);
+    	$("#buttonLink").val(buttonNode.nodeLink);
+    }else{
+    	
+    	$("#editButtonBody").html(firstButtonHtml);
+    }
     $("#currentButton").val(thisId);
-	$("#buttonName").val("");
-	$("#buttonLink").val("");
+	$("#buttonName").val(buttonNode.nodeName);
+
 	$("#editButton").modal("show");
 }
 function editButton(){
     var currentButton = $("#currentButton").val();
-    alert(currentButton);
-	$("#"+currentButton+"_name").html($("#buttonName").val());
+    var buttonNode = getNodeFromUUID(currentButton);	
+    if(buttonNode.nodeType == "2" || $("#"+currentButton+"_ul").children().length == 0){
+    	buttonNode.nodeLink = $("#buttonLink").val();
+    }
+    $("#"+currentButton+"_name").html($("#buttonName").val());
+    buttonNode.nodeName = $("#buttonName").val();
 	$("#editButton").modal("hide");
 }
 function deleteButtonWindow(obj){
@@ -175,16 +252,39 @@ function deleteButtonWindow(obj){
 }
 function deleteButton(){
 	var deleteId = $("#deleteButtonId").val();
+	$.each(nodeList,function(key,val){
+			if(nodeList[key].fatherUUID==deleteId){
+				nodeList.splice(key,1);
+			}
+		  });
+	nodeList.splice(getNodeKeyFromUUID(deleteId),1);
 	$("#"+deleteId).remove();
 	$("#deleteButtonWindow").modal("hide");
 }
 function getUUID(){
 	return (new UUID()).id;
 }
-
-
-
-
+function getNodeFromUUID(uuid){
+	  var node = null;
+	  $.each(nodeList,function(key,val){
+			if(nodeList[key].UUID==uuid){
+				node = nodeList[key];
+			}
+		  });
+	  return node;
+	}	
+function getNodeKeyFromUUID(uuid){
+	  var nodeKey = null;
+	  $.each(nodeList,function(key,val){
+			if(nodeList[key].UUID==uuid){
+				nodeKey = key;
+			}
+		  });
+	  return nodeKey;
+}
+function showList(){
+	alert(JSON.stringify(nodeList));
+}
 
 
 

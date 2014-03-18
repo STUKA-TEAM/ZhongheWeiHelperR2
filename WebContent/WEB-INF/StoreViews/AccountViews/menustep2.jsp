@@ -21,7 +21,8 @@
         <div class="col-md-8">
 		<div class="panel panel-default">
 		  <div class="panel-heading">菜单管理 
-		  <button type="button" class="btn btn-sm btn-primary col-md-offset-2" onclick="addFirstMenuWindow()">添加</button></div>
+		  <button type="button" class="btn btn-sm btn-primary col-md-offset-2" onclick="addFirstMenuWindow()">添加</button>
+		  <button type="button" class="btn btn-sm btn-primary col-md-offset-2" onclick="showList()">显示当前节点情况</button></div>
 		  <div class="panel-body">
 		  <ul id="menuButtons" class="nav nav-pills nav-stacked">
           <li id="1" class="1st">
@@ -162,19 +163,8 @@
             <input id="currentButton" type="hidden" />
           </div>
           <div class="modal-body">
-            <div class="form-horizontal">
-              <div class="form-group">
-                <label for="buttonName" class="col-sm-3 control-label">按钮名称</label>
-                <div class="col-sm-9">
-                  <input type="text" class="form-control" id="buttonName" placeholder="" value="">
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="buttonLink" class="col-sm-3 control-label">关联链接</label>
-                <div class="col-sm-9">
-                  <input type="text" class="form-control" id="buttonLink" placeholder="" value="">
-                </div>
-              </div>
+            <div id="editButtonBody" class="form-horizontal">
+
             </div>
  
           </div>
