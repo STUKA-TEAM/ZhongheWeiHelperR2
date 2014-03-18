@@ -46,21 +46,26 @@ function nextStep(nextStep){
 	  var shisStepData=getData(nextStep);
 	  if(shisStepData!=null){
 		  if(nextStep!="finish"){
-			  var accessTokenMes = getAccessToken($("#appid").val(),$("#appsecret").val());
-			  if(accessTokenMes == null){
-	   			  $("#modalTitle").html("提示");
-		   	   	  $("#modalMes").html("网络异常，稍后再试");
-		   	      $("#operationMesModal").modal("show");
-		   	      return;
+			  var accesstoken = $("#accesstoken").val();
+			  if(accesstoken != null && accesstoken != ""){
+				  shisStepData.accesstoken = accesstoken;
 			  }else{
-		   		  if(accessTokenMes.status==true){
-		   			shisStepData.accesstoken = accessTokenMes.message;
-		   		  }else{		   			  
-			   			  $("#modalTitle").html("提示");
-				   	   	  $("#modalMes").html(accessTokenMes.message);
-				   	      $("#operationMesModal").modal("show");
-				   	      return;
-		   		  } 
+				  var accessTokenMes = getAccessToken($("#appid").val(),$("#appsecret").val());
+				  if(accessTokenMes == null){
+		   			  $("#modalTitle").html("提示");
+			   	   	  $("#modalMes").html("网络异常，稍后再试");
+			   	      $("#operationMesModal").modal("show");
+			   	      return;
+				  }else{
+			   		  if(accessTokenMes.status==true){
+			   			shisStepData.accesstoken = accessTokenMes.message;
+			   		  }else{		   			  
+				   			  $("#modalTitle").html("提示");
+					   	   	  $("#modalMes").html(accessTokenMes.message);
+					   	      $("#operationMesModal").modal("show");
+					   	      return;
+			   		  } 
+				  }
 			  }
 		  }
 
@@ -151,8 +156,7 @@ $(document).ready(function(){
 								  nodeList[i].fatherUUID=nodeList[k].UUID;
 							  }
 						  }
-					  }
- 					  
+					  }					  
 				  }
 			  }
 		  }

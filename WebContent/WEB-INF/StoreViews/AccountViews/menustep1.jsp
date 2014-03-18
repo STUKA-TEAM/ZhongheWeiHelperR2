@@ -28,7 +28,8 @@
             <input type="text" class="form-control" id="appsecret" placeholder="" value="${eloveWizard.password}">
           </div>
         </div>
-
+        <input type="hidden" id="accesstoken" value="">
+        
         <div class="form-group form-btn">
       <button type="button" class="btn btn-lg btn-info col-md-3 col-md-offset-2" onclick="cancel()">取消</button>
       <button type="button" class="btn btn-lg btn-info col-md-3 col-md-offset-1" onclick="nextStep('step2')">下一步</button>
