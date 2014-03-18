@@ -11,6 +11,7 @@ import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.URIException;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.commons.httpclient.methods.StringRequestEntity;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.apache.commons.httpclient.util.URIUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -105,6 +106,41 @@ public class HttpUtil {
                 BufferedReader reader = new BufferedReader(
                         new InputStreamReader(method.getResponseBodyAsStream(),
                                 charset));
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    if (pretty)
+                        response.append(line).append(
+                                System.getProperty("line.separator"));
+                    else
+                        response.append(line);
+                }
+                reader.close();
+            }
+        } catch (IOException e) {
+            log.error("执行HTTP Post请求" + url + "时，发生异常！", e);
+        } finally {
+            method.releaseConnection();
+        }
+        return response.toString();
+    }
+    
+    public static String doPostJson(String url, String jsonData, String charSet, Boolean pretty){
+        StringBuffer response = new StringBuffer();
+        HttpClient client = new HttpClient();
+        PostMethod method = new PostMethod(url);
+ 
+        try {
+            // 设置Http Post数据
+            StringRequestEntity requestEntity = new StringRequestEntity(
+            		jsonData,
+            	    "application/json",
+            	    charSet);
+            method.setRequestEntity(requestEntity);
+            client.executeMethod(method);
+            if (method.getStatusCode() == HttpStatus.SC_OK) {
+                BufferedReader reader = new BufferedReader(
+                        new InputStreamReader(method.getResponseBodyAsStream(),
+                        		charSet));
                 String line;
                 while ((line = reader.readLine()) != null) {
                     if (pretty)

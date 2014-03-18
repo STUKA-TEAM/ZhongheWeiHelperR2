@@ -52,8 +52,8 @@ public class MenuWizardController {
 	@RequestMapping(value = "/backstep1", method = RequestMethod.GET)
 	public String backstep1(final @ModelAttribute("menuWizard") Menu menu, Model model){	
 		model.addAttribute("appid", menu.getAppid());
-		model.addAttribute("appSecret", menu.getAppSecret());
-		model.addAttribute("accessToken", menu.getAccessToken());
+		model.addAttribute("appSecret", menu.getAppsecret());
+		model.addAttribute("accessToken", menu.getAccesstoken());
 		return "AccountViews/menustep1";
 	}
 	
@@ -62,8 +62,8 @@ public class MenuWizardController {
 		Gson gson = new Gson();
 		Step1Info step1Info = gson.fromJson(json, Step1Info.class);
 		menu.setAppid(step1Info.getAppid());
-		menu.setAppSecret(step1Info.getAppSecret());
-		menu.setAccessToken(step1Info.getAccessToken());
+		menu.setAppsecret(step1Info.getAppsecret());
+		menu.setAccesstoken(step1Info.getAccesstoken());
 		model.addAttribute("menuWizard", menu);
 		return "AccountViews/menustep2";
 	}

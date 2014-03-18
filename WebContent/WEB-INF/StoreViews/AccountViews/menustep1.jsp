@@ -19,16 +19,16 @@
         <div class="form-group">
           <label for="appid" class="col-md-3 control-label">AppId</label>
           <div class="col-md-7">
-            <input type="text" class="form-control" id="appid" placeholder="" value="${eloveWizard.title}">
+            <input type="text" class="form-control" id="appid" placeholder="" value="${appid}">
           </div>
         </div>
         <div class="form-group">
           <label for="appsecret" class="col-md-3 control-label">AppSecret</label>
           <div class="col-md-7">
-            <input type="text" class="form-control" id="appsecret" placeholder="" value="${eloveWizard.password}">
+            <input type="text" class="form-control" id="appsecret" placeholder="" value="${appSecret}">
           </div>
         </div>
-        <input type="hidden" id="accesstoken" value="">
+        <input type="hidden" id="accesstoken" value="${accessToken}">
         
         <div class="form-group form-btn">
       <button type="button" class="btn btn-lg btn-info col-md-3 col-md-offset-2" onclick="cancel()">取消</button>

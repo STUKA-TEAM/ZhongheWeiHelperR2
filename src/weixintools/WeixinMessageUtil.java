@@ -108,4 +108,12 @@ public static String getAccessToken(String appid, String secret){
 		return "";
 	}
 }
+
+public static CreateWeiXinButtonMes createButton(String accesstoken, String jsonData){
+	String jsonString = HttpUtil.doPostJson("https://api.weixin.qq.com/cgi-bin/menu/create?access_token="+accesstoken, jsonData, "utf-8", false);
+    Gson gson = new Gson();
+    CreateWeiXinButtonMes createWeiXinButtonMes = gson.fromJson(jsonString, CreateWeiXinButtonMes.class);
+    return createWeiXinButtonMes;
+}
+
 }

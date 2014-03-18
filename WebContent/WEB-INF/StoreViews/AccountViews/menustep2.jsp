@@ -25,6 +25,7 @@
 		  <button type="button" class="btn btn-sm btn-primary col-md-offset-2" onclick="showList()">显示当前节点情况</button></div>
 		  <div class="panel-body">
 		  <ul id="menuButtons" class="nav nav-pills nav-stacked">
+		  <!--  
           <li id="1" class="1st">
           <a data-toggle="collapse" href="#1_sub"><span id="1_name" class="col-md-6">账号管理</span>
 				<button type="button" class="btn btn-default btn-xs col-md-offset-2" onclick="addSecondMenuWindow(this)">
@@ -69,7 +70,7 @@
             </ul>
           </div>
           </li>
-
+-->
         </ul>
 		  </div>
 		</div>
@@ -78,8 +79,10 @@
 		</div>
 
         <div class="form-group form-btn">
-      <button type="button" class="btn btn-lg btn-info col-md-3 col-md-offset-2" onclick="cancel()">取消</button>
-      <button type="button" class="btn btn-lg btn-info col-md-3 col-md-offset-1" onclick="nextStep('finish')">完成</button>
+      <input type="hidden" id="accesstoken" value="${menuWizard.accesstoken}">
+      <button type="button" class="btn btn-lg btn-info col-md-2 col-md-offset-2" onclick="cancel()">取消</button>
+      <button type="button" class="btn btn-lg btn-info col-md-2 col-md-offset-1" onclick="backStep('backstep1')">上一步</button>
+      <button type="button" class="btn btn-lg btn-info col-md-2 col-md-offset-1" onclick="nextStep('finish')">完成</button>
         </div>
       </div>
     </div>

@@ -11,41 +11,24 @@ public class Step1Info {
 	private String appid;
 	private String appsecret;
 	private String accesstoken;
-	
-	/**
-	 * @return the appid
-	 */
 	public String getAppid() {
 		return appid;
 	}
-	/**
-	 * @param appid the appid to set
-	 */
 	public void setAppid(String appid) {
 		this.appid = appid;
 	}
-	/**
-	 * @return the appSecret
-	 */
-	public String getAppSecret() {
+	public String getAppsecret() {
 		return appsecret;
 	}
-	/**
-	 * @param appSecret the appSecret to set
-	 */
-	public void setAppSecret(String appSecret) {
-		this.appsecret = appSecret;
+	public void setAppsecret(String appsecret) {
+		this.appsecret = appsecret;
 	}
-	/**
-	 * @return the accessToken
-	 */
-	public String getAccessToken() {
+	public String getAccesstoken() {
 		return accesstoken;
 	}
-	/**
-	 * @param accessToken the accessToken to set
-	 */
-	public void setAccessToken(String accessToken) {
-		this.accesstoken = accessToken;
+	public void setAccesstoken(String accesstoken) {
+		this.accesstoken = accesstoken;
 	}
+	
+	
 }

@@ -1,3 +1,33 @@
+$(document).ready(function(){
+	nodeList = new Array();
+	  $.ajax({
+		  type: "GET",
+		  url: "store/menu/wizard/getnodes",
+		  success: function (data) {
+			  var jsonData = JSON.parse(data);
+			  if(jsonData.status == false){
+					return;
+			  }else{
+				  nodeList=jsonData.nodeList;
+				  for(var i=0;i<nodeList.length;i++){
+					  nodeList[i].UUID=getUUID();
+				  }
+				  for(var i=0;i<nodeList.length;i++){
+					  if(nodeList[i].nodeType==1){
+						  nodeList[i].fatherUUID="";
+					  }else{
+						  for(var k=0;k<nodeList.length;k++){
+							  if(nodeList[i].fatherid==nodeList[k].nodeid){
+								  nodeList[i].fatherUUID=nodeList[k].UUID;
+							  }
+						  }
+					  }					  
+				  }
+			  }
+		  }
+		});
+});
+
 function getStep1Data(){
 	var step1Info = new Object();
 	step1Info.appid=$("#appid").val();
@@ -21,6 +51,74 @@ function validateStep1(step1Info){
 	}
 }
 
+function getStep2Data(){
+	var step2Info = new Object();
+	var accesstoken = $("#accesstoken").val();
+	if(accesstoken==null || accesstoken == ""){
+		$("#modalTitle").html("提示");
+		$("#modalMes").html("第一步数据有误，请返回第一步填写");
+	    $("#operationMesModal").modal("show");
+	    return null;
+	}
+	var jsonData = getButtonNodeJson();
+	$.ajax({
+		  type: "GET",
+		  url: "store/createButton?accesstoken="+accesstoken+"&jsonData="+encodeURIComponent(jsonData),
+		  async: false,
+		  success: function (data) {
+			  if(data=="y"){
+				  step2Info.success = true;
+			  }else{
+				  step2Info.success = false;
+			  }			 
+			  step2Info.nodeList = nodeList;
+
+		  },
+		  error: function(XMLHttpRequest, textStatus, errorThrown) {
+				$("#modalTitle").html("出现错误");
+				$("#modalMes").html(textStatus);
+			    $("#operationMesModal").modal("show");
+			    step2Info = null;
+		  }
+		});	
+	return step2Info;
+}
+
+function getButtonNodeJson(){
+	var firstButtonArray = new Array();
+	for(var i = 0; i < nodeList.length; i++){
+		if(nodeList[i].nodeType == 1){
+			var button = new Object();
+			button.name = nodeList[i].nodeName;
+			var childButton = getChildButtonArray(nodeList[i].UUID);
+			if(childButton.length>0){
+				button.sub_button = childButton;
+			}else{
+				button.type = "view";
+				button.url = nodeList[i].nodeLink;
+			}
+			firstButtonArray.push(button);
+		}
+	}
+	var jsonObject = new Object();
+	jsonObject.button = firstButtonArray;
+	return JSON.stringify(jsonObject);
+}
+
+function getChildButtonArray(UUID){
+	var childButtonArray = new Array();
+	for(var i = 0; i < nodeList.length; i++){
+		if(nodeList[i].fatherUUID == UUID){
+			var button = new Object();
+			button.type = "view";
+			button.name = nodeList[i].nodeName;
+			button.url = nodeList[i].nodeLink;
+			childButtonArray.push(button);
+		}
+	}
+	return childButtonArray;
+}
+
 function showBlankInputHtml(blankInputArray){
 	var blankInputhtml="";
     $.each(blankInputArray,function(key,val){
@@ -34,7 +132,7 @@ function showBlankInputHtml(blankInputArray){
 }
 
 function getData(step){
-	if(step=="step2"){		
+	if(step=="step2"){
 		return getStep1Data();
 }
 	if(step=="finish"){		
@@ -67,8 +165,7 @@ function nextStep(nextStep){
 			   		  } 
 				  }
 			  }
-		  }
-		  
+		  }		  
 		  $.ajax({
 			  type: "POST",
 			  url: "store/menu/wizard/"+nextStep,
@@ -135,35 +232,6 @@ function cancel(){
 }
 
 
-$(document).ready(function(){
-	nodeList = new Array();
-	  $.ajax({
-		  type: "GET",
-		  url: "store/menu/wizard/getnodes",
-		  success: function (data) {
-			  if(data=="[]"){
-					return;
-			  }else{
-				  nodeList=JSON.parse(data);
-				  for(var i=0;i<nodeList.length;i++){
-					  nodeList[i].UUID=getUUID();
-				  }
-				  for(var i=0;i<nodeList.length;i++){
-					  if(nodeList[i].nodeType="1"){
-						  nodeList[i].fatherUUID="";
-					  }else{
-						  for(var k=0;k<nodeList.length;k++){
-							  if(nodeList[i].fatherid==nodeList[k].nodeid){
-								  nodeList[i].fatherUUID=nodeList[k].UUID;
-							  }
-						  }
-					  }					  
-				  }
-			  }
-		  }
-		});
-});
-
 function addFirstMenuWindow(){
 	if($(".1st").length<=2){
 		$("#firstButtonName").val("");
@@ -196,7 +264,7 @@ function addFirstMenu(){
    node.UUID = uuid;
    node.nodeName = $("#firstButtonName").val();
    node.nodeLink = $("#firstButtonLink").val();
-   node.nodeType = "1";
+   node.nodeType = 1;
    node.fatherUUID = "";
    nodeList.push(node);
    $("#menuButtons").append(addHtml);
@@ -234,7 +302,7 @@ function addSecondMenu(){
     node.UUID = uuid;
     node.nodeName = $("#secondButtonName").val();
     node.nodeLink = $("#secondButtonLink").val();
-    node.nodeType = "2";
+    node.nodeType = 2;
     node.fatherUUID = currentFirstMenu;
     nodeList.push(node);
    $("#"+currentFirstMenu+"_ul").append(addHtml);
@@ -263,7 +331,7 @@ function editButtonWindow(obj){
                            +"<input type=\"text\" class=\"form-control\" id=\"buttonLink\" placeholder=\"\" value=\"\">"
                            +"</div>"
                            +"</div>";
-    if(buttonNode.nodeType == "2" || $("#"+thisId+"_ul").children().length == 0){
+    if(buttonNode.nodeType == 2 || $("#"+thisId+"_ul").children().length == 0){
     	$("#editButtonBody").html(secondButtonHtml);
     	$("#buttonLink").val(buttonNode.nodeLink);
     }else{
@@ -278,7 +346,7 @@ function editButtonWindow(obj){
 function editButton(){
     var currentButton = $("#currentButton").val();
     var buttonNode = getNodeFromUUID(currentButton);	
-    if(buttonNode.nodeType == "2" || $("#"+currentButton+"_ul").children().length == 0){
+    if(buttonNode.nodeType == 2 || $("#"+currentButton+"_ul").children().length == 0){
     	buttonNode.nodeLink = $("#buttonLink").val();
     }
     $("#"+currentButton+"_name").html($("#buttonName").val());

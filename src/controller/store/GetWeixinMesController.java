@@ -9,28 +9,24 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import weixintools.CreateWeiXinButtonMes;
 import weixintools.WeixinMessageUtil;
 
 import com.google.gson.Gson;
 
 /**
  * @Title: WelcomeController
- * @Description: 控制欢迎页相关的信息配置
+ * @Description: 响应有关需要访问微信的请求
  * @Company: Tuka
  * @author ben
  * @date 2014年3月18日
  */
 @Controller
 public class GetWeixinMesController {
-	/**
-	 * @description: 插入欢迎页配置信息
-	 * @param json
-	 * @param model
-	 * @return
-	 */
+
 	@RequestMapping(value = "/getAccessToken", method = RequestMethod.GET)
 	@ResponseBody
-	public String insertWelcome(@RequestParam(value="appid", required=true) String appid, 
+	public String getAccessToken(@RequestParam(value="appid", required=true) String appid, 
 			@RequestParam(value="secret", required=true) String secret, Model model){      
 		String accessTokenString = WeixinMessageUtil.getAccessToken(appid, secret);
 		ResponseMessage message = new ResponseMessage();
@@ -46,5 +42,15 @@ public class GetWeixinMesController {
 		String response = gson.toJson(message);				
         return response;
 	}
-	
+	@RequestMapping(value = "/createButton", method = RequestMethod.GET)
+	@ResponseBody
+	public String createButton(@RequestParam(value="accesstoken", required=true) String accesstoken, 
+			@RequestParam(value="jsonData", required=true) String jsonData, Model model){      
+		CreateWeiXinButtonMes createWeiXinButtonMes = WeixinMessageUtil.createButton(accesstoken, jsonData);
+		if(createWeiXinButtonMes.getErrcode()==0){
+			return "y";
+		}else {
+			return "n";
+		}
+	}
 }
