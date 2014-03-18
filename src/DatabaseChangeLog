@@ -18,6 +18,20 @@ Windows:
 [2014-2-22][index: 0007]删除表website_node_acticleclass
 [2014-2-22][index: 0008]删除表website_node_structure
 [2014-2-22][index: 0009]表website_node修改childrenType字段  Length由10改为12
+[2014-3-19][index: 0010]添加表menu_node
+            Name         Type         NULL       Default                Primary Key         Comment
+        ---------------------------------------------------------------------------------------------------------------------------------
+            nodeid       int(11)      No         <auto_increment>       Yes                 菜单节点id
+            appid        varchar(32)  No                                No                  UUID
+            nodeName     varchar(20)  No                                No                  节点名称
+            nodeLink     varchar(150) Yes                               No                  节点链接
+            nodeType     int(11)      No         0                      No                  1-一级菜单 || 2-二级菜单
+[2014-3-19][index: 0011]添加表menu_nodetree
+            Name         Type         NULL       Default                Primary Key         Comment
+        ---------------------------------------------------------------------------------------------------------------------------------
+            id           int(11)      No         <auto_increment>       Yes                 
+            nodeid       int(11)      No         0                      No                  菜单节点id
+            childid      int(11)      No         0                      No                  子节点id
 
 Linux:
 [2014-2-22][index: 0001]done
