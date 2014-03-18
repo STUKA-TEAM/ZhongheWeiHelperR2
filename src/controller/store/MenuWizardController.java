@@ -44,6 +44,8 @@ import com.google.gson.Gson;
 public class MenuWizardController {
 	@RequestMapping(value = "/initial", method = RequestMethod.GET)
 	public String initialCreate(final Model model){
+		Menu menu = new Menu();
+		model.addAttribute("menuWizard", menu);
 		return "AccountViews/menuWizardContainer";
 	}
 	
