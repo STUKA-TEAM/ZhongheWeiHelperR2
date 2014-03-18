@@ -12,10 +12,12 @@ import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
+import tools.HttpUtil;
 import weixinmessage.response.NewsItemToResponse;
 import weixinmessage.response.NewsMessageToResponse;
 import weixinmessage.response.TextMessageToResponse;
 
+import com.google.gson.Gson;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.core.util.QuickWriter;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
@@ -93,4 +95,17 @@ private static XStream xstream = new XStream(new XppDriver() {
         };  
     }  
 });
+
+public static String getAccessToken(String appid, String secret){
+	String parameterString = "?grant_type=client_credential&appid="+appid+"&secret="+secret;
+	String jsonString = HttpUtil.doGet("https://api.weixin.qq.com/cgi-bin/token", 
+			parameterString, "utf-8", false);
+	if(jsonString.contains("access_token")){
+		Gson gson = new Gson();
+		AccessTokenMes accessTokenMes = gson.fromJson(jsonString, AccessTokenMes.class);
+		return accessTokenMes.getAccess_token();
+	}else {
+		return "";
+	}
+}
 }

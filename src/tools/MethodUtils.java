@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+
 public class MethodUtils {
 public static String getApplicationPath(){
 	String applicationPath = "";	
@@ -50,4 +51,6 @@ public static List<Integer> getEloveDemoIdList(){
 	}
 	return idList;
 }
+
+
 }

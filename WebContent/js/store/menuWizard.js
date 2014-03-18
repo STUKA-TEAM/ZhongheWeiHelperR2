@@ -2,8 +2,6 @@ function getStep1Data(){
 	var step1Info = new Object();
 	step1Info.appid=$("#appid").val();
 	step1Info.appsecret=$("#appsecret").val();
-
-
 	if(validateStep1(step1Info)){
 		return step1Info;		
 	}else{
@@ -47,6 +45,26 @@ function getData(step){
 function nextStep(nextStep){
 	  var shisStepData=getData(nextStep);
 	  if(shisStepData!=null){
+		  if(nextStep!="finish"){
+			  var accessTokenMes = getAccessToken($("#appid").val(),$("#appsecret").val());
+			  if(accessTokenMes == null){
+	   			  $("#modalTitle").html("提示");
+		   	   	  $("#modalMes").html("网络异常，稍后再试");
+		   	      $("#operationMesModal").modal("show");
+		   	      return;
+			  }else{
+		   		  if(accessTokenMes.status==true){
+		   			shisStepData.accesstoken = accessTokenMes.message;
+		   		  }else{		   			  
+			   			  $("#modalTitle").html("提示");
+				   	   	  $("#modalMes").html(accessTokenMes.message);
+				   	      $("#operationMesModal").modal("show");
+				   	      return;
+		   		  } 
+			  }
+		  }
+
+		  
 		  $.ajax({
 			  type: "POST",
 			  url: "store/menu/wizard/"+nextStep,
@@ -55,6 +73,7 @@ function nextStep(nextStep){
 			  success: function (data) {
 				  if(nextStep!="finish"){
 					  $("#operationContent").html(data);
+					  generateNodeLayer();				  
 				  }else{
 			   	   	  var jsonData = JSON.parse(data);
 			   		  if(jsonData.status==true){
@@ -73,6 +92,22 @@ function nextStep(nextStep){
 			});
 	  }
 	}
+function getAccessToken(appid, appSecret){
+	$.ajax({
+		  type: "GET",
+		  url: "store/getAccessToken?appid="+appid+"&secret="+appSecret,
+		  success: function (data) {
+	   	   	  var jsonData = JSON.parse(data);
+	   	   	  return jsonData;
+		  },
+		  error: function(xhr) {
+		      return null;
+		  }
+		});
+}
+function generateNodeLayer(){
+	
+}
 function backStep(backStep){
 	  $.ajax({
 	  type: "GET",
@@ -285,7 +320,6 @@ function getNodeKeyFromUUID(uuid){
 function showList(){
 	alert(JSON.stringify(nodeList));
 }
-
 
 
 
