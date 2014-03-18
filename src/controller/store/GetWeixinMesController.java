@@ -40,7 +40,7 @@ public class GetWeixinMesController {
 				message.setMessage(accessTokenString);
 			}else{
 				message.setStatus(false);
-				message.setMessage("向微信服务器请求数据失败，请检查网络或稍后再试");
+				message.setMessage("向微信服务器请求数据失败，请检查AppId和AppSecret是否填写正确");
 			}			
 		Gson gson = new Gson();
 		String response = gson.toJson(message);				

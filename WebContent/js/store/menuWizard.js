@@ -68,7 +68,6 @@ function nextStep(nextStep){
 				  }
 			  }
 		  }
-
 		  
 		  $.ajax({
 			  type: "POST",
@@ -98,17 +97,19 @@ function nextStep(nextStep){
 	  }
 	}
 function getAccessToken(appid, appSecret){
+	var returnData="";
 	$.ajax({
 		  type: "GET",
 		  url: "store/getAccessToken?appid="+appid+"&secret="+appSecret,
+		  async: false,
 		  success: function (data) {
-	   	   	  var jsonData = JSON.parse(data);
-	   	   	  return jsonData;
+	   	   	  returnData = JSON.parse(data);
 		  },
 		  error: function(xhr) {
-		      return null;
+			  returnData = null;
 		  }
-		});
+		});	
+	return returnData;
 }
 function generateNodeLayer(){
 	
