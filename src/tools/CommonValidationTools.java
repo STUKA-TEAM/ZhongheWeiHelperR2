@@ -9,6 +9,8 @@ import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import menu.Menu;
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -412,6 +414,16 @@ public class CommonValidationTools {
 		if (userInfo.getSid() <= 0 || userInfo.getContact() == null) {
 			return false;
 		}
+		return true;
+	}
+	
+	/**
+	 * @title checkMenu
+	 * @description 检查菜单定义信息
+	 * @param menu
+	 * @return
+	 */
+	public static boolean checkMenu(Menu menu){
 		return true;
 	}
 }
