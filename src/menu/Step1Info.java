@@ -9,8 +9,8 @@ package menu;
  */
 public class Step1Info {
 	private String appid;
-	private String appSecret;
-	private String accessToken;
+	private String appsecret;
+	private String accesstoken;
 	
 	/**
 	 * @return the appid
@@ -28,24 +28,24 @@ public class Step1Info {
 	 * @return the appSecret
 	 */
 	public String getAppSecret() {
-		return appSecret;
+		return appsecret;
 	}
 	/**
 	 * @param appSecret the appSecret to set
 	 */
 	public void setAppSecret(String appSecret) {
-		this.appSecret = appSecret;
+		this.appsecret = appSecret;
 	}
 	/**
 	 * @return the accessToken
 	 */
 	public String getAccessToken() {
-		return accessToken;
+		return accesstoken;
 	}
 	/**
 	 * @param accessToken the accessToken to set
 	 */
 	public void setAccessToken(String accessToken) {
-		this.accessToken = accessToken;
+		this.accesstoken = accessToken;
 	}
 }

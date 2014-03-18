@@ -11,8 +11,8 @@ import java.util.List;
  */
 public class Menu {
 	private String appid;
-	private String appSecret;
-	private String accessToken;
+	private String appsecret;
+	private String accesstoken;
 	private String realAppid;
 	private List<MenuNode> nodeList;
 	
@@ -32,25 +32,25 @@ public class Menu {
 	 * @return the appSecret
 	 */
 	public String getAppSecret() {
-		return appSecret;
+		return appsecret;
 	}
 	/**
 	 * @param appSecret the appSecret to set
 	 */
 	public void setAppSecret(String appSecret) {
-		this.appSecret = appSecret;
+		this.appsecret = appSecret;
 	}
 	/**
 	 * @return the accessToken
 	 */
 	public String getAccessToken() {
-		return accessToken;
+		return accesstoken;
 	}
 	/**
 	 * @param accessToken the accessToken to set
 	 */
 	public void setAccessToken(String accessToken) {
-		this.accessToken = accessToken;
+		this.accesstoken = accessToken;
 	}
 	/**
 	 * @return the realAppid
