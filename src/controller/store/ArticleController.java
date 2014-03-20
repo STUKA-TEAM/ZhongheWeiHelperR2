@@ -230,12 +230,12 @@ public class ArticleController {
 				if (!CommonValidationTools.checkArticle(article)) {
 					message.setStatus(false);
 					message.setMessage("文章信息不完整或有误！");
-				}else {
+				} else {
 					int result = articleDao.insertArticle(article);
 					if (result > 0) {
 						message.setStatus(true);
 						message.setMessage("文章创建成功！");
-					}else {
+					} else {
 						message.setStatus(false);
 						message.setMessage("文章创建失败！");
 						System.out.println("Error: " + result);
@@ -270,12 +270,12 @@ public class ArticleController {
 		if (!CommonValidationTools.checkArticle(article)) {
 			message.setStatus(false);
 			message.setMessage("文章信息不完整或有误！");
-		}else {
+		} else {
 			int result = articleDao.updateArticle(article);
 			if (result > 0) {
 				message.setStatus(true);
 				message.setMessage("文章修改保存成功！");
-			}else {
+			} else {
 				message.setStatus(false);
 				message.setMessage("文章修改保存失败！");
 				System.out.println("Error: " + result);
@@ -294,7 +294,7 @@ public class ArticleController {
 	 */
 	@RequestMapping(value = "/article/delete", method = RequestMethod.POST)
 	@ResponseBody
-	public String deleteArticle(@RequestParam(value="articleid", required=true) 
+	public String deleteArticle(@RequestParam(value="articleid", required = true) 
 	    int articleid, Model model){
 		ApplicationContext context = 
 				new ClassPathXmlApplicationContext("All-Modules.xml");
@@ -307,10 +307,10 @@ public class ArticleController {
 		int result = articleDao.deleteArticle(articleid);
 		if (result > 0) {
 			message.setStatus(true);
-			message.setMessage("删除成功！");
+			message.setMessage("文章删除成功！");
 		}else {
 			message.setStatus(false);
-			message.setMessage("删除失败！");
+			message.setMessage("文章删除失败！");
 		}
 		
 		String response = gson.toJson(message);
