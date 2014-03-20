@@ -240,9 +240,9 @@ public class MenuDAO {
 		public MenuNode mapRow(ResultSet rs, int arg1) throws SQLException {
 			MenuNode node = new MenuNode();
 			node.setNodeid(rs.getInt("nodeid"));
-			node.setNodeType(rs.getInt("nodeName"));
-			node.setNodeName(rs.getString("nodeLink"));
-			node.setNodeLink(rs.getString("nodeType"));
+			node.setNodeType(rs.getInt("nodeType"));
+			node.setNodeName(rs.getString("nodeName"));
+			node.setNodeLink(rs.getString("nodeLink"));
 			return node;
 		}
 	}

@@ -208,9 +208,54 @@ function getAccessToken(appid, appSecret){
 		});	
 	return returnData;
 }
-function generateNodeLayer(){
-	
+function generateNodeLayer(){	
+	for(var i = 0; i < nodeList.length; i++){
+		if(nodeList[i].nodeType == 1){
+			addSavedFirstMenu(nodeList[i]);
+			for(var j = 0; j < nodeList.length; j++){
+				if(nodeList[j].nodeType == 2 && nodeList[i].UUID == nodeList[j].fatherUUID){
+					addSavedSecondMenu(nodeList[j]);
+				}
+			}
+		}
+	}
 }
+
+function addSavedFirstMenu(node){
+	var addHtml="<li id=\""+node.UUID+"\" class=\"1st\"><a data-toggle=\"collapse\" href=\"#"+node.UUID+"_sub\"><span id=\""+node.UUID+"_name\"  class=\"col-md-6\">"+node.nodeName+"</span>"
+	+"<button type=\"button\" class=\"btn btn-default btn-xs col-md-offset-2\" onclick=\"addSecondMenuWindow(this)\">"
+	+  "<span class=\"glyphicon glyphicon-plus\"></span>"
+	+"</button>"  
+	+"<button type=\"button\" class=\"btn btn-default btn-xs\" onclick=\"editButtonWindow(this)\">"
+	+ "<span class=\"glyphicon glyphicon-pencil\"></span>"
+	+"</button>"
+	+"<button type=\"button\" class=\"btn btn-default btn-xs\" onclick=\"deleteButtonWindow(this)\">"
+	+ "<span class=\"glyphicon glyphicon-trash\"></span>"
+	+"</button>"                  
+    +"</a>" 
+    +"<div id=\""+node.UUID+"_sub\" class=\"panel-collapse collapse in\">"
+    +"<ul id=\""+node.UUID+"_ul\" class=\"nav submenu\">"
+    +"</ul>"
+    +"</div>"
+    +"</li>";	
+	$("#menuButtons").append(addHtml);
+}
+
+function addSavedSecondMenu(node){
+    var addHtml = "<li id=\""+node.UUID+"\" class=\""+node.fatherUUID+"_2nd\">"
+    +"<a href=\"javascript:void(0)\"><span id=\""+node.UUID+"_name\"  class=\"col-md-6\">"+node.nodeName+"</span>"				
+    +"<button type=\"button\" class=\"btn btn-default btn-xs col-md-offset-2\" onclick=\"editButtonWindow(this)\">"
+    +"<span class=\"glyphicon glyphicon-pencil\"></span>"
+    +"</button>"
+    +"<button type=\"button\" class=\"btn btn-default btn-xs\" onclick=\"deleteButtonWindow(this)\">"
+    +"<span class=\"glyphicon glyphicon-trash\"></span>"
+    +"</button>"
+    +"</a>"
+    +"</li>";
+    $("#"+node.fatherUUID+"_ul").append(addHtml);
+    $("#"+node.fatherUUID+"_sub").collapse("show");
+}
+
 function backStep(backStep){
 	  $.ajax({
 	  type: "GET",
