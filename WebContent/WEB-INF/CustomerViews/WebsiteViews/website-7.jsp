@@ -38,5 +38,6 @@
     </div> 
     <script type="text/javascript" src="js/customer/mobile-common.js"></script>
     <script type="text/javascript" src="js/customer/jquery-1.10.2.min.js"></script>   
+    <%@ include file="../CommonViews/websiteShareJS.jsp"%>
   </body>
 </html>
