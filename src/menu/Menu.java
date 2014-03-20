@@ -15,6 +15,7 @@ public class Menu {
 	private String accesstoken;
 	private String realAppid;
 	private List<MenuNode> nodeList;
+	
 	public String getAppid() {
 		return appid;
 	}

@@ -145,8 +145,10 @@ public class ArticleClassController {
 				
 				if (classid != null && classid > 0) {
 					ArticleClass articleClass = articleDao.getClassContent(classid);
-					selectedList = articleClass.getArticleidList();
-					model.addAttribute("articleclass", articleClass);
+					if (articleClass != null) {
+						selectedList = articleClass.getArticleidList();
+						model.addAttribute("articleclass", articleClass);
+					}
 				}
 				
 				List<Article> articleList = articleDao.getBasicArticleinfos(appid);

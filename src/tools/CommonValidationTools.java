@@ -15,6 +15,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import album.Album;
+import album.AlbumClass;
 import article.Article;
 import article.ArticleClass;
 import elove.EloveNotpay;
@@ -424,6 +426,26 @@ public class CommonValidationTools {
 	 * @return
 	 */
 	public static boolean checkMenu(Menu menu){
+		return true;
+	}
+	
+	/**
+	 * @title checkAlbumClass
+	 * @description 检查相册集信息
+	 * @param albumClass
+	 * @return
+	 */
+	public static boolean checkAlbumClass(AlbumClass albumClass){
+		return true;
+	}
+	
+	/**
+	 * @title checkAlbum
+	 * @description 检查相册信息
+	 * @param album
+	 * @return
+	 */
+	public static boolean checkAlbum(Album album){
 		return true;
 	}
 }
