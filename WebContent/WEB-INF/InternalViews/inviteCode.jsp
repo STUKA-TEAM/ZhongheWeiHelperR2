@@ -25,7 +25,7 @@
         <div class="row website-tab">
         <form class="form-horizontal" role="form">
           <div class="form-group">
-          <button type="button" class="col-md-offset-1 btn btn-info btn-lg" onclick="createCodeWindow()">生成邀请码</button>
+          <button type="button" class="col-md-offset-1 btn btn-info btn-lg" onclick="createCodeWindow()">生成注册密码</button>
           </div>
           <div class="form-group">
           <div class="col-md-10 col-md-offset-1">
@@ -33,9 +33,9 @@
               <tr>
                 <th>注册码</th>
               </tr>
-              <c:forEach items="${infoList}" var="item">
+              <c:forEach items="${codes}" var="item">
               <tr>
-                <td>${item.storeName}</td>
+                <td>${item}</td>
               </tr>
               </c:forEach>
             </table>
@@ -51,7 +51,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title">创建注册码</h4>
+            <h4 class="modal-title">生成注册密码</h4>
           </div>
           <div class="modal-body">
               <div class="form-group">

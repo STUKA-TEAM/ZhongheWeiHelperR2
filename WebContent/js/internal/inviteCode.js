@@ -3,6 +3,12 @@ function createCodeWindow(){
 }
 function submitCreateCode(){
 	var number = $("#number").val();
+	if(number=="" || number < 1 || number > 10){
+		  $("#createCode").modal("hide");
+   	   	  $("#modalMes").html("输入数量有误！");
+   	      $("#operationMesModal").modal("show");
+   	      return;
+	}
 	$.ajax({
 	  	  type: "POST",
 	  	  url: "internal/invite/create",
