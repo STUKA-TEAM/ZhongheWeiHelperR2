@@ -38,21 +38,21 @@
             <div class="form-group">
               <label for="username" class="col-sm-2 control-label">用户名</label>
               <div class="col-sm-10">
-                <form:input type="text" class="form-control" id="username_input" path="username" placeholder="用户名"/>
+                <form:input type="text" class="form-control" id="username_input" path="username" placeholder=""/>
                 <form:errors path="username" class="input-error"></form:errors>
               </div>
             </div>
             <div class="form-group">
               <label for="password" class="col-sm-2 control-label">密码</label>
               <div class="col-sm-10">
-                <form:input type="password" class="form-control" id="password_input" path="password" placeholder="******"/>
+                <form:input type="password" class="form-control" id="password_input" path="password" placeholder=""/>
                 <form:errors path="password" class="input-error"></form:errors>
               </div>
             </div>
             <div class="form-group">
               <label for="confirmPassword" class="col-sm-2 control-label">确认密码</label>
               <div class="col-sm-10">
-                <form:input type="password" class="form-control" id="confirmPassword_input" path="confirmPassword" placeholder="******"/>
+                <form:input type="password" class="form-control" id="confirmPassword_input" path="confirmPassword" placeholder=""/>
                 <form:errors path="confirmPassword" class="input-error"></form:errors>
               </div>
             </div>
@@ -91,6 +91,13 @@
                 <form:errors path="corpMoreInfoLink" class="input-error"></form:errors>
               </div>
             </div>
+            <div class="form-group">
+              <label for="inviteCode" class="col-sm-2 control-label">注册密码</label>
+              <div class="col-sm-10">
+                <form:input type="text" class="form-control" id="inviteCode_input" path="inviteCode" placeholder=""/>
+                <form:errors path="inviteCode" class="input-error"></form:errors>
+              </div>
+            </div>            
             <div class="form-group">
               <label for="address" class="col-sm-2 control-label">商户地址</label>
               <div class="col-sm-10">

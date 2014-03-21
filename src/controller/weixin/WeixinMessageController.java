@@ -95,7 +95,7 @@ public class WeixinMessageController {
 						articles.add(join);
 					    return WeixinMessageUtil.newsMessageToXmlForResponse(xmlMap, articles);					
 					}
-					if(textContent.equals("elovedemo")){
+					if(textContent.equalsIgnoreCase("elovedemo")){
 						ArrayList<Integer> themeidList = (ArrayList<Integer>) MethodUtils.getEloveDemoIdList();
 						List<NewsItemToResponse> articles = new ArrayList<NewsItemToResponse>();
 

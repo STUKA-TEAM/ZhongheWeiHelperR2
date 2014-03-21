@@ -23,81 +23,46 @@
           <li class="active"> <a href="internal/invite/intial">注册码管理</a></li>
         </ol>
         <div class="row website-tab">
+        <form class="form-horizontal" role="form">
+          <div class="form-group">
+          <button type="button" class="col-md-offset-1 btn btn-info btn-lg" onclick="createCodeWindow()">生成邀请码</button>
+          </div>
+          <div class="form-group">
           <div class="col-md-10 col-md-offset-1">
             <table class="table table-striped table-bordered">
               <tr>
-                <th>创建时间</th>
-                <th>商户名称</th>
-                <th>付款联系电话</th>
-                <th></th>
+                <th>注册码</th>
               </tr>
               <c:forEach items="${infoList}" var="item">
               <tr>
-                <td><fmt:formatDate value="${item.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                 <td>${item.storeName}</td>
-                <td id="${item.sid}_contact">${item.contact}</td>
-                <td>
-                <a class="btn btn-sm btn-info" href="internal/customer/edit?sid=${item.sid}">管理</a>
-                <a class="btn btn-sm btn-info" onclick="editContact('${item.sid}')">编辑联系电话</a>
-                <a class="btn btn-sm btn-info" onclick="sendMessageWindow('${item.sid}')">发送短信</a>
-                </td>
               </tr>
               </c:forEach>
             </table>
           </div>
+          </div>
+        </form>
         </div>
       </div>
-    </div>
-    
+    </div>   
     <!-- Modal -->
-    <div class="modal fade" id="editInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="createCode" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title" id="infoName"></h4>
-            <input id="infoType" type="hidden"/>
+            <h4 class="modal-title">创建注册码</h4>
           </div>
           <div class="modal-body">
-            <div class="form-horizontal" role="form">
               <div class="form-group">
-                <label for="expired_date" class="col-sm-2 control-label">过期时间</label>
-                <div class="col-sm-10">
-                  <input type="text" class="form-control" id="expired_date" placeholder="">
+                <label for="number" class="col-sm-3 control-label">生成数量:</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="number" placeholder="1至10个">
                 </div>
               </div>
-              <div class="form-group">
-                <label for="price" class="col-sm-2 control-label">单价</label>
-                <div class="col-sm-10">
-                  <input type="text" class="form-control" id="price" placeholder="">
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="col-sm-offset-10 col-sm-2">
-                  <button type="submit" class="btn btn-default" onclick="submitEditAuthInfo()">确定</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-    
-    
-    <!-- Modal -->
-    <div class="modal fade" id="editNotPay" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title">Elove未付款编辑</h4>
-          </div>
-          <div class="modal-body">
-            <div  class="form-horizontal" id="eloveNotPayContent">
-            </div>
-          </div>
+          </div>       
           <div class="modal-footer">
-              <button type="button" class="btn btn-default" onclick="submitEditNotPay()">确定</button>
+              <button type="button" class="btn btn-default" onclick="submitCreateCode()">确定</button>
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
@@ -107,6 +72,6 @@
     <%@ include file="../InternalViews/commonDialog.jsp"%>
     <!-- include jQuery -->
     <%@ include file="../InternalViews/commonJSList.jsp"%>
-    <script type="text/javascript" src="js/internal/useradmin.js"></script>
+    <script type="text/javascript" src="js/internal/inviteCode.js"></script>
   </body>
 </html>

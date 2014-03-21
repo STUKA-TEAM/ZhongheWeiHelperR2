@@ -44,7 +44,6 @@
                 <th>文章标题</th>
                 <th>文章消息图片</th>
                 <th></th>
-                <th></th>
               </tr>
               <c:forEach items="${articleList}" var="item">
               <tr>
@@ -55,8 +54,10 @@
                 <img src="${item.coverPic}_original.jpg" class="pic-preview img-thumbnail img-responsive"/>
                 </c:if>
                 </td>
-                <td><a class="btn btn-sm btn-info" href="store/article/edit/update?articleid=${item.articleid}">编辑</a></td>
-                <td><a class="btn btn-sm btn-danger" onclick="submitDeleteArticle('${item.articleid}')">删除</a></td>
+                <td><a class="btn btn-sm btn-info" href="store/article/edit/update?articleid=${item.articleid}">编辑</a>
+                <a class="btn btn-sm btn-info" target="_blank" href="store/article/edit/update?articleid=${item.articleid}">预览</a>
+                <a class="btn btn-sm btn-info" href="store/article/edit/update?articleid=${item.articleid}">生成链接</a>
+                <a class="btn btn-sm btn-danger" onclick="submitDeleteArticle('${item.articleid}')">删除</a></td>                              
               </tr>
 			  </c:forEach>
             </table>
