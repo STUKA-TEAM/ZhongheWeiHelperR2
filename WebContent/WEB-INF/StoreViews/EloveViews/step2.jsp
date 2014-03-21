@@ -14,15 +14,15 @@
       <div class="panel-body row">
         <div  class="form-horizontal">
           <div class="form-group">
-            <label for="story_groom" class="col-md-3 control-label">新郎（照片左）</label>
+            <label for="story_groom" class="col-md-3 control-label">新人1（第一步“主照片”左）</label>
             <div class="col-md-7">
-              <input type="text" class="form-control" id="story_groom" placeholder="" value="${eloveWizard.xinLang}">
+              <input type="text" class="form-control" id="story_groom" placeholder="第一次保存后不可更改，请确认填写正确" value="${eloveWizard.xinLang}">
             </div>
           </div>
           <div class="form-group">
-            <label for="story_bride" class="col-md-3 control-label">新人（照片右）</label>
+            <label for="story_bride" class="col-md-3 control-label">新人2（第一步“主照片”右）</label>
             <div class="col-md-7">
-              <input type="text" class="form-control" id="story_bride" placeholder="" value="${eloveWizard.xinNiang}">
+              <input type="text" class="form-control" id="story_bride" placeholder="第一次保存后不可更改，请确认填写正确" value="${eloveWizard.xinNiang}">
             </div>
           </div>
           <form  class="form-group" role="form" enctype="multipart/form-data" id="upload1">
@@ -54,7 +54,7 @@
 		  <label for="elove_pic" class="col-md-3 control-label">相遇相知文字图片</label>
 		  <div class="col-md-7">
 		    <input type="file" name="file" class="image-file hidden" onchange="ye.value=value" accept="image/*">
-		    <input type="text" name=ye class="form-control file-path-elove">
+		    <input type="text" name=ye class="form-control file-path-elove" placeholder="两人相爱故事的文字图片">
 		    <input type="button" value="选择文件" onclick="file.click()" class="btn btn-sm btn-info">
 		    <input type="button" value="上传" class="image-original-png btn btn-sm btn-info">
 		  </div>

@@ -61,48 +61,67 @@ function getStep2Data(){
 	    return null;
 	}
 	var jsonData = getButtonNodeJson();
-	$.ajax({
-		  type: "GET",
-		  url: "store/createButton?accesstoken="+accesstoken+"&jsonData="+encodeURIComponent(jsonData),
-		  async: false,
-		  success: function (data) {
-			  if(data=="y"){
-				  step2Info.success = true;
-			  }else{
-				  step2Info.success = false;
-			  }			 
-			  step2Info.nodeList = nodeList;
+	if(jsonData == null){
+		return null;
+	}else{
+		$.ajax({
+			  type: "GET",
+			  url: "store/createButton?accesstoken="+accesstoken+"&jsonData="+encodeURIComponent(jsonData),
+			  async: false,
+			  success: function (data) {
+				  if(data=="y"){
+					  step2Info.success = true;
+				  }else{
+					  step2Info.success = false;
+				  }			 
+				  step2Info.nodeList = nodeList;
 
-		  },
-		  error: function(XMLHttpRequest, textStatus, errorThrown) {
-				$("#modalTitle").html("出现错误");
-				$("#modalMes").html(textStatus);
-			    $("#operationMesModal").modal("show");
-			    step2Info = null;
-		  }
-		});	
-	return step2Info;
+			  },
+			  error: function(XMLHttpRequest, textStatus, errorThrown) {
+					$("#modalTitle").html("出现错误");
+					$("#modalMes").html(textStatus);
+				    $("#operationMesModal").modal("show");
+				    step2Info = null;
+			  }
+			});
+		return step2Info;
+	}
 }
 
 function getButtonNodeJson(){
 	var firstButtonArray = new Array();
-	for(var i = 0; i < nodeList.length; i++){
-		if(nodeList[i].nodeType == 1){
-			var button = new Object();
-			button.name = nodeList[i].nodeName;
-			var childButton = getChildButtonArray(nodeList[i].UUID);
-			if(childButton.length>0){
-				button.sub_button = childButton;
-			}else{
-				button.type = "view";
-				button.url = nodeList[i].nodeLink;
-			}
-			firstButtonArray.push(button);
+	var blankInputArray = new Array();
+	for(var k = 0; k < nodeList.length; k++){
+		if(nodeList[k].nodeType==2&&nodeList[k].nodeLink==""){
+			blankInputArray.push(nodeList[k].nodeName);
+		}
+		if(nodeList[k].nodeType==1&&getChildButtonArray(nodeList[k].UUID).length==0&&nodeList[k].nodeLink==""){
+			blankInputArray.push(nodeList[k].nodeName);
 		}
 	}
-	var jsonObject = new Object();
-	jsonObject.button = firstButtonArray;
-	return JSON.stringify(jsonObject);
+	if(blankInputArray.length != 0){
+		showBlankInputHtml(blankInputArray);
+		return null;
+	}else{
+		for(var i = 0; i < nodeList.length; i++){
+			if(nodeList[i].nodeType == 1){
+				var button = new Object();
+				button.name = nodeList[i].nodeName;
+				var childButton = getChildButtonArray(nodeList[i].UUID);
+				if(childButton.length>0){
+					button.sub_button = childButton;
+				}else{
+					button.type = "view";
+					button.url = nodeList[i].nodeLink;
+				}
+				firstButtonArray.push(button);
+			}
+		}
+		var jsonObject = new Object();
+		jsonObject.button = firstButtonArray;
+		return JSON.stringify(jsonObject);
+	}
+
 }
 
 function getChildButtonArray(UUID){
@@ -127,7 +146,6 @@ function showBlankInputHtml(blankInputArray){
 	$("#modalTitle").html("信息不全，您需要完善下列信息：");
 	$("#modalMes").html(blankInputhtml);
     $("#operationMesModal").modal("show");
-
     return;
 }
 
@@ -208,9 +226,54 @@ function getAccessToken(appid, appSecret){
 		});	
 	return returnData;
 }
-function generateNodeLayer(){
-	
+function generateNodeLayer(){	
+	for(var i = 0; i < nodeList.length; i++){
+		if(nodeList[i].nodeType == 1){
+			addSavedFirstMenu(nodeList[i]);
+			for(var j = 0; j < nodeList.length; j++){
+				if(nodeList[j].nodeType == 2 && nodeList[i].UUID == nodeList[j].fatherUUID){
+					addSavedSecondMenu(nodeList[j]);
+				}
+			}
+		}
+	}
 }
+
+function addSavedFirstMenu(node){
+	var addHtml="<li id=\""+node.UUID+"\" class=\"1st\"><a data-toggle=\"collapse\" href=\"#"+node.UUID+"_sub\"><span id=\""+node.UUID+"_name\"  class=\"col-md-6\">"+node.nodeName+"</span>"
+	+"<button type=\"button\" class=\"btn btn-default btn-xs col-md-offset-2\" onclick=\"addSecondMenuWindow(this)\">"
+	+  "<span class=\"glyphicon glyphicon-plus\"></span>"
+	+"</button>"  
+	+"<button type=\"button\" class=\"btn btn-default btn-xs\" onclick=\"editButtonWindow(this)\">"
+	+ "<span class=\"glyphicon glyphicon-pencil\"></span>"
+	+"</button>"
+	+"<button type=\"button\" class=\"btn btn-default btn-xs\" onclick=\"deleteButtonWindow(this)\">"
+	+ "<span class=\"glyphicon glyphicon-trash\"></span>"
+	+"</button>"                  
+    +"</a>" 
+    +"<div id=\""+node.UUID+"_sub\" class=\"panel-collapse collapse in\">"
+    +"<ul id=\""+node.UUID+"_ul\" class=\"nav submenu\">"
+    +"</ul>"
+    +"</div>"
+    +"</li>";	
+	$("#menuButtons").append(addHtml);
+}
+
+function addSavedSecondMenu(node){
+    var addHtml = "<li id=\""+node.UUID+"\" class=\""+node.fatherUUID+"_2nd\">"
+    +"<a href=\"javascript:void(0)\"><span id=\""+node.UUID+"_name\"  class=\"col-md-6\">"+node.nodeName+"</span>"				
+    +"<button type=\"button\" class=\"btn btn-default btn-xs col-md-offset-2\" onclick=\"editButtonWindow(this)\">"
+    +"<span class=\"glyphicon glyphicon-pencil\"></span>"
+    +"</button>"
+    +"<button type=\"button\" class=\"btn btn-default btn-xs\" onclick=\"deleteButtonWindow(this)\">"
+    +"<span class=\"glyphicon glyphicon-trash\"></span>"
+    +"</button>"
+    +"</a>"
+    +"</li>";
+    $("#"+node.fatherUUID+"_ul").append(addHtml);
+    $("#"+node.fatherUUID+"_sub").collapse("show");
+}
+
 function backStep(backStep){
 	  $.ajax({
 	  type: "GET",
@@ -360,12 +423,17 @@ function deleteButtonWindow(obj){
 }
 function deleteButton(){
 	var deleteId = $("#deleteButtonId").val();
+	var childUUIDList = new Array();
 	$.each(nodeList,function(key,val){
 			if(nodeList[key].fatherUUID==deleteId){
-				nodeList.splice(key,1);
+				childUUIDList.push(nodeList[key].UUID);
 			}
 		  });
 	nodeList.splice(getNodeKeyFromUUID(deleteId),1);
+	for(var i = 0; i < childUUIDList.length; i++){
+		nodeList.splice(getNodeKeyFromUUID(childUUIDList[i]),1);
+		
+	}
 	$("#"+deleteId).remove();
 	$("#deleteButtonWindow").modal("hide");
 }
