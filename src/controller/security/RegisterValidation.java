@@ -24,6 +24,7 @@ public class RegisterValidation implements Validator{
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "storeName", "NotEmpty.UserInfo.storeName", "商店名不能为空");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "cellPhone", "NotEmpty.UserInfo.cellPhone", "手机号码不能为空");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "address", "NotEmpty.UserInfo.address", "地址不能为空");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "inviteCode", "NotEmpty.UserInfo.inviteCode", "注册码不能为空");
 		
 		UserInfo userInfo = (UserInfo)target;
 		
@@ -45,6 +46,9 @@ public class RegisterValidation implements Validator{
 		}
 		if (!CommonValidationTools.checkLocation(userInfo.getLng(), userInfo.getLat())) {
 			errors.rejectValue("address", "NotValid.UserInfo.address", "请选择定位");
+		}
+		if(!CommonValidationTools.checkInviteCode(userInfo.getInviteCode())){
+			errors.rejectValue("inviteCode", "NotValid.UserInfo.inviteCode", "注册码无效");
 		}
 	}
 

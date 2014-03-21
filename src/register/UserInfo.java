@@ -27,7 +27,7 @@ public class UserInfo {
 	private String corpMoreInfoLink;
 	private BigDecimal lng;
 	private BigDecimal lat;
-
+    private String inviteCode;
 	private String contact;
 	
 	/**
@@ -209,6 +209,18 @@ public class UserInfo {
 	 */
 	public void setLat(BigDecimal lat) {
 		this.lat = lat;
+	}
+	/**
+	 * @return the inviteCode
+	 */
+	public String getInviteCode() {
+		return inviteCode;
+	}
+	/**
+	 * @param inviteCode the inviteCode to set
+	 */
+	public void setInviteCode(String inviteCode) {
+		this.inviteCode = inviteCode;
 	}
 	/**
 	 * @return the contact
