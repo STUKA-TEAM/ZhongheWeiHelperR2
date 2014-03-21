@@ -32,6 +32,13 @@ Windows:
             id           int(11)      No         <auto_increment>       Yes                 
             nodeid       int(11)      No         0                      No                  菜单节点id
             childid      int(11)      No         0                      No                  子节点id
+[2014-3-21][index: 0012]表elove修改weddingDate字段  Length由15改为40
+[2014-3-21][index: 0013]添加表invite
+[2014-3-21][index: 0013]添加表invite
+            Name         Type         NULL       Default                Primary Key         Comment
+        ---------------------------------------------------------------------------------------------------------------------------------
+            id           int(11)      No         <auto_increment>       Yes                 
+            code         varchar(6)   No                                No                  注册码
 
 Linux:
 [2014-2-22][index: 0001]done
@@ -43,3 +50,4 @@ Linux:
 [2014-2-22][index: 0007]done
 [2014-2-22][index: 0008]done
 [2014-2-22][index: 0009]done
+[2014-3-21][index: 0012]done

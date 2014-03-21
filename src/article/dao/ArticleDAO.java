@@ -226,7 +226,7 @@ public class ArticleDAO {
 					insertImageTempRecord(imagePath.substring(0, index), current);
 				}
 			}			
-		}else {
+		} else {
 			return 0;
 		}
 		
