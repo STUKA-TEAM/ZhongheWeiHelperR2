@@ -109,6 +109,7 @@ public class WebsiteWizardController {
 		website.setCoverPic(step1Info.getCoverPic());
 		website.setCoverText(step1Info.getCoverText());
 		website.setShareTitle(step1Info.getShareTitle());
+		website.setSharePic(step1Info.getSharePic());
 		website.setShareContent(step1Info.getShareContent());
 		website.setFooterText(step1Info.getFooterText());
 		website.setThemeId(step1Info.getThemeId());
