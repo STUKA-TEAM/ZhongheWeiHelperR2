@@ -1,7 +1,9 @@
 package controller.store;
 
+import java.io.InputStream;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -26,6 +28,7 @@ import com.google.gson.Gson;
 import register.dao.AppInfoDAO;
 import security.User;
 import tools.CommonValidationTools;
+import website.ViewLinkInfo;
 import website.dao.WebsiteDAO;
 import article.Article;
 import article.ArticleClass;
@@ -73,9 +76,22 @@ public class ArticleClassController {
 			else {	
 				List<ArticleClass> classList = articleDao.getDetailedClassinfos(appid);
 				model.addAttribute("classList", classList);
-				
+		
 				Integer websiteid = websiteDao.getWebsiteidByAppid(appid);
-				model.addAttribute("websiteid", websiteid);
+				InputStream inputStream = ArticleClassController.class.getResourceAsStream("/environment.properties");
+				Properties properties = new Properties();
+				String appPath = null;
+				try {
+					properties.load(inputStream);
+					appPath = (String)properties.get("applicationPath");
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
+				}
+				
+				ViewLinkInfo viewLinkInfo = new ViewLinkInfo();
+				viewLinkInfo.setWebsiteid(websiteid);
+				viewLinkInfo.setAppPath(appPath);
+				model.addAttribute("viewLinkInfo", viewLinkInfo);
 				return "ArticleViews/articleclassList";
 			}
 		}
