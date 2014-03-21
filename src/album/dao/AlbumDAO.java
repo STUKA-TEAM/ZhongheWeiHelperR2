@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +19,7 @@ import org.springframework.jdbc.support.KeyHolder;
 
 import album.Album;
 import album.AlbumClass;
+import album.Photo;
 /**
  * @Title: AlbumDAO
  * @Description: DAO for album and albumclass model
@@ -35,8 +37,55 @@ public class AlbumDAO {
 	}
 	
 	//insert
+	/**
+	 * @title insertAlbum
+	 * @description 插入相册信息及所关联相册集信息
+	 * @param album
+	 * @return
+	 */
 	public int insertAlbum(final Album album){
-		return 0;
+		int result = 0;
+		final String SQL = "INSERT INTO album (albumid, appid, albumName, coverPic, createTime) VALUES (default, ?, ?, ?, ?)";
+		
+		KeyHolder kHolder = new GeneratedKeyHolder();
+		result = jdbcTemplate.update(new PreparedStatementCreator() {
+		    public PreparedStatement createPreparedStatement(Connection connection) throws SQLException{
+		        PreparedStatement ps =
+		            connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
+		        ps.setString(1, album.getAppid());
+		        ps.setString(2, album.getAlbumName());
+		        ps.setString(3, album.getCoverPic());
+		        ps.setTimestamp(4, album.getCreateTime());
+		        return ps;
+		    }
+		}, kHolder);
+		
+		if (result > 0) {
+			String coverPic = album.getCoverPic();
+			if (coverPic != null && !coverPic.equals("")) {
+				deleteImageTempRecord(coverPic);
+			}
+			
+			int albumid = kHolder.getKey().intValue();
+			result = insertACRByAlbumid(albumid, album.getClassidList());
+			if (result == 0) {
+				return -1;
+			}
+			
+			result = insertPhotoList(albumid, album.getPhotoList());
+			if (result == 0) {
+				return -2;
+			}
+			
+			result = deletePhotoImageTempRecord(album.getPhotoList());
+			if (result == 0) {
+				return -3;
+			}
+			
+			return result;
+		} else {
+			return 0;
+		}
 	}
 	
 	/**
@@ -75,6 +124,31 @@ public class AlbumDAO {
 	}
 	
 	/**
+	 * @title insertPhotoList
+	 * @description 插入照片集信息
+	 * @param albumid
+	 * @param photoList
+	 * @return
+	 */
+	private int insertPhotoList(int albumid, List<Photo> photoList){
+		String SQL = "INSERT INTO album_image (id, albumid, imagePath, imageDesc) VALUES (default, ?, ?, ?)";
+		int result = 1;
+		
+		if (photoList != null) {
+			for (int i = 0; i < photoList.size(); i++) {
+				Photo photo = photoList.get(i);
+				result = jdbcTemplate.update(SQL, albumid, photo.getImagePath(), photo.getImageDesc());
+				if (result <= 0) {
+					return 0;
+				}
+			}
+			return result;
+		} else {
+			return result;
+		}
+	}
+	
+	/**
 	 * @title insertACRByClassid
 	 * @description 插入相册集AlbumClass和相册Album的关系Relationship
 	 * @param classid
@@ -98,9 +172,108 @@ public class AlbumDAO {
 			return result;
 		}
 	}
+	
+	/**
+	 * @title insertACRByAlbumid
+	 * @description 插入相册集AlbumClass和相册Album的关系Relationship
+	 * @param albumid
+	 * @param classidList
+	 * @return
+	 */
+	private int insertACRByAlbumid(int albumid, List<Integer> classidList){
+		String SQL = "INSERT INTO album_albumclass (id, albumid, classid) VALUES (default, ?, ?)";
+		int result = 1;
+		
+		if (classidList != null) {
+			for (int i = 0; i < classidList.size(); i++) {
+				int classid = classidList.get(i);
+				result = jdbcTemplate.update(SQL, albumid, classid);
+				if (result <= 0) {
+					return 0;
+				}
+			}
+			return result;
+		} else {
+			return result;
+		}
+	}
+	
+	/**
+	 * @title: insertImageTempRecord
+	 * @description: 将要删除图片的信息存入临时表
+	 * @param imagePath
+	 * @param current
+	 * @return
+	 */
+	private int insertImageTempRecord(String imagePath, Timestamp current){
+		String SQL = "INSERT INTO image_temp_record (id, imagePath, createDate) VALUES (default, ?, ?)";		
+		int result = jdbcTemplate.update(SQL, imagePath, current);
+		return result <= 0 ? 0 : result;
+	}
 
 	//delete
+	/**
+	 * @title deletePhotoImageTempRecord
+	 * @description 删除照片图片缓存记录
+	 * @param photoList
+	 * @return
+	 */
+	private int deletePhotoImageTempRecord(List<Photo> photoList){
+		int result = 1;
+		
+		if (photoList != null) {
+			for (int i = 0; i < photoList.size(); i++) {
+				result = deleteImageTempRecord(photoList.get(i).getImagePath());
+				if (result == 0) {
+					return 0;
+				}
+			}
+			return result;
+		} else {
+			return result;
+		}
+	}
+	
+	/**
+	 * @title: deleteImageTempRecord
+	 * @description: 删除图片在临时表中记录
+	 * @param imagePath
+	 * @return
+	 */
+	private int deleteImageTempRecord(String imagePath){
+		String SQL = "DELETE FROM image_temp_record WHERE imagePath = ?";
+		int effected = jdbcTemplate.update(SQL, imagePath);
+		return effected <= 0 ? 0 : effected;
+	}
+	
 	public int deleteAlbum(int albumid){
+		String SQL = "DELETE FROM album WHERE albumid = ?";
+		int result = 0;
+		
+		Album album = getAlbumMedia(albumid);
+		if (album != null) {
+			Timestamp current = new Timestamp(System.currentTimeMillis());
+			
+			String coverPic = album.getCoverPic();
+			if (coverPic != null && !coverPic.equals("")) {
+				insertImageTempRecord(coverPic, current);
+			}
+			
+			
+			
+			for (int i = 0; i < album.getPhotoList().size(); i++) {
+				Photo photo = album.getPhotoList().get(i);
+				insertImageTempRecord(photo.getImagePath(), current);
+			}
+		} else {
+			return 0;
+		}
+		
+		result = jdbcTemplate.update(SQL, albumid);
+		if (result > 0) {
+			deleteACRByAlbumid(albumid);
+			
+		}
 		return 0;
 	}
 	
@@ -121,13 +294,25 @@ public class AlbumDAO {
 	
 	/**
 	 * @title deleteACRByClassid
-	 * @description 根据相册集albumid删除相册album与相册集albumclass之间的关系
+	 * @description 根据相册集classid删除相册album与相册集albumclass之间的关系
 	 * @param classid
 	 * @return
 	 */
 	public int deleteACRByClassid(int classid){
 		String SQL = "DELETE FROM album_albumclass WHERE classid = ?";
 		int result = jdbcTemplate.update(SQL, classid);
+		return result <= 0 ? 0 : result;
+	}
+	
+	/**
+	 * @title deleteACRByAlbumid
+	 * @description 根据相册albumid删除相册album与相册集albumclass之间的关系
+	 * @param albumid
+	 * @return
+	 */
+	public int deleteACRByAlbumid(int albumid){
+		String SQL = "DELETE FROM album_albumclass WHERE albumid = ?";
+		int result = jdbcTemplate.update(SQL, albumid);
 		return result <= 0 ? 0 : result;
 	}
 	
@@ -159,9 +344,38 @@ public class AlbumDAO {
 	}
 	
 	//query
+	/**
+	 * @title getAlbumContent
+	 * @description 根据albumid查询相册基本信息以及关联相册信息 (albumid, albumName, coverPic, classidList, photoList)
+	 * @param albumid
+	 * @return
+	 */
 	public Album getAlbumContent(int albumid){
-		Album album = new Album();
+		Album album = null;
+		String SQL = "SELECT albumid, albumName, coverPic FROM album WHERE albumid = ?";
+		
+		try {
+			album = jdbcTemplate.queryForObject(SQL, new Object[]{albumid}, new AlbumContentMapper());
+		} catch (Exception e) {
+			System.out.println("getAlbumContent: " + e.getMessage());
+		}
+		
+		if (album != null) {
+			album.setClassidList(getClassidList(album.getAlbumid()));
+			album.setPhotoList(getPhotoList(album.getAlbumid()));
+		}	
 		return album;
+	}
+	
+	private static final class AlbumContentMapper implements RowMapper<Album>{
+		@Override
+		public Album mapRow(ResultSet rs, int arg1) throws SQLException {
+			Album album = new Album();
+			album.setAlbumid(rs.getInt("A.albumid"));
+			album.setAlbumName(rs.getString("A.albumName"));
+			album.setCoverPic(rs.getString("A.coverPic"));
+			return album;
+		}	
 	}
 	
 	/**
@@ -252,6 +466,32 @@ public class AlbumDAO {
 	}
 	
 	/**
+	 * @title getClassidList
+	 * @description 根据albumid查询相册所属的相册集id列表
+	 * @param albumid
+	 * @return
+	 */
+	public List<Integer> getClassidList(int albumid){
+		List<Integer> classidList = null;
+		String SQL = "SELECT classid FROM album_albumclass WHERE albumid = ?";
+		try {
+			classidList = jdbcTemplate.query(SQL, new Object[]{albumid}, new ClassidMapper());
+		} catch (Exception e) {
+			System.out.println("getClassidList: " + e.getMessage());
+			classidList = new ArrayList<Integer>();
+		}
+		return classidList;
+	}
+	
+	private static final class ClassidMapper implements RowMapper<Integer>{
+		@Override
+		public Integer mapRow(ResultSet rs, int arg1) throws SQLException {
+			Integer classid = rs.getInt("classid");
+			return classid;
+		}
+	}
+	
+	/**
 	 * @title getAlbumidList
 	 * @description 根据classid查询相册集关联的相册id列表
 	 * @param classid
@@ -274,6 +514,37 @@ public class AlbumDAO {
 		public Integer mapRow(ResultSet rs, int arg1) throws SQLException {
 			Integer albumid = rs.getInt("albumid");
 			return albumid;
+		}
+	}
+	
+	/**
+	 * @title getAlbumMedia
+	 * @description 根据albumid查询相册媒介信息 (coverPic, photoList)
+	 * @param albumid
+	 * @return
+	 */
+	public Album getAlbumMedia(int albumid){
+		String SQL = "SELECT coverPic FROM album WHERE albumid = ?";
+		Album album = null;
+		
+		try {
+			album = jdbcTemplate.queryForObject(SQL, new Object[]{albumid}, new AlbumBasicMediaMapper());
+		} catch (Exception e) {
+			System.out.println("getAlbumBasicMedia: " + e.getMessage());
+		}
+		
+		if (album != null) {
+			album.setPhotoList(getPhotoImageList(albumid));
+		}
+		return album;
+	}
+	
+	private static final class AlbumBasicMediaMapper implements RowMapper<Album>{
+		@Override
+		public Album mapRow(ResultSet rs, int arg1) throws SQLException {
+			Album album = new Album();
+			album.setCoverPic(rs.getString("coverPic"));
+			return album;
 		}
 	}
 
@@ -404,5 +675,62 @@ public class AlbumDAO {
 			System.out.println("getPhotoCount: " + e.getMessage());
 		}
 		return count;
+	}
+	
+	/**
+	 * @title getPhotoList
+	 * @description 根据albumid获取相册照片信息 (imagePath, imageDesc)
+	 * @param albumid
+	 * @return
+	 */
+	public List<Photo> getPhotoList(int albumid){
+		List<Photo> photoList = null;
+		String SQL = "SELECT imagePath, imageDesc FROM album_image WHERE albumid = ?";
+		
+		try {
+			photoList = jdbcTemplate.query(SQL, new Object[]{albumid}, new PhotoMapper());
+		} catch (Exception e) {
+			System.out.println("getPhotoList: " + e.getMessage());
+			photoList = new ArrayList<Photo>();
+		}
+		return photoList;
+	}
+	
+	private static final class PhotoMapper implements RowMapper<Photo>{
+		@Override
+		public Photo mapRow(ResultSet rs, int arg1) throws SQLException {
+			Photo photo = new Photo();
+			photo.setImagePath(rs.getString("imagePath"));
+			photo.setImageDesc(rs.getString("imageDesc"));
+			return photo;
+		}		
+	}
+	
+	/**
+	 * @title getPhotoImageList
+	 * @description 根据albumid获取相册照片信息 (imagePath)
+	 * @param albumid
+	 * @return
+	 */
+	public List<Photo> getPhotoImageList(int albumid){
+		List<Photo> photoList = null;
+		String SQL = "SELECT imagePath FROM album_image WHERE albumid = ?";
+		
+		try {
+			photoList = jdbcTemplate.query(SQL, new Object[]{albumid}, new PhotoImageMapper());
+		} catch (Exception e) {
+			System.out.println("getPhotoList: " + e.getMessage());
+			photoList = new ArrayList<Photo>();
+		}
+		return photoList;
+	}
+	
+	private static final class PhotoImageMapper implements RowMapper<Photo>{
+		@Override
+		public Photo mapRow(ResultSet rs, int arg1) throws SQLException {
+			Photo photo = new Photo();
+			photo.setImagePath(rs.getString("imagePath"));
+			return photo;
+		}		
 	}
 }
