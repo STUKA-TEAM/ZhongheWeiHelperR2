@@ -1,8 +1,10 @@
 package controller.customer;
 
+import java.io.InputStream;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import controller.store.ArticleController;
 import register.dao.AuthInfoDAO;
 import register.dao.UserInfoDAO;
 import article.Article;
@@ -66,6 +69,22 @@ public class WebsiteController {
 			
 			List<WebsiteNode> nodeList = websiteDao.getFirstLayerNodeList(websiteid);
 			model.addAttribute("nodes", nodeList);
+			
+			InputStream inputStream = WebsiteController.class.getResourceAsStream("/environment.properties");
+			Properties properties = new Properties();
+			String appLink = null;
+			String imageLink = null;
+			try {
+				properties.load(inputStream);
+				appLink = (String)properties.get("applicationPath");
+				imageLink = (String) properties.get("imageHost");
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
+			appLink = appLink + "customer/website/home?websiteid=" + websiteid;
+			imageLink = imageLink + website.getSharePic();
+			model.addAttribute("appLink", appLink);
+			model.addAttribute("imageLink", imageLink);
 			
 			viewName = viewName + "website-" + website.getThemeId();
 		}else {
