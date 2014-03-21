@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import register.dao.AppInfoDAO;
 import security.User;
 import tools.CommonValidationTools;
+import website.dao.WebsiteDAO;
 
 import com.google.gson.Gson;
 
@@ -56,6 +57,7 @@ public class ArticleController {
 				new ClassPathXmlApplicationContext("All-Modules.xml");
 		AppInfoDAO appInfoDao = (AppInfoDAO) context.getBean("AppInfoDAO");
 		ArticleDAO articleDao = (ArticleDAO) context.getBean("ArticleDAO");
+		WebsiteDAO websiteDao = (WebsiteDAO) context.getBean("WebsiteDAO");
 		((ConfigurableApplicationContext)context).close();
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -93,7 +95,10 @@ public class ArticleController {
 						break;
 					}
 				}
-				model.addAttribute("classList", classes);		
+				model.addAttribute("classList", classes);
+				
+				Integer websiteid = websiteDao.getWebsiteidByAppid(appid);
+				model.addAttribute("websiteid", websiteid);
 				return "ArticleViews/articleList";
 			}
 		}

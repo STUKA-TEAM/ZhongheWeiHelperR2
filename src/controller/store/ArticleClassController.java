@@ -26,6 +26,7 @@ import com.google.gson.Gson;
 import register.dao.AppInfoDAO;
 import security.User;
 import tools.CommonValidationTools;
+import website.dao.WebsiteDAO;
 import article.Article;
 import article.ArticleClass;
 import article.dao.ArticleDAO;
@@ -53,6 +54,7 @@ public class ArticleClassController {
 				new ClassPathXmlApplicationContext("All-Modules.xml");
 		AppInfoDAO appInfoDao = (AppInfoDAO) context.getBean("AppInfoDAO");
 		ArticleDAO articleDao = (ArticleDAO) context.getBean("ArticleDAO");
+		WebsiteDAO websiteDao = (WebsiteDAO) context.getBean("WebsiteDAO");
 		((ConfigurableApplicationContext)context).close();
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -71,6 +73,9 @@ public class ArticleClassController {
 			else {	
 				List<ArticleClass> classList = articleDao.getDetailedClassinfos(appid);
 				model.addAttribute("classList", classList);
+				
+				Integer websiteid = websiteDao.getWebsiteidByAppid(appid);
+				model.addAttribute("websiteid", websiteid);
 				return "ArticleViews/articleclassList";
 			}
 		}

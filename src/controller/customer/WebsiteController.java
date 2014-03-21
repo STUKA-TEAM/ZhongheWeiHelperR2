@@ -152,7 +152,8 @@ public class WebsiteController {
 	}
 	
 	/**
-	 * @description: 根据articleid获取单篇文章内容信息
+	 * @title getArticle
+	 * @description 根据articleid获取单篇文章内容信息
 	 * @param model
 	 * @param articleid
 	 * @return
@@ -181,5 +182,37 @@ public class WebsiteController {
 		}
 		
 		return viewName;
+	}
+	
+	/**
+	 * @title getArticleClass
+	 * @description 根据classid获取文章类别下文章列表信息
+	 * @param model
+	 * @param classid
+	 * @param websiteid
+	 * @return
+	 */
+	@RequestMapping(value = "/articleclass", method = RequestMethod.GET)
+	public String getArticleClass(Model model, @RequestParam(value = "classid", required = true) int classid,
+			@RequestParam(value = "websiteid", required = true) int websiteid){
+		ApplicationContext context = 
+				new ClassPathXmlApplicationContext("All-Modules.xml");
+		WebsiteDAO websiteDao = (WebsiteDAO) context.getBean("WebsiteDAO");
+		ArticleDAO articleDao = (ArticleDAO) context.getBean("ArticleDAO");
+		((ConfigurableApplicationContext)context).close();
+		
+		List<Integer> articleidList = articleDao.getArticleidList(classid);
+		List<Article> articleList = new ArrayList<Article>();
+		for (int i = 0; i < articleidList.size(); i++) {
+			Article article = articleDao.getArticleIntroinfo(articleidList.get(i));
+			if (article != null) {
+				articleList.add(article);
+			}
+		}	
+		model.addAttribute("articleList", articleList);
+		
+		Website website = websiteDao.getWebsiteInfoForCustomer(websiteid);	
+        model.addAttribute("website", website);
+		return "WebsiteViews/articleclass";
 	}
 }
