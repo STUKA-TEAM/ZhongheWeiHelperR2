@@ -34,7 +34,6 @@ Windows:
             childid      int(11)      No         0                      No                  子节点id
 [2014-3-21][index: 0012]表elove修改weddingDate字段  Length由15改为40
 [2014-3-21][index: 0013]添加表invite
-[2014-3-21][index: 0013]添加表invite
             Name         Type         NULL       Default                Primary Key         Comment
         ---------------------------------------------------------------------------------------------------------------------------------
             id           int(11)      No         <auto_increment>       Yes                 

@@ -39,6 +39,19 @@ public class InviteDAO {
 		}
 	}
 	
+	//delete
+	/**
+	 * @title deleteCode
+	 * @description 删除注册码
+	 * @param code
+	 * @return
+	 */
+	public int deleteCode(String code){
+		String SQL = "DELETE FROM invite WHERE code = ?";
+		int result = jdbcTemplate.update(SQL, code);
+		return result <= 0 ? 0 : result;
+	}
+	
 	//query
 	/**
 	 * @title getCodeList

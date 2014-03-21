@@ -27,6 +27,7 @@ import register.AppInfo;
 import register.AuthInfo;
 import register.UserInfo;
 import register.Welcome;
+import register.dao.InviteDAO;
 import register.dao.UserInfoDAO;
 import website.Website;
 import website.dao.WebsiteDAO;
@@ -65,6 +66,28 @@ public class CommonValidationTools {
 		
 		int count = userInfoDao.getUserCount(username);
 		return count == 0;
+	}
+	
+	/**
+	 * @title checkInviteCode
+	 * @description 验证注册码是否有效
+	 * @param code
+	 * @return
+	 */
+	public static boolean checkInviteCode(String code){
+		ApplicationContext context = 
+				new ClassPathXmlApplicationContext("All-Modules.xml");
+		InviteDAO inviteDao = (InviteDAO) context.getBean("InviteDAO");
+		((ConfigurableApplicationContext)context).close();
+		
+		List<String> codeList = inviteDao.getCodeList();
+		for (int i = 0; i < codeList.size(); i++) {
+			if (code.equalsIgnoreCase(codeList.get(i))) {
+				inviteDao.deleteCode(codeList.get(i));
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	/**
