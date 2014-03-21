@@ -11,7 +11,7 @@
     <meta name="author" content="zhonghe">
     <c:set var="request" value="${pageContext.request}" />
     <base href="${fn:replace(request.requestURL, request.requestURI, request.contextPath)}/" />
-    <title>众合微信公共账号管理平台</title>
+    <title>图卡微信公共账号管理平台</title>
     <!-- Bootstrap core CSS -->
     <link href="css/store/bootstrap.min.css" rel="stylesheet">
     <link href="css/store/zhonghe-wechat.css" rel="stylesheet">

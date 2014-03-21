@@ -20,7 +20,7 @@
       
        <div class="col-md-10 manager-content">
         <ol class="breadcrumb">
-          <li class="active">用户管理</li>
+          <li class="active"> <a href="internal/invite/intial">注册码管理</a></li>
         </ol>
         <div class="row website-tab">
           <div class="col-md-10 col-md-offset-1">
@@ -47,54 +47,57 @@
           </div>
         </div>
       </div>
-
     </div>
     
-    <!-- Edit Contact Modal -->
-    <div class="modal fade" id="edit_contact" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <!-- Modal -->
+    <div class="modal fade" id="editInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title">编辑联系电话</h4>
+            <h4 class="modal-title" id="infoName"></h4>
+            <input id="infoType" type="hidden"/>
           </div>
           <div class="modal-body">
+            <div class="form-horizontal" role="form">
               <div class="form-group">
-                <label for="store_contact" class="col-sm-3 control-label">联系电话:</label>
-                <div class="col-sm-9">
-                  <input type="text" class="form-control" id="store_contact" placeholder="">
-                  <input type="hidden" class="form-control" id="store_id" placeholder="">
+                <label for="expired_date" class="col-sm-2 control-label">过期时间</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="expired_date" placeholder="">
                 </div>
               </div>
-          </div>       
-          <div class="modal-footer">
-              <button type="button" class="btn btn-default" onclick="submitEditContact()">确定</button>
+              <div class="form-group">
+                <label for="price" class="col-sm-2 control-label">单价</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="price" placeholder="">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-offset-10 col-sm-2">
+                  <button type="submit" class="btn btn-default" onclick="submitEditAuthInfo()">确定</button>
+                </div>
+              </div>
+            </div>
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
     
-    <!-- Send Message Modal -->
-    <div class="modal fade" id="sendMessage" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    
+    <!-- Modal -->
+    <div class="modal fade" id="editNotPay" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title">发送短信</h4>
+            <h4 class="modal-title">Elove未付款编辑</h4>
           </div>
           <div class="modal-body">
-          <div class="form-horizontal" role="form">
-              <div class="form-group">
-                <label for="store_contact" class="col-sm-3 control-label">发送内容:</label>
-                <div class="col-sm-9">
-                  <textarea rows="4" cols="15"  class="form-control" id="messageContent" ></textarea>
-                  <input type="hidden" class="form-control" id="message_sid" placeholder="">
-                </div>
-              </div>
+            <div  class="form-horizontal" id="eloveNotPayContent">
+            </div>
           </div>
-          </div>       
           <div class="modal-footer">
-              <button type="button" class="btn btn-default" onclick="sendMessage()">确定</button>
+              <button type="button" class="btn btn-default" onclick="submitEditNotPay()">确定</button>
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
