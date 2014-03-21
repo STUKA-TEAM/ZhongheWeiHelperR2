@@ -41,8 +41,8 @@
     <%@ include file="../CommonViews/shareJS.jsp"%>
     <script type="text/javascript">
     window.shareInfo = new Object();
-    shareInfo.imgUrl = '${website.sharePic}';
-    shareInfo.link = '${website.websiteid}';
+    shareInfo.imgUrl = '${imageLink}_original.jpg';
+    shareInfo.link = '${appLink}';
     shareInfo.desc = '${website.shareContent}';
     shareInfo.title = '${website.shareTitle}';
     </script>
