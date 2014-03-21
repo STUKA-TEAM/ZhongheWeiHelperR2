@@ -10,7 +10,7 @@
         <h4 class="modal-title" id="myModalLabel">查看链接</h4>
       </div>
       <div class="modal-body">
-        <dl class="dl-horizontal">
+        <dl >
           <dt><h4><strong id="itemName"></strong></h4></dt>
           <dd><pre id="itemValue"></pre></dd>
         </dl>
@@ -30,8 +30,8 @@ function viewLink(name, value, websiteid){
       return;
 	}else{
 		$("#viewLink").modal('show');
-		$("#itemName").val(name);
-		$("#itemValue").val(value);
+		$("#itemName").html(name);
+		$("#itemValue").html(value);
 	}
 }
 </script>

@@ -57,8 +57,8 @@
                 </c:if>
                 </td>
                 <td><a class="btn btn-sm btn-info" href="store/article/edit/update?articleid=${item.articleid}">编辑</a>
-                <a class="btn btn-sm btn-info" target="_blank" href="customer/article?websiteid=${websiteid}&articleid=${item.articleid}">预览</a>
-                <a class="btn btn-sm btn-info" href="viewLink('文章链接','customer/article?websiteid=${websiteid}&articleid=${item.articleid}',${websiteid})">生成链接</a>
+                <a class="btn btn-sm btn-info" target="_blank" href="customer/article?websiteid=${viewLinkInfo.websiteid}&articleid=${item.articleid}">预览</a>
+                <a class="btn btn-sm btn-info" onclick="viewLink('文章链接','${viewLinkInfo.appPath}customer/article?websiteid=${viewLinkInfo.websiteid}&articleid=${item.articleid}',${viewLinkInfo.websiteid})">生成链接</a>
                 <a class="btn btn-sm btn-danger" onclick="submitDeleteArticle('${item.articleid}')">删除</a></td>                              
               </tr>
 			  </c:forEach>
