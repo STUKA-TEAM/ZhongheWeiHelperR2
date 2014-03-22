@@ -8,17 +8,21 @@ div {
   max-width: 360px;
   text-align:center; 
 }
+.toolbar{
+	padding-left:2%;
+}
 .navbar-icon {
-  width: 23px;
+  width: 26px;
   height: auto;
 }
 .navbar-item {
-  font-size: 14px;
-  width: 22%;
+  font-size: 15px;
+  width: 23%;
   height: 100%;
   margin-left: 1%;
   padding-top: 10px;
   padding-bottom: 5px;
+  float:left;
 }
 .navbar-item-border {
   border-right-style: dashed;

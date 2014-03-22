@@ -46,9 +46,9 @@ public class WebsiteDAO {
 	public int insertWebsite(final Website website){
 		int result = 0;
 		final String SQL = "INSERT INTO website (websiteid, appid, getCode, title, "
-				+ "phone, address, lng, lat, createTime, coverPic, "
-				+ "coverText, shareTitle, shareContent, footerText, themeId) "
-				+ "VALUES (default, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+				+ "phone, address, lng, lat, createTime, coverPic, coverText, "
+				+ "shareTitle, sharePic, shareContent, footerText, themeId) "
+				+ "VALUES (default, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		KeyHolder kHolder = new GeneratedKeyHolder();
 		result = jdbcTemplate.update(new PreparedStatementCreator() {
@@ -66,15 +66,19 @@ public class WebsiteDAO {
 		        ps.setString(9, website.getCoverPic());
 		        ps.setString(10, website.getCoverText());
 		        ps.setString(11, website.getShareTitle());
-		        ps.setString(12, website.getShareContent());
-		        ps.setString(13, website.getFooterText());
-		        ps.setInt(14, website.getThemeId());
+		        ps.setString(12, website.getSharePic());
+		        ps.setString(13, website.getShareContent());
+		        ps.setString(14, website.getFooterText());
+		        ps.setInt(15, website.getThemeId());
 		        return ps;
 		    }
 		}, kHolder);
 		
 		if (result > 0) {
 			deleteImageTempRecord(website.getCoverPic());
+			if (website.getSharePic() != null && !website.getSharePic().equals("")) {
+				deleteImageTempRecord(website.getSharePic());
+			}
 			
 			int websiteid = kHolder.getKey().intValue();
 			if (website.getImageList() != null) {
@@ -290,6 +294,9 @@ public class WebsiteDAO {
 		if (temp != null) {
 			Timestamp current = new Timestamp(System.currentTimeMillis());
 			insertImageTempRecord(temp.getCoverPic(), current);
+			if (temp.getSharePic() != null && !temp.getSharePic().equals("")) {
+				insertImageTempRecord(temp.getSharePic(), current);
+			}
 		}else {
 			return 0;
 		}
@@ -424,8 +431,8 @@ public class WebsiteDAO {
 	public int updateWebsite(Website website){
 		String SQL = "UPDATE website SET getCode = ?, title = ?, phone = ?, "
 				+ "address = ?, lng = ?, lat = ?, coverPic = ?, coverText = ?, "
-				+ "shareTitle = ?, shareContent = ?, footerText = ?, themeId = ? "
-				+ "WHERE websiteid = ?";
+				+ "shareTitle = ?, sharePic = ?, shareContent = ?, footerText = ?,"
+				+ " themeId = ? WHERE websiteid = ?";
 		int result = 0;
 		
 		Website temp = getWebsiteBasicMedia(website.getWebsiteid());
@@ -435,14 +442,29 @@ public class WebsiteDAO {
 		
 		result = jdbcTemplate.update(SQL, website.getGetCode(), website.getTitle(), 
 				website.getPhone(), website.getAddress(), website.getLng(), website.getLat(), 
-				website.getCoverPic(), website.getCoverText(), website.getShareTitle(), 
-				website.getShareContent(), website.getFooterText(), website.getThemeId(), 
-				website.getWebsiteid());
+				website.getCoverPic(), website.getCoverText(), website.getShareTitle(),
+				website.getSharePic(), website.getShareContent(), website.getFooterText(), 
+				website.getThemeId(), website.getWebsiteid());
 		if (result > 0) {
 			Timestamp current = new Timestamp(System.currentTimeMillis());
 			if (!website.getCoverPic().equals(temp.getCoverPic())) {
 				insertImageTempRecord(temp.getCoverPic(), current);
 				deleteImageTempRecord(website.getCoverPic());
+			}
+			
+			String originalCoverPic = temp.getSharePic();
+			String currentCoverPic = website.getSharePic();
+			if (currentCoverPic == null) {
+				currentCoverPic = "";
+			}
+			if (!currentCoverPic.equals(originalCoverPic)) {
+				if (originalCoverPic != null && !originalCoverPic.equals("")) {
+					insertImageTempRecord(originalCoverPic, current);
+				}
+				
+				if (!currentCoverPic.equals("")) {
+					deleteImageTempRecord(currentCoverPic);
+				}
 			}
 			
 			int websiteid = website.getWebsiteid();
@@ -525,7 +547,7 @@ public class WebsiteDAO {
 	 */
 	public Website getDetailedWebsiteInfo(int websiteid){
 		String SQL = "SELECT websiteid, getCode, title, phone, address, lng, lat, "
-				+ "coverPic, coverText, shareTitle, shareContent, "
+				+ "coverPic, coverText, shareTitle, shareContent, sharePic, "
 				+ "footerText, themeId FROM website WHERE websiteid = ?";
 		Website website = null;
 		
@@ -557,6 +579,7 @@ public class WebsiteDAO {
 			website.setCoverText(rs.getString("coverText"));
 			website.setShareTitle(rs.getString("shareTitle"));
 			website.setShareContent(rs.getString("shareContent"));
+			website.setSharePic(rs.getString("sharePic"));
 			website.setFooterText(rs.getString("footerText"));
 			website.setThemeId(rs.getInt("themeId"));
 			return website;
@@ -571,7 +594,8 @@ public class WebsiteDAO {
 	 */
 	public Website getWebsiteInfoForCustomer(int websiteid){
 		String SQL = "SELECT websiteid, appid, title, phone, address, lng, lat, "
-				+ "footerText, themeId FROM website WHERE websiteid = ?";
+				+ "shareTitle, shareContent, sharePic, footerText, themeId FROM "
+				+ "website WHERE websiteid = ?";
 		Website website = null;
 		
 		try {
@@ -593,6 +617,9 @@ public class WebsiteDAO {
 			website.setAddress(rs.getString("address"));
 			website.setLng(rs.getBigDecimal("lng"));
 			website.setLat(rs.getBigDecimal("lat"));
+			website.setShareTitle(rs.getString("shareTitle"));
+			website.setShareContent(rs.getString("shareContent"));
+			website.setSharePic(rs.getString("sharePic"));
 			website.setFooterText(rs.getString("footerText"));
 			website.setThemeId(rs.getInt("themeId"));
 			return website;
@@ -882,13 +909,13 @@ public class WebsiteDAO {
 	 * @return
 	 */
 	public Website getWebsiteBasicMedia(int websiteid){
-		String SQL = "SELECT coverPic FROM website WHERE websiteid = ?";
+		String SQL = "SELECT coverPic, sharePic FROM website WHERE websiteid = ?";
 		Website website = null;
 		
 		try {
 			website = jdbcTemplate.queryForObject(SQL, new Object[]{websiteid}, new WebsiteBasicMediaMapper());
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println("getWebsiteBasicMedia: " + e.getMessage());
 		}
 		return website;
 	}
@@ -898,6 +925,7 @@ public class WebsiteDAO {
 		public Website mapRow(ResultSet rs, int arg1) throws SQLException {
 			Website website = new Website();
 			website.setCoverPic(rs.getString("coverPic"));
+			website.setSharePic(rs.getString("sharePic"));
 			return website;
 		}	
 	}

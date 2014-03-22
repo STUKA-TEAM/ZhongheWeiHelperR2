@@ -16,14 +16,14 @@
         <div class="form-group">
           <label for="info_date" class="col-md-3 control-label">婚礼时间</label>
           <div class="col-md-7">
-            <input type="text" class="form-control" id="info_date" placeholder="" value="${eloveWizard.weddingDate}">
+            <input type="text" class="form-control" id="info_date" placeholder="可以具体到宴会时间（20字以内），如：2014年12月12日 18时35分" value="${eloveWizard.weddingDate}">
           </div>
         </div>
         <div class="form-group">
           <label for="info_addr" class="col-md-3 control-label">婚礼地点</label>
           <div class="col-md-7">
             <div class="input-group">
-              <input type="text" class="form-control" id="info_addr" placeholder="" value="${eloveWizard.weddingAddress}">
+              <input type="text" class="form-control" id="info_addr" placeholder="13个字以内显示效果较好" value="${eloveWizard.weddingAddress}">
               <input type="hidden" id="lng" value="${eloveWizard.lng}"/>
               <input type="hidden" id="lat" value="${eloveWizard.lat}"/>
               <span class="input-group-btn">
@@ -36,7 +36,7 @@
         <div class="form-group">
           <label for="info_phone" class="col-md-3 control-label">联系电话</label>
           <div class="col-md-7">
-            <input type="text" class="form-control" id="info_phone" placeholder="" value="${eloveWizard.phone}">
+            <input type="text" class="form-control" id="info_phone" placeholder="联系赴宴的电话" value="${eloveWizard.phone}">
           </div>
         </div>
         <div class="form-group form-btn">

@@ -38,5 +38,13 @@
     </div> 
     <script type="text/javascript" src="js/customer/mobile-common.js"></script>
     <script type="text/javascript" src="js/customer/jquery-1.10.2.min.js"></script>   
+    <%@ include file="../CommonViews/shareJS.jsp"%>
+    <script type="text/javascript">
+    window.shareInfo = new Object();
+    shareInfo.imgUrl = '${imageLink}_original.jpg';
+    shareInfo.link = '${appLink}';
+    shareInfo.desc = '${website.shareContent}';
+    shareInfo.title = '${website.shareTitle}';
+    </script>
   </body>
 </html>

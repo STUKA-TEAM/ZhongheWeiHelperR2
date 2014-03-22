@@ -17,12 +17,14 @@
     <link href="./css/customer/bootstrap.min.css" rel="stylesheet">
     <link href="./css/customer/wei-article-list.css" rel="stylesheet">
     <link href="./css/customer/mobile-common.css" rel="stylesheet">
+    <link href="./css/customer/wei-website-modulelist.css" rel="stylesheet">
   </head>
   <body>
   
     <div class="container">
       <c:forEach items="${articleList}" var="item">
       <div class="article-model">
+        <a class="noneStyleLink" href="customer/article?websiteid=${website.websiteid}&articleid=${item.articleid}">
         <div class="article-model-header">
           <h4>${item.title}</h4>
           <small><fmt:formatDate value="${item.createTime}" pattern="yyyy-MM-dd"/></small>
@@ -31,8 +33,7 @@
           <div  class="article-image">
             <img src="${item.coverPic}_standard.jpg" class="img-responsive" alt="article">
           </div>
-        </div>
-        <a class="noneStyleLink" href="customer/article?websiteid=${website.websiteid}&articleid=${item.articleid}">
+        </div>       
         <div class="article-model-footer">
           <h5>查看全文</h5>
         </div>

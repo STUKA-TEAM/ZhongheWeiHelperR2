@@ -6,13 +6,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="zhonghe">
-    <c:set var="request" value="${pageContext.request}" />
-    <base href="${fn:replace(request.requestURL, request.requestURI, request.contextPath)}/" />
-    <title>众合微信公共账号管理平台</title>
+    <%@ include file="../CommonViews/head.jsp"%>
     <!-- Bootstrap core CSS -->
     <link href="./css/store/bootstrap.min.css" rel="stylesheet">
     <link href="./css/store/zhonghe-wechat.css" rel="stylesheet">
@@ -40,15 +34,16 @@
                 <th>类别名称</th>
                 <th>属于该类的文章数</th>
                 <th></th>
-                <th></th>
               </tr>
               <c:forEach items="${classList}" var="item">
               <tr>
                 <td><fmt:formatDate value="${item.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                 <td>${item.className}</td>
                 <td>${item.articleCount}</td>
-                <td><a class="btn btn-sm btn-info" href="javascript:void(0);" onclick="editArticleclass('${item.classid}')">编辑</a></td>
-                <td><a class="btn btn-sm btn-danger" onclick="submitDeleteArticleclass('${item.classid}')">删除</a></td>
+                <td><a class="btn btn-sm btn-info" href="javascript:void(0);" onclick="editArticleclass('${item.classid}')">编辑</a>
+                <a class="btn btn-sm btn-info" target="_blank" href="customer/articleclass?websiteid=${viewLinkInfo.websiteid}&classid=${item.classid}">预览</a>
+                <a class="btn btn-sm btn-info" onclick="viewLink('文章列表链接','${viewLinkInfo.appPath}customer/articleclass?websiteid=${viewLinkInfo.websiteid}&classid=${item.classid}',${viewLinkInfo.websiteid})">生成链接</a>
+                <a class="btn btn-sm btn-danger" onclick="submitDeleteArticleclass('${item.classid}')">删除</a></td>
               </tr>
               </c:forEach>
             </table>
@@ -87,6 +82,10 @@
     </div><!-- /.modal -->    
     
     <%@ include file="../CommonViews/footer.jsp"%>
+    <!-- 通用提示框 -->
+    <%@ include file="../CommonViews/commonDialog.jsp"%>
+    <!-- 查看链接通用框 -->
+    <%@ include file="../CommonViews/viewLink.jsp"%>    
     <!-- include jQuery -->
     <%@ include file="../CommonViews/commonJSList.jsp"%>
     <script type="text/javascript" src="js/store/article.js"></script>

@@ -12,7 +12,7 @@
     <meta name="author" content="zhonghe">
     <c:set var="request" value="${pageContext.request}" />
     <base href="${fn:replace(request.requestURL, request.requestURI, request.contextPath)}/" />
-    <title>众合微信公共账号管理平台</title>
+    <title>图卡微信公共账号管理平台</title>
     <!-- Bootstrap core CSS -->
     <link href="css/store/bootstrap.min.css" rel="stylesheet">
     <link href="css/store/zhonghe-wechat.css" rel="stylesheet">
@@ -20,7 +20,15 @@
     <!-- include jQuery + carouFredSel plugin -->
         <script type="text/javascript" src="js/store/jquery-1.10.2.min.js"></script>
   </head>
-  <body>    
+  <body>  
+      <!-- Fixed navbar -->
+    <div class="navbar navbar-default navbar-white navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#"><img src="img/logo.png" alt="Zhonghe Software" /></a>
+        </div>
+      </div><!-- container -->
+    </div><!-- navbar -->  
     <div class="container">
       <div class="row">
         <div class="well col-sm-5 col-sm-offset-3 row">
@@ -45,12 +53,12 @@
             <div class="form-group">
                 <button type="button" class="col-sm-offset-2 col-sm-9 btn btn-lg btn-success" onclick="submitForm()">登录</button>
             </div>
-            <a class="login-link" href="#">忘记密码?</a>
+            <!-- <a class="login-link" href="#">忘记密码?</a> -->
           </form>
         </div>
       </div><!-- /.row -->
     </div> <!-- /.container -->
-
+    <%@ include file="../SecurityViews/footer.jsp"%>
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->

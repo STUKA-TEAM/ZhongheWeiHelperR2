@@ -5,6 +5,7 @@
       <div class="col-md-2 sidebar">
         <ul class="nav nav-pills nav-stacked">
           <li><a href="internal/customer/detail">用户管理</a></li>
+          <li><a href="internal/invite/intial">注册密码管理</a></li>
 
         </ul>
       </div>

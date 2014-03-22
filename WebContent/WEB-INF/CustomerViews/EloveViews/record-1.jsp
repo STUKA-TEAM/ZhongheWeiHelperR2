@@ -13,11 +13,7 @@
       <div class="container-fulid">
         <img src="img/elove/records_photo_title_1.png" class="img-responsive"/>
       </div>
-      <div class="photo-list">
-      <c:forEach items="${recordImages}" var="image">
-        <img src="${image}_original.jpg" class="center-block"/>
-      </c:forEach>
-      </div>
+    <%@ include file="record-img.jsp"%>
     </div><!-- photo -->
       
     <%@ include file="footer.jsp"%>

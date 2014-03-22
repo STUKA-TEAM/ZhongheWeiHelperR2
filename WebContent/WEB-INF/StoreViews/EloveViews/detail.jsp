@@ -6,13 +6,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="zhonghe">
-    <c:set var="request" value="${pageContext.request}" />
-    <base href="${fn:replace(request.requestURL, request.requestURI, request.contextPath)}/" />
-    <title>众合微信公共账号管理平台</title>
+    <%@ include file="../CommonViews/head.jsp"%>
     <!-- Bootstrap core CSS -->
     <link href="./css/store/bootstrap.min.css" rel="stylesheet">
     <link href="./css/store/zhonghe-wechat.css" rel="stylesheet">

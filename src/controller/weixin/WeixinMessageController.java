@@ -95,7 +95,7 @@ public class WeixinMessageController {
 						articles.add(join);
 					    return WeixinMessageUtil.newsMessageToXmlForResponse(xmlMap, articles);					
 					}
-					if(textContent.equals("elovedemo")){
+					if(textContent.equalsIgnoreCase("elovedemo")){
 						ArrayList<Integer> themeidList = (ArrayList<Integer>) MethodUtils.getEloveDemoIdList();
 						List<NewsItemToResponse> articles = new ArrayList<NewsItemToResponse>();
 
@@ -111,7 +111,7 @@ public class WeixinMessageController {
 					    return WeixinMessageUtil.newsMessageToXmlForResponse(xmlMap, articles);
 					}
 						return WeixinMessageUtil.textMessageToXmlForResponse(xmlMap,
-								"对不起，您的输入有误，请重新输入。");	
+								"您的输入没有匹配自动回复，我们的工作人员将会尽快处理您的消息");	
 				}
 				return "";
 			}catch(Exception e) {

@@ -9,10 +9,14 @@ import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import menu.Menu;
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import album.Album;
+import album.AlbumClass;
 import article.Article;
 import article.ArticleClass;
 import elove.EloveNotpay;
@@ -23,6 +27,7 @@ import register.AppInfo;
 import register.AuthInfo;
 import register.UserInfo;
 import register.Welcome;
+import register.dao.InviteDAO;
 import register.dao.UserInfoDAO;
 import website.Website;
 import website.dao.WebsiteDAO;
@@ -43,7 +48,7 @@ public class CommonValidationTools {
 	 * @return
 	 */
 	public static boolean checkPhone(String phone){
-		String check = "^(13[4,5,6,7,8,9]|15[0,8,9,1,7]|188|187)\\d{8}$";
+		String check = "^(13[1,2,3,4,5,6,7,8,9]|15[0,1,2,3,4,5,6,,7,8,9]|188|187)\\d{8}$";
 		Pattern regex = Pattern.compile(check);
 		Matcher matcher = regex.matcher(phone);		 
 		return matcher.matches();
@@ -61,6 +66,28 @@ public class CommonValidationTools {
 		
 		int count = userInfoDao.getUserCount(username);
 		return count == 0;
+	}
+	
+	/**
+	 * @title checkInviteCode
+	 * @description 验证注册码是否有效
+	 * @param code
+	 * @return
+	 */
+	public static boolean checkInviteCode(String code){
+		ApplicationContext context = 
+				new ClassPathXmlApplicationContext("All-Modules.xml");
+		InviteDAO inviteDao = (InviteDAO) context.getBean("InviteDAO");
+		((ConfigurableApplicationContext)context).close();
+		
+		List<String> codeList = inviteDao.getCodeList();
+		for (int i = 0; i < codeList.size(); i++) {
+			if (code.equalsIgnoreCase(codeList.get(i))) {
+				inviteDao.deleteCode(codeList.get(i));
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	/**
@@ -412,6 +439,36 @@ public class CommonValidationTools {
 		if (userInfo.getSid() <= 0 || userInfo.getContact() == null) {
 			return false;
 		}
+		return true;
+	}
+	
+	/**
+	 * @title checkMenu
+	 * @description 检查菜单定义信息
+	 * @param menu
+	 * @return
+	 */
+	public static boolean checkMenu(Menu menu){
+		return true;
+	}
+	
+	/**
+	 * @title checkAlbumClass
+	 * @description 检查相册集信息
+	 * @param albumClass
+	 * @return
+	 */
+	public static boolean checkAlbumClass(AlbumClass albumClass){
+		return true;
+	}
+	
+	/**
+	 * @title checkAlbum
+	 * @description 检查相册信息
+	 * @param album
+	 * @return
+	 */
+	public static boolean checkAlbum(Album album){
 		return true;
 	}
 }

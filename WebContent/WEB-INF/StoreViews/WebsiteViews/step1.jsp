@@ -26,31 +26,6 @@
             <input type="text" class="form-control" id="getCode" placeholder="" value="${websiteWizard.getCode}">
           </div>
         </div>
-        <form  class="form-group" role="form" enctype="multipart/form-data" id="upload1">
-          <label class="col-sm-3 control-label">介绍图片</label>
-          <div class="col-sm-9">
-            <input type="file" name="file" class="image-file hidden" onchange="ye.value=value" accept="image/*">
-            <input type="text" name=ye class="form-control file-path">
-            <input type="button" value="选择文件" onclick="file.click()" class="btn btn-sm btn-info">
-            <input type="button" value="上传" class="image-multi btn btn-sm btn-info">
-          </div>
-        </form>  
-        <div class="form-group">
-            <div class="col-md-7 col-md-offset-3">
-              <div class="row" id="upload1-images">
-              <c:forEach items="${websiteWizard.imageList}" var="image">
-              <div id="${image}" class="col-md-6 pic-preview-div"><img src="${image}_original.jpg" class="pic-preview img-thumbnail img-responsive"/>
-              <span class="glyphicon glyphicon-trash" onclick="deleteThisImage('${image}')"> </span>
-              </div>
-              </c:forEach>
-              </div>
-              <div id="upload1-links">
-              <c:forEach items="${websiteWizard.imageList}" var="image">
-              <input id="${image}-input" type="hidden" value="${image}"/>
-              </c:forEach>
-              </div>
-            </div>
-        </div>  
         <div class="form-group">
           <label for="story_bride" class="col-md-3 control-label">联系电话</label>
           <div class="col-md-7">
@@ -73,9 +48,9 @@
         <div id="baidumap"></div>
         <form  class="form-group" role="form" enctype="multipart/form-data" id="upload1single">
           <label for="elove_pic" class="col-md-3 control-label">图文消息图片</label>
-          <div class="col-md-7">
+          <div class="col-md-9">
             <input type="file" name="file" class="image-file hidden" onchange="ye.value=value" accept="image/*">
-            <input type="text" name=ye class="form-control file-path-elove">
+            <input type="text" name=ye class="form-control file-path">
             <input type="button" value="选择文件" onclick="file.click()" class="btn btn-sm btn-info">
             <input type="button" value="上传" class="image-multi btn btn-sm btn-info">
           </div>
@@ -105,15 +80,40 @@
         <div class="form-group">
           <label for="story_bride" class="col-md-3 control-label">分享消息标题</label>
           <div class="col-md-7">
-            <input type="text" class="form-control" id="shareTitle" placeholder="" value="${websiteWizard.shareTitle}">
+            <input type="text" class="form-control" id="shareTitle" placeholder="分享给好友、分享到朋友圈时显示的消息标题" value="${websiteWizard.shareTitle}">
           </div>
         </div>
         <div class="form-group">
           <label for="story_bride" class="col-md-3 control-label">分享消息文字</label>
           <div class="col-md-7">
-            <input type="text" class="form-control" id="shareContent" placeholder="" value="${websiteWizard.shareContent}">
+            <input type="text" class="form-control" id="shareContent" placeholder="分享给好友、分享到朋友圈时显示的消息内容" value="${websiteWizard.shareContent}">
           </div>
         </div>
+        <form  class="form-group" role="form" enctype="multipart/form-data" id="upload2single">
+             <label for="sharePic" class="col-md-3 control-label">分享消息图片</label>
+             <div class="col-md-9">
+               <input type="file" name="file" class="image-file hidden" onchange="ye.value=value" accept="image/*">
+               <input type="text" name=ye placeholder="分享给好友、分享到朋友圈时显示的消息图片(300px*300px)" class="form-control file-path">
+               <input type="button" value="选择文件" onclick="file.click()" class="btn btn-sm btn-info">
+            <input type="button" value="上传" class="image-square btn btn-sm btn-info">
+          </div>
+        </form>
+        <div class="form-group">
+          <div class="col-md-7 col-md-offset-3">
+            <div class="row" id="upload2single-images">
+            <c:if test="${websiteWizard.sharePic!=null}">
+            <div id="${websiteWizard.sharePic}" class="col-md-6 pic-preview-div"><img src="${websiteWizard.sharePic}_original.jpg" class="pic-preview img-thumbnail img-responsive"/>
+              <span class="glyphicon glyphicon-trash" onclick="deleteThisImage('${websiteWizard.sharePic}')"> </span>
+            </div>
+            </c:if>
+            </div>
+            <div id="upload2single-links">
+            <c:if test="${websiteWizard.sharePic!=null}">
+            <input id="${websiteWizard.sharePic}-input" type="hidden" value="${websiteWizard.sharePic}"/>
+            </c:if>
+               </div>
+             </div>
+           </div>
         <div class="form-group">
           <label for="story_bride" class="col-md-3 control-label">页面脚注</label>
           <div class="col-md-7">
@@ -137,6 +137,31 @@
             </div>
           </div>
          </div>
+        <form  class="form-group" role="form" enctype="multipart/form-data" id="upload1">
+          <label class="col-sm-3 control-label">首页图片</label>
+          <div class="col-sm-9">
+            <input type="file" name="file" class="image-file hidden" onchange="ye.value=value" accept="image/*">
+            <input type="text" name=ye class="form-control file-path" placeholder="自由配图结构可选多张作为轮播图，简约结构选择一张作为背景图（450px*780px）">
+            <input type="button" value="选择文件" onclick="file.click()" class="btn btn-sm btn-info">
+            <input type="button" value="上传" class="image-multi btn btn-sm btn-info">
+          </div>
+        </form>  
+        <div class="form-group">
+            <div class="col-md-7 col-md-offset-3">
+              <div class="row" id="upload1-images">
+              <c:forEach items="${websiteWizard.imageList}" var="image">
+              <div id="${image}" class="col-md-6 pic-preview-div"><img src="${image}_original.jpg" class="pic-preview img-thumbnail img-responsive"/>
+              <span class="glyphicon glyphicon-trash" onclick="deleteThisImage('${image}')"> </span>
+              </div>
+              </c:forEach>
+              </div>
+              <div id="upload1-links">
+              <c:forEach items="${websiteWizard.imageList}" var="image">
+              <input id="${image}-input" type="hidden" value="${image}"/>
+              </c:forEach>
+              </div>
+            </div>
+        </div>  
         <div class="form-group form-btn">
             <button type="button" class="btn btn-lg btn-info col-md-2 col-md-offset-2 text-center" onclick="cancel()">取消</button>
             <button type="button" class="btn btn-lg btn-info col-md-2 col-md-offset-1 text-center" onclick="nextStep('step2')">下一步</button>

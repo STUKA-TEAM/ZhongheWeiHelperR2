@@ -35,5 +35,6 @@
 	<import resource="register/dao/RegisterDAO-Beans.xml"/>	
 	<import resource="security/dao/UserDAO-Beans.xml"/>
 	<import resource="feedback/dao/FeedbackDAO-Beans.xml"/>
+	<import resource="menu/dao/MenuDAO-Beans.xml"/>
 
 </beans>

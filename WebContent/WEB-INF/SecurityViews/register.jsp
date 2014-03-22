@@ -11,7 +11,7 @@
     <meta name="author" content="zhonghe">
     <c:set var="request" value="${pageContext.request}" />
     <base href="${fn:replace(request.requestURL, request.requestURI, request.contextPath)}/" />
-    <title>众合微信公共账号管理平台</title>
+    <title>图卡微信公共账号管理平台</title>
     <!-- Bootstrap core CSS -->
     <link href="css/store/bootstrap.min.css" rel="stylesheet">
     <link href="css/store/zhonghe-wechat.css" rel="stylesheet">
@@ -38,21 +38,21 @@
             <div class="form-group">
               <label for="username" class="col-sm-2 control-label">用户名</label>
               <div class="col-sm-10">
-                <form:input type="text" class="form-control" id="username_input" path="username" placeholder="用户名"/>
+                <form:input type="text" class="form-control" id="username_input" path="username" placeholder=""/>
                 <form:errors path="username" class="input-error"></form:errors>
               </div>
             </div>
             <div class="form-group">
               <label for="password" class="col-sm-2 control-label">密码</label>
               <div class="col-sm-10">
-                <form:input type="password" class="form-control" id="password_input" path="password" placeholder="******"/>
+                <form:input type="password" class="form-control" id="password_input" path="password" placeholder=""/>
                 <form:errors path="password" class="input-error"></form:errors>
               </div>
             </div>
             <div class="form-group">
               <label for="confirmPassword" class="col-sm-2 control-label">确认密码</label>
               <div class="col-sm-10">
-                <form:input type="password" class="form-control" id="confirmPassword_input" path="confirmPassword" placeholder="******"/>
+                <form:input type="password" class="form-control" id="confirmPassword_input" path="confirmPassword" placeholder=""/>
                 <form:errors path="confirmPassword" class="input-error"></form:errors>
               </div>
             </div>
@@ -92,6 +92,13 @@
               </div>
             </div>
             <div class="form-group">
+              <label for="inviteCode" class="col-sm-2 control-label">注册密码</label>
+              <div class="col-sm-10">
+                <form:input type="text" class="form-control" id="inviteCode_input" path="inviteCode" placeholder=""/>
+                <form:errors path="inviteCode" class="input-error"></form:errors>
+              </div>
+            </div>            
+            <div class="form-group">
               <label for="address" class="col-sm-2 control-label">商户地址</label>
               <div class="col-sm-10">
                 <form:input type="text" class="form-control locate-input" id="address_input" path="address" placeholder=""/>
@@ -111,11 +118,7 @@
       </div>
     </div><!-- /.row -->
     
-    <div id="footer">
-      <div class="container" style="text-align:center">
-        <p class="text-muted credit">Copyright ? 2013 zhonghesoftware.com All Rights Reserved. 众合网络科技有限公司 版权所有</p>
-      </div>
-    </div><!-- footer -->
+    <%@ include file="../SecurityViews/footer.jsp"%>
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->

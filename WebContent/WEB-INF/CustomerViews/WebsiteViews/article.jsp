@@ -17,6 +17,7 @@
     <link href="./css/customer/bootstrap.min.css" rel="stylesheet">
     <link href="./css/customer/wei-article.css" rel="stylesheet">
     <link href="./css/customer/mobile-common.css" rel="stylesheet">
+    <link href="./css/customer/wei-website-modulelist.css" rel="stylesheet">
   </head>
   <body>
     <div class="container">

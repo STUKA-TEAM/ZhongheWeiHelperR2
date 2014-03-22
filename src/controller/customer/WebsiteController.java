@@ -1,8 +1,10 @@
 package controller.customer;
 
+import java.io.InputStream;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import controller.store.ArticleController;
 import register.dao.AuthInfoDAO;
 import register.dao.UserInfoDAO;
 import article.Article;
@@ -66,6 +69,22 @@ public class WebsiteController {
 			
 			List<WebsiteNode> nodeList = websiteDao.getFirstLayerNodeList(websiteid);
 			model.addAttribute("nodes", nodeList);
+			
+			InputStream inputStream = WebsiteController.class.getResourceAsStream("/environment.properties");
+			Properties properties = new Properties();
+			String appLink = null;
+			String imageLink = null;
+			try {
+				properties.load(inputStream);
+				appLink = (String)properties.get("applicationPath");
+				imageLink = (String) properties.get("imageHost");
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
+			appLink = appLink + "customer/website/home?websiteid=" + websiteid;
+			imageLink = imageLink + website.getSharePic();
+			model.addAttribute("appLink", appLink);
+			model.addAttribute("imageLink", imageLink);
 			
 			viewName = viewName + "website-" + website.getThemeId();
 		}else {
@@ -152,7 +171,8 @@ public class WebsiteController {
 	}
 	
 	/**
-	 * @description: 根据articleid获取单篇文章内容信息
+	 * @title getArticle
+	 * @description 根据articleid获取单篇文章内容信息
 	 * @param model
 	 * @param articleid
 	 * @return
@@ -181,5 +201,37 @@ public class WebsiteController {
 		}
 		
 		return viewName;
+	}
+	
+	/**
+	 * @title getArticleClass
+	 * @description 根据classid获取文章类别下文章列表信息
+	 * @param model
+	 * @param classid
+	 * @param websiteid
+	 * @return
+	 */
+	@RequestMapping(value = "/articleclass", method = RequestMethod.GET)
+	public String getArticleClass(Model model, @RequestParam(value = "classid", required = true) int classid,
+			@RequestParam(value = "websiteid", required = true) int websiteid){
+		ApplicationContext context = 
+				new ClassPathXmlApplicationContext("All-Modules.xml");
+		WebsiteDAO websiteDao = (WebsiteDAO) context.getBean("WebsiteDAO");
+		ArticleDAO articleDao = (ArticleDAO) context.getBean("ArticleDAO");
+		((ConfigurableApplicationContext)context).close();
+		
+		List<Integer> articleidList = articleDao.getArticleidList(classid);
+		List<Article> articleList = new ArrayList<Article>();
+		for (int i = 0; i < articleidList.size(); i++) {
+			Article article = articleDao.getArticleIntroinfo(articleidList.get(i));
+			if (article != null) {
+				articleList.add(article);
+			}
+		}	
+		model.addAttribute("articleList", articleList);
+		
+		Website website = websiteDao.getWebsiteInfoForCustomer(websiteid);	
+        model.addAttribute("website", website);
+		return "WebsiteViews/articleclass";
 	}
 }

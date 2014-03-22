@@ -15,12 +15,7 @@
 
       <div class="container-fulid">
         <img src="img/elove/story_meetyou_2.png" class="img-responsive center-block"/>
-        <div class="container-fulid photo-list">
-        <c:forEach items="${storyImagePath}" var="image">
-          <img src="${image}_original.jpg" class="img-responsive center-block"/>
-        </c:forEach>
-        <img src="${elove.storyTextImagePath}_original.png" class="img-responsive center-block"/>
-        </div>
+        <%@ include file="story-img.jsp"%>
       </div>
 
       <div class="container-fulid">

@@ -25,6 +25,7 @@ public class Website {
 	private String coverPic;
 	private String coverText;
 	private String shareTitle;
+	private String sharePic;
 	private String shareContent;
 	private String footerText;
 	private int themeId;
@@ -186,6 +187,18 @@ public class Website {
 	 */
 	public void setShareTitle(String shareTitle) {
 		this.shareTitle = shareTitle;
+	}
+	/**
+	 * @return the sharePic
+	 */
+	public String getSharePic() {
+		return sharePic;
+	}
+	/**
+	 * @param sharePic the sharePic to set
+	 */
+	public void setSharePic(String sharePic) {
+		this.sharePic = sharePic;
 	}
 	/**
 	 * @return the shareContent

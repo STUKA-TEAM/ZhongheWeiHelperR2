@@ -123,7 +123,7 @@ public class ArticleDAO {
 				return -1;
 			}
 			return result;
-		}else {
+		} else {
 			return 0;
 		}
 	}
@@ -135,7 +135,7 @@ public class ArticleDAO {
 	 * @param classidList
 	 * @return
 	 */
-	public int insertACR(int articleid, List<Integer> classidList){
+	private int insertACR(int articleid, List<Integer> classidList){
 		String SQL = "INSERT INTO article_articleclass (id, articleid, classid) "
 				+ "VALUES (default, ?, ?)";
 		int result = 1;
@@ -161,7 +161,7 @@ public class ArticleDAO {
 	 * @param articleidList
 	 * @return
 	 */
-	public int insertCAR(int classid, List<Integer> articleidList){
+	private int insertCAR(int classid, List<Integer> articleidList){
 		String SQL = "INSERT INTO article_articleclass (id, articleid, classid) "
 				+ "VALUES (default, ?, ?)";
 		int result = 1;
@@ -175,7 +175,7 @@ public class ArticleDAO {
 				}
 			}
 			return result;
-		}else{
+		} else{
 			return 1;
 		}		
 	}
@@ -226,7 +226,7 @@ public class ArticleDAO {
 					insertImageTempRecord(imagePath.substring(0, index), current);
 				}
 			}			
-		}else {
+		} else {
 			return 0;
 		}
 		
@@ -244,11 +244,10 @@ public class ArticleDAO {
 	 */
 	public int deleteArticleClass(int classid){
 		String SQL = "DELETE FROM articleclass WHERE classid = ?";
-		int result = 0;
-		
-		deleteACRByClassid(classid);
-		
-		result = jdbcTemplate.update(SQL, classid);
+		int result = jdbcTemplate.update(SQL, classid);
+		if (result > 0) {
+			deleteACRByClassid(classid);
+		}
 		return result <= 0 ? 0 : result;
 	}
 	
@@ -391,7 +390,7 @@ public class ArticleDAO {
 				return -1;
 			}
 			return result;
-		}else {
+		} else {
 			return 0;
 		}
 	}
@@ -403,7 +402,8 @@ public class ArticleDAO {
 	 * @return
 	 */
 	public List<ArticleClass> getBasicClassinfos(String appid){
-		String SQL = "SELECT classid, className FROM articleclass WHERE appid = ? ORDER BY classid ASC";
+		String SQL = "SELECT classid, className FROM articleclass WHERE appid = ? "
+				+ "ORDER BY classid ASC";
 		List<ArticleClass> classList = null;
 		
 		try {
@@ -712,7 +712,7 @@ public class ArticleDAO {
 	}
 	
 	/**
-	 * @title: getArticleinfos
+	 * @title: getArticleinfosWithType
 	 * @description: 根据文章类型获取文章信息列表
 	 * @param classid
 	 * @return
@@ -789,8 +789,7 @@ public class ArticleDAO {
 	 */
 	public int getArticleCount(int classid){
 		String SQL = "SELECT COUNT(*) FROM article_articleclass WHERE classid = ?";
-		int count = 0;
-		
+		int count = 0;		
 		try {
 			count = jdbcTemplate.queryForObject(SQL, new Object[]{classid}, Integer.class);
 		} catch (Exception e) {

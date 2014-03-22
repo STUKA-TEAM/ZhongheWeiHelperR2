@@ -6,13 +6,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="zhonghe">
-    <c:set var="request" value="${pageContext.request}" />
-    <base href="${fn:replace(request.requestURL, request.requestURI, request.contextPath)}/" />
-    <title>众合微信公共账号管理平台</title>
+    <%@ include file="../CommonViews/head.jsp"%>
     <!-- Bootstrap core CSS -->
     <link href="./css/store/bootstrap.min.css" rel="stylesheet">
     <link href="./css/store/zhonghe-wechat.css" rel="stylesheet">
@@ -43,13 +37,14 @@
           </div>
         </div>
         <div class="row website-tab">
+          <div class="col-md-offset-1 col-md-9 alert alert-warning">提示：“生成链接”获取的链接可以在左侧栏目“账号管理-关联公众账号-配置自定义菜单”中使用。
+          </div>
           <div class="col-md-10 col-md-offset-1">
             <table class="table table-striped table-bordered">
               <tr>
                 <th>创建时间</th>
                 <th>文章标题</th>
                 <th>文章消息图片</th>
-                <th></th>
                 <th></th>
               </tr>
               <c:forEach items="${articleList}" var="item">
@@ -61,8 +56,10 @@
                 <img src="${item.coverPic}_original.jpg" class="pic-preview img-thumbnail img-responsive"/>
                 </c:if>
                 </td>
-                <td><a class="btn btn-sm btn-info" href="store/article/edit/update?articleid=${item.articleid}">编辑</a></td>
-                <td><a class="btn btn-sm btn-danger" onclick="submitDeleteArticle('${item.articleid}')">删除</a></td>
+                <td><a class="btn btn-sm btn-info" href="store/article/edit/update?articleid=${item.articleid}">编辑</a>
+                <a class="btn btn-sm btn-info" target="_blank" href="customer/article?websiteid=${viewLinkInfo.websiteid}&articleid=${item.articleid}">预览</a>
+                <a class="btn btn-sm btn-info" onclick="viewLink('文章链接','${viewLinkInfo.appPath}customer/article?websiteid=${viewLinkInfo.websiteid}&articleid=${item.articleid}',${viewLinkInfo.websiteid})">生成链接</a>
+                <a class="btn btn-sm btn-danger" onclick="submitDeleteArticle('${item.articleid}')">删除</a></td>                              
               </tr>
 			  </c:forEach>
             </table>
@@ -92,8 +89,13 @@
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal --> 
-    
+
     <%@ include file="../CommonViews/footer.jsp"%>
+    
+    <!-- 通用提示框 -->
+    <%@ include file="../CommonViews/commonDialog.jsp"%>
+    <!-- 查看链接通用框 -->
+    <%@ include file="../CommonViews/viewLink.jsp"%>
     <!-- include jQuery -->
     <%@ include file="../CommonViews/commonJSList.jsp"%>
     <script type="text/javascript" src="js/store/article.js"></script>

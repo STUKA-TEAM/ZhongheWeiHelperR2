@@ -14,10 +14,13 @@
 	    <property name="dataSource" ref="dataSource" />
     </bean>
     <bean id="WelcomeDAO" class="register.dao.WelcomeDAO">
-      <property name="dataSource"  ref="dataSource" />    
-   </bean>
-   <bean id="ThemeInfoDAO" class="register.dao.ThemeInfoDAO">
-      <property name="dataSource"  ref="dataSource" />    
-   </bean>
+        <property name="dataSource"  ref="dataSource" />    
+    </bean>
+    <bean id="ThemeInfoDAO" class="register.dao.ThemeInfoDAO">
+        <property name="dataSource"  ref="dataSource" />    
+    </bean>
+    <bean id="InviteDAO" class="register.dao.InviteDAO">
+        <property name="dataSource"  ref="dataSource" />
+    </bean>
       
 </beans>
