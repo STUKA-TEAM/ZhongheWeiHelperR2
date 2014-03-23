@@ -108,7 +108,7 @@ public class WebsiteController {
 		WebsiteDAO websiteDao = (WebsiteDAO) context.getBean("WebsiteDAO");
 		UserInfoDAO userInfoDao = (UserInfoDAO) context.getBean("UserInfoDAO");
 		ArticleDAO articleDao = (ArticleDAO) context.getBean("ArticleDAO");
-		AlbumDAO albumDao = (AlbumDAO)context.getBean("AlbumDAO");
+		AlbumDAO albumDao = (AlbumDAO) context.getBean("AlbumDAO");
 		((ConfigurableApplicationContext)context).close();
 		
 		WebsiteNode node = websiteDao.getWebsiteNode(nodeid);
@@ -251,7 +251,7 @@ public class WebsiteController {
 		ApplicationContext context = 
 				new ClassPathXmlApplicationContext("All-Modules.xml");
 		WebsiteDAO websiteDao = (WebsiteDAO) context.getBean("WebsiteDAO");
-		AlbumDAO albumDao = (AlbumDAO)context.getBean("AlbumDAO");
+		AlbumDAO albumDao = (AlbumDAO) context.getBean("AlbumDAO");
 		((ConfigurableApplicationContext)context).close();
 		
 		Album album = albumDao.getAlbumForCustomer(albumid);
@@ -282,7 +282,7 @@ public class WebsiteController {
 		ApplicationContext context = 
 				new ClassPathXmlApplicationContext("All-Modules.xml");
 		WebsiteDAO websiteDao = (WebsiteDAO) context.getBean("WebsiteDAO");
-		AlbumDAO albumDao = (AlbumDAO)context.getBean("AlbumDAO");
+		AlbumDAO albumDao = (AlbumDAO) context.getBean("AlbumDAO");
 		((ConfigurableApplicationContext)context).close();
 		
 		List<Album> albumList = albumDao.getAlbumClassForCustomer(classid);

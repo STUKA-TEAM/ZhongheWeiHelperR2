@@ -8,6 +8,7 @@ import java.util.UUID;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
+import menu.dao.MenuDAO;
 import message.ResponseMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import album.dao.AlbumDAO;
 import article.dao.ArticleDAO;
 
 import com.google.gson.Gson;
@@ -259,6 +261,8 @@ public class BasicController {
 		WebsiteDAO websiteDao = (WebsiteDAO) context.getBean("WebsiteDAO");
 		ArticleDAO articleDao = (ArticleDAO) context.getBean("ArticleDAO");
 		WelcomeDAO welcomeDao = (WelcomeDAO) context.getBean("WelcomeDAO");
+		MenuDAO menuDao = (MenuDAO) context.getBean("MenuDAO");
+		AlbumDAO albumDao = (AlbumDAO) context.getBean("AlbumDAO");
 		((ConfigurableApplicationContext)context).close();
 		
 		Gson gson = new Gson();
@@ -310,6 +314,15 @@ public class BasicController {
 				
 				//welcome
 				welcomeDao.deleteWelcomeContent(appid);
+
+				//menu
+				menuDao.deleteMenu(appid);
+
+				//album
+				albumDao.deleteAlbum(appid);
+
+				//albumclass
+				albumDao.deleteAlbumClass(appid);
 				
 				message.setStatus(true);
 				message.setMessage("删除成功！");
