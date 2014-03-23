@@ -1,11 +1,12 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="zhonghe">
-    <title>众合微信公共账号管理平台</title>
+    <%@ include file="../CommonViews/head.jsp"%>
     <!-- Bootstrap core CSS -->
     <link href="./css/store/bootstrap.min.css" rel="stylesheet">
     <link href="./css/store/zhonghe-wechat.css" rel="stylesheet">
@@ -13,63 +14,12 @@
     <link rel="shortcut icon" href="./img/favicon.png">
   </head>
   <body>
-    <!-- Fixed navbar -->
-    <div class="navbar navbar-default navbar-white navbar-static-top">
-      <div class="navbar-header">
-        <a class="navbar-brand" href="#"><img src="./img/logo.png" alt="Zhonghe Software" /></a>
-      </div>
-      <div class="navbar-collapse collapse">
-        <div class="btn-group navbar-right nav-user">
-          <button type="button" class="btn btn-user dropdown-toggle" data-toggle="dropdown">
-          <span class="glyphicon glyphicon-user"></span>  用户名 <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu">
-            <li><a href="#">设置</a></li>
-            <li class="divider"></li>
-            <li><a href="#">退出</a></li>
-          </ul>
-        </div>
-      </div><!--/.nav-collapse -->
-    </div><!-- navbar -->
-
-
+    <%@ include file="../CommonViews/navBar.jsp"%>
     <div class="row">
-      <div class="col-md-2 sidebar">
-        <div class="container account-change">
-          <p><strong>当前正在管理的微信账号</strong></p>
-          <p>公共账号1</p>
-          <p><strong>切换至其他公共账号</strong></p>
-          <form>
-            <select class="form-control account-select">
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
-            </select>
-          </form>
-        </div>
-        <ul class="nav nav-pills nav-stacked">
-          <li><a href="./manager.html">账号管理</a></li>
-          <li><a href="./elove.html">Elove管理</a></li>
-          <li><a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">微官网</a>
-            <div id="collapseOne" class="panel-collapse collapse in">
-              <ul class="nav submenu">
-                <li><a href="./paper-manager.html">文章管理</a></li>
-                <li><a href="./paper-type-manager.html">文章类别管理</a></li>
-                <li class="active"><a href="./album-manager.html">相册管理</a></li>
-                <li><a href="./album-set-manager.html">相册集管理</a></li>
-                <li><a href="./website-manager.html">微官网配置</a></li>
-              </ul>
-            </div>
-          </li>
-          <li><a href="./elove.html">Elove管理</a></li>
-        </ul>
-      </div>    
+      <%@ include file="../CommonViews/leftSide.jsp"%>    
       <div class="col-md-10 manager-content">
         <ol class="breadcrumb">
-          <li><a href="#">微官网</a></li>
-          <li><a href="./album-manager.html">相册管理</a></li>
+          <li><a href="store/album/list?classid=0">相册管理</a></li>
           <li class="active">新建相册</li>
         </ol>
         <div class="row website-tab">
@@ -158,11 +108,7 @@
         </div>
       </div>
     </div>
-    <div id="footer">
-      <div class="container text-center">
-        <p class="text-muted credit">Copyright ? 2013 zhonghesoftware.com All Rights Reserved. 众合网络科技有限公司 版权所有</p>
-      </div>
-    </div><!-- footer -->
+    
 
     <div class="modal fade" id="add_photo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
@@ -212,9 +158,35 @@
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-    <!-- include jQuery + carouFredSel plugin -->
-    <script type="text/javascript" src="./js/store/jquery-1.10.2.min.js"></script>
-    <script src="./js/store/bootstrap.min.js"></script>
-    <script src="js/store/upload.js"></script>
+    
+    <!-- 确认删除弹框 -->
+    <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 id="confirmModalTitle" class="modal-title text-danger"></h4>
+          </div>
+          <div class="modal-body">
+            <h4 id="confirmModalMes" class="modal-title"></h4>
+            <input id="articleidhidden" type="hidden" value=""/>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="confirmDelete()">确认删除</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal --> 
+
+    <%@ include file="../CommonViews/footer.jsp"%>
+    
+    <!-- 通用提示框 -->
+    <%@ include file="../CommonViews/commonDialog.jsp"%>
+
+    <!-- include jQuery -->
+    <%@ include file="../CommonViews/commonJSList.jsp"%>
+    <script type="text/javascript" src="js/store/album.js"></script>
+    <script type="text/javascript" src="js/store/upload.js"></script>
   </body>
 </html>
