@@ -285,28 +285,76 @@ public class AlbumDAO {
 			return 0;
 		}
 		
+		deleteACRByAlbumid(albumid);
+		deletePhotoList(albumid);
+		
 		result = jdbcTemplate.update(SQL, albumid);
-		if (result > 0) {
+		return result <= 0 ? 0 : result;
+	}
+	
+	/**
+	 * @title deleteAlbum
+	 * @description 根据appid删除该应用下相册基本信息、相册与相册集关系信息以及相册照片信息
+	 * @param appid
+	 * @return
+	 */
+	public int deleteAlbum(String appid){
+		String SQL = "DELETE FROM album WHERE appid = ?";
+		int result = 0;
+		
+		List<Integer> albumidList = getAlbumidList(appid);
+		for (int i = 0; i < albumidList.size(); i++) {
+			int albumid = albumidList.get(i);
+			
+			Album album = getAlbumMedia(albumid);
+			if (album != null) {
+				Timestamp current = new Timestamp(System.currentTimeMillis());
+				
+				String coverPic = album.getCoverPic();
+				if (coverPic != null && !coverPic.equals("")) {
+					insertImageTempRecord(coverPic, current);
+				}
+				
+				for (int j = 0; j < album.getPhotoList().size(); j++) {
+					Photo photo = album.getPhotoList().get(j);
+					insertImageTempRecord(photo.getImagePath(), current);
+				}
+			}
+			
 			deleteACRByAlbumid(albumid);
 			deletePhotoList(albumid);
-			return result;
-		} else {
-			return 0;
 		}
+		
+		result = jdbcTemplate.update(SQL, appid);
+		return result <= 0 ? 0 : result;
 	}
 	
 	/**
 	 * @title deleteAlbumClass
-	 * @description 删除相册集及所关联的相册记录
+	 * @description 根据classid删除相册集及所关联的相册关系记录
 	 * @param classid
 	 * @return
 	 */
 	public int deleteAlbumClass(int classid){
 		String SQL = "DELETE FROM albumclass WHERE classid = ?";
+		deleteACRByClassid(classid);
 		int result = jdbcTemplate.update(SQL, classid);
-		if (result > 0) {
-			deleteACRByClassid(classid);
-		} 
+		return result <= 0 ? 0 : result;
+	}
+	
+	/**
+	 * @title deleteAlbumClass
+	 * @description 根据appid删除该应用下相册集及所关联的相册关系记录
+	 * @param appid
+	 * @return
+	 */
+	public int deleteAlbumClass(String appid){
+		String SQL = "DELETE FROM albumclass WHERE appid = ?";
+		List<Integer> classidList = getClassidList(appid);
+		for (int i = 0; i < classidList.size(); i++) {
+			deleteACRByClassid(classidList.get(i));
+		}
+		int result = jdbcTemplate.update(SQL, appid);
 		return result <= 0 ? 0 : result;
 	}
 	
@@ -335,6 +383,12 @@ public class AlbumDAO {
 	}
 	
 	//update
+	/**
+	 * @title updateAlbum
+	 * @description 更新相册 albumName, coverPic, 与相册集之间的关系 以及 photoList
+	 * @param album
+	 * @return
+	 */
 	public int updateAlbum(Album album){
 		String SQL = "UPDATE album SET albumName = ?, coverPic = ? WHERE albumid = ?";
 		int result = 0;
@@ -358,7 +412,20 @@ public class AlbumDAO {
 				}
 			}
 			
-			
+			List<String> originalImages = parsePhoto(oldAlbum.getPhotoList());
+			List<String> currentImages = parsePhoto(album.getPhotoList());
+			for (int i = 0; i < originalImages.size(); i++) {
+				String imagePath = originalImages.get(i);
+				if (!currentImages.contains(imagePath)) {
+					insertImageTempRecord(imagePath, current);
+				}
+			}
+			for (int i = 0; i < currentImages.size(); i++) {
+				String imagePath = currentImages.get(i);
+				if (!originalImages.contains(imagePath)) {
+					deleteImageTempRecord(imagePath);
+				}
+			}
 			
 		} else {
 			return 0;
@@ -386,6 +453,22 @@ public class AlbumDAO {
 	}
 	
 	/**
+	 * @title parsePhoto
+	 * @description 根据照片列表解析出照片路径列表 imagePath List
+	 * @param photoList
+	 * @return
+	 */
+	private List<String> parsePhoto(List<Photo> photoList){
+		List<String> imageList = new ArrayList<String>();
+		if (photoList != null) {
+			for (int i = 0; i < photoList.size(); i++) {
+				imageList.add(photoList.get(i).getImagePath());
+			}
+		}
+		return imageList;
+	}
+	
+	/**
 	 * @title updateAlbumClass
 	 * @description 更新相册集信息
 	 * @param albumClass
@@ -407,39 +490,49 @@ public class AlbumDAO {
 		}
 	}
 	
-	//query
+	//query		
 	/**
-	 * @title getAlbumContent
-	 * @description 根据albumid查询相册基本信息以及关联相册信息 (albumid, albumName, coverPic, classidList, photoList)
+	 * @title getClassidList
+	 * @description 根据albumid查询相册所属的相册集id列表
 	 * @param albumid
 	 * @return
 	 */
-	public Album getAlbumContent(int albumid){
-		Album album = null;
-		String SQL = "SELECT albumid, albumName, coverPic FROM album WHERE albumid = ?";
-		
+	public List<Integer> getClassidList(int albumid){
+		List<Integer> classidList = null;
+		String SQL = "SELECT classid FROM album_albumclass WHERE albumid = ?";
 		try {
-			album = jdbcTemplate.queryForObject(SQL, new Object[]{albumid}, new AlbumContentMapper());
+			classidList = jdbcTemplate.query(SQL, new Object[]{albumid}, new ClassidMapper());
 		} catch (Exception e) {
-			System.out.println("getAlbumContent: " + e.getMessage());
+			System.out.println("getClassidList: " + e.getMessage());
+			classidList = new ArrayList<Integer>();
 		}
-		
-		if (album != null) {
-			album.setClassidList(getClassidList(album.getAlbumid()));
-			album.setPhotoList(getPhotoList(album.getAlbumid()));
-		}	
-		return album;
+		return classidList;
 	}
 	
-	private static final class AlbumContentMapper implements RowMapper<Album>{
+	/**
+	 * @title getClassidList
+	 * @description 根据appid查询该应用下的相册集id列表
+	 * @param appid
+	 * @return
+	 */
+	public List<Integer> getClassidList(String appid){
+		List<Integer> classidList = null;
+		String SQL = "SELECT classid FROM albumclass WHERE appid = ?";
+		try {
+			classidList = jdbcTemplate.query(SQL, new Object[]{appid}, new ClassidMapper());
+		} catch (Exception e) {
+			System.out.println("getClassidList: " + e.getMessage());
+			classidList = new ArrayList<Integer>();
+		}
+		return classidList;
+	}
+	
+	private static final class ClassidMapper implements RowMapper<Integer>{
 		@Override
-		public Album mapRow(ResultSet rs, int arg1) throws SQLException {
-			Album album = new Album();
-			album.setAlbumid(rs.getInt("A.albumid"));
-			album.setAlbumName(rs.getString("A.albumName"));
-			album.setCoverPic(rs.getString("A.coverPic"));
-			return album;
-		}	
+		public Integer mapRow(ResultSet rs, int arg1) throws SQLException {
+			Integer classid = rs.getInt("classid");
+			return classid;
+		}
 	}
 	
 	/**
@@ -530,32 +623,6 @@ public class AlbumDAO {
 	}
 	
 	/**
-	 * @title getClassidList
-	 * @description 根据albumid查询相册所属的相册集id列表
-	 * @param albumid
-	 * @return
-	 */
-	public List<Integer> getClassidList(int albumid){
-		List<Integer> classidList = null;
-		String SQL = "SELECT classid FROM album_albumclass WHERE albumid = ?";
-		try {
-			classidList = jdbcTemplate.query(SQL, new Object[]{albumid}, new ClassidMapper());
-		} catch (Exception e) {
-			System.out.println("getClassidList: " + e.getMessage());
-			classidList = new ArrayList<Integer>();
-		}
-		return classidList;
-	}
-	
-	private static final class ClassidMapper implements RowMapper<Integer>{
-		@Override
-		public Integer mapRow(ResultSet rs, int arg1) throws SQLException {
-			Integer classid = rs.getInt("classid");
-			return classid;
-		}
-	}
-	
-	/**
 	 * @title getAlbumidList
 	 * @description 根据classid查询相册集关联的相册id列表
 	 * @param classid
@@ -566,6 +633,24 @@ public class AlbumDAO {
 		String SQL = "SELECT albumid FROM album_albumclass WHERE classid = ?";
 		try {
 			albumidList = jdbcTemplate.query(SQL, new Object[]{classid}, new AlbumidMapper());
+		} catch (Exception e) {
+			System.out.println("getAlbumidList: " + e.getMessage());
+			albumidList = new ArrayList<Integer>();
+		}
+		return albumidList;
+	}
+	
+	/**
+	 * @title getAlbumidList
+	 * @description 根据appid查询一个应用下的所有相册id列表
+	 * @param appid
+	 * @return
+	 */
+	public List<Integer> getAlbumidList(String appid){
+		List<Integer> albumidList = null;
+		String SQL = "SELECT albumid FROM album WHERE appid = ?";
+		try {
+			albumidList = jdbcTemplate.query(SQL, new Object[]{appid}, new AlbumidMapper());
 		} catch (Exception e) {
 			System.out.println("getAlbumidList: " + e.getMessage());
 			albumidList = new ArrayList<Integer>();
@@ -613,6 +698,60 @@ public class AlbumDAO {
 	}
 
 	/**
+	 * @title getAlbumContent
+	 * @description 根据albumid查询相册基本信息以及关联相册信息 (albumid, albumName, coverPic, classidList, photoList)
+	 * @param albumid
+	 * @return
+	 */
+	public Album getAlbumContent(int albumid){
+		Album album = null;
+		String SQL = "SELECT albumid, albumName, coverPic FROM album WHERE albumid = ?";
+		
+		try {
+			album = jdbcTemplate.queryForObject(SQL, new Object[]{albumid}, new AlbumContentMapper());
+		} catch (Exception e) {
+			System.out.println("getAlbumContent: " + e.getMessage());
+		}
+		
+		if (album != null) {
+			album.setClassidList(getClassidList(album.getAlbumid()));
+			album.setPhotoList(getPhotoList(album.getAlbumid()));
+		}	
+		return album;
+	}
+	
+	private static final class AlbumContentMapper implements RowMapper<Album>{
+		@Override
+		public Album mapRow(ResultSet rs, int arg1) throws SQLException {
+			Album album = new Album();
+			album.setAlbumid(rs.getInt("albumid"));
+			album.setAlbumName(rs.getString("albumName"));
+			album.setCoverPic(rs.getString("coverPic"));
+			return album;
+		}	
+	}
+	
+	/**
+	 * @title getAlbumForCustomer
+	 * @description 根据albumid获取albumName, photoList供手机端显示
+	 * @param albumid
+	 * @return
+	 */
+	public Album getAlbumForCustomer(int albumid){
+		Album album = null;
+		String SQL = "SELECT albumid, albumName FROM album WHERE appid = ?";
+		try {
+			album = jdbcTemplate.queryForObject(SQL, new Object[]{albumid}, new BasicAlbuminfoMapper());
+		} catch (Exception e) {
+			System.out.println("getAlbumForCustomer: " + e.getMessage());
+		}
+		if (album != null) {
+			album.setPhotoList(getPhotoList(albumid));
+		}
+		return album;
+	}
+	
+	/**
 	 * @title getBasicAlbuminfos
 	 * @description 根据appid查询相册基本信息 (albumid, albumName)
 	 * @param appid
@@ -624,7 +763,7 @@ public class AlbumDAO {
 		try {
 			albumList = jdbcTemplate.query(SQL, new Object[]{appid}, new BasicAlbuminfoMapper());
 		} catch (Exception e) {
-			System.out.println("" + e.getMessage());
+			System.out.println("getBasicAlbuminfos: " + e.getMessage());
 			albumList = new ArrayList<Album>();
 		}
 		return albumList;
@@ -691,6 +830,27 @@ public class AlbumDAO {
 			Album album = albumList.get(i);
 			int count = getPhotoCount(album.getAlbumid());
 			album.setPhotoCount(count);
+		}
+		return albumList;
+	}
+	
+	/**
+	 * @title getAlbumClassForCustomer
+	 * @description 根据classid获取相册集关联的相册信息列表供手机端显示，包括 (albumid, albumName, coverPic, createTime)
+	 * @param classid
+	 * @return
+	 */
+	public List<Album> getAlbumClassForCustomer(int classid){
+		String SQL = "SELECT A.albumid, A.albumName, A.coverPic, A.createTime FROM "
+				+ "album A, album_albumclass B WHERE A.albumid = B.albumid "
+				+ "AND B.classid = ? ORDER BY A.createTime DESC";
+        List<Album> albumList = null;
+        
+		try {
+			albumList = jdbcTemplate.query(SQL, new Object[]{classid}, new DetailedAlbuminfoMapper());
+		} catch (Exception e) {
+			System.out.println("getAlbumClassForCustomer: " + e.getMessage());
+			albumList = new ArrayList<Album>();
 		}
 		return albumList;
 	}

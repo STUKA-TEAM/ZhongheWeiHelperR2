@@ -15,9 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import controller.store.ArticleController;
 import register.dao.AuthInfoDAO;
 import register.dao.UserInfoDAO;
+import album.Album;
+import album.dao.AlbumDAO;
 import article.Article;
 import article.dao.ArticleDAO;
 import website.Website;
@@ -107,6 +108,7 @@ public class WebsiteController {
 		WebsiteDAO websiteDao = (WebsiteDAO) context.getBean("WebsiteDAO");
 		UserInfoDAO userInfoDao = (UserInfoDAO) context.getBean("UserInfoDAO");
 		ArticleDAO articleDao = (ArticleDAO) context.getBean("ArticleDAO");
+		AlbumDAO albumDao = (AlbumDAO) context.getBean("AlbumDAO");
 		((ConfigurableApplicationContext)context).close();
 		
 		WebsiteNode node = websiteDao.getWebsiteNode(nodeid);
@@ -119,7 +121,8 @@ public class WebsiteController {
 			String childrenType = node.getChildrenType();
 			List<Integer> nodeidList = websiteDao.getNodeChildid(nodeid);
 			
-			if (childrenType.equals("node")) {
+			switch (childrenType) {
+			case "node":
 				List<WebsiteNode> nodeList = new ArrayList<WebsiteNode>();
 				for (int i = 0; i < nodeidList.size(); i++) {
 					WebsiteNode temp = websiteDao.getWebsiteNode(nodeidList.get(i));
@@ -127,44 +130,47 @@ public class WebsiteController {
 						nodeList.add(temp);
 					}
 				}
-				
 				Integer sid = userInfoDao.getSidByWebsiteid(node.getWebsiteid());
 				List<String> imageList = null;
 				if (sid != null) {
 					imageList = userInfoDao.getUserImages(sid);
 				}
-				
 				model.addAttribute("imageList", imageList);
 				model.addAttribute("nodeList", nodeList);
 				viewName = viewName + "nodeList";
-				
-			}else {
-				if (childrenType.equals("article") && nodeidList.size() == 1) {
-					Article article = articleDao.getArticleForCustomer(nodeidList.get(0));
-
-					model.addAttribute("article", article);
-					viewName = viewName + "article";
-					
-				}else {
-					if (childrenType.equals("articleclass") && nodeidList.size() == 1) {
-						List<Integer> articleidList = articleDao.getArticleidList(nodeidList.get(0));
-						List<Article> articleList = new ArrayList<Article>();
-						for (int i = 0; i < articleidList.size(); i++) {
-							Article article = articleDao.getArticleIntroinfo(articleidList.get(i));
-							if (article != null) {
-								articleList.add(article);
-							}
-						}
-						
-						model.addAttribute("articleList", articleList);
-						viewName = viewName + "articleclass";
-						
-					}else {
-						viewName = viewName + "exception";
+				break;
+			case "article":
+				Article article = articleDao.getArticleForCustomer(nodeidList.get(0));
+				model.addAttribute("article", article);
+				viewName = viewName + "article";
+				break;
+			case "articleclass":
+				List<Integer> articleidList = articleDao.getArticleidList(nodeidList.get(0));
+				List<Article> articleList = new ArrayList<Article>();
+				for (int i = 0; i < articleidList.size(); i++) {
+					Article article2 = articleDao.getArticleIntroinfo(articleidList.get(i));
+					if (article2 != null) {
+						articleList.add(article2);
 					}
 				}
+				model.addAttribute("articleList", articleList);
+				viewName = viewName + "articleclass";
+				break;
+			case "album":
+				Album album = albumDao.getAlbumForCustomer(nodeidList.get(0));
+				model.addAttribute("album", album);
+				viewName = viewName + "album";
+				break;
+			case "albumclass":
+				List<Album> albumList = albumDao.getAlbumClassForCustomer(nodeidList.get(0));
+				model.addAttribute("albumList", albumList);
+				viewName = viewName + "albumclass";
+				break;
+			default:
+				viewName = viewName + "exception";
+				break;
 			}
-		}else {
+		} else {
 			viewName = viewName + "exception";
 		}
 		return viewName;
@@ -172,7 +178,7 @@ public class WebsiteController {
 	
 	/**
 	 * @title getArticle
-	 * @description 根据articleid获取单篇文章内容信息
+	 * @description 根据articleid获取文章内容信息
 	 * @param model
 	 * @param articleid
 	 * @return
@@ -190,16 +196,13 @@ public class WebsiteController {
 		String viewName = "WebsiteViews/";
 		
 		if (article != null) {	
-			Website website = websiteDao.getWebsiteInfoForCustomer(websiteid);
-			
+			Website website = websiteDao.getWebsiteInfoForCustomer(websiteid);		
 	        model.addAttribute("website", website);
 			model.addAttribute("article", article);
-			viewName = viewName + "article";
-			
+			viewName = viewName + "article";		
 		}else {
 			viewName = viewName + "exception";
 		}
-		
 		return viewName;
 	}
 	
@@ -229,9 +232,63 @@ public class WebsiteController {
 			}
 		}	
 		model.addAttribute("articleList", articleList);
-		
 		Website website = websiteDao.getWebsiteInfoForCustomer(websiteid);	
         model.addAttribute("website", website);
 		return "WebsiteViews/articleclass";
+	}
+	
+	/**
+	 * @title getAlbum
+	 * @description 根据albumid获取相册信息
+	 * @param model
+	 * @param albumid
+	 * @param websiteid
+	 * @return
+	 */
+	@RequestMapping(value = "/album", method = RequestMethod.GET)
+	public String getAlbum(Model model, @RequestParam(value = "albumid", required = true) int albumid,
+			@RequestParam(value = "websiteid", required = true) int websiteid){
+		ApplicationContext context = 
+				new ClassPathXmlApplicationContext("All-Modules.xml");
+		WebsiteDAO websiteDao = (WebsiteDAO) context.getBean("WebsiteDAO");
+		AlbumDAO albumDao = (AlbumDAO) context.getBean("AlbumDAO");
+		((ConfigurableApplicationContext)context).close();
+		
+		Album album = albumDao.getAlbumForCustomer(albumid);
+		String viewName = "WebsiteViews/";
+		
+		if (album != null) {	
+			Website website = websiteDao.getWebsiteInfoForCustomer(websiteid);		
+	        model.addAttribute("website", website);
+			model.addAttribute("album", album);
+			viewName = viewName + "album";	
+		}else {
+			viewName = viewName + "exception";
+		}
+		return viewName;
+	}
+	
+	/**
+	 * @title getAlbumClass
+	 * @description 根据classid获取相册集下相册信息
+	 * @param model
+	 * @param classid
+	 * @param websiteid
+	 * @return
+	 */
+	@RequestMapping(value = "/albumclass", method = RequestMethod.GET)
+	public String getAlbumClass(Model model, @RequestParam(value = "classid", required = true) int classid,
+			@RequestParam(value = "websiteid", required = true) int websiteid){
+		ApplicationContext context = 
+				new ClassPathXmlApplicationContext("All-Modules.xml");
+		WebsiteDAO websiteDao = (WebsiteDAO) context.getBean("WebsiteDAO");
+		AlbumDAO albumDao = (AlbumDAO) context.getBean("AlbumDAO");
+		((ConfigurableApplicationContext)context).close();
+		
+		List<Album> albumList = albumDao.getAlbumClassForCustomer(classid);
+		model.addAttribute("albumList", albumList);
+		Website website = websiteDao.getWebsiteInfoForCustomer(websiteid);	
+        model.addAttribute("website", website);
+		return "WebsiteViews/albumclass";
 	}
 }
