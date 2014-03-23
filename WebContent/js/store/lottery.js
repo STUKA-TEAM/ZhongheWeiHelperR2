@@ -11,7 +11,7 @@ function scrollStop(){
   result = $(".scroll li:nth-child(5)").text();
   $(".scroll li:nth-child(5)").css({color:"#ffffff"});
   arr = result.split(":");
-  pop_show(arr[0], arr[1]);
+  setTimeout("pop_show(arr[0], arr[1])", 1000);
   state = true;
 }
 function pop_show(name, content){
