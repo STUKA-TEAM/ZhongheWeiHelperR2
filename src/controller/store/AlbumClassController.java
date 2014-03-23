@@ -1,7 +1,9 @@
 package controller.store;
 
+import java.io.InputStream;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -26,6 +28,8 @@ import com.google.gson.Gson;
 import register.dao.AppInfoDAO;
 import security.User;
 import tools.CommonValidationTools;
+import website.ViewLinkInfo;
+import website.dao.WebsiteDAO;
 import album.Album;
 import album.AlbumClass;
 import album.dao.AlbumDAO;
@@ -54,6 +58,7 @@ public class AlbumClassController {
 				new ClassPathXmlApplicationContext("All-Modules.xml");
 		AlbumDAO albumDao = (AlbumDAO) context.getBean("AlbumDAO");
 		AppInfoDAO appInfoDao = (AppInfoDAO) context.getBean("AppInfoDAO");
+		WebsiteDAO websiteDao = (WebsiteDAO) context.getBean("WebsiteDAO");
 		((ConfigurableApplicationContext)context).close();
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -72,6 +77,22 @@ public class AlbumClassController {
 			else {	
 				List<AlbumClass> classList = albumDao.getDetailedClassinfos(appid);
 				model.addAttribute("classList", classList);
+				
+				Integer websiteid = websiteDao.getWebsiteidByAppid(appid);
+				InputStream inputStream = AlbumClassController.class.getResourceAsStream("/environment.properties");
+				Properties properties = new Properties();
+				String appPath = null;
+				try {
+					properties.load(inputStream);
+					appPath = (String)properties.get("applicationPath");
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
+				}
+				
+				ViewLinkInfo viewLinkInfo = new ViewLinkInfo();
+				viewLinkInfo.setWebsiteid(websiteid);
+				viewLinkInfo.setAppPath(appPath);
+				model.addAttribute("viewLinkInfo", viewLinkInfo);
 				return "AlbumViews/albumclassList";
 			}
 		}

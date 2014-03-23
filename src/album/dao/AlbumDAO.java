@@ -246,6 +246,24 @@ public class AlbumDAO {
 		return effected <= 0 ? 0 : effected;
 	}
 	
+	/**
+	 * @title deletePhotoList
+	 * @description 根据albumid删除照片信息列表，此处不维护图片临时记录
+	 * @param albumid
+	 * @return
+	 */
+	public int deletePhotoList(int albumid){
+		String SQL = "DELETE FROM album_image WHERE albumid = ?";
+		int result = jdbcTemplate.update(SQL, albumid);
+		return result <= 0 ? 0 : result;
+	}
+	
+	/**
+	 * @title deleteAlbum
+	 * @description 根据albumid删除相册基本信息、相册与相册集关系信息以及相册照片信息
+	 * @param albumid
+	 * @return
+	 */
 	public int deleteAlbum(int albumid){
 		String SQL = "DELETE FROM album WHERE albumid = ?";
 		int result = 0;
@@ -259,8 +277,6 @@ public class AlbumDAO {
 				insertImageTempRecord(coverPic, current);
 			}
 			
-			
-			
 			for (int i = 0; i < album.getPhotoList().size(); i++) {
 				Photo photo = album.getPhotoList().get(i);
 				insertImageTempRecord(photo.getImagePath(), current);
@@ -272,9 +288,11 @@ public class AlbumDAO {
 		result = jdbcTemplate.update(SQL, albumid);
 		if (result > 0) {
 			deleteACRByAlbumid(albumid);
-			
+			deletePhotoList(albumid);
+			return result;
+		} else {
+			return 0;
 		}
-		return 0;
 	}
 	
 	/**
@@ -318,7 +336,53 @@ public class AlbumDAO {
 	
 	//update
 	public int updateAlbum(Album album){
-		return 0;
+		String SQL = "UPDATE album SET albumName = ?, coverPic = ? WHERE albumid = ?";
+		int result = 0;
+		
+		Album oldAlbum = getAlbumMedia(album.getAlbumid());
+		if (oldAlbum != null) {
+			Timestamp current = new Timestamp(System.currentTimeMillis());
+			
+			String originalCoverPic = oldAlbum.getCoverPic();
+			String currentCoverPic = album.getCoverPic();
+			if (currentCoverPic == null) {
+				currentCoverPic = "";
+			}
+			if (!currentCoverPic.equals(originalCoverPic)) {
+				if (originalCoverPic != null && !originalCoverPic.equals("")) {
+					insertImageTempRecord(originalCoverPic, current);
+				}
+				
+				if (!currentCoverPic.equals("")) {
+					deleteImageTempRecord(currentCoverPic);
+				}
+			}
+			
+			
+			
+		} else {
+			return 0;
+		}
+		
+		result = jdbcTemplate.update(SQL, album.getAlbumName(), album.getCoverPic(),album.getAlbumid());
+		if (result > 0) {
+			deleteACRByAlbumid(album.getAlbumid());
+			deletePhotoList(album.getAlbumid());
+			
+			result = insertACRByAlbumid(album.getAlbumid(), album.getClassidList());
+			if (result == 0) {
+				return -1;
+			}
+			
+			result = insertPhotoList(album.getAlbumid(), album.getPhotoList());
+			if (result == 0) {
+				return -2;
+			}
+			
+			return result;
+		} else {
+			return 0;
+		}
 	}
 	
 	/**
