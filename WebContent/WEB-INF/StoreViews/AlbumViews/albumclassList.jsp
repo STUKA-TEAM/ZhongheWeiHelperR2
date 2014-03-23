@@ -23,7 +23,7 @@
         </ol>
         <div class="row website-tab">
           <div class="album-btn-group clearfix col-md-offset-1">
-            <a class="btn btn-info pull-left btn-margin"  data-toggle="modal" data-target="#create_album_set">新建相册集</a>
+            <a class="btn btn-info pull-left btn-margin"  onclick="addAlbumclass()">新建相册集</a>
           </div>
           <div class="col-md-10 col-md-offset-1">
             <table class="table table-striped table-bordered">
@@ -33,17 +33,20 @@
                   <th>相册集名称</th>
                   <th>属于该相册集的相册数目</th>
                   <th></th>
-                  <th></th>
                 </tr>
               </thead>
               <tbody>
+                <c:forEach items="${classList}" var="item">
                 <tr>
-                  <td>2014-1-23 22:59:33</td>
-                  <td>本店菜品</td>
-                  <td>10</td>
-                  <td><a class="btn btn-sm btn-info" data-toggle="modal" data-target="#create_album_set">编辑</a></td>
-                  <td><a class="btn btn-sm btn-danger" onclick="submitDeleteAlbumclass()">删除</a></td>
+                  <td><fmt:formatDate value="${item.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+                  <td>${item.className}</td>
+                  <td>${item.albumCount}</td>
+                  <td><a class="btn btn-sm btn-info" onclick="editAlbumclass('${item.classid}')">编辑</a>
+                      <a class="btn btn-sm btn-info" target="_blank" href="customer/albumclass?websiteid=${viewLinkInfo.websiteid}&classid=${item.classid}">预览</a>
+                      <a class="btn btn-sm btn-info" onclick="viewLink('相册集链接','${viewLinkInfo.appPath}customer/albumclass?websiteid=${viewLinkInfo.websiteid}&classid=${item.classid}',${viewLinkInfo.websiteid})">生成链接</a>
+                  <a class="btn btn-sm btn-danger" onclick="submitDeleteAlbumclass('${item.classid}')">删除</a></td>
                 </tr>
+                </c:forEach>
               </tbody>
             </table>
           </div>
@@ -52,8 +55,8 @@
     </div>
     
     
-    <div class="modal fade" id="create_album_set" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
+    <div class="modal fade" id="album_class_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog" id="album_class_dialog">
 
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->    

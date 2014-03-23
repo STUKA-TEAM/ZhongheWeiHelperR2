@@ -25,16 +25,16 @@
           <div class="album-btn-group clearfix col-md-offset-1">
             <a class="btn btn-info pull-left btn-margin" href="store/album/add">新建相册</a>
             <form>
-              <select class="form-control album-select">
-                <option>所有相册</option>
-                <option>相册1</option>
-                <option>相册2</option>
-                <option>相册3</option>
-                <option>相册4</option>
+              <select class="form-control album-select" onchange="filterAlbumByType(this.options[this.options.selectedIndex].value)">
+                <c:forEach items="${classList}" var="item">                
+                <option value="${item.classid}" <c:if test="${item.selected}">selected</c:if> >${item.className}</option>
+                ${item.selected}
+                </c:forEach>
               </select>
             </form>
           </div>
           <div class="col-md-10 col-md-offset-1">
+          <div class="col-md-9 alert alert-warning">提示：“生成链接”获取的链接可以在左侧栏目“账号管理-关联公众账号-配置自定义菜单”中使用。</div>          
             <table class="table table-striped table-bordered">
               <thead>
                 <tr>
@@ -43,26 +43,23 @@
                   <th>相册封面</th>
                   <th>图片数量</th>
                   <th></th>
-                  <th></th>
                 </tr>
               </thead>
               <tbody>
+                <c:forEach items="${albumList}" var="item">
                 <tr>
-                  <td>2014-1-23 22:59:33</td>
-                  <td>冷菜</td>
-                  <td><img src="./img/manager/theme2.png" class="pic-preview img-thumbnail img-responsive"/></td>
-                  <td>5张</td>
-                  <td><a class="btn btn-sm btn-info" href="./album-edit.html">编辑</a></td>
-                  <td><a class="btn btn-sm btn-danger">删除</a></td>
+                  <td><fmt:formatDate value="${item.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+                  <td>${item.albumName}</td>
+                  <td>
+                  <c:if test="${item.coverPic!=null}">
+                  <img src="${item.coverPic}_original.jpg" class="pic-preview img-thumbnail img-responsive"/>
+                  </c:if>
+                  </td>
+                  <td>${item.photoCount}</td>
+                  <td><a class="btn btn-sm btn-info" href="store/album/edit?albumid=${item.albumid}">编辑</a>
+                  <a class="btn btn-sm btn-danger" onclick="submitDeleteAlbum('${item.albumid}')">删除</a></td>
                 </tr>
-                <tr>
-                  <td>2014-1-23 22:59:33</td>
-                  <td>热菜</td>
-                  <td>未添加</td>
-                  <td>0张</td>
-                  <td><a class="btn btn-sm btn-info" href="./album-edit.html">编辑</a></td>
-                  <td><a class="btn btn-sm btn-danger">删除</a></td>
-                </tr>
+                </c:forEach>
               </tbody>
             </table>
           </div>
@@ -81,11 +78,11 @@
           </div>
           <div class="modal-body">
             <h4 id="confirmModalMes" class="modal-title"></h4>
-            <input id="articleidhidden" type="hidden" value=""/>
+            <input id="albumidhidden" type="hidden" value=""/>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="confirmDelete()">确认删除</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="confirmDeleteAlbum()">确认删除</button>
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->

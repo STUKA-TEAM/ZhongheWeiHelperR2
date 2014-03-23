@@ -12,32 +12,33 @@
               <div class="form-group">
                 <label class="col-md-3 control-label">相册集名称</label>
                 <div class="col-md-7">
-                  <input type="text" class="form-control" placeholder="">
+                  <input id="className" type="text" class="form-control" placeholder="" value="${albumclass.className}">
                 </div>
               </div>
               <div class="form-group">
-                <label class="col-md-3 control-label">添加相册</label>
-                <div class="col-md-7">
-                  <div class="checkbox">
-                    <label>
-                      <input type="checkbox" value=""> 相册1
-                    </label>
-                  </div>
-                  <div class="checkbox">
-                    <label>
-                      <input type="checkbox" value=""> 相册2
-                    </label>
-                  </div>
-                  <div class="checkbox">
-                    <label>
-                      <input type="checkbox" value=""> 相册3
-                    </label>
-                  </div>
-                </div>
+			      <label for="story_groom" class="col-md-3 control-label">添加相册</label>
+			      <div class="col-md-7">
+			        <div class="panel panel-default">
+			          <div class="panel-body">
+			            <ul class="list-unstyled">
+			            <c:forEach items="${albumList}" var="item">
+			              <li>
+			                <div class="checkbox">
+			                  <label>
+			                    <input type="checkbox" name="options" value="${item.albumid}" <c:if test="${item.selected}">checked</c:if> >${item.albumName}
+			                  </label>
+			                </div>
+			              </li>
+			            </c:forEach>			
+			            </ul>
+			            <input id="editclassid" type="hidden" value="${albumclass.classid}">
+			          </div>
+			        </div>
+			      </div>
               </div>
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-info" data-dismiss="modal">确定</button>
+            <button type="button" class="btn btn-info" onclick="submitAlbumclass('edit')">确定</button>
           </div>
         </div><!-- /.modal-content -->

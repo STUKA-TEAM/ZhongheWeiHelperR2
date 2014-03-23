@@ -44,7 +44,7 @@ Windows:
         ---------------------------------------------------------------------------------------------------------------------------------
             albumid      int(11)      No         <auto_increment>       Yes                 相册id
             appid        varchar(32)  No                                No                  UUID
-            albumName    varchar(20)  No                                No                  相册名称
+            albumName    varchar(40)  No                                No                  相册名称
             coverPic     varchar(80)  Yes        NULL                   No                  相册封面图片
             createTime   timestamp    No         0000-00-00 00:00:00    No                  相册创建时间
 [2014-3-24][index: 0016]添加表albumclass
@@ -52,7 +52,7 @@ Windows:
         ---------------------------------------------------------------------------------------------------------------------------------
             classid      int(11)      No         <auto_increment>       Yes                 相册集id
             appid        varchar(32)  No                                No                  UUID
-            className    varchar(20)  No                                No                  相册集名称
+            className    varchar(40)  No                                No                  相册集名称
             createTime   timestamp    No         0000-00-00 00:00:00    No                  相册集创建时间
 [2014-3-24][index: 0017]添加表album_image
             Name         Type         NULL       Default                Primary Key         Comment
