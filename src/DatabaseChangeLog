@@ -68,6 +68,8 @@ Windows:
             albumid      int(11)      No         0                      No                  相册id
             classid      int(11)      No         0                      No                  相册集id
 [2014-3-24][index: 0019]表articleclass修改className字段  Length由20改为40
+[2014-3-24][index: 0020]表website修改title字段  Length由30改为40
+[2014-3-24][index: 0021]表website_node修改nodeName字段  Length由20改为40
 
 Linux:
 [2014-2-22][index: 0001]done

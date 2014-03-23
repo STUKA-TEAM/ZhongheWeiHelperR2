@@ -15,8 +15,7 @@ public class WebsiteNode {
 	private String nodeName;
 	private String nodePic;
 	private String childrenType;
-	private int articleid;
-	private int classid;
+	private int childid;
 	private int websiteid;
 	/**
 	 * @return the nodeid
@@ -103,28 +102,16 @@ public class WebsiteNode {
 		this.childrenType = childrenType;
 	}
 	/**
-	 * @return the articleid
+	 * @return the childid
 	 */
-	public int getArticleid() {
-		return articleid;
+	public int getChildid() {
+		return childid;
 	}
 	/**
-	 * @param articleid the articleid to set
+	 * @param childid the childid to set
 	 */
-	public void setArticleid(int articleid) {
-		this.articleid = articleid;
-	}
-	/**
-	 * @return the classid
-	 */
-	public int getClassid() {
-		return classid;
-	}
-	/**
-	 * @param classid the classid to set
-	 */
-	public void setClassid(int classid) {
-		this.classid = classid;
+	public void setChildid(int childid) {
+		this.childid = childid;
 	}
 	/**
 	 * @return the websiteid

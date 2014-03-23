@@ -167,32 +167,26 @@ public class WebsiteDAO {
 		for (int i = 0; i < nodeList.size(); i++) {
 			WebsiteNode node1 = nodeList.get(i);
 			
-			for (int j = 0; j < nodeList.size(); j++) {
-				WebsiteNode node2 = nodeList.get(j);
-				if (node1.getFatherUUID().equals(node2.getUUID())) {
-					result = jdbcTemplate.update(SQL, node2.getNodeid(), node1.getNodeid());
-					if (result <= 0) {
-						return 0;
+			if (!node1.getNodeName().equals("root")) {
+				for (int j = 0; j < nodeList.size(); j++) {
+					WebsiteNode node2 = nodeList.get(j);
+					if (node1.getFatherUUID().equals(node2.getUUID())) {
+						result = jdbcTemplate.update(SQL, node2.getNodeid(), node1.getNodeid());
+						if (result <= 0) {
+							return 0;
+						}
+						break;
 					}
-					break;
 				}
 			}
 			
-			if (node1.getChildrenType().equals("article")) {
-				result = jdbcTemplate.update(SQL, node1.getNodeid(), node1.getArticleid());
-				if (result <= 0) {
-					return 0;
-				}
-			}
-			
-			if (node1.getChildrenType().equals("articleclass")) {
-				result = jdbcTemplate.update(SQL, node1.getNodeid(), node1.getClassid());
+			if (!node1.getChildrenType().equals("node")) {
+				result = jdbcTemplate.update(SQL, node1.getNodeid(), node1.getChildid());
 				if (result <= 0) {
 					return 0;
 				}
 			}
 		}
-		
 		return result;
 	}
 	
@@ -771,25 +765,11 @@ public class WebsiteDAO {
 			String childrenType = node.getChildrenType();
 			if (childrenType.equals("node")) {
 				setFather(nodeList, childidList, node.getNodeid());
-			}else {
-				if (childrenType.equals("article")) {
-					if (childidList.size() == 1) {
-						node.setArticleid(childidList.get(0));
-					}else {
-						System.out.println("error for article");
-					}
-					
-				}else {
-					if (childrenType.equals("articleclass")) {
-						if (childidList.size() == 1) {
-							node.setClassid(childidList.get(0));
-						}else {
-							System.out.println("error for articleclass");
-						}
-						
-					}else {
-						//叶子节点，且未挂任何文章或文章类资源
-					}
+			} else {
+				if (childidList.size() == 1) {
+					node.setChildid(childidList.get(0));
+				} else {
+					System.out.println("error for the number of children !");
 				}
 			}
 		}
