@@ -20,6 +20,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import album.Album;
 import album.AlbumClass;
 import album.Photo;
+
 /**
  * @Title: AlbumDAO
  * @Description: DAO for album and albumclass model
@@ -956,5 +957,47 @@ public class AlbumDAO {
 			photo.setImagePath(rs.getString("imagePath"));
 			return photo;
 		}		
+	}
+	
+	/**
+	 * @title getWebsiteidByClassid
+	 * @description 根据classid查询同一应用下的websiteid
+	 * @param classid
+	 * @return
+	 */
+	public Integer getWebsiteidByClassid(int classid){
+		Integer websiteid = null;
+		String SQL = "SELECT W.websiteid FROM website W, albumclass A WHERE W.appid = A.appid AND A.classid = ?";
+		try {
+			websiteid = jdbcTemplate.queryForObject(SQL, new Object[]{classid}, new WebsiteidMapper());
+		} catch (Exception e) {
+			System.out.println("getWebsiteidByClassid: " + e.getMessage());
+		}
+		return websiteid;
+	}
+	
+	/**
+	 * @title getWebsiteidByAlbumid
+	 * @description 根据albumid查询同一应用下的websiteid
+	 * @param albumid
+	 * @return
+	 */
+	public Integer getWebsiteidByAlbumid(int albumid){
+		Integer websiteid = null;
+		String SQL = "SELECT W.websiteid FROM website W, album A WHERE W.appid = A.appid AND A.albumid = ?";
+		try {
+			websiteid = jdbcTemplate.queryForObject(SQL, new Object[]{albumid}, new WebsiteidMapper());
+		} catch (Exception e) {
+			System.out.println("getWebsiteidByAlbumid: " + e.getMessage());
+		}
+		return websiteid;
+	}
+	
+	private static final class WebsiteidMapper implements RowMapper<Integer>{
+		@Override
+		public Integer mapRow(ResultSet rs, int arg1) throws SQLException {
+			Integer websiteid = rs.getInt("W.websiteid");
+			return websiteid;
+		}
 	}
 }
