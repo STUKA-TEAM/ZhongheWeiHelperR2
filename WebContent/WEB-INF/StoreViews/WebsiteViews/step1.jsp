@@ -48,9 +48,9 @@
         <div id="baidumap"></div>
         <form  class="form-group" role="form" enctype="multipart/form-data" id="upload1single">
           <label for="elove_pic" class="col-md-3 control-label">图文消息图片</label>
-          <div class="col-md-7">
+          <div class="col-md-9">
             <input type="file" name="file" class="image-file hidden" onchange="ye.value=value" accept="image/*">
-            <input type="text" name=ye class="form-control file-path-elove">
+            <input type="text" name=ye class="form-control file-path">
             <input type="button" value="选择文件" onclick="file.click()" class="btn btn-sm btn-info">
             <input type="button" value="上传" class="image-multi btn btn-sm btn-info">
           </div>
@@ -80,15 +80,40 @@
         <div class="form-group">
           <label for="story_bride" class="col-md-3 control-label">分享消息标题</label>
           <div class="col-md-7">
-            <input type="text" class="form-control" id="shareTitle" placeholder="" value="${websiteWizard.shareTitle}">
+            <input type="text" class="form-control" id="shareTitle" placeholder="分享给好友、分享到朋友圈时显示的消息标题" value="${websiteWizard.shareTitle}">
           </div>
         </div>
         <div class="form-group">
           <label for="story_bride" class="col-md-3 control-label">分享消息文字</label>
           <div class="col-md-7">
-            <input type="text" class="form-control" id="shareContent" placeholder="" value="${websiteWizard.shareContent}">
+            <input type="text" class="form-control" id="shareContent" placeholder="分享给好友、分享到朋友圈时显示的消息内容" value="${websiteWizard.shareContent}">
           </div>
         </div>
+        <form  class="form-group" role="form" enctype="multipart/form-data" id="upload2single">
+             <label for="sharePic" class="col-md-3 control-label">分享消息图片</label>
+             <div class="col-md-9">
+               <input type="file" name="file" class="image-file hidden" onchange="ye.value=value" accept="image/*">
+               <input type="text" name=ye placeholder="分享给好友、分享到朋友圈时显示的消息图片(300px*300px)" class="form-control file-path">
+               <input type="button" value="选择文件" onclick="file.click()" class="btn btn-sm btn-info">
+            <input type="button" value="上传" class="image-square btn btn-sm btn-info">
+          </div>
+        </form>
+        <div class="form-group">
+          <div class="col-md-7 col-md-offset-3">
+            <div class="row" id="upload2single-images">
+            <c:if test="${websiteWizard.sharePic!=null}">
+            <div id="${websiteWizard.sharePic}" class="col-md-6 pic-preview-div"><img src="${websiteWizard.sharePic}_original.jpg" class="pic-preview img-thumbnail img-responsive"/>
+              <span class="glyphicon glyphicon-trash" onclick="deleteThisImage('${websiteWizard.sharePic}')"> </span>
+            </div>
+            </c:if>
+            </div>
+            <div id="upload2single-links">
+            <c:if test="${websiteWizard.sharePic!=null}">
+            <input id="${websiteWizard.sharePic}-input" type="hidden" value="${websiteWizard.sharePic}"/>
+            </c:if>
+               </div>
+             </div>
+           </div>
         <div class="form-group">
           <label for="story_bride" class="col-md-3 control-label">页面脚注</label>
           <div class="col-md-7">

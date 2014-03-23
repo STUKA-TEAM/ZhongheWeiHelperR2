@@ -6,14 +6,14 @@
 			// 发送给好友
 			WeixinJSBridge.on('menu:share:appmessage', function (argv) {
 				WeixinJSBridge.invoke('sendAppMessage', { 
-					"img_url": "http://223.166.98.250/resources/images/bc941ecbb6804de9a70f2f5811b8c21d_original.jpg",
-					"img_width": "640",
-					"img_height": "640",
-					"link": "http://223.166.98.250/ZhongheWeiHelperR2/customer/website/home?websiteid=1",
-					"desc": "描述",
-					"title": "标题"
+					"img_url": "",
+					"img_width": "300",
+					"img_height": "300",
+					"link": "",
+					"desc": "",
+					"title": ""
 				}, function (res) {
-				})
+				});
 			});
 
 			// 分享到朋友圈

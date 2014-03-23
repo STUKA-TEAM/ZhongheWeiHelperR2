@@ -15,6 +15,12 @@ function getStep1Data(){
 	step1Info.coverText=$("#coverText").val();
 	step1Info.shareTitle=$("#shareTitle").val();
 	step1Info.shareContent=$("#shareContent").val();
+	var sharePic=$("#upload2single-links").children();
+	if(sharePic.length!=0){
+		step1Info.sharePic=sharePic[0].value;
+	}else{
+		step1Info.sharePic="";
+	}
 	step1Info.footerText=$("#footerText").val();
 	step1Info.themeId=$("input[name='optionsRadios']:checked").val();
     var linkInputArray=$("#upload1-links").children();
