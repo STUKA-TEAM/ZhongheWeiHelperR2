@@ -39,6 +39,37 @@ Windows:
             id           int(11)      No         <auto_increment>       Yes                 
             code         varchar(6)   No                                No                  注册码
 [2014-3-21][index: 0014]表website添加sharePic字段     type: varchar(80)  NULL: Yes  Default: NULL  Comment: 分享消息图片
+[2014-3-23][index: 0015]添加表album
+            Name         Type         NULL       Default                Primary Key         Comment
+        ---------------------------------------------------------------------------------------------------------------------------------
+            albumid      int(11)      No         <auto_increment>       Yes                 相册id
+            appid        varchar(32)  No                                No                  UUID
+            albumName    varchar(40)  No                                No                  相册名称
+            coverPic     varchar(80)  Yes        NULL                   No                  相册封面图片
+            createTime   timestamp    No         0000-00-00 00:00:00    No                  相册创建时间
+[2014-3-24][index: 0016]添加表albumclass
+            Name         Type         NULL       Default                Primary Key         Comment
+        ---------------------------------------------------------------------------------------------------------------------------------
+            classid      int(11)      No         <auto_increment>       Yes                 相册集id
+            appid        varchar(32)  No                                No                  UUID
+            className    varchar(40)  No                                No                  相册集名称
+            createTime   timestamp    No         0000-00-00 00:00:00    No                  相册集创建时间
+[2014-3-24][index: 0017]添加表album_image
+            Name         Type         NULL       Default                Primary Key         Comment
+        ---------------------------------------------------------------------------------------------------------------------------------
+            id           int(11)      No         <auto_increment>       Yes                 
+            albumid      int(11)      No         0                      No                  相册id
+            imagePath    varchar(80)  No                                No                  照片路径
+            imageDesc    varchar(300) Yes        NULL                   No                  照片描述信息
+[2014-3-24][index: 0018]添加表album_albumclass
+            Name         Type         NULL       Default                Primary Key         Comment
+        ---------------------------------------------------------------------------------------------------------------------------------
+            id           int(11)      No         <auto_increment>       Yes                 
+            albumid      int(11)      No         0                      No                  相册id
+            classid      int(11)      No         0                      No                  相册集id
+[2014-3-24][index: 0019]表articleclass修改className字段  Length由20改为40
+[2014-3-24][index: 0020]表website修改title字段  Length由30改为40
+[2014-3-24][index: 0021]表website_node修改nodeName字段  Length由20改为40
 
 Linux:
 [2014-2-22][index: 0001]done
