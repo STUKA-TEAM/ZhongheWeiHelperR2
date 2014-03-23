@@ -856,4 +856,46 @@ public class ArticleDAO {
 		}
 		return count;
 	}
+	
+	/**
+	 * @title getWebsiteidByArticleid
+	 * @description 根据articleid查询同一应用下的websiteid
+	 * @param articleid
+	 * @return
+	 */
+	public Integer getWebsiteidByArticleid(int articleid){
+		Integer websiteid = null;
+		String SQL = "SELECT W.websiteid FROM website W, article A WHERE W.appid = A.appid AND A.articleid = ?";
+		try {
+			websiteid = jdbcTemplate.queryForObject(SQL, new Object[]{articleid}, new WebsiteidMapper());
+		} catch (Exception e) {
+			System.out.println("getWebsiteidByArticleid: " + e.getMessage());
+		}
+		return websiteid;
+	}
+	
+	/**
+	 * @title getWebsiteidByClassid
+	 * @description 根据classid查询同一应用下的websiteid
+	 * @param classid
+	 * @return
+	 */
+	public Integer getWebsiteidByClassid(int classid){
+		Integer websiteid = null;
+		String SQL = "SELECT W.websiteid FROM website W, articleclass A WHERE W.appid = A.appid AND A.classid = ?";
+		try {
+			websiteid = jdbcTemplate.queryForObject(SQL, new Object[]{classid}, new WebsiteidMapper());
+		} catch (Exception e) {
+			System.out.println("getWebsiteidByClassid: " + e.getMessage());
+		}
+		return websiteid;
+	}
+	
+	private static final class WebsiteidMapper implements RowMapper<Integer>{
+		@Override
+		public Integer mapRow(ResultSet rs, int arg1) throws SQLException {
+			Integer websiteid = rs.getInt("W.websiteid");
+			return websiteid;
+		}
+	}
 }

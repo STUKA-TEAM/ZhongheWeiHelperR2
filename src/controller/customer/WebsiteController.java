@@ -184,8 +184,7 @@ public class WebsiteController {
 	 * @return
 	 */
 	@RequestMapping(value = "/article", method = RequestMethod.GET)
-	public String getArticle(Model model, @RequestParam(value = "articleid", required = true) int articleid,
-			@RequestParam(value = "websiteid", required = true) int websiteid){
+	public String getArticle(Model model, @RequestParam(value = "articleid", required = true) int articleid){
 		ApplicationContext context = 
 				new ClassPathXmlApplicationContext("All-Modules.xml");
 		WebsiteDAO websiteDao = (WebsiteDAO) context.getBean("WebsiteDAO");
@@ -195,9 +194,13 @@ public class WebsiteController {
 		Article article = articleDao.getArticleForCustomer(articleid);
 		String viewName = "WebsiteViews/";
 		
-		if (article != null) {	
-			Website website = websiteDao.getWebsiteInfoForCustomer(websiteid);		
-	        model.addAttribute("website", website);
+		if (article != null) {
+			Integer websiteid = articleDao.getWebsiteidByArticleid(articleid);
+			if (websiteid != null) {
+				Website website = websiteDao.getWebsiteInfoForCustomer(websiteid);		
+		        model.addAttribute("website", website);
+			}
+			
 			model.addAttribute("article", article);
 			viewName = viewName + "article";		
 		}else {
@@ -215,8 +218,7 @@ public class WebsiteController {
 	 * @return
 	 */
 	@RequestMapping(value = "/articleclass", method = RequestMethod.GET)
-	public String getArticleClass(Model model, @RequestParam(value = "classid", required = true) int classid,
-			@RequestParam(value = "websiteid", required = true) int websiteid){
+	public String getArticleClass(Model model, @RequestParam(value = "classid", required = true) int classid){
 		ApplicationContext context = 
 				new ClassPathXmlApplicationContext("All-Modules.xml");
 		WebsiteDAO websiteDao = (WebsiteDAO) context.getBean("WebsiteDAO");
@@ -232,8 +234,12 @@ public class WebsiteController {
 			}
 		}	
 		model.addAttribute("articleList", articleList);
-		Website website = websiteDao.getWebsiteInfoForCustomer(websiteid);	
-        model.addAttribute("website", website);
+		
+		Integer websiteid = articleDao.getWebsiteidByClassid(classid);
+		if (websiteid != null) {
+			Website website = websiteDao.getWebsiteInfoForCustomer(websiteid);	
+	        model.addAttribute("website", website);
+		}
 		return "WebsiteViews/articleclass";
 	}
 	
@@ -246,8 +252,7 @@ public class WebsiteController {
 	 * @return
 	 */
 	@RequestMapping(value = "/album", method = RequestMethod.GET)
-	public String getAlbum(Model model, @RequestParam(value = "albumid", required = true) int albumid,
-			@RequestParam(value = "websiteid", required = true) int websiteid){
+	public String getAlbum(Model model, @RequestParam(value = "albumid", required = true) int albumid){
 		ApplicationContext context = 
 				new ClassPathXmlApplicationContext("All-Modules.xml");
 		WebsiteDAO websiteDao = (WebsiteDAO) context.getBean("WebsiteDAO");
@@ -257,9 +262,13 @@ public class WebsiteController {
 		Album album = albumDao.getAlbumForCustomer(albumid);
 		String viewName = "WebsiteViews/";
 		
-		if (album != null) {	
-			Website website = websiteDao.getWebsiteInfoForCustomer(websiteid);		
-	        model.addAttribute("website", website);
+		if (album != null) {
+			Integer websiteid = albumDao.getWebsiteidByAlbumid(albumid);
+			if (websiteid != null) {
+				Website website = websiteDao.getWebsiteInfoForCustomer(websiteid);		
+		        model.addAttribute("website", website);
+			}
+			
 			model.addAttribute("album", album);
 			viewName = viewName + "album";	
 		}else {
@@ -277,8 +286,7 @@ public class WebsiteController {
 	 * @return
 	 */
 	@RequestMapping(value = "/albumclass", method = RequestMethod.GET)
-	public String getAlbumClass(Model model, @RequestParam(value = "classid", required = true) int classid,
-			@RequestParam(value = "websiteid", required = true) int websiteid){
+	public String getAlbumClass(Model model, @RequestParam(value = "classid", required = true) int classid){
 		ApplicationContext context = 
 				new ClassPathXmlApplicationContext("All-Modules.xml");
 		WebsiteDAO websiteDao = (WebsiteDAO) context.getBean("WebsiteDAO");
@@ -287,8 +295,12 @@ public class WebsiteController {
 		
 		List<Album> albumList = albumDao.getAlbumClassForCustomer(classid);
 		model.addAttribute("albumList", albumList);
-		Website website = websiteDao.getWebsiteInfoForCustomer(websiteid);	
-        model.addAttribute("website", website);
+		
+		Integer websiteid = albumDao.getWebsiteidByClassid(classid);
+		if (websiteid != null) {
+			Website website = websiteDao.getWebsiteInfoForCustomer(websiteid);	
+	        model.addAttribute("website", website);
+		}
 		return "WebsiteViews/albumclass";
 	}
 }
