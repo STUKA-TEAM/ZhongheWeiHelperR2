@@ -301,16 +301,10 @@ public class BasicController {
 				}
 				
 				//article
-				List<Integer> articleidList = articleDao.getArticleidList(appid);
-				for (int i = 0; i < articleidList.size(); i++) {
-					articleDao.deleteArticle(articleidList.get(i));
-				}
+				articleDao.deleteArticle(appid);
 				
 				//articleclass
-				List<Integer> classidList = articleDao.getClassidList(appid);
-				for (int i = 0; i < classidList.size(); i++) {
-					articleDao.deleteArticleClass(classidList.get(i));
-				}
+				articleDao.deleteArticleClass(appid);
 				
 				//welcome
 				welcomeDao.deleteWelcomeContent(appid);
