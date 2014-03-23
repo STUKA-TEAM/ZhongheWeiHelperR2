@@ -335,6 +335,12 @@ public class AlbumDAO {
 	}
 	
 	//update
+	/**
+	 * @title updateAlbum
+	 * @description 更新相册 albumName, coverPic, 与相册集之间的关系 以及 photoList
+	 * @param album
+	 * @return
+	 */
 	public int updateAlbum(Album album){
 		String SQL = "UPDATE album SET albumName = ?, coverPic = ? WHERE albumid = ?";
 		int result = 0;
@@ -358,7 +364,20 @@ public class AlbumDAO {
 				}
 			}
 			
-			
+			List<String> originalImages = parsePhoto(oldAlbum.getPhotoList());
+			List<String> currentImages = parsePhoto(album.getPhotoList());
+			for (int i = 0; i < originalImages.size(); i++) {
+				String imagePath = originalImages.get(i);
+				if (!currentImages.contains(imagePath)) {
+					insertImageTempRecord(imagePath, current);
+				}
+			}
+			for (int i = 0; i < currentImages.size(); i++) {
+				String imagePath = currentImages.get(i);
+				if (!originalImages.contains(imagePath)) {
+					deleteImageTempRecord(imagePath);
+				}
+			}
 			
 		} else {
 			return 0;
@@ -383,6 +402,22 @@ public class AlbumDAO {
 		} else {
 			return 0;
 		}
+	}
+	
+	/**
+	 * @title parsePhoto
+	 * @description 根据照片列表解析出照片路径列表 imagePath List
+	 * @param photoList
+	 * @return
+	 */
+	private List<String> parsePhoto(List<Photo> photoList){
+		List<String> imageList = new ArrayList<String>();
+		if (photoList != null) {
+			for (int i = 0; i < photoList.size(); i++) {
+				imageList.add(photoList.get(i).getImagePath());
+			}
+		}
+		return imageList;
 	}
 	
 	/**
