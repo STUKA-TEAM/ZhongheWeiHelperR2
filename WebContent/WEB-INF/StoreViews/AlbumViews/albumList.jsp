@@ -57,6 +57,8 @@
                   </td>
                   <td>${item.photoCount}</td>
                   <td><a class="btn btn-sm btn-info" href="store/album/edit?albumid=${item.albumid}">编辑</a>
+                  <a class="btn btn-sm btn-info" target="_blank" href="customer/album?albumid=${item.albumid}">预览</a>
+                  <a class="btn btn-sm btn-info" onclick="viewLink('相册链接','${appPath}customer/album?albumid=${item.albumid}')">生成链接</a>
                   <a class="btn btn-sm btn-danger" onclick="submitDeleteAlbum('${item.albumid}')">删除</a></td>
                 </tr>
                 </c:forEach>

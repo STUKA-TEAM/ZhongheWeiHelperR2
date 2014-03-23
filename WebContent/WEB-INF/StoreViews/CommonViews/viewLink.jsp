@@ -23,15 +23,9 @@
 </div><!-- /.modal -->
 
 <script type="text/javascript">
-function viewLink(name, value, websiteid){
-	if(websiteid == ""){
-  	  $("#modalMes").html("还未创建微官网，您可以创建微官网后再查看此项目链接");
-      $("#operationMesModal").modal("show");
-      return;
-	}else{
+function viewLink(name, value){
 		$("#viewLink").modal('show');
 		$("#itemName").html(name);
 		$("#itemValue").html(value);
-	}
 }
 </script>

@@ -42,8 +42,8 @@
                   <td>${item.className}</td>
                   <td>${item.albumCount}</td>
                   <td><a class="btn btn-sm btn-info" onclick="editAlbumclass('${item.classid}')">编辑</a>
-                      <a class="btn btn-sm btn-info" target="_blank" href="customer/albumclass?websiteid=${viewLinkInfo.websiteid}&classid=${item.classid}">预览</a>
-                      <a class="btn btn-sm btn-info" onclick="viewLink('相册集链接','${viewLinkInfo.appPath}customer/albumclass?websiteid=${viewLinkInfo.websiteid}&classid=${item.classid}',${viewLinkInfo.websiteid})">生成链接</a>
+                      <a class="btn btn-sm btn-info" target="_blank" href="customer/albumclass?classid=${item.classid}">预览</a>
+                      <a class="btn btn-sm btn-info" onclick="viewLink('相册集链接','${appPath}customer/albumclass?classid=${item.classid}')">生成链接</a>
                   <a class="btn btn-sm btn-danger" onclick="submitDeleteAlbumclass('${item.classid}')">删除</a></td>
                 </tr>
                 </c:forEach>

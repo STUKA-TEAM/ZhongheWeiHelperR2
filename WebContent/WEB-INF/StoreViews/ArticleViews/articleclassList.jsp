@@ -41,8 +41,8 @@
                 <td>${item.className}</td>
                 <td>${item.articleCount}</td>
                 <td><a class="btn btn-sm btn-info" href="javascript:void(0);" onclick="editArticleclass('${item.classid}')">编辑</a>
-                <a class="btn btn-sm btn-info" target="_blank" href="customer/articleclass?websiteid=${viewLinkInfo.websiteid}&classid=${item.classid}">预览</a>
-                <a class="btn btn-sm btn-info" onclick="viewLink('文章列表链接','${viewLinkInfo.appPath}customer/articleclass?websiteid=${viewLinkInfo.websiteid}&classid=${item.classid}',${viewLinkInfo.websiteid})">生成链接</a>
+                <a class="btn btn-sm btn-info" target="_blank" href="customer/articleclass?classid=${item.classid}">预览</a>
+                <a class="btn btn-sm btn-info" onclick="viewLink('文章列表链接','${appPath}customer/articleclass?classid=${item.classid}')">生成链接</a>
                 <a class="btn btn-sm btn-danger" onclick="submitDeleteArticleclass('${item.classid}')">删除</a></td>
               </tr>
               </c:forEach>

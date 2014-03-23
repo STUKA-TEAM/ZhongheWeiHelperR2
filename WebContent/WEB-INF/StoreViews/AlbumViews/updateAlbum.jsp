@@ -32,7 +32,7 @@
                  <%@ include file="./albumSubArea.jsp"%>
               </div>
               <div class="row">
-                <a class="btn btn-info col-md-2 col-md-offset-3 text-center"  onclick="submitAlbum('edit')">编辑相册</a>
+                <a class="btn btn-info col-md-2 col-md-offset-3 text-center"  onclick="submitAlbum('edit')">完成编辑</a>
                 <a class="btn btn-info col-md-1 col-md-offset-1 text-center" href="store/album/list?classid=0">取消</a>
               </div>
             </div>

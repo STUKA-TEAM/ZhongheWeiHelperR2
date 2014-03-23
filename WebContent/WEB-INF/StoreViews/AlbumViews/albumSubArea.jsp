@@ -55,7 +55,7 @@
 				</form>
 			     <div id="links">
 			           <c:forEach items="${album.photoList}" var="item">
-			           <input id="${item}-input" type="hidden" value="1"/>
+			           <input id="${item.imagePath}-input" type="hidden" value="${item.imagePath}"/>
 			           </c:forEach>
 			     </div>                 
             </div>
@@ -71,9 +71,9 @@
                   </thead>
                   <tbody id="uploadImages">
                     <c:forEach items="${album.photoList}" var="item">
-                    <tr id="${item}">
-                      <td><img src="${item}_original.jpg" class="pic-preview img-thumbnail img-responsive"/></td>
-                      <td id="${item}-desc"></td>
+                    <tr id="${item.imagePath}">
+                      <td><img src="${item.imagePath}_original.jpg" class="pic-preview img-thumbnail img-responsive"/></td>
+                      <td id="${item.imagePath}-desc">${item.imageDesc}</td>
                       <td>
                       <a class="btn btn-sm btn-info" onclick="editPicWindow(this)">编辑</a>
                       <a class="btn btn-sm btn-danger col-sm-offset-1" onclick="submitDeletePic(this)">删除</a>
