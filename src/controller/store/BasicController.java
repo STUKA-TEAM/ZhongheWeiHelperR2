@@ -1,13 +1,16 @@
 package controller.store;
 
 import java.io.InputStream;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Properties;
+import java.util.Random;
 import java.util.UUID;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
+import menu.dao.MenuDAO;
 import message.ResponseMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import album.dao.AlbumDAO;
 import article.dao.ArticleDAO;
 
 import com.google.gson.Gson;
@@ -219,6 +223,7 @@ public class BasicController {
 		}else {
 			AppInfo appInfo = gson.fromJson(json, AppInfo.class);
 			appInfo.setAppid(generateRandomAppid());
+			appInfo.setWechatToken(generateWechatToken());
 			appInfo.setSid(user.getSid());
 			List<Integer> authidList = appInfoDao.getAuthidList(user.getSid());
 			appInfo.setAuthidList(authidList);
@@ -259,6 +264,8 @@ public class BasicController {
 		WebsiteDAO websiteDao = (WebsiteDAO) context.getBean("WebsiteDAO");
 		ArticleDAO articleDao = (ArticleDAO) context.getBean("ArticleDAO");
 		WelcomeDAO welcomeDao = (WelcomeDAO) context.getBean("WelcomeDAO");
+		MenuDAO menuDao = (MenuDAO) context.getBean("MenuDAO");
+		AlbumDAO albumDao = (AlbumDAO) context.getBean("AlbumDAO");
 		((ConfigurableApplicationContext)context).close();
 		
 		Gson gson = new Gson();
@@ -297,19 +304,22 @@ public class BasicController {
 				}
 				
 				//article
-				List<Integer> articleidList = articleDao.getArticleidList(appid);
-				for (int i = 0; i < articleidList.size(); i++) {
-					articleDao.deleteArticle(articleidList.get(i));
-				}
+				articleDao.deleteArticle(appid);
 				
 				//articleclass
-				List<Integer> classidList = articleDao.getClassidList(appid);
-				for (int i = 0; i < classidList.size(); i++) {
-					articleDao.deleteArticleClass(classidList.get(i));
-				}
+				articleDao.deleteArticleClass(appid);
 				
 				//welcome
 				welcomeDao.deleteWelcomeContent(appid);
+
+				//menu
+				menuDao.deleteMenu(appid);
+
+				//album
+				albumDao.deleteAlbum(appid);
+
+				//albumclass
+				albumDao.deleteAlbumClass(appid);
 				
 				message.setStatus(true);
 				message.setMessage("删除成功！");
@@ -328,5 +338,16 @@ public class BasicController {
     private String generateRandomAppid() {    	
         String randomAppid = UUID.randomUUID().toString().replace("-", "");
         return randomAppid;
+    }
+    
+    /**
+     * @title generateWechatToken
+     * @description 随机生成验证token
+     * @return
+     */
+    private String generateWechatToken() {
+    	Random random = new Random();
+    	int i = random.nextInt(1000000);
+    	return new DecimalFormat("000000").format(i);
     }
 }

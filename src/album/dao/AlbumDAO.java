@@ -20,6 +20,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import album.Album;
 import album.AlbumClass;
 import album.Photo;
+
 /**
  * @Title: AlbumDAO
  * @Description: DAO for album and albumclass model
@@ -285,28 +286,76 @@ public class AlbumDAO {
 			return 0;
 		}
 		
+		deleteACRByAlbumid(albumid);
+		deletePhotoList(albumid);
+		
 		result = jdbcTemplate.update(SQL, albumid);
-		if (result > 0) {
+		return result <= 0 ? 0 : result;
+	}
+	
+	/**
+	 * @title deleteAlbum
+	 * @description 根据appid删除该应用下相册基本信息、相册与相册集关系信息以及相册照片信息
+	 * @param appid
+	 * @return
+	 */
+	public int deleteAlbum(String appid){
+		String SQL = "DELETE FROM album WHERE appid = ?";
+		int result = 0;
+		
+		List<Integer> albumidList = getAlbumidList(appid);
+		for (int i = 0; i < albumidList.size(); i++) {
+			int albumid = albumidList.get(i);
+			
+			Album album = getAlbumMedia(albumid);
+			if (album != null) {
+				Timestamp current = new Timestamp(System.currentTimeMillis());
+				
+				String coverPic = album.getCoverPic();
+				if (coverPic != null && !coverPic.equals("")) {
+					insertImageTempRecord(coverPic, current);
+				}
+				
+				for (int j = 0; j < album.getPhotoList().size(); j++) {
+					Photo photo = album.getPhotoList().get(j);
+					insertImageTempRecord(photo.getImagePath(), current);
+				}
+			}
+			
 			deleteACRByAlbumid(albumid);
 			deletePhotoList(albumid);
-			return result;
-		} else {
-			return 0;
 		}
+		
+		result = jdbcTemplate.update(SQL, appid);
+		return result <= 0 ? 0 : result;
 	}
 	
 	/**
 	 * @title deleteAlbumClass
-	 * @description 删除相册集及所关联的相册记录
+	 * @description 根据classid删除相册集及所关联的相册关系记录
 	 * @param classid
 	 * @return
 	 */
 	public int deleteAlbumClass(int classid){
 		String SQL = "DELETE FROM albumclass WHERE classid = ?";
+		deleteACRByClassid(classid);
 		int result = jdbcTemplate.update(SQL, classid);
-		if (result > 0) {
-			deleteACRByClassid(classid);
-		} 
+		return result <= 0 ? 0 : result;
+	}
+	
+	/**
+	 * @title deleteAlbumClass
+	 * @description 根据appid删除该应用下相册集及所关联的相册关系记录
+	 * @param appid
+	 * @return
+	 */
+	public int deleteAlbumClass(String appid){
+		String SQL = "DELETE FROM albumclass WHERE appid = ?";
+		List<Integer> classidList = getClassidList(appid);
+		for (int i = 0; i < classidList.size(); i++) {
+			deleteACRByClassid(classidList.get(i));
+		}
+		int result = jdbcTemplate.update(SQL, appid);
 		return result <= 0 ? 0 : result;
 	}
 	
@@ -461,6 +510,24 @@ public class AlbumDAO {
 		return classidList;
 	}
 	
+	/**
+	 * @title getClassidList
+	 * @description 根据appid查询该应用下的相册集id列表
+	 * @param appid
+	 * @return
+	 */
+	public List<Integer> getClassidList(String appid){
+		List<Integer> classidList = null;
+		String SQL = "SELECT classid FROM albumclass WHERE appid = ?";
+		try {
+			classidList = jdbcTemplate.query(SQL, new Object[]{appid}, new ClassidMapper());
+		} catch (Exception e) {
+			System.out.println("getClassidList: " + e.getMessage());
+			classidList = new ArrayList<Integer>();
+		}
+		return classidList;
+	}
+	
 	private static final class ClassidMapper implements RowMapper<Integer>{
 		@Override
 		public Integer mapRow(ResultSet rs, int arg1) throws SQLException {
@@ -574,6 +641,24 @@ public class AlbumDAO {
 		return albumidList;
 	}
 	
+	/**
+	 * @title getAlbumidList
+	 * @description 根据appid查询一个应用下的所有相册id列表
+	 * @param appid
+	 * @return
+	 */
+	public List<Integer> getAlbumidList(String appid){
+		List<Integer> albumidList = null;
+		String SQL = "SELECT albumid FROM album WHERE appid = ?";
+		try {
+			albumidList = jdbcTemplate.query(SQL, new Object[]{appid}, new AlbumidMapper());
+		} catch (Exception e) {
+			System.out.println("getAlbumidList: " + e.getMessage());
+			albumidList = new ArrayList<Integer>();
+		}
+		return albumidList;
+	}
+	
 	private static final class AlbumidMapper implements RowMapper<Integer>{
 		@Override
 		public Integer mapRow(ResultSet rs, int arg1) throws SQLException {
@@ -640,9 +725,9 @@ public class AlbumDAO {
 		@Override
 		public Album mapRow(ResultSet rs, int arg1) throws SQLException {
 			Album album = new Album();
-			album.setAlbumid(rs.getInt("A.albumid"));
-			album.setAlbumName(rs.getString("A.albumName"));
-			album.setCoverPic(rs.getString("A.coverPic"));
+			album.setAlbumid(rs.getInt("albumid"));
+			album.setAlbumName(rs.getString("albumName"));
+			album.setCoverPic(rs.getString("coverPic"));
 			return album;
 		}	
 	}
@@ -872,5 +957,47 @@ public class AlbumDAO {
 			photo.setImagePath(rs.getString("imagePath"));
 			return photo;
 		}		
+	}
+	
+	/**
+	 * @title getWebsiteidByClassid
+	 * @description 根据classid查询同一应用下的websiteid
+	 * @param classid
+	 * @return
+	 */
+	public Integer getWebsiteidByClassid(int classid){
+		Integer websiteid = null;
+		String SQL = "SELECT W.websiteid FROM website W, albumclass A WHERE W.appid = A.appid AND A.classid = ?";
+		try {
+			websiteid = jdbcTemplate.queryForObject(SQL, new Object[]{classid}, new WebsiteidMapper());
+		} catch (Exception e) {
+			System.out.println("getWebsiteidByClassid: " + e.getMessage());
+		}
+		return websiteid;
+	}
+	
+	/**
+	 * @title getWebsiteidByAlbumid
+	 * @description 根据albumid查询同一应用下的websiteid
+	 * @param albumid
+	 * @return
+	 */
+	public Integer getWebsiteidByAlbumid(int albumid){
+		Integer websiteid = null;
+		String SQL = "SELECT W.websiteid FROM website W, album A WHERE W.appid = A.appid AND A.albumid = ?";
+		try {
+			websiteid = jdbcTemplate.queryForObject(SQL, new Object[]{albumid}, new WebsiteidMapper());
+		} catch (Exception e) {
+			System.out.println("getWebsiteidByAlbumid: " + e.getMessage());
+		}
+		return websiteid;
+	}
+	
+	private static final class WebsiteidMapper implements RowMapper<Integer>{
+		@Override
+		public Integer mapRow(ResultSet rs, int arg1) throws SQLException {
+			Integer websiteid = rs.getInt("W.websiteid");
+			return websiteid;
+		}
 	}
 }

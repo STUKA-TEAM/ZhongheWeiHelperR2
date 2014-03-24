@@ -143,6 +143,65 @@ public class AppInfoDAO {
 	
 	//query
 	/**
+	 * @title getWechatNumberByWebsite
+	 * @description 根据websiteid查询微信号
+	 * @param websiteid
+	 * @return
+	 */
+	public String getWechatNumberByWebsite(int websiteid){
+		String wechatNumber = null;
+		String SQL = "SELECT A.wechatNumber FROM application A, website W WHERE A.appid = W.appid AND W.websiteid = ?";
+		try {
+			wechatNumber = jdbcTemplate.queryForObject(SQL, new Object[]{websiteid}, new WechatNumberMapper());
+		} catch (Exception e) {
+			System.out.println("getWechatNumberByWebsite: " + e.getMessage());
+		}
+		return wechatNumber;
+	}
+	
+	/**
+	 * @title getWechatNumberByArticle
+	 * @description 根据articleid查询微信号
+	 * @param articleid
+	 * @return
+	 */
+	public String getWechatNumberByArticle(int articleid){
+		String wechatNumber = null;
+		String SQL = "SELECT A.wechatNumber FROM application A, article B WHERE A.appid = B.appid AND B.articleid = ?";
+		try {
+			wechatNumber = jdbcTemplate.queryForObject(SQL, new Object[]{articleid}, new WechatNumberMapper());
+		} catch (Exception e) {
+			System.out.println("getWechatNumberByArticle: " + e.getMessage());
+		}
+		return wechatNumber;
+	}
+	
+	/**
+	 * @title getWechatNumberByAlbum
+	 * @description 根据albumid查询微信号
+	 * @param albumid
+	 * @return
+	 */
+	public String getWechatNumberByAlbum(int albumid){
+		String wechatNumber = null;
+		String SQL = "SELECT A.wechatNumber FROM application A, album B WHERE A.appid = B.appid AND B.albumid = ?";
+		try {
+			wechatNumber = jdbcTemplate.queryForObject(SQL, new Object[]{albumid}, new WechatNumberMapper());
+		} catch (Exception e) {
+			System.out.println("getWechatNumberByAlbum: " + e.getMessage());
+		}
+		return wechatNumber;		
+	}
+	
+	private static final class WechatNumberMapper implements RowMapper<String>{
+		@Override
+		public String mapRow(ResultSet rs, int arg1) throws SQLException {
+			String wechatNumber = rs.getString("A.wechatNumber");
+			return wechatNumber;
+		}	
+	}
+	
+	/**
 	 * @Description: 根据用户id获取管理的app信息
 	 * @param sid
 	 * @return

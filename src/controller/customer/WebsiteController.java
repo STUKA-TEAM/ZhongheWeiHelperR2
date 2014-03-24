@@ -15,12 +15,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import register.dao.AppInfoDAO;
 import register.dao.AuthInfoDAO;
 import register.dao.UserInfoDAO;
 import album.Album;
 import album.dao.AlbumDAO;
 import article.Article;
 import article.dao.ArticleDAO;
+import website.ShareMessage;
 import website.Website;
 import website.WebsiteNode;
 import website.dao.WebsiteDAO;
@@ -47,6 +49,7 @@ public class WebsiteController {
 		WebsiteDAO websiteDao = (WebsiteDAO) context.getBean("WebsiteDAO");
 		AuthInfoDAO authInfoDao = (AuthInfoDAO) context.getBean("AuthInfoDAO");
 		UserInfoDAO userInfoDao = (UserInfoDAO) context.getBean("UserInfoDAO");
+		AppInfoDAO appInfoDao = (AppInfoDAO) context.getBean("AppInfoDAO");
 		((ConfigurableApplicationContext)context).close();
 		
 		Website website = websiteDao.getWebsiteInfoForCustomer(websiteid);
@@ -71,22 +74,17 @@ public class WebsiteController {
 			List<WebsiteNode> nodeList = websiteDao.getFirstLayerNodeList(websiteid);
 			model.addAttribute("nodes", nodeList);
 			
-			InputStream inputStream = WebsiteController.class.getResourceAsStream("/environment.properties");
-			Properties properties = new Properties();
-			String appLink = null;
-			String imageLink = null;
-			try {
-				properties.load(inputStream);
-				appLink = (String)properties.get("applicationPath");
-				imageLink = (String) properties.get("imageHost");
-			} catch (Exception e) {
-				System.out.println(e.getMessage());
+			ShareMessage message = getShareMessage();
+			message.setWechatNumber(appInfoDao.getWechatNumberByWebsite(websiteid));
+			message.setAppLink(message.getAppLink() + "customer/website/home?websiteid=" + websiteid);
+			if (website.getSharePic() != null && !website.getSharePic().equals("")) {
+				message.setImageLink(message.getImageLink() + website.getSharePic() + "_original.jpg");
+			} else {
+				message.setImageLink("");
 			}
-			appLink = appLink + "customer/website/home?websiteid=" + websiteid;
-			imageLink = imageLink + website.getSharePic();
-			model.addAttribute("appLink", appLink);
-			model.addAttribute("imageLink", imageLink);
-			
+			message.setShareTitle(website.getShareTitle());
+			message.setShareContent(website.getShareContent());
+			model.addAttribute("message", message);
 			viewName = viewName + "website-" + website.getThemeId();
 		}else {
 			viewName = viewName + "expired";
@@ -108,7 +106,8 @@ public class WebsiteController {
 		WebsiteDAO websiteDao = (WebsiteDAO) context.getBean("WebsiteDAO");
 		UserInfoDAO userInfoDao = (UserInfoDAO) context.getBean("UserInfoDAO");
 		ArticleDAO articleDao = (ArticleDAO) context.getBean("ArticleDAO");
-		AlbumDAO albumDao = (AlbumDAO)context.getBean("AlbumDAO");
+		AlbumDAO albumDao = (AlbumDAO) context.getBean("AlbumDAO");
+		AppInfoDAO appInfoDao = (AppInfoDAO) context.getBean("AppInfoDAO");
 		((ConfigurableApplicationContext)context).close();
 		
 		WebsiteNode node = websiteDao.getWebsiteNode(nodeid);
@@ -120,6 +119,9 @@ public class WebsiteController {
 			
 			String childrenType = node.getChildrenType();
 			List<Integer> nodeidList = websiteDao.getNodeChildid(nodeid);
+			
+			ShareMessage message = getShareMessage();
+			message.setWechatNumber(appInfoDao.getWechatNumberByWebsite(website.getWebsiteid()));
 			
 			switch (childrenType) {
 			case "node":
@@ -142,6 +144,16 @@ public class WebsiteController {
 			case "article":
 				Article article = articleDao.getArticleForCustomer(nodeidList.get(0));
 				model.addAttribute("article", article);
+				
+				message.setAppLink(message.getAppLink() + "customer/article?articleid=" + article.getArticleid());
+				if (article.getCoverPic() != null && !article.getCoverPic().equals("")) {
+					message.setImageLink(message.getImageLink() + article.getCoverPic() + "_original.jpg");
+				} else {
+					message.setImageLink("");
+				}
+				message.setShareTitle(article.getTitle());
+				message.setShareContent("");
+				model.addAttribute("message", message);
 				viewName = viewName + "article";
 				break;
 			case "articleclass":
@@ -159,6 +171,16 @@ public class WebsiteController {
 			case "album":
 				Album album = albumDao.getAlbumForCustomer(nodeidList.get(0));
 				model.addAttribute("album", album);
+				
+				message.setAppLink(message.getAppLink() + "customer/album?albumid=" + album.getAlbumid());
+				if (album.getCoverPic() != null && !album.getCoverPic().equals("")) {
+					message.setImageLink(message.getImageLink() + album.getCoverPic() + "_original.jpg");
+				} else {
+					message.setImageLink("");
+				}
+				message.setShareTitle(album.getAlbumName());
+				message.setShareContent("");
+				model.addAttribute("message", message);
 				viewName = viewName + "album";
 				break;
 			case "albumclass":
@@ -184,20 +206,36 @@ public class WebsiteController {
 	 * @return
 	 */
 	@RequestMapping(value = "/article", method = RequestMethod.GET)
-	public String getArticle(Model model, @RequestParam(value = "articleid", required = true) int articleid,
-			@RequestParam(value = "websiteid", required = true) int websiteid){
+	public String getArticle(Model model, @RequestParam(value = "articleid", required = true) int articleid){
 		ApplicationContext context = 
 				new ClassPathXmlApplicationContext("All-Modules.xml");
 		WebsiteDAO websiteDao = (WebsiteDAO) context.getBean("WebsiteDAO");
 		ArticleDAO articleDao = (ArticleDAO) context.getBean("ArticleDAO");
+		AppInfoDAO appInfoDao = (AppInfoDAO) context.getBean("AppInfoDAO");
 		((ConfigurableApplicationContext)context).close();
 		
 		Article article = articleDao.getArticleForCustomer(articleid);
 		String viewName = "WebsiteViews/";
 		
-		if (article != null) {	
-			Website website = websiteDao.getWebsiteInfoForCustomer(websiteid);		
-	        model.addAttribute("website", website);
+		if (article != null) {
+			Integer websiteid = articleDao.getWebsiteidByArticleid(articleid);
+			if (websiteid != null) {
+				Website website = websiteDao.getWebsiteInfoForCustomer(websiteid);		
+		        model.addAttribute("website", website);
+			}
+			
+			ShareMessage message = getShareMessage();
+			message.setWechatNumber(appInfoDao.getWechatNumberByArticle(articleid));
+			message.setAppLink(message.getAppLink() + "customer/article?articleid=" + article.getArticleid());
+			if (article.getCoverPic() != null && !article.getCoverPic().equals("")) {
+				message.setImageLink(message.getImageLink() + article.getCoverPic() + "_original.jpg");
+			} else {
+				message.setImageLink("");
+			}
+			message.setShareTitle(article.getTitle());
+			message.setShareContent("");
+			model.addAttribute("message", message);
+			
 			model.addAttribute("article", article);
 			viewName = viewName + "article";		
 		}else {
@@ -215,8 +253,7 @@ public class WebsiteController {
 	 * @return
 	 */
 	@RequestMapping(value = "/articleclass", method = RequestMethod.GET)
-	public String getArticleClass(Model model, @RequestParam(value = "classid", required = true) int classid,
-			@RequestParam(value = "websiteid", required = true) int websiteid){
+	public String getArticleClass(Model model, @RequestParam(value = "classid", required = true) int classid){
 		ApplicationContext context = 
 				new ClassPathXmlApplicationContext("All-Modules.xml");
 		WebsiteDAO websiteDao = (WebsiteDAO) context.getBean("WebsiteDAO");
@@ -232,8 +269,12 @@ public class WebsiteController {
 			}
 		}	
 		model.addAttribute("articleList", articleList);
-		Website website = websiteDao.getWebsiteInfoForCustomer(websiteid);	
-        model.addAttribute("website", website);
+		
+		Integer websiteid = articleDao.getWebsiteidByClassid(classid);
+		if (websiteid != null) {
+			Website website = websiteDao.getWebsiteInfoForCustomer(websiteid);	
+	        model.addAttribute("website", website);
+		}
 		return "WebsiteViews/articleclass";
 	}
 	
@@ -246,20 +287,36 @@ public class WebsiteController {
 	 * @return
 	 */
 	@RequestMapping(value = "/album", method = RequestMethod.GET)
-	public String getAlbum(Model model, @RequestParam(value = "albumid", required = true) int albumid,
-			@RequestParam(value = "websiteid", required = true) int websiteid){
+	public String getAlbum(Model model, @RequestParam(value = "albumid", required = true) int albumid){
 		ApplicationContext context = 
 				new ClassPathXmlApplicationContext("All-Modules.xml");
 		WebsiteDAO websiteDao = (WebsiteDAO) context.getBean("WebsiteDAO");
-		AlbumDAO albumDao = (AlbumDAO)context.getBean("AlbumDAO");
+		AlbumDAO albumDao = (AlbumDAO) context.getBean("AlbumDAO");
+		AppInfoDAO appInfoDao = (AppInfoDAO) context.getBean("AppInfoDAO");
 		((ConfigurableApplicationContext)context).close();
 		
 		Album album = albumDao.getAlbumForCustomer(albumid);
 		String viewName = "WebsiteViews/";
 		
-		if (album != null) {	
-			Website website = websiteDao.getWebsiteInfoForCustomer(websiteid);		
-	        model.addAttribute("website", website);
+		if (album != null) {
+			Integer websiteid = albumDao.getWebsiteidByAlbumid(albumid);
+			if (websiteid != null) {
+				Website website = websiteDao.getWebsiteInfoForCustomer(websiteid);		
+		        model.addAttribute("website", website);
+			}
+			
+			ShareMessage message = getShareMessage();
+			message.setWechatNumber(appInfoDao.getWechatNumberByAlbum(albumid));
+			message.setAppLink(message.getAppLink() + "customer/album?albumid=" + album.getAlbumid());
+			if (album.getCoverPic() != null && !album.getCoverPic().equals("")) {
+				message.setImageLink(message.getImageLink() + album.getCoverPic() + "_original.jpg");
+			} else {
+				message.setImageLink("");
+			}
+			message.setShareTitle(album.getAlbumName());
+			message.setShareContent("");
+			model.addAttribute("message", message);
+			
 			model.addAttribute("album", album);
 			viewName = viewName + "album";	
 		}else {
@@ -277,18 +334,45 @@ public class WebsiteController {
 	 * @return
 	 */
 	@RequestMapping(value = "/albumclass", method = RequestMethod.GET)
-	public String getAlbumClass(Model model, @RequestParam(value = "classid", required = true) int classid,
-			@RequestParam(value = "websiteid", required = true) int websiteid){
+	public String getAlbumClass(Model model, @RequestParam(value = "classid", required = true) int classid){
 		ApplicationContext context = 
 				new ClassPathXmlApplicationContext("All-Modules.xml");
 		WebsiteDAO websiteDao = (WebsiteDAO) context.getBean("WebsiteDAO");
-		AlbumDAO albumDao = (AlbumDAO)context.getBean("AlbumDAO");
+		AlbumDAO albumDao = (AlbumDAO) context.getBean("AlbumDAO");
 		((ConfigurableApplicationContext)context).close();
 		
 		List<Album> albumList = albumDao.getAlbumClassForCustomer(classid);
 		model.addAttribute("albumList", albumList);
-		Website website = websiteDao.getWebsiteInfoForCustomer(websiteid);	
-        model.addAttribute("website", website);
+		
+		Integer websiteid = albumDao.getWebsiteidByClassid(classid);
+		if (websiteid != null) {
+			Website website = websiteDao.getWebsiteInfoForCustomer(websiteid);	
+	        model.addAttribute("website", website);
+		}
 		return "WebsiteViews/albumclass";
+	}
+	
+	/**
+	 * @title getShareMessage
+	 * @description 获取共享消息原型
+	 * @return
+	 */
+	private ShareMessage getShareMessage(){
+		InputStream inputStream = WebsiteController.class.getResourceAsStream("/environment.properties");
+		Properties properties = new Properties();
+		String appLink = null;
+		String imageLink = null;
+		try {
+			properties.load(inputStream);
+			appLink = (String)properties.get("applicationPath");
+			imageLink = (String) properties.get("imageHost");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
+		ShareMessage message = new ShareMessage();
+		message.setAppLink(appLink);
+		message.setImageLink(imageLink);
+		return message;
 	}
 }

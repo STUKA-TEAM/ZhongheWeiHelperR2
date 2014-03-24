@@ -196,7 +196,7 @@ public class ArticleDAO {
 	//delete
 	/**
 	 * @title: deleteArticle
-	 * @description: 删除文章记录以及文章所属类别记录
+	 * @description: 删除文章记录以及文章所属类别关系记录
 	 * @param articleid
 	 * @return
 	 */
@@ -237,17 +237,76 @@ public class ArticleDAO {
 	}
 	
 	/**
+	 * @title deleteArticle
+	 * @description 根据appid删除该应用下的文章记录以及文章所属类别关系记录
+	 * @param appid
+	 * @return
+	 */
+	public int deleteArticle(String appid){
+		String SQL = "DELETE FROM article WHERE appid = ?";
+		int result = 0;
+		
+		List<Integer> articleidList = getArticleidList(appid);
+		for (int i = 0; i < articleidList.size(); i++) {
+			int articleid = articleidList.get(i);
+			
+			Article temp = getArticleBasicMedia(articleid);
+			if (temp != null) {
+				Timestamp current = new Timestamp(System.currentTimeMillis());
+				
+				String coverPic = temp.getCoverPic();
+				if (coverPic != null && !coverPic.equals("")) {
+					insertImageTempRecord(coverPic, current);
+				}
+				
+				String content = temp.getContent();
+				if (!content.equals("")) {
+					Document doc = Jsoup.parse(content);
+					Elements imgs = doc.select("img[src]");
+					for (int j = 0; j < imgs.size(); j++) {
+						String imagePath = imgs.get(j).attr("src");
+						if (!imagePath.startsWith("/resources")) {
+							continue;
+						}
+						int index = imagePath.indexOf('_');
+						insertImageTempRecord(imagePath.substring(0, index), current);
+					}
+				}			
+			}
+			
+			deleteACRByArticleid(articleid);
+		}
+		
+		result = jdbcTemplate.update(SQL, appid);
+		return result <= 0 ? 0 : result;
+	}
+	
+	/**
 	 * @title: deleteArticleClass
-	 * @description: 删除文章类别以及所关联的文章记录
+	 * @description: 删除文章类别以及所关联的文章关系记录
 	 * @param classid
 	 * @return
 	 */
 	public int deleteArticleClass(int classid){
 		String SQL = "DELETE FROM articleclass WHERE classid = ?";
+		deleteACRByClassid(classid);
 		int result = jdbcTemplate.update(SQL, classid);
-		if (result > 0) {
-			deleteACRByClassid(classid);
+		return result <= 0 ? 0 : result;
+	}
+	
+	/**
+	 * @title deleteArticleClass
+	 * @description 根据appid删除该应用下文章类别以及所关联的文章关系记录
+	 * @param appid
+	 * @return
+	 */
+	public int deleteArticleClass(String appid){
+		String SQL = "DELETE FROM articleclass WHERE appid = ?";
+		List<Integer> classidList = getClassidList(appid);
+		for (int i = 0; i < classidList.size(); i++) {
+			deleteACRByClassid(classidList.get(i));
 		}
+		int result = jdbcTemplate.update(SQL, appid);
 		return result <= 0 ? 0 : result;
 	}
 	
@@ -796,5 +855,47 @@ public class ArticleDAO {
 			System.out.println(e.getMessage());
 		}
 		return count;
+	}
+	
+	/**
+	 * @title getWebsiteidByArticleid
+	 * @description 根据articleid查询同一应用下的websiteid
+	 * @param articleid
+	 * @return
+	 */
+	public Integer getWebsiteidByArticleid(int articleid){
+		Integer websiteid = null;
+		String SQL = "SELECT W.websiteid FROM website W, article A WHERE W.appid = A.appid AND A.articleid = ?";
+		try {
+			websiteid = jdbcTemplate.queryForObject(SQL, new Object[]{articleid}, new WebsiteidMapper());
+		} catch (Exception e) {
+			System.out.println("getWebsiteidByArticleid: " + e.getMessage());
+		}
+		return websiteid;
+	}
+	
+	/**
+	 * @title getWebsiteidByClassid
+	 * @description 根据classid查询同一应用下的websiteid
+	 * @param classid
+	 * @return
+	 */
+	public Integer getWebsiteidByClassid(int classid){
+		Integer websiteid = null;
+		String SQL = "SELECT W.websiteid FROM website W, articleclass A WHERE W.appid = A.appid AND A.classid = ?";
+		try {
+			websiteid = jdbcTemplate.queryForObject(SQL, new Object[]{classid}, new WebsiteidMapper());
+		} catch (Exception e) {
+			System.out.println("getWebsiteidByClassid: " + e.getMessage());
+		}
+		return websiteid;
+	}
+	
+	private static final class WebsiteidMapper implements RowMapper<Integer>{
+		@Override
+		public Integer mapRow(ResultSet rs, int arg1) throws SQLException {
+			Integer websiteid = rs.getInt("W.websiteid");
+			return websiteid;
+		}
 	}
 }

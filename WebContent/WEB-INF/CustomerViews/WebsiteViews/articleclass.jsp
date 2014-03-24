@@ -24,7 +24,7 @@
     <div class="container">
       <c:forEach items="${articleList}" var="item">
       <div class="article-model">
-        <a class="noneStyleLink" href="customer/article?websiteid=${website.websiteid}&articleid=${item.articleid}">
+        <a class="noneStyleLink" href="customer/article?articleid=${item.articleid}">
         <div class="article-model-header">
           <h4>${item.title}</h4>
           <small><fmt:formatDate value="${item.createTime}" pattern="yyyy-MM-dd"/></small>
