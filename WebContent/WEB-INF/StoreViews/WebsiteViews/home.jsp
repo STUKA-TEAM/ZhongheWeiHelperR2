@@ -36,17 +36,16 @@
                 <th>用户获取码</th>
                 <th>微官网名称</th>
                 <th></th>
-                <th></th>
-                <th></th>
               </tr>
               <c:if test="${website!=null}">
               <tr>
                 <td><fmt:formatDate value="${website.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                 <td>${website.getCode}</td>
                 <td>${website.title}</td>
-                <td><a class="btn btn-sm btn-info" href="store/website/wizard/initial/edit?websiteid=${website.websiteid}">编辑</a></td>
-                <td><a class="btn btn-sm btn-danger" onclick="submitDeleteWebsite('${website.websiteid}')">删除</a></td>
-                <td><a class="btn btn-sm btn-user" target="_blank" href="customer/website/home?websiteid=${website.websiteid}">预览</a></td>
+                <td><a class="btn btn-sm btn-info" href="store/website/wizard/initial/edit?websiteid=${website.websiteid}">编辑</a>
+                <a class="btn btn-sm btn-user" target="_blank" href="customer/website/home?websiteid=${website.websiteid}">预览</a>
+                <a class="btn btn-sm btn-info" onclick="viewLink('微官网链接','${appPath}customer/website/home?websiteid=${website.websiteid}')">生成链接</a>
+                <a class="btn btn-sm btn-danger" onclick="submitDeleteWebsite('${website.websiteid}')">删除</a></td>
               </tr>
               </c:if>
             </table>
@@ -78,6 +77,8 @@
     </div><!-- /.modal --> 
     
     <%@ include file="../CommonViews/footer.jsp"%>
+    <!-- 查看链接通用框 -->
+    <%@ include file="../CommonViews/viewLink.jsp"%>
     <!-- include jQuery -->
     <%@ include file="../CommonViews/commonJSList.jsp"%>
     <script type="text/javascript" src="js/store/website.js"></script>
