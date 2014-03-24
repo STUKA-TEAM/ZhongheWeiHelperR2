@@ -1,6 +1,8 @@
 package controller.store;
 
+import java.io.InputStream;
 import java.util.List;
+import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -72,10 +74,20 @@ public class WebsiteController {
 			else {
 				Website website = websiteDao.getBasicWebsiteInfo(appid);
 				if (website != null) {
-					website.setExpiredTime(authInfoDao.getExpiredTime(user.getSid(),
-							"website"));
+					website.setExpiredTime(authInfoDao.getExpiredTime(user.getSid(),"website"));
 				}
 				model.addAttribute("website", website);
+				
+				InputStream inputStream = WebsiteController.class.getResourceAsStream("/environment.properties");
+				Properties properties = new Properties();
+				String appPath = null;
+				try {
+					properties.load(inputStream);
+					appPath = (String)properties.get("applicationPath");
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
+				}
+				model.addAttribute("appPath", appPath);
 				return "WebsiteViews/home";
 			}
 		}
