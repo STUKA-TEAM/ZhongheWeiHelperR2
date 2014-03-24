@@ -2,9 +2,10 @@ html, body {
   background: #d02c61;
 }
 .container-bg {
-  margin: auto;
-  width: 1536px;
-  height: 1024px;
+  width: 100%;
+}
+.container-bg-img {
+  width: 1080px;
 }
 ul,li{
   list-style:none;
@@ -13,17 +14,17 @@ ul,li{
 }
 .scroll{
   position: absolute;
-  top: 345px;
-  left: 635px; 
-  width: 310px;
-  height: 310px;
+  top: 225px;
+  left: 550px; 
+  width: 250px;
+  height: 225px;
   overflow:hidden;
   margin:50px auto 0;
 }
 .scroll li{
   width: 310px;
-  height: 63px;
-  line-height: 63px;
+  height: 45px;
+  line-height: 45px;
   overflow:hidden;
   text-align: center;
   font-size: 24px;
@@ -32,11 +33,12 @@ ul,li{
 }
 .lottery-btn {
   position: absolute;
-  width: 200px;
-  top: 720px;
-  left: 685px;
+  width: 150px;
+  top: 520px;
+  left: 615px;
 }
 .result-pop-bg {
+  display: none;
   position: fixed;
   top: 0;
   left: 0;
@@ -50,6 +52,7 @@ ul,li{
   opacity: 0.5;
 }
 .result-pop {
+  display: none;
   position: fixed;
   top: 30%;
   left: 32%;

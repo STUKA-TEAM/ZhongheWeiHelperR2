@@ -11,22 +11,18 @@ function scrollStop(){
   result = $(".scroll li:nth-child(5)").text();
   $(".scroll li:nth-child(5)").css({color:"#ffffff"});
   arr = result.split(":");
-  pop_show(arr[0], arr[1]);
+  setTimeout("pop_show(arr[0], arr[1])", 1000);
   state = true;
 }
 function pop_show(name, content){
-  $(".result-pop-bg").removeClass("hidden");
-  $(".result-pop-bg").addClass("show")
-  $(".result-pop").removeClass("hidden");
-  $(".result-pop").addClass("show")
+  $(".result-pop-bg").fadeIn();
+  $(".result-pop").fadeIn();
   $(".bless-name").text(name);
   $(".bless-content").text(content);
 }
 function pop_hidden(){
-  $(".result-pop-bg").removeClass("show");
-  $(".result-pop-bg").addClass("hidden");
-  $(".result-pop").removeClass("show");
-  $(".result-pop").addClass("hidden");
+  $(".result-pop-bg").fadeOut();
+  $(".result-pop").fadeOut();
 }
 var state = true;
 var task;
