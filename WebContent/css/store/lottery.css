@@ -6,6 +6,7 @@ html, body {
 }
 .container-bg-img {
   width: 1080px;
+  margin-left: 135px;
 }
 ul,li{
   list-style:none;
