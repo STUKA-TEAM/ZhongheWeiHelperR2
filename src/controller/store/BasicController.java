@@ -1,8 +1,10 @@
 package controller.store;
 
 import java.io.InputStream;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Properties;
+import java.util.Random;
 import java.util.UUID;
 
 import javax.servlet.http.Cookie;
@@ -221,6 +223,7 @@ public class BasicController {
 		}else {
 			AppInfo appInfo = gson.fromJson(json, AppInfo.class);
 			appInfo.setAppid(generateRandomAppid());
+			appInfo.setWechatToken(generateWechatToken());
 			appInfo.setSid(user.getSid());
 			List<Integer> authidList = appInfoDao.getAuthidList(user.getSid());
 			appInfo.setAuthidList(authidList);
@@ -335,5 +338,16 @@ public class BasicController {
     private String generateRandomAppid() {    	
         String randomAppid = UUID.randomUUID().toString().replace("-", "");
         return randomAppid;
+    }
+    
+    /**
+     * @title generateWechatToken
+     * @description 随机生成验证token
+     * @return
+     */
+    private String generateWechatToken() {
+    	Random random = new Random();
+    	int i = random.nextInt(1000000);
+    	return new DecimalFormat("000000").format(i);
     }
 }
