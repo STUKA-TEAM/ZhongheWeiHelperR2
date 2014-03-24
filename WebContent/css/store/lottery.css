@@ -38,6 +38,7 @@ ul,li{
   left: 615px;
 }
 .result-pop-bg {
+  display: none;
   position: fixed;
   top: 0;
   left: 0;
@@ -51,6 +52,7 @@ ul,li{
   opacity: 0.5;
 }
 .result-pop {
+  display: none;
   position: fixed;
   top: 30%;
   left: 32%;
