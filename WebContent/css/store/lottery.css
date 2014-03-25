@@ -1,26 +1,27 @@
 html, body {
   background: #d02c61;
 }
-.container-bg {
-  width: 100%;
-}
-.container-bg-img {
-  width: 1080px;
-  margin-left: 135px;
-}
 ul,li{
   list-style:none;
   margin:0;
   padding:0;
 }
+.container-list {
+  width: 1080px;
+  height: 720px;
+  background-image: url(../../img/lottery/bg.jpg);
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: 1080px 720px;
+}
+.scroll-space {
+  padding-top: 275px;
+}
 .scroll{
-  position: absolute;
-  top: 225px;
-  left: 550px; 
   width: 250px;
   height: 225px;
   overflow:hidden;
-  margin:50px auto 0;
+  margin: 0 auto;
 }
 .scroll li{
   width: 310px;
@@ -33,10 +34,8 @@ ul,li{
   color:#333;
 }
 .lottery-btn {
-  position: absolute;
   width: 150px;
-  top: 520px;
-  left: 615px;
+  margin: 10px auto;
 }
 .result-pop-bg {
   display: none;
