@@ -1,7 +1,9 @@
 package controller.customer;
 
+import java.io.InputStream;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Properties;
 
 import message.ResponseMessage;
 
@@ -19,7 +21,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.gson.Gson;
 
 import register.UserInfo;
+import register.dao.AppInfoDAO;
 import register.dao.UserInfoDAO;
+import website.ShareMessage;
 import elove.EloveJoinInfo;
 import elove.EloveMessage;
 import elove.EloveWizard;
@@ -41,6 +45,7 @@ public class EloveController {
 				"All-Modules.xml");
 		EloveWizardDAO eloveWizardDao = (EloveWizardDAO) context
 				.getBean("EloveWizardDAO");
+		AppInfoDAO appInfoDao = (AppInfoDAO) context.getBean("AppInfoDAO");
 		((ConfigurableApplicationContext) context).close();
 
 		EloveWizard eloveWizard = eloveWizardDao.getOnlyElove(eloveid);
@@ -58,6 +63,20 @@ public class EloveController {
 					eloveid, "story");
 			model.addAttribute("storyImagePath", storyImagePath);
 
+			ShareMessage message = getShareMessage();
+			message.setWechatNumber(appInfoDao.getWechatNumberByElove(eloveid));
+			message.setAppLink(message.getAppLink()
+					+ "customer/elove/elove?eloveid=" + eloveid);
+			if (eloveWizard.getMajorGroupPhoto() != null
+					&& !eloveWizard.getMajorGroupPhoto().equals("")) {
+				message.setImageLink(message.getImageLink()
+						+ eloveWizard.getMajorGroupPhoto() + "_original.jpg");
+			} else {
+				message.setImageLink("");
+			}
+			message.setShareTitle(eloveWizard.getShareTitle());
+			message.setShareContent(eloveWizard.getShareContent());
+			model.addAttribute("message", message);
 			viewName = viewName + "elove-" + eloveWizard.getThemeid();
 		} else {
 			viewName = viewName + "expired";
@@ -350,6 +369,30 @@ public class EloveController {
 		}
 
 		return gson.toJson(message);
+	}
+	
+	/**
+	 * @title getShareMessage
+	 * @description 获取共享消息原型
+	 * @return
+	 */
+	private ShareMessage getShareMessage(){
+		InputStream inputStream = EloveController.class.getResourceAsStream("/environment.properties");
+		Properties properties = new Properties();
+		String appLink = null;
+		String imageLink = null;
+		try {
+			properties.load(inputStream);
+			appLink = (String)properties.get("applicationPath");
+			imageLink = (String) properties.get("imageHost");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
+		ShareMessage message = new ShareMessage();
+		message.setAppLink(appLink);
+		message.setImageLink(imageLink);
+		return message;
 	}
 }
 

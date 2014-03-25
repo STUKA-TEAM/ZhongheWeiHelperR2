@@ -143,6 +143,23 @@ public class AppInfoDAO {
 	
 	//query
 	/**
+	 * @title getWechatNumberByElove
+	 * @description 根据eloveid查询微信号
+	 * @param eloveid
+	 * @return
+	 */
+	public String getWechatNumberByElove(int eloveid){
+		String wechatNumber = null;
+		String SQL = "SELECT A.wechatNumber FROM application A, elove E WHERE A.appid = E.appid AND E.eloveid = ?";
+		try {
+			wechatNumber = jdbcTemplate.queryForObject(SQL, new Object[]{eloveid}, new WechatNumberMapper());
+		} catch (Exception e) {
+			System.out.println("getWechatNumberByElove: " + e.getMessage());
+		}
+		return wechatNumber;
+	}
+	
+	/**
 	 * @title getWechatNumberByWebsite
 	 * @description 根据websiteid查询微信号
 	 * @param websiteid

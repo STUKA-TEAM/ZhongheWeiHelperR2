@@ -70,6 +70,28 @@ Windows:
 [2014-3-24][index: 0019]表articleclass修改className字段  Length由20改为40
 [2014-3-24][index: 0020]表website修改title字段  Length由30改为40
 [2014-3-24][index: 0021]表website_node修改nodeName字段  Length由20改为40
+[2014-3-25][index: 0022]添加表vote
+            Name         Type         NULL       Default                Primary Key         Comment
+        ---------------------------------------------------------------------------------------------------------------------------------
+            voteid       int(11)      No         <auto_increment>       Yes                 投票id
+            voteName     varchar(40)  No                                No                  投票名称
+            createTime   timestamp    No         0000-00-00 00:00:00    No                  创建时间
+            voteDesc     varchar(300) No                                No                  投票介绍
+            coverPic     varchar(80)  Yes        NULL                   No                  封面图片
+            maxSelected  int(11)      No         1                      No                  最大可选数
+[2014-3-25][index: 0023]添加表vote_item
+            Name         Type         NULL       Default                Primary Key         Comment
+        ---------------------------------------------------------------------------------------------------------------------------------
+            itemid       int(11)      No         <auto_increment>       Yes                 选项id
+            itemName     varchar(80)  Yes        NULL                   No                  选项描述
+            itemPic      varchar(80)  Yes        NULL                   No                  选项图片
+[2014-3-25][index； 0024]添加表vote_result
+            Name         Type         NULL       Default                Primary Key         Comment
+        ---------------------------------------------------------------------------------------------------------------------------------
+            id           int(11)      No         <auto_increment>       Yes                 
+            voteid       int(11)      No         0                      No                  投票id
+            itemid       int(11)      No         0                      No                  选项id
+            wechatOpenid varchar(28)  No                                No                  用户id
 
 Linux:
 [2014-2-22][index: 0001]done
