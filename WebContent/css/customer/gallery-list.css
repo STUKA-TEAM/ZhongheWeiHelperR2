@@ -1,0 +1,43 @@
+html, header, body {
+  max-width: 360px;
+  background-color: #E8E7E4;
+  font-family:"Microsoft YaHei";
+  color: #666666;
+}
+div {
+  max-width: 360px;
+  text-align: center; 
+}
+.gallery-model {
+  background-color: #ffffff;
+  min-width: 250px;
+  margin: 10px auto;
+  border-radius: 5px;
+  box-shadow: 5px 5px 2px #888888;
+}
+.gallery-model-content {
+  width: 100%;
+  max-width: 360px;
+  max-height: 175px;
+  text-align: center;
+  padding: 3px;
+}
+.gallery-model-footer {
+  width: 100%;
+  border-top-style: solid;
+  border-top-color: #666666;
+  border-top-width: 1px;
+  text-align: left;
+}
+.gallery-name {
+  display: inline;
+  margin-left: 15px;
+}
+.gallery-count {
+  display: inline;
+  margin-left: 150px;
+}
+.gallery-image {
+  width: 100%;
+  margin: auto;
+}

@@ -11,6 +11,8 @@ public class VoteItem {
 	private int itemid;
 	private String itemName;
 	private String itemPic;
+	private int count;
+	private double percent;
 	
 	/**
 	 * @return the itemid
@@ -47,6 +49,30 @@ public class VoteItem {
 	 */
 	public void setItemPic(String itemPic) {
 		this.itemPic = itemPic;
+	}
+	/**
+	 * @return the count
+	 */
+	public int getCount() {
+		return count;
+	}
+	/**
+	 * @param count the count to set
+	 */
+	public void setCount(int count) {
+		this.count = count;
+	}
+	/**
+	 * @return the percent
+	 */
+	public double getPercent() {
+		return percent;
+	}
+	/**
+	 * @param percent the percent to set
+	 */
+	public void setPercent(double percent) {
+		this.percent = percent;
 	}
 	
 }

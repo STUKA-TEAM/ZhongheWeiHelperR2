@@ -13,11 +13,13 @@ import java.util.List;
 public class Vote {
 	 private int voteid;
 	 private String voteName;
+	 private String appid;
 	 private Timestamp createTime;
 	 private String voteDesc;
 	 private String coverPic;
 	 private int maxSelected;
 	 private List<VoteItem> itemList;
+	 private int count;
 	 
 	/**
 	 * @return the voteid
@@ -42,6 +44,18 @@ public class Vote {
 	 */
 	public void setVoteName(String voteName) {
 		this.voteName = voteName;
+	}
+	/**
+	 * @return the appid
+	 */
+	public String getAppid() {
+		return appid;
+	}
+	/**
+	 * @param appid the appid to set
+	 */
+	public void setAppid(String appid) {
+		this.appid = appid;
 	}
 	/**
 	 * @return the createTime
@@ -102,5 +116,17 @@ public class Vote {
 	 */
 	public void setItemList(List<VoteItem> itemList) {
 		this.itemList = itemList;
+	}
+	/**
+	 * @return the count
+	 */
+	public int getCount() {
+		return count;
+	}
+	/**
+	 * @param count the count to set
+	 */
+	public void setCount(int count) {
+		this.count = count;
 	}
 }
