@@ -29,6 +29,8 @@ import register.UserInfo;
 import register.Welcome;
 import register.dao.InviteDAO;
 import register.dao.UserInfoDAO;
+import vote.Vote;
+import vote.VoteContent;
 import website.Website;
 import website.dao.WebsiteDAO;
 
@@ -469,6 +471,26 @@ public class CommonValidationTools {
 	 * @return
 	 */
 	public static boolean checkAlbum(Album album){
+		return true;
+	}
+	
+	/**
+	 * @title checkVote
+	 * @description 检查投票信息
+	 * @param vote
+	 * @return
+	 */
+	public static boolean checkVote(Vote vote){
+		return true;
+	}
+	
+	/**
+	 * @title checkVoteContent
+	 * @description 检查单个用户投票信息
+	 * @param message
+	 * @return
+	 */
+	public static boolean checkVoteContent(VoteContent content){
 		return true;
 	}
 }

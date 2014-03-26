@@ -75,23 +75,27 @@ Windows:
         ---------------------------------------------------------------------------------------------------------------------------------
             voteid       int(11)      No         <auto_increment>       Yes                 投票id
             voteName     varchar(40)  No                                No                  投票名称
+            appid        varchar(32)  No                                No                  UUID
             createTime   timestamp    No         0000-00-00 00:00:00    No                  创建时间
             voteDesc     varchar(300) No                                No                  投票介绍
             coverPic     varchar(80)  Yes        NULL                   No                  封面图片
             maxSelected  int(11)      No         1                      No                  最大可选数
+            count        int(11)      No         0                      No                  投票人数
 [2014-3-25][index: 0023]添加表vote_item
             Name         Type         NULL       Default                Primary Key         Comment
         ---------------------------------------------------------------------------------------------------------------------------------
             itemid       int(11)      No         <auto_increment>       Yes                 选项id
+            voteid       int(11)      No         0                      No                  投票id
             itemName     varchar(80)  Yes        NULL                   No                  选项描述
             itemPic      varchar(80)  Yes        NULL                   No                  选项图片
-[2014-3-25][index； 0024]添加表vote_result
+            count        int(11)      No         0                      No                  投票人数
+[2014-3-25][index: 0025]添加表vote_user
             Name         Type         NULL       Default                Primary Key         Comment
         ---------------------------------------------------------------------------------------------------------------------------------
             id           int(11)      No         <auto_increment>       Yes                 
             voteid       int(11)      No         0                      No                  投票id
-            itemid       int(11)      No         0                      No                  选项id
             wechatOpenid varchar(28)  No                                No                  用户id
+            contact      varchar(40)  Yes        NULL                   No                  联系方式
 
 Linux:
 [2014-2-22][index: 0001]done

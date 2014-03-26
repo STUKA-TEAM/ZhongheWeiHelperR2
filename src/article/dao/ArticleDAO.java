@@ -534,7 +534,40 @@ public class ArticleDAO {
 			article.setTitle(rs.getString("title"));
 			return article;
 		}	
-	}	
+	}
+	
+	/**
+	 * @title: getArticleClassForCustomer
+	 * @description: 根据classid获取手机端文章列表展示的文章信息
+	 * @param articleid
+	 * @return
+	 */
+	public List<Article> getArticleClassForCustomer(int classid){
+		String SQL = "SELECT A.articleid, A.title, A.coverPic, A.createTime "
+				+ "FROM article A, article_articleclass B WHERE A.articleid "
+				+ "= B.articleid AND B.classid = ? ORDER BY A.createTime DESC";
+		List<Article> articleList = null;
+		
+		try {
+			articleList = jdbcTemplate.query(SQL, new Object[]{classid}, new ArticleIntroinfoMapper());
+		} catch (Exception e) {
+			System.out.println("getArticleClassForCustomer: " + e.getMessage());
+			articleList = new ArrayList<Article>();
+		}
+		return articleList;
+	}
+	
+	private static final class ArticleIntroinfoMapper implements RowMapper<Article>{
+		@Override
+		public Article mapRow(ResultSet rs, int arg1) throws SQLException {
+			Article article = new Article();
+			article.setArticleid(rs.getInt("A.articleid"));
+			article.setTitle(rs.getString("A.title"));
+			article.setCreateTime(rs.getTimestamp("A.createTime"));
+			article.setCoverPic(rs.getString("A.coverPic"));
+			return article;
+		}	
+	}
 	
 	/**
 	 * @title: getArticleContent
@@ -596,36 +629,6 @@ public class ArticleDAO {
 			article.setTitle(rs.getString("title"));
 			article.setCreateTime(rs.getTimestamp("createTime"));
 			article.setContent(rs.getString("content"));
-			return article;
-		}	
-	}
-	
-	/**
-	 * @title: getArticleIntroinfo
-	 * @description: 根据articleid获取手机端文章列表展示时单篇文章信息
-	 * @param articleid
-	 * @return
-	 */
-	public Article getArticleIntroinfo(int articleid){
-		String SQL = "SELECT articleid, title, coverPic, createTime FROM article WHERE articleid = ?";
-		Article article = null;
-		
-		try {
-			article = jdbcTemplate.queryForObject(SQL, new Object[]{articleid}, new ArticleIntroinfoMapper());
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-		return article;
-	}
-	
-	private static final class ArticleIntroinfoMapper implements RowMapper<Article>{
-		@Override
-		public Article mapRow(ResultSet rs, int arg1) throws SQLException {
-			Article article = new Article();
-			article.setArticleid(rs.getInt("articleid"));
-			article.setTitle(rs.getString("title"));
-			article.setCreateTime(rs.getTimestamp("createTime"));
-			article.setCoverPic(rs.getString("coverPic"));
 			return article;
 		}	
 	}
