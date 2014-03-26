@@ -33,6 +33,7 @@
         <button onclick="switch_guide('#guide_bg','#guide_img')" type="button" class="btn btn-default article-btn"><img src="./img/icon_lib/icon_timeline.png" class="btn-icon"> 分享到朋友圈</button>
       </div>
     </div>
+    <%@ include file="../CommonViews/weifooter.jsp"%>   
     <%@ include file="bottom.jsp"%> 
     <script type="text/javascript" src="./js/customer/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="js/customer/mobile-common.js"></script>
