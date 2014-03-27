@@ -853,6 +853,12 @@ public class AlbumDAO {
 			System.out.println("getAlbumClassForCustomer: " + e.getMessage());
 			albumList = new ArrayList<Album>();
 		}
+		
+		for (int i = 0; i < albumList.size(); i++) {
+			Album album = albumList.get(i);
+			int count = getPhotoCount(album.getAlbumid());
+			album.setPhotoCount(count);
+		}
 		return albumList;
 	}
 	
