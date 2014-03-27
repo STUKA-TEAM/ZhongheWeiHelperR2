@@ -42,7 +42,6 @@
     
     function submitInsertNewApp(){
       var appInfo=new Object();
-      appInfo.wechatToken=$("#wechat_token").val();
       appInfo.wechatName=$("#wechat_name").val();
       appInfo.wechatOriginalId=$("#wechat_id").val();
       appInfo.wechatNumber=$("#wechat_account").val();
@@ -81,7 +80,6 @@
     
     function validateNewApp(appInfo){
     	var blankInputArray = new Array();
-    	if(appInfo.wechatToken=="")blankInputArray.push("验证Token");
     	if(appInfo.wechatName=="")blankInputArray.push("微信账号名称");
         if(appInfo.wechatOriginalId=="")blankInputArray.push("微信账号原始ID");
     	if(appInfo.address=="")blankInputArray.push("微信账号地址");

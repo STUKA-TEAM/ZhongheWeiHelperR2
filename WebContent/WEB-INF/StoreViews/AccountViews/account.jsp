@@ -215,6 +215,8 @@
             <h4 class="modal-title" id="myModalLabel">查看公共账号接口连接</h4>
           </div>
           <div class="modal-body">
+            <div class="col-md-offset-1 col-md-11 alert alert-warning">提示：可以登录微信公众账号官方平台（https://mp.weixin.qq.com），在左侧“功能-高级功能-开发模式-服务器配置”中进行设置。
+	        </div> 
             <dl class="dl-horizontal">
               <dt><h4><strong>微信接口URL:</strong></h4></dt>
               <dd><pre>${appInfo.url}</pre></dd>
@@ -240,6 +242,8 @@
           </div>
           <div class="modal-body">
             <form class="form-horizontal" role="form">
+	          <div class="col-md-offset-1 col-md-11 alert alert-warning">提示：可以登录微信公众账号官方平台（https://mp.weixin.qq.com），点击头像查看。“微信号”如为空，请设置。
+	          </div>            
               <div class="form-group">
                 <label for="wechat_name" class="col-sm-3 control-label">微信账号名称</label>
                 <div class="col-sm-9">
@@ -268,12 +272,6 @@
                 <label for="wechat_trade" class="col-sm-3 control-label">所属行业</label>
                 <div class="col-sm-9">
                   <input type="text" class="form-control" id="wechat_trade" placeholder="">
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="wechat_token" class="col-sm-3 control-label">验证Token</label>
-                <div class="col-sm-9">
-                  <input type="text" class="form-control" id="wechat_token" placeholder="">
                 </div>
               </div>
             </form>

@@ -10,6 +10,7 @@ div {
 }
 
 .website-content {
+  overflow:hidden;
   width: 100%;
   margin-top: 5px;
 }

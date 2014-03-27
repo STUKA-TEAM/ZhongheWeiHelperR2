@@ -41,10 +41,10 @@
     <%@ include file="../CommonViews/shareJS.jsp"%>
     <script type="text/javascript">
     window.shareInfo = new Object();
-    shareInfo.imgUrl = '${imageLink}_original.jpg';
-    shareInfo.link = '${appLink}';
-    shareInfo.desc = '${website.shareContent}';
-    shareInfo.title = '${website.shareTitle}';
+    shareInfo.imgUrl = '${message.imageLink}';
+    shareInfo.link = '${message.appLink}';
+    shareInfo.desc = '${message.shareContent}';
+    shareInfo.title = '${message.shareTitle}';
     </script>
   </body>
 </html>

@@ -45,7 +45,7 @@ public class AlbumController {
 		((ConfigurableApplicationContext)context).close();
 		
 		Album album = albumDao.getAlbumForCustomer(albumid);
-		String viewName = "WebsiteViews/";
+		String viewName = "AlbumViews/";
 		
 		if (album != null) {
 			Integer websiteid = albumDao.getWebsiteidByAlbumid(albumid);
@@ -98,6 +98,6 @@ public class AlbumController {
 			Website website = websiteDao.getWebsiteInfoForCustomer(websiteid);	
 	        model.addAttribute("website", website);
 		}
-		return "WebsiteViews/albumclass";
+		return "AlbumViews/albumclass";
 	}
 }

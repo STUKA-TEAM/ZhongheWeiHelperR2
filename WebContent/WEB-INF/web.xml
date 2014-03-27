@@ -133,55 +133,55 @@
 <!-- catch exception page -->
 <error-page>
    <error-code>404</error-code>
-   <location>/404.html</location>
+   <location>/error/404.html</location>
 </error-page>
 <error-page>
    <error-code>400</error-code>
-   <location>/400.html</location>
+   <location>/error/400.html</location>
 </error-page>
 <error-page>
    <error-code>401</error-code>
-   <location>/401.html</location>
+   <location>/error/401.html</location>
 </error-page>
 <error-page>
    <error-code>403</error-code>
-   <location>/403.html</location>
+   <location>/error/403.html</location>
 </error-page>
 <error-page>
    <error-code>405</error-code>
-   <location>/405.html</location>
+   <location>/error/405.html</location>
 </error-page>
 <error-page>
    <error-code>406</error-code>
-   <location>/406.html</location>
+   <location>/error/406.html</location>
 </error-page>
 <error-page>
    <error-code>407</error-code>
-   <location>/407.html</location>
+   <location>/error/407.html</location>
 </error-page>
 <error-page>
    <error-code>408</error-code>
-   <location>/408.html</location>
+   <location>/error/408.html</location>
 </error-page>
 <error-page>
    <error-code>500</error-code>
-   <location>/500.html</location>
+   <location>/error/500.html</location>
 </error-page>
 <error-page>
    <error-code>501</error-code>
-   <location>/501.html</location>
+   <location>/error/501.html</location>
 </error-page>
 <error-page>
    <error-code>502</error-code>
-   <location>/502.html</location>
+   <location>/error/502.html</location>
 </error-page>
 <error-page>
    <error-code>503</error-code>
-   <location>/503.html</location>
+   <location>/error/503.html</location>
 </error-page>
 <error-page>
    <error-code>504</error-code>
-   <location>/504.html</location>
+   <location>/error/504.html</location>
 </error-page>
 <!-- ******************** -->
 

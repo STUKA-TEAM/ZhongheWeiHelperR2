@@ -143,6 +143,7 @@ public class WebsiteController {
 				viewName = viewName + "nodeList";
 				break;
 			case "article":
+				viewName = "ArticleViews/";
 				articleDao = (ArticleDAO) context.getBean("ArticleDAO");
 				Article article = articleDao.getArticleForCustomer(nodeidList.get(0));
 				model.addAttribute("article", article);
@@ -159,12 +160,14 @@ public class WebsiteController {
 				viewName = viewName + "article";
 				break;
 			case "articleclass":
+				viewName = "ArticleViews/";
 				articleDao = (ArticleDAO) context.getBean("ArticleDAO");
 				List<Article> articleList = articleDao.getArticleClassForCustomer(nodeidList.get(0));
 				model.addAttribute("articleList", articleList);
 				viewName = viewName + "articleclass";
 				break;
 			case "album":
+				viewName = "AlbumViews/";
 				albumDao = (AlbumDAO) context.getBean("AlbumDAO");
 				Album album = albumDao.getAlbumForCustomer(nodeidList.get(0));
 				model.addAttribute("album", album);
@@ -181,12 +184,14 @@ public class WebsiteController {
 				viewName = viewName + "album";
 				break;
 			case "albumclass":
+				viewName = "AlbumViews/";
 				albumDao = (AlbumDAO) context.getBean("AlbumDAO");
 				List<Album> albumList = albumDao.getAlbumClassForCustomer(nodeidList.get(0));
 				model.addAttribute("albumList", albumList);
 				viewName = viewName + "albumclass";
 				break;
 			case "vote":
+				viewName = "VoteViews/";
 				voteDao = (VoteDAO) context.getBean("VoteDAO");
 				Vote vote = voteDao.getVoteForCustomer(nodeidList.get(0));
 				model.addAttribute("vote", vote);
