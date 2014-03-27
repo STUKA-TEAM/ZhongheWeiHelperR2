@@ -1,5 +1,9 @@
 package website;
 
+import java.io.InputStream;
+import java.util.Properties;
+
+
 /**
  * @Title: ShareMessage
  * @Description: 分享依赖信息
@@ -13,6 +17,23 @@ public class ShareMessage {
 	private String shareContent;
 	private String appLink;
 	private String imageLink;
+	
+	public ShareMessage() {
+		InputStream inputStream = ShareMessage.class.getResourceAsStream("/environment.properties");
+		Properties properties = new Properties();
+		String appLink = null;
+		String imageLink = null;
+		try {
+			properties.load(inputStream);
+			appLink = (String)properties.get("applicationPath");
+			imageLink = (String) properties.get("imageHost");
+		} catch (Exception e) {
+			System.out.println("construct ShareMessage: " + e.getMessage());
+		}
+		
+		this.appLink = appLink;
+		this.imageLink = imageLink;
+	}
 	
 	/**
 	 * @return the wechatNumber

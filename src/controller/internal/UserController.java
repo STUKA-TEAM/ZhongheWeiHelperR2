@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import elove.EloveNotpay;
@@ -133,7 +134,7 @@ public class UserController {
 		AuthInfoDAO authInfoDao = (AuthInfoDAO) context.getBean("AuthInfoDAO");
 		((ConfigurableApplicationContext)context).close();
 		
-		Gson gson = new Gson();
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
 		AuthInfo authInfo = gson.fromJson(json, AuthInfo.class);
 		ResponseMessage message = new ResponseMessage();
 		

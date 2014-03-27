@@ -56,6 +56,18 @@
               <p class="pull-left"><strong>未付款金额:</strong></p>
               <p class="bill-value pull-left">${notPayMoney}元</p>
             </div>
+            <div class="clearfix">
+              <p class="pull-left"><strong>付款方式:</strong></p>
+              <p class="bill-value pull-left">支付宝或银行账户</p>
+            </div>
+            <div class="clearfix">
+              <p class="pull-left"><strong>支付宝:</strong></p>
+              <p class="bill-value pull-left">service@tukacorp.com<br/>上海图卡网络科技有限公司</p>
+            </div>
+            <div class="clearfix">
+              <p class="pull-left"><strong>银行账号:</strong></p>
+              <p class="bill-value pull-left">10574000000047449<br/>上海图卡网络科技有限公司</p>
+            </div>
             <p><strong>如有问题，请联系您的客户经理： </strong>${phoneNum}</p>
           </div>
         </div>

@@ -33,9 +33,18 @@
         <button onclick="switch_guide('#guide_bg','#guide_img')" type="button" class="btn btn-default article-btn"><img src="./img/icon_lib/icon_timeline.png" class="btn-icon"> 分享到朋友圈</button>
       </div>
     </div>
-    <%@ include file="bottom.jsp"%> 
+    <%@ include file="../CommonViews/weifooter.jsp"%>   
+    <%@ include file="../WebsiteViews/bottom.jsp"%> 
     <script type="text/javascript" src="./js/customer/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="js/customer/mobile-common.js"></script>
     <script src="./js/customer/bootstrap.min.js"></script>    
+    <%@ include file="../CommonViews/shareJS.jsp"%>
+    <script type="text/javascript">
+    window.shareInfo = new Object();
+    shareInfo.imgUrl = '${message.imageLink}';
+    shareInfo.link = '${message.appLink}';
+    shareInfo.desc = '${message.shareContent}';
+    shareInfo.title = '${message.shareTitle}';
+    </script>
   </body>
 </html>

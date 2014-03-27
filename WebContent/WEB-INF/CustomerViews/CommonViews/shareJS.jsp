@@ -6,12 +6,12 @@
 			// 发送给好友
 			WeixinJSBridge.on('menu:share:appmessage', function (argv) {
 				WeixinJSBridge.invoke('sendAppMessage', { 
-					"img_url": "",
+					"img_url": "http://58.247.181.41/resources/images/368e19daee184fc78b8bd529b1ce3fa1_original.jpg",
 					"img_width": "300",
 					"img_height": "300",
-					"link": "",
+					"link": window.shareInfo.link,
 					"desc": "",
-					"title": ""
+					"title": window.shareInfo.title
 				}, function (res) {
 				});
 			});

@@ -14,34 +14,28 @@
     <base href="${fn:replace(request.requestURL, request.requestURI, request.contextPath)}/" />
     <title>${website.title}</title>
     
+    
     <link href="./css/customer/bootstrap.min.css" rel="stylesheet">
-    <link href="./css/customer/wei-article-list.css" rel="stylesheet">
+    <link href="./css/customer/gallery-list.css" rel="stylesheet">
     <link href="./css/customer/mobile-common.css" rel="stylesheet">
     <link href="./css/customer/wei-website-modulelist.css" rel="stylesheet">
   </head>
   <body>
   
     <div class="container">
-      <c:forEach items="${articleList}" var="item">
-      <div class="article-model">
-        <a class="noneStyleLink" href="customer/article?articleid=${item.articleid}">
-        <div class="article-model-header">
-          <h4>${item.title}</h4>
-          <small><fmt:formatDate value="${item.createTime}" pattern="yyyy-MM-dd"/></small>
+      <c:forEach items="${albumList}" var="item">
+      <a class="gallery-model noneStyleLinkGray" href="customer/albumclass?albumid=${item.albumid}">
+        <div class="gallery-model-content">
+          <img src="${item.coverPic}_standard.jpg" class="gallery-image" alt="gallery">
         </div>
-        <div class="article-model-content">
-          <div  class="article-image">
-            <img src="${item.coverPic}_standard.jpg" class="img-responsive" alt="article">
-          </div>
-        </div>       
-        <div class="article-model-footer">
-          <h5>查看全文</h5>
+        <div class="gallery-model-footer">
+          <p class="gallery-name">${item.albumName}</p>
+          <p class="gallery-count">${item.photoCount}张</p>
         </div>
-        </a>
-      </div>
+      </a>
       </c:forEach>
     </div>
-    <%@ include file="bottom.jsp"%>
+    <%@ include file="../WebsiteViews/bottom.jsp"%>
     <script type="text/javascript" src="./js/customer/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="js/customer/mobile-common.js"></script>
     <script src="./js/customer/bootstrap.min.js"></script>

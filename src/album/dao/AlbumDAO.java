@@ -740,7 +740,7 @@ public class AlbumDAO {
 	 */
 	public Album getAlbumForCustomer(int albumid){
 		Album album = null;
-		String SQL = "SELECT albumid, albumName FROM album WHERE appid = ?";
+		String SQL = "SELECT albumid, albumName FROM album WHERE albumid = ?";
 		try {
 			album = jdbcTemplate.queryForObject(SQL, new Object[]{albumid}, new BasicAlbuminfoMapper());
 		} catch (Exception e) {
@@ -852,6 +852,12 @@ public class AlbumDAO {
 		} catch (Exception e) {
 			System.out.println("getAlbumClassForCustomer: " + e.getMessage());
 			albumList = new ArrayList<Album>();
+		}
+		
+		for (int i = 0; i < albumList.size(); i++) {
+			Album album = albumList.get(i);
+			int count = getPhotoCount(album.getAlbumid());
+			album.setPhotoCount(count);
 		}
 		return albumList;
 	}

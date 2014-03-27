@@ -7,7 +7,7 @@
     <div class="container-fulid">
       <img src="img/elove/info_title_4.png" class="img-responsive title" alt="title background" />
       <div class="logo-container">
-        <img src="${elove.majorGroupPhoto}_original.jpg" class="logo" alt="logo" />
+        <div style="background-image: url(${elove.majorGroupPhoto}_original.jpg);" class="logo" alt="logo"></div>
       </div>
     </div>
     
