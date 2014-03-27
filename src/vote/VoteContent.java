@@ -4,7 +4,7 @@ import java.util.List;
 
 /**
  * @Title: VoteContent
- * @Description: 单个用户投票信息
+ * @Description: 单个用户投票内容
  * @Company: Tuka
  * @author ben
  * @date 2014年3月26日
