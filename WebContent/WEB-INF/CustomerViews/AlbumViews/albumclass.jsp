@@ -24,7 +24,7 @@
   
     <div class="container">
       <c:forEach items="${albumList}" var="item">
-      <a class="gallery-model noneStyleLinkGray" href="customer/albumclass?albumid=${item.albumid}">
+      <a class="gallery-model noneStyleLinkGray" href="customer/album?albumid=${item.albumid}">
         <div class="gallery-model-content">
           <img src="${item.coverPic}_standard.jpg" class="gallery-image" alt="gallery">
         </div>
