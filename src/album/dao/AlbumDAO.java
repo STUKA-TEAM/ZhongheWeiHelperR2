@@ -740,7 +740,7 @@ public class AlbumDAO {
 	 */
 	public Album getAlbumForCustomer(int albumid){
 		Album album = null;
-		String SQL = "SELECT albumid, albumName FROM album WHERE appid = ?";
+		String SQL = "SELECT albumid, albumName FROM album WHERE albumid = ?";
 		try {
 			album = jdbcTemplate.queryForObject(SQL, new Object[]{albumid}, new BasicAlbuminfoMapper());
 		} catch (Exception e) {
