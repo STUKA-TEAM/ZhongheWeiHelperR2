@@ -44,7 +44,7 @@ public class ArticleController {
 		((ConfigurableApplicationContext)context).close();
 		
 		Article article = articleDao.getArticleForCustomer(articleid);
-		String viewName = "WebsiteViews/";
+		String viewName = "ArticleViews/";
 		
 		if (article != null) {
 			Integer websiteid = articleDao.getWebsiteidByArticleid(articleid);
@@ -97,6 +97,6 @@ public class ArticleController {
 			Website website = websiteDao.getWebsiteInfoForCustomer(websiteid);	
 	        model.addAttribute("website", website);
 		}
-		return "WebsiteViews/articleclass";
+		return "ArticleViews/articleclass";
 	}
 }
