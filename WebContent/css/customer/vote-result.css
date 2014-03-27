@@ -1,0 +1,72 @@
+html, header, body {
+  max-width: 360px;
+  background-color: #eeeeee;
+  font-family:"Microsoft YaHei";
+}
+div {
+  max-width: 360px;
+  text-align:center; 
+}
+h4, strong, small {
+  text-align: left;
+  font-family:"Microsoft YaHei";
+}
+.vote-text {
+  text-align: left;
+  margin: 5px auto;
+  font-size: 15px;
+}
+.vote-module {
+  margin: 10px auto;
+  background-color: #ffffff;
+  padding: 5px;
+  border-radius: 5px;
+  border: solid #cccccc 1px;
+}
+.vote-item-module {
+  width: 100%;
+  margin: 10px auto;
+}
+.vote-type {
+  width: 90%;
+  margin: auto;
+  text-align: left;
+}
+.vote-item {
+  margin: 5px auto;
+  width: 90%;
+  background-color: #ffffff;
+  border-radius: 5px;
+  border: solid #cccccc 1px;
+  padding: 0 5px;
+}
+.vote-img {
+  margin: 5px auto;
+}
+.vote-item-title {
+  line-height: 30px;
+  height: 30px;
+  text-align: left;
+  font-size: 14px;
+}
+.vote-progress {
+  width: 100%;
+  margin: 0 auto 5px auto;
+  clear: both;
+}
+.vote-progress-bar {
+  height: 15px;
+  line-height: 15px;
+  float: left;
+  width: 60%;
+}
+.vote-progress-count {
+  height: 15px;
+  line-height: 15px;
+  float: left;
+  width: 40%;
+}
+.progress {
+  height: 15px;
+  line-height: 15px;
+}
