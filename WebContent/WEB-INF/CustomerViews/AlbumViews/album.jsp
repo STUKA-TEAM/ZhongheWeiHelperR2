@@ -16,19 +16,19 @@
     
     
   <link rel="stylesheet" href="swipelib/swipebox.min.css">
-    <script type="text/javascript" src="jquery.min.js"></script>
-<script type="text/javascript" src="jquery.masonry.min.js"></script>
+<script src="js/customer/masonry.pkgd.min.js"></script>
 <script>
-$(function(){
-    $('.container').masonry({
-        itemSelector : '.item'    
-    });
+var container = document.querySelector('#"MainContent"');
+var msnry = new Masonry( container, {
+  // options
+  columnWidth: 200,
+  itemSelector: '.swipebox'
 });
 </script>
   </head>
   <body>
   <div id="MainContent">
-    <div class="content-left">
+
       <a href="./img/gallery/full/001.jpg" class="swipebox" title="cookie">
         <img class="swipeimg" src="./img/gallery/full/001.jpg" alt="image">
       </a>
@@ -41,8 +41,8 @@ $(function(){
       <a href="./img/gallery/full/004.jpg" class="swipebox" title="My Caption4">
         <img class="swipeimg" src="./img/gallery/full/004.jpg" alt="image">
       </a>
-    </div>
-    <div class="content-right">
+
+
       <a href="./img/gallery/full/005.jpg" class="swipebox" title="My Caption5">
         <img class="swipeimg" src="./img/gallery/full/005.jpg" alt="image">
       </a>
@@ -59,7 +59,7 @@ $(function(){
         <img class="swipeimg" src="./img/gallery/full/009.jpg" alt="image">
       </a>
     </div>
-  </div>  
+
 
   <script src="./swipelib/jquery-2.1.0.min.js"></script>
   <script src="./swipelib/jquery.swipebox.min.js"></script>
