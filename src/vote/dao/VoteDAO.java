@@ -97,7 +97,8 @@ public class VoteDAO {
 	 * @return
 	 */
 	private int insertItemList(int voteid, List<VoteItem> itemList){
-		String SQL = "INSERT INTO vote_item (itemid, voteid, itemName, itemPic, count) VALUES (default, ?, ?, ?, ?)";
+		String SQL = "INSERT INTO vote_item (itemid, voteid, itemName, itemPic,"
+				+ " count) VALUES (default, ?, ?, ?, ?)";
 		int result = 1;
 		
 		if (itemList != null) {
@@ -146,8 +147,10 @@ public class VoteDAO {
 	 * @return
 	 */
 	private int insertVoteUser(VoteContent content){
-		String SQL = "INSERT INTO vote_user (id, voteid, wechatOpenid, contact) VALUES (default, ?, ?, ?)";
-		int result = jdbcTemplate.update(SQL, content.getVoteid(), content.getOpenid(), content.getContact());
+		String SQL = "INSERT INTO vote_user (id, voteid, wechatOpenid, contact) "
+				+ "VALUES (default, ?, ?, ?)";
+		int result = jdbcTemplate.update(SQL, content.getVoteid(), 
+				content.getOpenid(), content.getContact());
 		return result <= 0 ? 0 : result;
 	}
 	
@@ -159,7 +162,8 @@ public class VoteDAO {
 	 * @return
 	 */
 	private int insertImageTempRecord(String imagePath, Timestamp current){
-		String SQL = "INSERT INTO image_temp_record (id, imagePath, createDate) VALUES (default, ?, ?)";		
+		String SQL = "INSERT INTO image_temp_record (id, imagePath, createDate) "
+				+ "VALUES (default, ?, ?)";		
 		int result = jdbcTemplate.update(SQL, imagePath, current);
 		return result <= 0 ? 0 : result;
 	}
@@ -239,12 +243,53 @@ public class VoteDAO {
 	}
 	
 	/**
+	 * @title deleteVote
+	 * @description 根据appid删除该应用下所有投票相关信息
+	 * @param appid
+	 * @return
+	 */
+	public int deleteVote(String appid){
+		String SQL = "DELETE FROM vote WHERE appid = ?";
+		int result = 0;
+		
+		List<Integer> voteidList = getVoteidList(appid);
+		for (int i = 0; i < voteidList.size(); i++) {
+			int voteid = voteidList.get(i);
+			
+			Vote vote = getVoteMedia(voteid);
+			if (vote != null) {
+				Timestamp current = new Timestamp(System.currentTimeMillis());
+				
+				String coverPic = vote.getCoverPic();
+				if (coverPic != null && !coverPic.equals("")) {
+					insertImageTempRecord(coverPic, current);
+				}
+				
+				for (int j = 0; j < vote.getItemList().size(); j++) {
+					String itemPic = vote.getItemList().get(j).getItemPic();
+					if (itemPic != null && !itemPic.equals("")) {
+						insertImageTempRecord(itemPic, current);
+					}
+				}
+			} else {
+				return 0;
+			}
+			
+			deleteItemList(voteid);
+			deleteVoteUser(voteid);
+		}
+		
+		result = jdbcTemplate.update(SQL, appid);
+		return result <= 0 ? 0 : result;
+	}
+	
+	/**
 	 * @title deleteItemList
 	 * @description 根据voteid删除投票选项信息
 	 * @param voteid
 	 * @return
 	 */
-	public int deleteItemList(int voteid){
+	private int deleteItemList(int voteid){
 		String SQL = "DELETE FROM vote_item WHERE voteid = ?";
 		int result = jdbcTemplate.update(SQL, voteid);
 		return result <= 0 ? 0 : result;
@@ -256,15 +301,117 @@ public class VoteDAO {
 	 * @param voteid
 	 * @return
 	 */
-	public int deleteVoteUser(int voteid){
+	private int deleteVoteUser(int voteid){
 		String SQL = "DELETE FROM vote_user WHERE voteid = ?";
 		int result = jdbcTemplate.update(SQL, voteid);
 		return result <= 0 ? 0 : result;
 	}
 	
 	//update
+	/**
+	 * @title updateVote
+	 * @description 更新投票及选项信息
+	 * @param vote
+	 * @return
+	 */
 	public int updateVote(Vote vote){
-		return 0;
+		String SQL = "UPDATE vote SET voteName = ?, voteDesc = ?, coverPic = ?,"
+				+ " maxSelected = ? WHERE voteid = ?";
+		int result = 0;
+		
+		Vote oldVote = getVoteMedia(vote.getVoteid());
+		if (oldVote != null) {
+			Timestamp current = new Timestamp(System.currentTimeMillis());
+			
+			String originalCoverPic = oldVote.getCoverPic();
+			String currentCoverPic = vote.getCoverPic();
+			if (currentCoverPic == null) {
+				currentCoverPic = "";
+			}
+			if (!currentCoverPic.equals(originalCoverPic)) {
+				if (originalCoverPic != null && !originalCoverPic.equals("")) {
+					insertImageTempRecord(originalCoverPic, current);
+				}
+				
+				if (!currentCoverPic.equals("")) {
+					deleteImageTempRecord(currentCoverPic);
+				}
+			}
+			
+			List<String> originalImages = parseVoteItem(oldVote.getItemList());
+			List<String> currentImages = parseVoteItem(vote.getItemList());
+			for (int i = 0; i < originalImages.size(); i++) {
+				String imagePath = originalImages.get(i);
+				if (!currentImages.contains(imagePath)) {
+					insertImageTempRecord(imagePath, current);
+				}
+			}
+			for (int i = 0; i < currentImages.size(); i++) {
+				String imagePath = currentImages.get(i);
+				if (!originalImages.contains(imagePath)) {
+					deleteImageTempRecord(imagePath);
+				}
+			}
+			
+		} else {
+			return 0;
+		}
+		
+		result = jdbcTemplate.update(SQL, vote.getVoteName(), vote.getVoteDesc(), 
+				vote.getCoverPic(), vote.getMaxSelected(), vote.getVoteid());
+		if (result > 0) {
+			result = updateItemList(vote.getItemList());
+			if (result == 0) {
+				return -1;
+			}
+			return result;
+		} else {
+			return 0;
+		}
+	}
+	
+	/**
+	 * @title parseVoteItem
+	 * @description 解析VoteItem获取itemPic信息列表
+	 * @param itemList
+	 * @return
+	 */
+	private List<String> parseVoteItem(List<VoteItem> itemList){
+		List<String> imageList = new ArrayList<String>();
+		if (itemList != null) {
+			for (int i = 0; i < itemList.size(); i++) {
+				String itemPic = itemList.get(i).getItemPic();
+				if (itemPic != null && !itemPic.equals("")) {
+					imageList.add(itemPic);
+				}
+			}
+		}
+		return imageList;
+	}
+	
+	/**
+	 * @title updateItemList
+	 * @description 更新投票选项信息 (itemName, itemPic)
+	 * @param itemList
+	 * @return
+	 */
+	private int updateItemList(List<VoteItem> itemList){
+		String SQL = "UPDATE vote_item SET itemName = ?, itemPic = ? WHERE itemid = ?";
+		int result = 1;
+		
+		if (itemList != null) {
+			for (int i = 0; i < itemList.size(); i++) {
+				VoteItem item = itemList.get(i);
+				result = jdbcTemplate.update(SQL, item.getItemName(), item.getItemPic(), 
+						item.getItemid());
+				if (result <= 0) {
+					return 0;
+				}
+			}
+			return result;
+		} else {
+			return result;
+		}	
 	}
 	
 	/**
@@ -368,7 +515,7 @@ public class VoteDAO {
 	
 	/**
 	 * @title getVoteMedia
-	 * @description 根据voteid查询该投票有关的媒介信息
+	 * @description 根据voteid查询该投票有关的媒介信息 (coverPic, itemList) 
 	 * @param voteid
 	 * @return
 	 */
@@ -559,6 +706,32 @@ public class VoteDAO {
 			VoteItem item = new VoteItem();
 			item.setItemPic(rs.getString("itemPic"));
 			return item;
+		}
+	}
+	
+	/**
+	 * @title getVoteidList
+	 * @description 根据appid查询该应用下的所有投票id列表
+	 * @param appid
+	 * @return
+	 */
+	public List<Integer> getVoteidList(String appid){
+		List<Integer> voteidList = null;
+		String SQL = "SELECT voteid FROM vote WHERE appid = ?";
+		try {
+			voteidList = jdbcTemplate.query(SQL, new Object[]{appid}, new VoteidMapper());
+		} catch (Exception e) {
+			System.out.println("getVoteidList: " + e.getMessage());
+			voteidList = new ArrayList<Integer>();
+		}
+		return voteidList;
+	}
+	
+	private static final class VoteidMapper implements RowMapper<Integer>{
+		@Override
+		public Integer mapRow(ResultSet rs, int arg1) throws SQLException {
+			Integer voteid = rs.getInt("voteid");
+			return voteid;
 		}
 	}
 	
