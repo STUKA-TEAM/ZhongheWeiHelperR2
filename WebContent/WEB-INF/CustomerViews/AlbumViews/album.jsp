@@ -16,56 +16,34 @@
     
     
   <link rel="stylesheet" href="swipelib/swipebox.min.css">
-<script src="js/customer/masonry.pkgd.min.js"></script>
-<script>
-var container = document.querySelector('#"MainContent"');
-var msnry = new Masonry( container, {
-  // options
-  columnWidth: 200,
-  itemSelector: '.swipebox'
-});
-</script>
+  <link rel="stylesheet" href="css/customer/gallery.css">
+  <script src="js/customer/jquery-1.10.2.min.js"></script>
+  <script src="js/customer/masonry.pkgd.min.js"></script>
+  <script src="js/customer/imagesloaded.pkgd.min.js"></script>
+  <script type="text/javascript">
+  $( window ).load( function()
+		  {
+		      $( '#container' ).masonry( { itemSelector: '.item' } );
+		  });
+  </script>
+
   </head>
   <body>
-  <div id="MainContent">
-
-      <a href="./img/gallery/full/001.jpg" class="swipebox" title="cookie">
-        <img class="swipeimg" src="./img/gallery/full/001.jpg" alt="image">
+  <div id="head">${album.albumName}</div>
+  <div id="container">
+      <c:forEach items="${album.photoList}" var="item">
+      <div class="item">
+      <a href="${item.imagePath}_original.jpg" class="swipebox" title="${item.imageDesc}">
+        <img class="swipeimg" src="${item.imagePath}_original.jpg" alt="image">
       </a>
-      <a href="./img/gallery/full/002.jpg" class="swipebox" title="">
-        <img class="swipeimg" src="./img/gallery/full/002.jpg" alt="image">
-      </a>
-      <a href="./img/gallery/full/003.jpg" class="swipebox" title="">
-        <img class="swipeimg" src="./img/gallery/full/003.jpg" alt="image">
-      </a>
-      <a href="./img/gallery/full/004.jpg" class="swipebox" title="My Caption4">
-        <img class="swipeimg" src="./img/gallery/full/004.jpg" alt="image">
-      </a>
-
-
-      <a href="./img/gallery/full/005.jpg" class="swipebox" title="My Caption5">
-        <img class="swipeimg" src="./img/gallery/full/005.jpg" alt="image">
-      </a>
-      <a href="./img/gallery/full/006.jpg" class="swipebox" title="My Caption6">
-        <img class="swipeimg" src="./img/gallery/full/006.jpg" alt="image">
-      </a>
-      <a href="./img/gallery/full/007.jpg" class="swipebox" title="My Caption7">
-        <img class="swipeimg" src="./img/gallery/full/007.jpg" alt="image">
-      </a>
-      <a href="./img/gallery/full/008.jpg" class="swipebox" title="糖醋排骨 ">
-        <img class="swipeimg" src="./img/gallery/full/008.jpg" alt="image">
-      </a>
-      <a href="./img/gallery/full/009.jpg" class="swipebox" title="My Caption9">
-        <img class="swipeimg" src="./img/gallery/full/009.jpg" alt="image">
-      </a>
+      </div>
+      </c:forEach>
     </div>
 
-
-  <script src="./swipelib/jquery-2.1.0.min.js"></script>
   <script src="./swipelib/jquery.swipebox.min.js"></script>
 
     <script type="text/javascript">
-  ;( function( $ ) {
+  ( function( $ ) {
 
     $( '.swipebox' ).swipebox();
 

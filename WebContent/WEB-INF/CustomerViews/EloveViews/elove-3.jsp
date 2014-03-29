@@ -13,7 +13,8 @@
     <base href="${fn:replace(request.requestURL, request.requestURI, request.contextPath)}/" />
     <title>${elove.title}</title>
     
-    <link href="css/customer/bootstrap.min.css" rel="stylesheet">
+    <link href="css/customer/bootstrap.min.css" rel="stylesheet">    
+    <link href="swipelib/swipebox.min.css" rel="stylesheet">
     <link href="css/customer/zhonghe-elove-3.css" rel="stylesheet">
     <link href="css/customer/elove-common.css" rel="stylesheet">
     
