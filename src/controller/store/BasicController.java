@@ -44,6 +44,7 @@ import register.UserInfo;
 import register.dao.UserInfoDAO;
 import security.User;
 import tools.CommonValidationTools;
+import vote.dao.VoteDAO;
 import website.dao.WebsiteDAO;
 
 /**
@@ -266,6 +267,7 @@ public class BasicController {
 		WelcomeDAO welcomeDao = (WelcomeDAO) context.getBean("WelcomeDAO");
 		MenuDAO menuDao = (MenuDAO) context.getBean("MenuDAO");
 		AlbumDAO albumDao = (AlbumDAO) context.getBean("AlbumDAO");
+		VoteDAO voteDao = (VoteDAO) context.getBean("VoteDAO");
 		((ConfigurableApplicationContext)context).close();
 		
 		Gson gson = new Gson();
@@ -320,6 +322,9 @@ public class BasicController {
 
 				//albumclass
 				albumDao.deleteAlbumClass(appid);
+				
+				//vote
+				voteDao.deleteVote(appid);
 				
 				message.setStatus(true);
 				message.setMessage("删除成功！");
