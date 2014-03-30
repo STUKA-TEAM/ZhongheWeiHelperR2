@@ -49,7 +49,7 @@ public class LotteryWheelController {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(value = "/lotterywheel/list", method = RequestMethod.GET)
+	@RequestMapping(value = "/lottery/wheel/list", method = RequestMethod.GET)
 	public String getLotteryWheelList(@CookieValue(value = "appid", required = false) String appid, 
 			Model model, HttpServletRequest request){
 		ApplicationContext context = 
@@ -85,7 +85,7 @@ public class LotteryWheelController {
 					System.out.println(e.getMessage());
 				}
 				model.addAttribute("appPath", appPath);
-				return "LotteryViews/lotterywheelList";
+				return "LotteryViews/wheelList";
 			}
 		}
 	}
@@ -96,9 +96,9 @@ public class LotteryWheelController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/lotterywheel/add", method = RequestMethod.GET)
+	@RequestMapping(value = "/lottery/wheel/add", method = RequestMethod.GET)
 	public String addLotteryWheel(Model model){
-		return "LotteryViews/insertLotteryWheel";
+		return "LotteryViews/insertWheel";
 	}
 	
 	/**
@@ -110,7 +110,7 @@ public class LotteryWheelController {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(value = "/lotterywheel/edit", method = RequestMethod.GET)
+	@RequestMapping(value = "/lottery/wheel/edit", method = RequestMethod.GET)
 	public String editLotteryWheel(@CookieValue(value = "appid", required = false) String appid, 
 			@RequestParam(value = "wheelid", required = true) int wheelid, Model model, 
 			HttpServletRequest request){
@@ -136,7 +136,7 @@ public class LotteryWheelController {
 			else {
 				LotteryWheel wheel = wheelDao.getWheelinfo(wheelid);
 				model.addAttribute("wheel", wheel);
-				return "LotteryViews/updateLotteryWheel";
+				return "LotteryViews/updateWheel";
 			}
 		}
 	}
@@ -149,7 +149,7 @@ public class LotteryWheelController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/lotterywheel/insert", method = RequestMethod.POST)
+	@RequestMapping(value = "/lottery/wheel/insert", method = RequestMethod.POST)
 	@ResponseBody
 	public String createLotteryWheel(@CookieValue(value = "appid", required = false) String appid, 
 		@RequestBody String json, Model model) {
@@ -210,7 +210,7 @@ public class LotteryWheelController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/lotterywheel/update", method = RequestMethod.POST)
+	@RequestMapping(value = "/lottery/wheel/update", method = RequestMethod.POST)
 	@ResponseBody
 	public String updateLotteryWheel(@RequestBody String json, Model model) {
 		ApplicationContext context = 
@@ -249,7 +249,7 @@ public class LotteryWheelController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/lotterywheel/delete", method = RequestMethod.POST)
+	@RequestMapping(value = "/lottery/wheel/delete", method = RequestMethod.POST)
 	@ResponseBody
 	public String deleteLotteryWheel(@RequestParam(value = "wheelid", required = true) 
 	    int wheelid, Model model){
