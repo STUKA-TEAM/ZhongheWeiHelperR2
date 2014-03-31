@@ -30,11 +30,12 @@
              <li><a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">微官网管理</a>
             <div id="collapseOne" class="panel-collapse collapse in">
               <ul class="nav submenu">
-                <li><a href="store/article/list?classid=0">文章管理</a></li>
-                <li><a href="store/articleclass/list">文章类别管理</a></li>
-                <li><a href="store/album/list?classid=0">相册管理</a></li>
-                <li><a href="store/albumclass/list">相册集管理</a></li>
-                <li><a href="store/website/home">微官网配置</a></li>
+                <li><a href="store/article/list?classid=0"><span class="glyphicon glyphicon-file"></span>&nbsp;&nbsp;文章管理</a></li>
+                <li><a href="store/articleclass/list"><span class="glyphicon glyphicon-list-alt"></span>&nbsp;&nbsp;文章类别管理</a></li>
+                <li><a href="store/album/list?classid=0"><span class="glyphicon glyphicon-picture"></span>&nbsp;&nbsp;相册管理</a></li>
+                <li><a href="store/albumclass/list"><span class="glyphicon glyphicon-book"></span>&nbsp;&nbsp;相册集管理</a></li>
+                <li><a href="store/vote/list"><span class="glyphicon glyphicon-align-left"></span>&nbsp;&nbsp;投票管理</a></li>
+                <li><a href="store/website/home"><span class="glyphicon glyphicon-cog"></span>&nbsp;&nbsp;微官网配置</a></li>
               </ul>
             </div></li>
           </c:if>

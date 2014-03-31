@@ -97,7 +97,7 @@ public class VoteController {
 	 */
 	@RequestMapping(value = "/vote/add", method = RequestMethod.GET)
 	public String addVote(Model model){
-		return "VoteViews/addVoteDialog";
+		return "VoteViews/insertVote";
 	}
 	
 	/**
@@ -135,7 +135,7 @@ public class VoteController {
 			else {
 				Vote vote = voteDao.getVoteinfo(voteid);
 				model.addAttribute("vote", vote);
-				return "VoteViews/editVoteDialog";
+				return "VoteViews/updateVote";
 			}
 		}
 	}
