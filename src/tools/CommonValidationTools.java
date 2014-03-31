@@ -9,6 +9,7 @@ import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import lottery.LotteryWheel;
 import menu.Menu;
 
 import org.springframework.context.ApplicationContext;
@@ -491,6 +492,16 @@ public class CommonValidationTools {
 	 * @return
 	 */
 	public static boolean checkVoteContent(VoteContent content){
+		return true;
+	}
+	
+	/**
+	 * @title checkLotteryWheel
+	 * @description 检查大转盘抽奖活动信息
+	 * @param wheel
+	 * @return
+	 */
+	public static boolean checkLotteryWheel(LotteryWheel wheel){
 		return true;
 	}
 }

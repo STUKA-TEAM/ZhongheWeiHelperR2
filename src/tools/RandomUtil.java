@@ -1,6 +1,7 @@
 package tools;
 
 import java.util.Random;
+import java.util.UUID;
 
 /**
  * @Title: RandomUtil
@@ -25,5 +26,14 @@ public class RandomUtil {
 			sb.append(ALL_CHAR.charAt(rand.nextInt(62)));
 		}	
 		return sb.toString();
+	}
+	
+	/**
+	 * @title generateUUID
+	 * @description 获取UUID串
+	 * @return
+	 */
+	public static final String generateUUID(){
+		return UUID.randomUUID().toString().replace("-", "");
 	}
 }

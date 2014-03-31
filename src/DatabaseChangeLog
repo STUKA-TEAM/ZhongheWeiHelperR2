@@ -89,13 +89,39 @@ Windows:
             itemName     varchar(80)  Yes        NULL                   No                  选项描述
             itemPic      varchar(80)  Yes        NULL                   No                  选项图片
             count        int(11)      No         0                      No                  投票人数
-[2014-3-25][index: 0025]添加表vote_user
+[2014-3-25][index: 0024]添加表vote_user
             Name         Type         NULL       Default                Primary Key         Comment
         ---------------------------------------------------------------------------------------------------------------------------------
             id           int(11)      No         <auto_increment>       Yes                 
             voteid       int(11)      No         0                      No                  投票id
             wechatOpenid varchar(28)  No                                No                  用户id
             contact      varchar(40)  Yes        NULL                   No                  联系方式
+[2014-3-29][index: 0025]添加表lotterywheel
+            Name         Type         NULL       Default                Primary Key         Comment
+        ---------------------------------------------------------------------------------------------------------------------------------
+            wheelid      int(11)      No         <auto_increment>       Yes                 抽奖id
+            wheeluuid    varchar(32)  No                                No                  抽奖标识
+            appid        varchar(32)  No                                No                  UUID
+            wheelName    varchar(40)  No                                No                  抽奖名称
+            createTime   timestamp    No         0000-00-00 00:00:00    No                  创建时间
+            wheelDesc    varchar(400) No                                No                  抽奖描述
+            maxDayCount  int(11)      No         0                      No                  每天抽奖次数上限
+            count        int(11)      No         0                      No                  累计抽奖次数
+[2014-3-29][index: 0026]添加表lotterywheel_item
+            Name         Type         NULL       Default                Primary Key         Comment
+        ---------------------------------------------------------------------------------------------------------------------------------
+            itemid       int(11)      No         <auto_increment>       Yes                 奖项id
+            wheelid      int(11)      No         0                      No                  抽奖id
+            itemDesc     varchar(40)  No                                No                  奖项描述
+            itemCount    int(11)      No         0                      No                  奖品数量
+            itemPercent  numeric(6,5) No         0.00000                No                  奖项中奖率
+[2014-3-29][index: 0027]添加表lotterywheel_result
+            Name         Type         NULL       Default                Primary Key         Comment
+        ---------------------------------------------------------------------------------------------------------------------------------
+            resultid     int(11)      No         <auto_increment>       Yes                 中奖id
+            itemid       int(11)      No         0                      No                  奖项id
+            contact      varchar(14)  No                                No                  联系方式
+            openid       varchar(32)  No                                No                  中奖标识
 
 Linux:
 [2014-2-22][index: 0001]done
