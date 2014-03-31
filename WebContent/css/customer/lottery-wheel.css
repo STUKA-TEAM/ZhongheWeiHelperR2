@@ -1,0 +1,105 @@
+html, header, body {
+  max-width: 360px;
+  background-color: #fee9aa;
+  font-family:"Microsoft YaHei";
+  text-align: center;
+}
+.wheel-container {
+  max-width: 360px;
+  width: 100%;
+  height: 279px;
+  background-image: url(../../img/lottery_wheel/wheel_bg.jpg);
+  background-size: 100% 100%;
+  background-repeat:no-repeat;
+}
+.prize-container {
+  margin: 31px 0;
+  max-width: 360px;
+  width: 95%;
+  height: 216px;
+  background-image: url(../../img/lottery_wheel/prize_bg.png);
+  background-size: 100% 100%;
+  background-repeat:no-repeat;
+  text-align: left;
+  font-size: 14px;
+  color: #e27615;
+}
+.prize-container > p {
+  width: 85%;
+  margin-left: 12%;
+  word-break: break-all;
+}
+.prize {
+  margin-top: 5px;
+}
+.prize-token {
+  margin-top: -8px;
+}
+.lottery-item-container {
+  margin: 0 auto;
+  width: 90%;
+  height: 113px;
+  background-image: url(../../img/lottery_wheel/lottery_item_bg.png);
+  background-size: 100% 100%;
+  background-repeat:no-repeat;
+  text-align: left;
+  font-size: 13px;
+  color: #e27615;
+}
+.lottery-item-container > p {
+  padding-left: 20px;
+}
+.lottery-item {
+  padding-top: 25px;
+}
+.lottery-wiki-container {
+  margin: 10px auto;
+  width: 90%;
+  height: 99px;
+  background-image: url(../../img/lottery_wheel/lottery_wiki_bg.png);
+  background-size: 100% 100%;
+  background-repeat:no-repeat;
+  text-align: left;
+  font-size: 12px;
+  color: #e27615;
+}
+.lottery-wiki-container > p {
+  width: 90%;
+  padding-top: 25px;
+  padding-left: 20px;
+}
+.lottery-footer {
+  padding-top: 10px;
+  font-size: 14px;
+  color: #e27615;
+}
+.prize-title {
+  padding-top: 15px;
+}
+.ly-plate{
+  margin: 0 auto;
+}
+.rotate-bg{
+  width: 200px;
+  height: 200px;
+  background:url(../../img/lottery_wheel/ly-plate.png);
+  background-size: 200px;
+  background-repeat: no-repeat;
+  position:absolute;
+  top: 25px;
+  left: 80px;
+}
+.ly-plate div.lottery-star{
+  position:absolute;
+  top: 75px;
+  left: 132px;
+  outline:none
+}
+.ly-plate div.lottery-star #lotteryBtn{
+  cursor: pointer;
+  position: absolute;
+  top:0;
+  left:0;
+  width: 100px;
+  height: 100px;
+}
