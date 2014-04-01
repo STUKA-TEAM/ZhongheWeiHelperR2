@@ -120,7 +120,7 @@ public class MessageController {
 					username = encodeUsername(username);
 					String content = "尊敬的Elove客户，您当月使用了" + notPaySum + "套Elove，每套" 
 						+ elovePrice + "元，未付款金额为" + notPayMoney + "元，为保证账户正常运行，"
-						+ "请及时缴款。详见：http://tukacorp.com/a.htm?p=" + username;
+						+ "请及时缴款。http://tukacorp.com/a.htm?p=" + username + " 点击查看详情";
 					
 					int result = 0;
 					try {
