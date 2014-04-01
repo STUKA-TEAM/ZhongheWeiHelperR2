@@ -253,7 +253,6 @@ public class EloveController {
 	 * @param eloveid
 	 * @return
 	 */
-	@ResponseBody
 	@RequestMapping(value = "/elove/lottery/do", method = RequestMethod.POST)
 	public String doLottery(Model model, @RequestParam(value = "eloveid", required = true) int eloveid){
 		ApplicationContext context = new ClassPathXmlApplicationContext("All-Modules.xml");
@@ -262,9 +261,8 @@ public class EloveController {
 		
 		List<EloveMessage> messageList = eloveInteractDao.getBasicMessageList(eloveid);
 		
-		Gson gson = new Gson();
-		String response = gson.toJson(messageList);
-		return response;
+		model.addAttribute("messageList", messageList);
+		return "EloveViews/lotteryNewMes";
 	}
 
 	/**

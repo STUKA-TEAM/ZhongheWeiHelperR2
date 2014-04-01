@@ -56,7 +56,10 @@
                 <td>${eloveInfo.password}</td>
                 <td>${eloveInfo.xinLang}</td>
                 <td>${eloveInfo.xinNiang}</td>
-                <td><a href="./store/elove/wizard/initial/edit?eloveid=${eloveInfo.eloveid}" class="btn btn-sm btn-user">编辑</a></td>
+                <td>
+                <a href="./store/elove/wizard/initial/edit?eloveid=${eloveInfo.eloveid}" class="btn btn-sm btn-user">编辑</a>
+                <a target="_blank" href="./customer/elove/lottery/prepare?eloveid=${eloveInfo.eloveid}" class="btn btn-sm btn-user">进入抽奖</a>
+                </td>
                </tr>
                </c:forEach>
             </table>

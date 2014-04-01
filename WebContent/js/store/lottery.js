@@ -1,5 +1,4 @@
 function autoScroll(){
-  $(".scroll li:nth-child(7)").css({color:"#333"});
   $(".scroll").find(".list").animate({
     marginTop : "-55px",
   },100,function(){
@@ -8,11 +7,13 @@ function autoScroll(){
 };
 function scrollStop(){
   clearInterval(task);
-  result = $(".scroll li:nth-child(5)").text();
-  $(".scroll li:nth-child(5)").css({color:"#ffffff"});
-  arr = result.split(":");
-  setTimeout("pop_show(arr[0], arr[1])", 1000);
-  state = true;
+  setTimeout(function(){
+	  result = $(".scroll li:nth-child(3)").text();
+	  $(".scroll li:nth-child(3)").css({color:"#ffffff"});
+	  arr = result.split(":");
+	  setTimeout("pop_show(arr[0], arr[1])", 1000);
+	  state = true;
+	},1000);
 }
 function pop_show(name, content){
   $(".result-pop-bg").fadeIn();
@@ -29,12 +30,31 @@ var task;
 $().ready(function(){
   $("#start").click(function(){
     if(state){
-      state = false;
-      task=self.setInterval("autoScroll()",100);
-      setTimeout("scrollStop()", 3000);
+    	  $(".scroll li").css({color:"#333"});
+          state = false;
+          task=self.setInterval("autoScroll()",100);
+     	  $.ajax({
+    	   	  type: "POST",
+    	   	  url: "customer/elove/lottery/do",
+    	   	  data: "eloveid="+$("#eloveid").val(),
+    	   	  success: function (data) {
+                 $("#itemList").html(data);
+                 setTimeout("scrollStop()", getRandomNum(2500,4000));
+    	   	  },
+    		  error: function(xhr, status, exception){
+    			 setTimeout("scrollStop()", getRandomNum(2500,4000));
+    		  }
+       	  });              
     }
   });
   $(".result-pop-btn").click(function(){
     pop_hidden();
   });
 });
+function getRandomNum(Min,Max)
+{   
+var Range = Max - Min;   
+var Rand = Math.random();   
+return(Min + Math.round(Rand * Range));   
+}   
+
