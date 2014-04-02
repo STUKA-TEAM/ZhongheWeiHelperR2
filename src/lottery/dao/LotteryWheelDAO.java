@@ -279,13 +279,13 @@ public class LotteryWheelDAO {
 	
 	/**
 	 * @title getWheelForCustomer
-	 * @description 根据wheelid获取手机端抽奖显示信息 (wheelid, wheelName, wheelDesc, maxDayCount, 
+	 * @description 根据wheelid获取手机端抽奖显示信息 (wheelid, wheeluuid, wheelName, wheelDesc, maxDayCount, 
 	 * itemList(itemDesc, itemCount))
 	 * @param wheelid
 	 * @return
 	 */
 	public LotteryWheel getWheelForCustomer(int wheelid){
-		String SQL = "SELECT wheelid, wheelName, wheelDesc, maxDayCount FROM lotterywheel WHERE wheelid = ?";
+		String SQL = "SELECT wheelid, wheeluuid, wheelName, wheelDesc, maxDayCount FROM lotterywheel WHERE wheelid = ?";
 		LotteryWheel wheel = null;
 		try {
 			wheel = jdbcTemplate.queryForObject(SQL, new Object[]{wheelid}, new CustomerWheelinfoMapper());
@@ -303,6 +303,7 @@ public class LotteryWheelDAO {
 		public LotteryWheel mapRow(ResultSet rs, int arg1) throws SQLException {
 			LotteryWheel wheel = new LotteryWheel();
 			wheel.setWheelid(rs.getInt("wheelid"));
+			wheel.setWheeluuid(rs.getString("wheeluuid"));
 			wheel.setWheelName(rs.getString("wheelName"));
 			wheel.setWheelDesc(rs.getString("wheelDesc"));
 			wheel.setMaxDayCount(rs.getInt("maxDayCount"));
