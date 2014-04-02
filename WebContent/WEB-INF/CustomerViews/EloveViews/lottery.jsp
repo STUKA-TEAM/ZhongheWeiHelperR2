@@ -13,8 +13,8 @@
     <c:set var="request" value="${pageContext.request}" />
     <base href="${fn:replace(request.requestURL, request.requestURI, request.contextPath)}/" />
     <title>幸运抽奖</title>
-    <link href="./css/store/bootstrap.min.css" rel="stylesheet">
-    <link href="./css/store/lottery.css" rel="stylesheet">
+    <link href="./css/customer/bootstrap.min.css" rel="stylesheet">
+    <link href="./css/customer/lottery.css" rel="stylesheet">
   </head>
   <body>
     <div class="container-list center-block">
@@ -43,9 +43,9 @@
     </div>
     <input id="eloveid" type="hidden" value="${eloveid}"/>
     <%@ include file="../CommonViews/footer.jsp"%>
-    <script src="./js/store/jquery-1.10.2.min.js"></script>
-    <script src="./js/store/bootstrap.min.js"></script>
-    <script src="./js/store/lottery.js"></script>
+    <script src="./js/customer/jquery-1.10.2.min.js"></script>
+    <script src="./js/customer/bootstrap.min.js"></script>
+    <script src="./js/customer/lottery.js"></script>
 
   </body>
 </html>

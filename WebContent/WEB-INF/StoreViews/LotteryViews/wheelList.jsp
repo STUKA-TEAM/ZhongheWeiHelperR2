@@ -23,7 +23,7 @@
         </ol>
         <div class="row website-tab">
           <div class="album-btn-group clearfix col-md-offset-1">
-            <a class="btn btn-info pull-left btn-margin" href="./lottery-mobile-create.html">新建大转盘抽奖</a>
+            <a class="btn btn-info pull-left btn-margin" href="store/lottery/wheel/add">新建大转盘抽奖</a>
           </div>
                     <div class="col-md-10 col-md-offset-1">
             <table class="table table-striped table-bordered">
@@ -41,10 +41,10 @@
                   <td><fmt:formatDate value="${item.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                   <td>${item.wheelName}</td>
                   <td>${item.count}</td>
-                  <td><a class="btn btn-sm btn-info" href="store/lottery/wheel/edit">编辑</a>
+                  <td><a class="btn btn-sm btn-info" href="store/lottery/wheel/edit?wheelid=${item.wheelid}">编辑</a>
                   <a class="btn btn-sm btn-info" target="_blank" href="customer/lottery/wheel?wheelid=${item.wheelid}">预览</a>
                   <a class="btn btn-sm btn-info" onclick="viewLink('相册链接','${appPath}customer/lottery/wheel?wheelid=${item.wheelid}')">生成链接</a>
-                  <a class="btn btn-sm btn-danger" onclick="deleteItemWindow()">删除</a></td>
+                  <a class="btn btn-sm btn-danger" onclick="submitDeleteWheel('${item.wheelid}')">删除</a></td>
                 </tr>
                 </c:forEach>
               </tbody>
@@ -65,11 +65,11 @@
           </div>
           <div class="modal-body">
             <h4 id="confirmModalMes" class="modal-title"></h4>
-            <input id="articleidhidden" type="hidden" value=""/>
+            <input id="idhidden" type="hidden" value=""/>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="confirmDelete()">确认删除</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="confirmDeleteWheel()">确认删除</button>
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
