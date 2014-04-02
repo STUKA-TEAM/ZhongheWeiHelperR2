@@ -143,6 +143,23 @@ public class AppInfoDAO {
 	
 	//query
 	/**
+	 * @title getWechatNumberByLotteryWheel
+	 * @description 根据wheelid查询微信号
+	 * @param wheelid
+	 * @return
+	 */
+	public String getWechatNumberByLotteryWheel(int wheelid){
+		String wechatNumber = null;
+		String SQL = "SELECT A.wechatNumber FROM application A, lotterywheel L WHERE A.appid = L.appid AND L.wheelid = ?";
+		try {
+			wechatNumber = jdbcTemplate.queryForObject(SQL, new Object[]{wheelid}, new WechatNumberMapper());
+		} catch (Exception e) {
+			System.out.println("getWechatNumberByLotteryWheel: " + e.getMessage());
+		}
+		return wechatNumber;
+	}
+	
+	/**
 	 * @title getWechatNumberByVote
 	 * @description 根据voteid查询微信号
 	 * @param voteid

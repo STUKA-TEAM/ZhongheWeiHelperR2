@@ -55,10 +55,12 @@ public class BasicInterceptor implements HandlerInterceptor {
 		
 		String appid = null;
 		Cookie[] cookies = request.getCookies();
-        for (int i = 0; i < cookies.length; i++) {
-			if (cookies[i].getName().equalsIgnoreCase("appid")) {
-				appid = cookies[i].getValue();
-				break;
+		if (cookies != null) {
+			for (int i = 0; i < cookies.length; i++) {
+				if (cookies[i].getName().equalsIgnoreCase("appid")) {
+					appid = cookies[i].getValue();
+					break;
+				}
 			}
 		}
 		
