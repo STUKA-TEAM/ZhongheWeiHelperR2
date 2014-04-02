@@ -107,7 +107,8 @@ public class LotteryWheelController {
 				String openid = RandomUtil.generateUUID();
 				boolean check = checkValid(wheelDao, itemList.get(lottery), openid);
 				if (check == true) {
-					model.addAttribute("itemid", lottery);
+					model.addAttribute("luckyType", lottery + 1);
+					model.addAttribute("itemid", itemList.get(lottery).getItemid());
 					model.addAttribute("itemDesc", itemList.get(lottery).getItemDesc());
 					model.addAttribute("token", openid);
 					viewName = viewName + "lucky";
