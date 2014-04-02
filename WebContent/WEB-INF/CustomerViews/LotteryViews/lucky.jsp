@@ -10,5 +10,5 @@
   <p class="prize"><strong>您中了：一等奖500元代金券</strong></p>
   <p class="prize-token"><strong>兑奖码：</strong></p>
   <p class="prize-token"><strong>276c77bdc0e24d5986403ab7f8b76618</strong></p>
-  <input type="hidden" value="lucky"/>
+  <input type="hidden" value="@@${luckyType}@@"/>
 </div>

@@ -34,6 +34,7 @@ html, header, body {
 }
 .prize-token {
   margin-top: -8px;
+  padding-top:5px;
 }
 .lottery-item-container {
   margin: 0 auto;
@@ -107,4 +108,34 @@ html, header, body {
   left:0;
   width: 100px;
   height: 100px;
+}
+.luckybutton{
+clear: none;
+display: inline;
+font-size: 12px;
+margin-top:10px;
+padding:5px;
+color: #FFFDC3;	
+background-color: #E27615;
+text-align: center;
+text-decoration: none;
+text-shadow: 1px 1px 1px rgba(255,255,255, .22);
+border-radius: 5px;
+}
+
+a:visited.luckybutton{
+	color:#FFFDC3;
+	text-decoration:none;
+}
+a:hover.luckybutton{
+	color:#FFFDC3;
+	text-decoration:none;
+}
+a:active.luckybutton{
+	color:#FFFDC3;
+	text-decoration:none;
+}
+a:focus.luckybutton{
+	color:#FFFDC3;
+	text-decoration:none;
 }

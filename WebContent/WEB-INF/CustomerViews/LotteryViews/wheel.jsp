@@ -38,11 +38,12 @@
       <p>${wheel.wheelDesc}</p>
     </div>
     <input id="wheelid" type="hidden" value="${wheel.wheelid}"/>
+    <input id="wheeluuid" type="hidden" value="${wheel.wheeluuid}"/>
     <%@ include file="../CommonViews/weifooter.jsp"%>   
     <%@ include file="../WebsiteViews/bottom.jsp"%> 
-
+    <script type="text/javascript" src="./js/customer/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="js/customer/mobile-common.js"></script>   
-    <%@ include file="../CommonViews/shareJS.jsp"%>
+    <%@ include file="../CommonViews/lotteryShareJS.jsp"%>
     <script type="text/javascript">
     window.shareInfo = new Object();
     shareInfo.imgUrl = '${message.imageLink}';
@@ -50,7 +51,7 @@
     shareInfo.desc = '${message.shareContent}';
     shareInfo.title = '${message.shareTitle}';
     </script>
-    <script src="./js/customer/lottery_wheel/jquery-1.7.2.min.js"></script>
+  
   <script src="./js/customer/lottery_wheel/jQueryRotate.2.2.js"></script>
   <script src="./js/customer/lottery_wheel/jquery.easing.min.js"></script>
   <script>
@@ -65,13 +66,14 @@
         }
       }); 
     }; 
-    var rotateFunc = function(awards,angle,text){  //awards:奖项，angle:奖项对应的角度
+    var rotateFunc = function(awards,angle,data){  //awards:奖项，angle:奖项对应的角度
       $('#lotteryBtn').stopRotate();
       $("#lotteryBtn").rotate({
         angle:0, 
         duration: 5000, 
         animateTo: angle+1440, //angle是图片上各奖项对应的角度，1440是我要让指针旋转4圈。所以最后的结束的角度就是这样子^^
         callback:function(){
+        $("#changedContainer").html(data);
         }
       }); 
     };
@@ -90,13 +92,21 @@
                         if(data.indexOf("notLucky") != -1){
                           var angle = [67,112,202,292,337];
                           angle = angle[Math.floor(Math.random()*angle.length)];
-                          rotateFunc(0,angle,'很遗憾，这次您未抽中奖');
+                          rotateFunc(0,angle,data);
+                          return;
                       }
-                        if(data.indexOf("lucky") != -1){
-                          rotateFunc(1,157,'恭喜您抽中的一等奖');
-                          rotateFunc(2,247,'恭喜您抽中的二等奖');
-                          rotateFunc(3,22,'恭喜您抽中的三等奖');
+                        if(data.indexOf("@@1@@") != -1){
+                          rotateFunc(1,157,data);
+                          return;
                       }
+                        if(data.indexOf("@@2@@") != -1){
+                            rotateFunc(2,247,data);
+                            return;
+                        }
+                        if(data.indexOf("@@3@@") != -1){
+                            rotateFunc(3,22,data);
+                            return;
+                        }
                         $("#changedContainer").html(data);
               	  },
            	  error: function(xhr, status, exception){
