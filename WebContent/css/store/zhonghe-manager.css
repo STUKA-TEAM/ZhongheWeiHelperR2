@@ -202,3 +202,6 @@ fieldset[disabled] .btn-user.active {
   display: inline;
   width: 58%;
 }
+.lottery-content {
+  margin: 10px auto;
+}
