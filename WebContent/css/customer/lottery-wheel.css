@@ -34,7 +34,7 @@ html, header, body {
 }
 .prize-token {
   margin-top: -8px;
-  padding-top:5px;
+  padding-top:2px;
 }
 .lottery-item-container {
   margin: 0 auto;
@@ -138,4 +138,7 @@ a:active.luckybutton{
 a:focus.luckybutton{
 	color:#FFFDC3;
 	text-decoration:none;
+}
+.lottery_logo{
+	width:60%;
 }

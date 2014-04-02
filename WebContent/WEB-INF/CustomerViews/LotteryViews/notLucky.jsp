@@ -5,7 +5,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <div class="prize-container">
   <div class="prize-title">
-  <img src="./img/lottery_wheel/prize_notLucky.png" class="img-responsive">
+  <img src="./img/lottery_wheel/prize_notLucky.png" class="img-responsive lottery_logo">
   </div>
   <p class="prize"><strong></strong></p>
   <p class="prize-token">祝您下次好运！您今天还有${restChance}次抽奖机会</p>

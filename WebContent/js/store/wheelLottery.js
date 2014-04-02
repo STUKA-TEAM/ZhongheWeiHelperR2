@@ -56,6 +56,12 @@ function submitWheel(operation){
 		if(!validateWheel(wheel)){
 			return;
 		}
+		if(item3.itemPercent<item2.itemPercent||item2.itemPercent<item1.itemPercent){
+			$("#modalTitle").html("配置错误");
+			$("#modalMes").html("请保证一等奖中奖概率<二等奖中奖概率<三等奖中奖概率");
+		    $("#operationMesModal").modal("show");
+		    return;
+		}
 		url="store/lottery/wheel/insert";
 	}else{
 		if(!validateWheelEdit(wheel)){
@@ -71,16 +77,19 @@ function submitWheel(operation){
    	  contentType: "application/json; charset=utf-8",
    	  success: function (data) {
    	   	  var jsonData = JSON.parse(data);
-   		  if(jsonData.status==true){	   			   
+   		  if(jsonData.status==true){
+   			  $("#modalTitle").html("提示");
 	   	   	  $("#modalMes").html(jsonData.message);
 	   	      $("#operationMesModal").modal("show");
 	   	      setTimeout("location.href='store/lottery/wheel/list'",1500);
    		  }else{
+   			  $("#modalTitle").html("提示");
 	   	   	  $("#modalMes").html(jsonData.message);
 	   	      $("#operationMesModal").modal("show");
    		  }	   		  
    	  },
 	  error: function(xhr, status, exception){
+		  $("#modalTitle").html("提示");
    	   	  $("#modalMes").html(status + '</br>' + exception);
    	      $("#operationMesModal").modal("show");
 	  }

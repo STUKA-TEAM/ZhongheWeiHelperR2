@@ -151,7 +151,7 @@ public class LotteryWheelController {
 			int result = wheelDao.updateContact(itemid, openid, contact);
 			if (result > 0) {
 				message.setStatus(true);
-				message.setMessage("提交保存成功！");
+				message.setMessage("提交保存成功！到店提供手机号即可领奖！");
 			} else {
 				message.setStatus(false);
 				message.setMessage("提交保存失败！请重新提交");
