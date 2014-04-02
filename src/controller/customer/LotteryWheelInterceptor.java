@@ -73,7 +73,7 @@ public class LotteryWheelInterceptor implements HandlerInterceptor {
 					} catch (Exception e) {
 						System.out.println("LotteryWheelInterceptor: " + e.getMessage());
 					}
-					if (count >= 1 && count < wheel.getMaxDayCount()) {
+					if (count < wheel.getMaxDayCount()) {
 						count = count + 1;
 						Cookie cookie = new Cookie(wheel.getWheeluuid(), count + "");
 						cookie.setPath("/");
