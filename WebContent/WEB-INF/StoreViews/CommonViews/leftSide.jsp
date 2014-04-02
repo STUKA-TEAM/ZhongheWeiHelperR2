@@ -35,6 +35,7 @@
                 <li><a href="store/album/list?classid=0"><span class="glyphicon glyphicon-picture"></span>&nbsp;&nbsp;相册管理</a></li>
                 <li><a href="store/albumclass/list"><span class="glyphicon glyphicon-book"></span>&nbsp;&nbsp;相册集管理</a></li>
                 <li><a href="store/vote/list"><span class="glyphicon glyphicon-align-left"></span>&nbsp;&nbsp;投票管理</a></li>
+                <li><a href="store/lottery/wheel/list"><span class="glyphicon glyphicon-dashboard"></span>&nbsp;&nbsp;大转盘管理</a></li>
                 <li><a href="store/website/home"><span class="glyphicon glyphicon-cog"></span>&nbsp;&nbsp;微官网配置</a></li>
               </ul>
             </div></li>
