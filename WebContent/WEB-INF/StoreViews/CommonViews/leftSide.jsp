@@ -21,13 +21,13 @@
           </form>
         </div>
         <ul class="nav nav-pills nav-stacked">
-          <li><a href="store/account">账号管理</a></li>
+          <li><a href="store/account"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;账号管理</a></li>
           <c:forEach items="${authPinyinList}" var="auth">
           <c:if test="${auth.key=='elove' && auth.value==true}">
-             <li><a href="store/elove/detail">Elove管理</a></li>
+             <li><a href="store/elove/detail"><span class="glyphicon glyphicon-heart-empty"></span>&nbsp;&nbsp;Elove管理</a></li>
           </c:if>
           <c:if test="${auth.key=='website' && auth.value==true}">
-             <li><a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">微官网管理</a>
+             <li><a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"><span class="glyphicon glyphicon-globe"></span>&nbsp;&nbsp;微官网管理</a>
             <div id="collapseOne" class="panel-collapse collapse in">
               <ul class="nav submenu">
                 <li><a href="store/article/list?classid=0"><span class="glyphicon glyphicon-file"></span>&nbsp;&nbsp;文章管理</a></li>

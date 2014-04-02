@@ -45,7 +45,7 @@
                   <div class="form-group">
                     <label for="wheelDesc" class="col-md-3 control-label">活动说明</label>
                     <div class="col-md-7">
-                      <textarea type="text" class="form-control" id="wheelDesc" placeholder="" rows="10">${wheel.wheelDesc}</textarea>
+                      <textarea type="text" class="form-control" id="wheelDesc" placeholder="为保证效果，字数为90字以内" rows="10">${wheel.wheelDesc}</textarea>
                     </div>
                   </div>  
                 </div>

@@ -73,6 +73,11 @@ html, header, body {
   font-size: 14px;
   color: #e27615;
 }
+#web-footerText{
+  padding-top: 10px;
+  font-size: 13px;
+  color: #e27615;	
+}
 .prize-title {
   padding-top: 15px;
 }

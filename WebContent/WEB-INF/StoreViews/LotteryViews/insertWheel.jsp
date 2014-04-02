@@ -77,13 +77,14 @@
                   <div class="form-group">
                     <label for="maxDayCount" class="col-md-3 control-label">每天可抽次数</label>
                     <div class="col-md-7">
-                      <input type="text" class="form-control" id="maxDayCount" placeholder="">
+                      <input type="text" class="form-control" id="maxDayCount" placeholder="" value="3">
                     </div>
                   </div>         
                   <div class="form-group">
                     <label for="wheelDesc" class="col-md-3 control-label">活动说明</label>
                     <div class="col-md-7">
-                      <textarea type="text" class="form-control" id="wheelDesc" placeholder="" rows="10"></textarea>
+                      <textarea type="text" class="form-control" id="wheelDesc" placeholder="为保证效果，字数为90字以内" rows="10" >本活动每人每天可以抽3次，分享后可以获得额外次数。中奖后请填写手机号，到店出示手机号即可领奖。
+                      </textarea>
                     </div>
                   </div>  
                 </div>
