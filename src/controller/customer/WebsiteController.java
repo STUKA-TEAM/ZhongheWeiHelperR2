@@ -4,6 +4,9 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import lottery.LotteryWheel;
+import lottery.dao.LotteryWheelDAO;
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -109,6 +112,7 @@ public class WebsiteController {
 		ArticleDAO articleDao = null;
 		AlbumDAO albumDao = null;
 		VoteDAO voteDao = null;
+		LotteryWheelDAO wheelDao = null;
 		
 		WebsiteNode node = websiteDao.getWebsiteNode(nodeid);
 		String viewName = "WebsiteViews/";
@@ -206,6 +210,19 @@ public class WebsiteController {
 				message.setShareContent(vote.getVoteDesc());
 				model.addAttribute("message", message);
 				viewName = viewName + "vote";
+				break;
+			case "lotterywheel":
+				viewName = "LotteryViews/";
+				wheelDao = (LotteryWheelDAO) context.getBean("LotteryWheelDAO");
+				LotteryWheel wheel = wheelDao.getWheelForCustomer(nodeidList.get(0));
+				model.addAttribute("wheel", wheel);
+				
+				message.setAppLink(message.getAppLink() + "customer/lottery/wheel?wheelid=" + wheel.getWheelid());
+				message.setImageLink("");
+				message.setShareTitle(wheel.getWheelName());
+				message.setShareContent(wheel.getWheelDesc());
+				model.addAttribute("message", message);
+				viewName = viewName + "wheel";
 				break;
 			default:
 				viewName = viewName + "exception";

@@ -36,4 +36,13 @@ public class RandomUtil {
 	public static final String generateUUID(){
 		return UUID.randomUUID().toString().replace("-", "");
 	}
+	
+	/**
+	 * @title generateDouble
+	 * @description 生成0-1之间的double类型随机数
+	 * @return
+	 */
+	public static final synchronized double generateDouble(){
+		return new Random().nextDouble();
+	}
 }

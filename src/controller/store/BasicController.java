@@ -10,6 +10,7 @@ import java.util.UUID;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
+import lottery.dao.LotteryWheelDAO;
 import menu.dao.MenuDAO;
 import message.ResponseMessage;
 
@@ -268,6 +269,7 @@ public class BasicController {
 		MenuDAO menuDao = (MenuDAO) context.getBean("MenuDAO");
 		AlbumDAO albumDao = (AlbumDAO) context.getBean("AlbumDAO");
 		VoteDAO voteDao = (VoteDAO) context.getBean("VoteDAO");
+		LotteryWheelDAO wheelDao = (LotteryWheelDAO) context.getBean("LotteryWheelDAO");
 		((ConfigurableApplicationContext)context).close();
 		
 		Gson gson = new Gson();
@@ -325,6 +327,9 @@ public class BasicController {
 				
 				//vote
 				voteDao.deleteVote(appid);
+				
+				//lotterywheel
+				wheelDao.deleteWheel(appid);
 				
 				message.setStatus(true);
 				message.setMessage("删除成功！");
