@@ -47,6 +47,7 @@ function validateStep1(step1Info){
 	if(step1Info.coverText=="")blankInputArray.push("图文消息文字");
 	if(step1Info.shareTitle=="")blankInputArray.push("分享消息标题");
 	if(step1Info.shareContent=="")blankInputArray.push("分享消息文字");
+	if(step1Info.sharePic=="")blankInputArray.push("分享消息图片");
 	if(step1Info.footerText=="")blankInputArray.push("页面脚注");
 	if(typeof(step1Info.themeId)=="undefined")blankInputArray.push("主题风格");	
 	if(blankInputArray.length==0){
@@ -114,6 +115,7 @@ function nextStep(nextStep){
 			});
 	  }
 	}
+
 function backStep(backStep){
 	  $.ajax({
 	  type: "GET",
@@ -123,6 +125,7 @@ function backStep(backStep){
 	  }
 	});
 }
+
 function cancel(){
 	  $.ajax({
 	  type: "GET",
@@ -134,6 +137,7 @@ function cancel(){
 	});
 }
 
+//访问Container时初始化nodeList
 $(document).ready(function(){
 	nodeList = new Array();
 	  $.ajax({
@@ -170,6 +174,7 @@ $(document).ready(function(){
 
 });
 
+//添加栏目弹窗
 function addNodeWindow(){
 	$("#node-Name").val("");
 	$("#filetext").val("");
@@ -178,6 +183,7 @@ function addNodeWindow(){
 	$("#add_child_column").modal("show");
 }
 
+//添加栏目操作
 function addNode(){
 	var node = new Object();
 	node.fatherUUID=$("#fatheruuid").val();
@@ -194,6 +200,8 @@ function addNode(){
 	addNodeItem(node);
 	$("#add_child_column").modal("hide");
 }
+
+//添加栏目后页面显示相应区块 TODO
 function addNodeItem(node){
 	var picHTML = "";
 	if(node.nodePic!=null){
@@ -203,9 +211,13 @@ function addNodeItem(node){
     +"<td>"+node.nodeName+"</td>"
     +"<td>"+picHTML+"</td>"
     +"<td id=\""+node.UUID+"-content"+"\"></td>"
-    +"<td><a class=\"btn btn-sm btn-info\" data-toggle=\"modal\" onclick=\"createChildNode(\'"+node.UUID+"\')"+"\">为本栏目添加子栏目</a></td>"
-    +"<td><a class=\"btn btn-sm btn-info\" onclick=\"relateArticleWindow(\'"+node.UUID+"\')"+"\">关联文章</a></td>"
-    +"<td><a class=\"btn btn-sm btn-info\" data-toggle=\"modal\" data-target=\"#relate_doc_type\" onclick=\""+"relateClassWindow('"+node.UUID+"')"+"\">关联文章类别</a></td>"
+    +"<td><a class=\"btn btn-sm btn-info operationButton\" onclick=\"createChildNode(\'"+node.UUID+"\')"+"\">为本栏目添加子栏目</a>"
+    +"<a class=\"btn btn-sm btn-info operationButton\" onclick=\"relateArticleWindow(\'"+node.UUID+"\')"+"\">关联文章</a>"
+    +"<a class=\"btn btn-sm btn-info operationButton\" onclick=\""+"relateClassWindow('"+node.UUID+"')"+"\">关联文章类别</a>" 
+    +"<a class=\"btn btn-sm btn-info operationButton\" onclick=\"relateAlbumWindow(\'"+node.UUID+"\')"+"\">关联相册</a>"
+    +"<a class=\"btn btn-sm btn-info operationButton\" onclick=\"relateAlbumClassWindow(\'"+node.UUID+"\')"+"\">关联相册集</a>"
+    +"<a class=\"btn btn-sm btn-info operationButton\" onclick=\"relateVoteWindow(\'"+node.UUID+"\')"+"\">关联投票</a>"
+    +"<a class=\"btn btn-sm btn-info operationButton\" onclick=\"relateLotteryWheelWindow(\'"+node.UUID+"\')"+"\">关联大转盘</a></td>"
     +"<td>" 
     +"<a class=\"btn btn-sm btn-info\" onclick=\""+"editNodeWindow('"+node.UUID+"')"+"\">编辑</a>"
     +"<a class=\"btn btn-sm btn-danger\" onclick=\""+"deleteNode('"+node.UUID+"')"+"\">删除</a>"  
@@ -214,14 +226,15 @@ function addNodeItem(node){
     $("#nodeItems").append(html);
 }
 
+//为参数节点创建子节点 
 function createChildNode(uuid){
 	generateNodeLayer(uuid);
 	var node = getNodeFromUUID(uuid);
 	node.childrenType = "node";
-	node.classid=null;
-	node.articleid=null;
+	node.childid=null;
 }
 
+//为参数节点生成其字节点页面（“下一层”）
 function generateNodeLayer(uuid){
 	$("#fatheruuid").val(uuid);
 	$("#nodeItems").html(getNodeChildHTML(uuid));
@@ -238,6 +251,7 @@ function generateNodeLayer(uuid){
 	}
 }
 
+//为当前页面的父节点生成页面（“上一层”）
 function generateFatherLayer(){
 	var fatherUUID = $("#fatheruuid").val();
 	var generateKey = getNodeFromUUID(fatherUUID).fatherUUID;
@@ -250,6 +264,7 @@ function generateFatherLayer(){
 	
 }
 
+//编辑参数节点弹窗
 function editNodeWindow(uuid){
 	var node = getNodeFromUUID(uuid);
 	$("#edit-node-Name").val(node.nodeName);
@@ -273,6 +288,7 @@ function editNodeWindow(uuid){
 	$("#edit_child_column").modal("show");
 }
 
+//编辑参数节点
 function editNode(){
     var node = getNodeFromUUID($("#editNodeUUID").val());
 	node.nodeName=$("#edit-node-Name").val();
@@ -286,6 +302,7 @@ function editNode(){
 	$("#edit_child_column").modal("hide");
 }
 
+//编辑参数节点相应区块
 function editNodeItem(node){
 	var list = $("#"+node.UUID).children();
 	$(list[0]).html(node.nodeName);
@@ -296,6 +313,7 @@ function editNodeItem(node){
 	$(list[1]).html(picHTML);
 }
 
+//删除节点
 function deleteNode(uuid){
 	if(getChildNodeList(uuid).length==0){
 		var deleteKey = getNodeKeyFromUUID(uuid);
@@ -315,6 +333,7 @@ function deleteNode(uuid){
 
 }
 
+//删除子节点
 function deleteChildNode(uuid){
 	var list = getChildNodeList(uuid);
 	for(var i=0; i<list.length; i++){
@@ -322,6 +341,7 @@ function deleteChildNode(uuid){
 	}
 }
 
+//关联文章弹窗
 function relateArticleWindow(uuid){
 	var inputList = new Array();
 	  $.ajax({
@@ -333,7 +353,7 @@ function relateArticleWindow(uuid){
 			  var checkedKey=-1;
 			  var currentNode = getNodeFromUUID(uuid);
 			    $.each(inputList,function(key,val){
-			    	if($(inputList[key]).val()==currentNode.articleid){
+			    	if($(inputList[key]).val()==currentNode.childid){
 			    		checkedKey = key;
 			    	}
 			      });
@@ -344,22 +364,22 @@ function relateArticleWindow(uuid){
 				  $("#relate_doc").modal("show");
 		  }
 		});
-
 }
 
+//关联文章操作 
 function relateArticle(){
 	var checkedVal = $("input[name='articleOptionsRadios']:checked").val();
 	if(typeof(checkedVal)!="undefined"){
 		var node = getNodeFromUUID($("#articleEditCurrentNode").val());
 		node.childrenType = "article";
-		node.articleid=checkedVal;
-		node.classid=null;
+		node.childid=checkedVal;
 		$("#"+node.UUID+"-content").html("关联文章");
 		deleteChildNode(node.UUID);
 	}
 	$("#relate_doc").modal("hide");
 }
 
+//关联文章类别弹窗
 function relateClassWindow(uuid){
 	var inputList = new Array();
 	  $.ajax({
@@ -371,7 +391,7 @@ function relateClassWindow(uuid){
 			  var checkedKey=-1;
 			  var currentNode = getNodeFromUUID(uuid);
 			    $.each(inputList,function(key,val){
-			    	if($(inputList[key]).val()==currentNode.classid){
+			    	if($(inputList[key]).val()==currentNode.childid){
 			    		checkedKey = key;
 			    	}
 			      });
@@ -384,19 +404,163 @@ function relateClassWindow(uuid){
 		});
 }
 
+//关联文章类别操作
 function relateClass(){
 	var checkedVal = $("input[name='articleClassOptionsRadios']:checked").val();
 	if(typeof(checkedVal)!="undefined"){
 		var node = getNodeFromUUID($("#articleClassEditCurrentNode").val());
 		node.childrenType = "articleclass";
-		node.classid=checkedVal;
-		node.articleid=null;
+		node.childid=checkedVal;
 		$("#"+node.UUID+"-content").html("关联文章列表");
 		deleteChildNode(node.UUID);
 	}
 	$("#relate_doc_type").modal("hide");
 }
 
+//关联相册弹窗
+function relateAlbumWindow(uuid){
+	var inputList = new Array();
+	  $.ajax({
+		  type: "GET",
+		  url: "store/website/albumlist",
+		  success: function (data) {		  
+			  $("#relateAlbum").html(data);
+			  inputList = $("input[name=albumOptionsRadios]");
+			  var checkedKey=-1;
+			  var currentNode = getNodeFromUUID(uuid);
+			    $.each(inputList,function(key,val){
+			    	if($(inputList[key]).val()==currentNode.childid){
+			    		checkedKey = key;
+			    	}
+			      });
+			    if(checkedKey>=0){
+			    	$(inputList[checkedKey]).prop("checked", true);
+			    }
+				  $("#albumEditCurrentNode").val(uuid);
+				  $("#relate_Album").modal("show");
+		  }
+		});
+}
+//关联相册
+function relateAlbum(){
+	var checkedVal = $("input[name='albumOptionsRadios']:checked").val();
+	if(typeof(checkedVal)!="undefined"){
+		var node = getNodeFromUUID($("#albumEditCurrentNode").val());
+		node.childrenType = "album";
+		node.childid=checkedVal;
+		$("#"+node.UUID+"-content").html("关联相册");
+		deleteChildNode(node.UUID);
+	}
+	$("#relate_Album").modal("hide");
+}
+//关联相册集弹窗
+function relateAlbumClassWindow(uuid){
+	var inputList = new Array();
+	  $.ajax({
+		  type: "GET",
+		  url: "store/website/albumclasslist",
+		  success: function (data) {		  
+			  $("#relateAlbumClass").html(data);
+			  inputList = $("input[name=albumClassOptionsRadios]");
+			  var checkedKey=-1;
+			  var currentNode = getNodeFromUUID(uuid);
+			    $.each(inputList,function(key,val){
+			    	if($(inputList[key]).val()==currentNode.childid){
+			    		checkedKey = key;
+			    	}
+			      });
+			    if(checkedKey>=0){
+			    	$(inputList[checkedKey]).prop("checked", true);
+			    }
+			  $("#albumClassEditCurrentNode").val(uuid);
+			  $("#relate_album_type").modal("show");
+		  }
+		});
+}
+//关联相册集
+function relateAlbumClass(){
+	var checkedVal = $("input[name='albumClassOptionsRadios']:checked").val();
+	if(typeof(checkedVal)!="undefined"){
+		var node = getNodeFromUUID($("#albumClassEditCurrentNode").val());
+		node.childrenType = "albumclass";
+		node.childid=checkedVal;
+		$("#"+node.UUID+"-content").html("关联相册列表");
+		deleteChildNode(node.UUID);
+	}
+	$("#relate_album_type").modal("hide");
+}
+//关联投票弹窗
+function relateVoteWindow(uuid){
+	var inputList = new Array();
+	  $.ajax({
+		  type: "GET",
+		  url: "store/website/votelist",
+		  success: function (data) {		  
+			  $("#relateVote").html(data);
+			  inputList = $("input[name=voteOptionsRadios]");
+			  var checkedKey=-1;
+			  var currentNode = getNodeFromUUID(uuid);
+			    $.each(inputList,function(key,val){
+			    	if($(inputList[key]).val()==currentNode.childid){
+			    		checkedKey = key;
+			    	}
+			      });
+			    if(checkedKey>=0){
+			    	$(inputList[checkedKey]).prop("checked", true);
+			    }
+				  $("#voteEditCurrentNode").val(uuid);
+				  $("#relate_Vote").modal("show");
+		  }
+		});
+}
+//关联投票
+function relateVote(){
+	var checkedVal = $("input[name='voteOptionsRadios']:checked").val();
+	if(typeof(checkedVal)!="undefined"){
+		var node = getNodeFromUUID($("#voteEditCurrentNode").val());
+		node.childrenType = "vote";
+		node.childid=checkedVal;
+		$("#"+node.UUID+"-content").html("关联投票");
+		deleteChildNode(node.UUID);
+	}
+	$("#relate_Vote").modal("hide");
+}
+//关联大转盘弹窗
+function relateLotteryWheelWindow(uuid){
+	var inputList = new Array();
+	  $.ajax({
+		  type: "GET",
+		  url: "store/website/lottery/wheellist",
+		  success: function (data) {		  
+			  $("#relateLotteryWheel").html(data);
+			  inputList = $("input[name=lotteryWheelOptionsRadios]");
+			  var checkedKey=-1;
+			  var currentNode = getNodeFromUUID(uuid);
+			    $.each(inputList,function(key,val){
+			    	if($(inputList[key]).val()==currentNode.childid){
+			    		checkedKey = key;
+			    	}
+			      });
+			    if(checkedKey>=0){
+			    	$(inputList[checkedKey]).prop("checked", true);
+			    }
+				  $("#lotteryWheelEditCurrentNode").val(uuid);
+				  $("#relate_LotteryWheel").modal("show");
+		  }
+		});
+}
+//关联大转盘
+function relateLotteryWheel(){
+	var checkedVal = $("input[name='lotteryWheelOptionsRadios']:checked").val();
+	if(typeof(checkedVal)!="undefined"){
+		var node = getNodeFromUUID($("#lotteryWheelEditCurrentNode").val());
+		node.childrenType = "lotterywheel";
+		node.childid=checkedVal;
+		$("#"+node.UUID+"-content").html("关联大转盘");
+		deleteChildNode(node.UUID);
+	}
+	$("#relate_LotteryWheel").modal("hide");
+}
 function getNodeFromUUID(uuid){
   var node = null;
   $.each(nodeList,function(key,val){
@@ -426,16 +590,15 @@ function getChildNodeList(fatherUUID){
 	  return list;
 }
 
+//生成参数节点子节点的区块 TODO
 function getNodeChildHTML(uuid){
 	var childList = getChildNodeList(uuid);
 	var html = "<tr>"
-          +"<th>栏目名称</th>"
-          +"<th>栏目图片</th>"
-          +"<th>此栏目按钮关联的内容</th>"
-          +"<th></th>"
-          +"<th></th>"
-          +"<th></th>"
-          +"<th></th>"
+          +"<th class=\"col-md-2\">栏目名称</th>"
+          +"<th class=\"col-md-2\">栏目图片</th>"
+          +"<th class=\"col-md-2\">此栏目按钮关联的内容</th>"
+          +"<th class=\"col-md-4\">此栏目可选操作</th>"
+          +"<th class=\"col-md-2\"></th>"
           +"</tr>";
 	  $.each(childList,function(key,node){
 		    var nodetypeText = ""; 
@@ -448,6 +611,18 @@ function getNodeChildHTML(uuid){
 		    if(node.childrenType=="articleclass"){
 		    	nodetypeText = "关联文章列表";
 		    }
+		    if(node.childrenType=="album"){
+		    	nodetypeText = "关联相册";
+		    }
+		    if(node.childrenType=="albumclass"){
+		    	nodetypeText = "关联相册列表";
+		    }
+		    if(node.childrenType=="vote"){
+		    	nodetypeText = "关联投票";
+		    }
+		    if(node.childrenType=="lotterywheel"){
+		    	nodetypeText = "关联大转盘";
+		    }
 			var picHTML = "";
 			if(node.nodePic!=null){
 				picHTML = "<img src=\""+node.nodePic+"_original.jpg"+"\" class=\"pic-preview img-responsive\"/>";
@@ -456,9 +631,13 @@ function getNodeChildHTML(uuid){
 		    +"<td>"+node.nodeName+"</td>"
 		    +"<td>"+picHTML+"</td>"
 		    +"<td id=\""+node.UUID+"-content"+"\">"+nodetypeText+"</td>"
-		    +"<td><a class=\"btn btn-sm btn-info\" data-toggle=\"modal\" onclick=\"createChildNode(\'"+node.UUID+"\')"+"\">为本栏目添加子栏目</a></td>"
-		    +"<td><a class=\"btn btn-sm btn-info\" onclick=\"relateArticleWindow(\'"+node.UUID+"\')"+"\">关联文章</a></td>"
-		    +"<td><a class=\"btn btn-sm btn-info\" data-toggle=\"modal\" data-target=\"#relate_doc_type\" onclick=\""+"relateClassWindow('"+node.UUID+"')"+"\">关联文章类别</a></td>"
+		    +"<td><a class=\"btn btn-sm btn-info operationButton\" onclick=\"createChildNode(\'"+node.UUID+"\')"+"\">为本栏目添加子栏目</a>"
+		    +"<a class=\"btn btn-sm btn-info operationButton\" onclick=\"relateArticleWindow(\'"+node.UUID+"\')"+"\">关联文章</a>"
+		    +"<a class=\"btn btn-sm btn-info operationButton\" onclick=\""+"relateClassWindow('"+node.UUID+"')"+"\">关联文章类别</a>" 
+		    +"<a class=\"btn btn-sm btn-info operationButton\" onclick=\"relateAlbumWindow(\'"+node.UUID+"\')"+"\">关联相册</a>"
+		    +"<a class=\"btn btn-sm btn-info operationButton\" onclick=\"relateAlbumClassWindow(\'"+node.UUID+"\')"+"\">关联相册集</a>"
+		    +"<a class=\"btn btn-sm btn-info operationButton\" onclick=\"relateVoteWindow(\'"+node.UUID+"\')"+"\">关联投票</a>"
+		    +"<a class=\"btn btn-sm btn-info operationButton\" onclick=\"relateLotteryWheelWindow(\'"+node.UUID+"\')"+"\">关联大转盘</a></td>"
 		    +"<td>" 
 		    +"<a class=\"btn btn-sm btn-info\" onclick=\""+"editNodeWindow('"+node.UUID+"')"+"\">编辑</a>"
 		    +"<a class=\"btn btn-sm btn-danger\" onclick=\""+"deleteNode('"+node.UUID+"')"+"\">删除</a>"  

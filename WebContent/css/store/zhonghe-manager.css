@@ -205,3 +205,7 @@ fieldset[disabled] .btn-user.active {
 .lottery-content {
   margin: 10px auto;
 }
+.operationButton{
+  margin: 2px;
+}
+}

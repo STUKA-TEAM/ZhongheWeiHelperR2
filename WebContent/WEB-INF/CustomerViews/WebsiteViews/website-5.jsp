@@ -21,7 +21,8 @@
     <div class="container" id="module-list">
       <div class="contentlist clearfix">
       <c:forEach items="${nodes}" var="item">
-        <div class="contentlist-item"><a href="customer/website/resources?nodeid=${item.nodeid}" class="noneStyleLinkWhite"><img src="${item.nodePic}_original.jpg" class="contentlist-icon">${item.nodeName}</a></div>
+        <div class="contentlist-item"><a href="customer/website/resources?nodeid=${item.nodeid}" class="noneStyleLinkWhite">
+        <c:if test="${item.nodePic!=''&&item.nodePic!=null}"><img src="${item.nodePic}_original.jpg" class="contentlist-icon"></c:if>${item.nodeName}</a></div>
       </c:forEach>
       </div>
     </div>

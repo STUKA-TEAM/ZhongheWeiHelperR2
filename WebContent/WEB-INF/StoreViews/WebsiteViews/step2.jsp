@@ -20,13 +20,11 @@
       </div>
       <table id="nodeItems" class="table table-bordered table-space">
         <tr>
-          <th>栏目名称</th>
-          <th>栏目图片</th>
-          <th>此栏目按钮关联的内容</th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
+          <th class="col-md-2">栏目名称</th>
+          <th class="col-md-2">栏目图片</th>
+          <th class="col-md-2">此栏目按钮关联的内容</th>
+          <th class="col-md-4">此栏目可选操作</th>
+          <th class="col-md-2"></th>
         </tr>
 
       </table>
@@ -173,7 +171,82 @@
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
     
-    
+    <div class="modal fade" id="relate_Album" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <input type="hidden" id="albumEditCurrentNode"/>
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">关联相册</h4>
+          </div>
+          <div id="relateAlbum" class="modal-body">
+  
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-info" onclick="relateAlbum()">确定</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal fade" id="relate_album_type" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <input type="hidden" id="albumClassEditCurrentNode"/>
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">关联相册类别</h4>
+          </div>
+          <div id="relateAlbumClass" class="modal-body">
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-info" onclick="relateAlbumClass()">确定</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+   
+       <div class="modal fade" id="relate_Vote" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <input type="hidden" id="voteEditCurrentNode"/>
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">关联投票</h4>
+          </div>
+          <div id="relateVote" class="modal-body">
+  
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-info" onclick="relateVote()">确定</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+       <div class="modal fade" id="relate_LotteryWheel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <input type="hidden" id="lotteryWheelEditCurrentNode"/>
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">关联大转盘</h4>
+          </div>
+          <div id="relateLotteryWheel" class="modal-body">
+  
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-info" onclick="relateLotteryWheel()">确定</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+ 
     <!-- 系统图片提示框 -->
 <div class="modal fade"  id="sysIcon" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
