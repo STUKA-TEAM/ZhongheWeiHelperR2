@@ -6,6 +6,8 @@ import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 
+import lottery.LotteryWheel;
+import lottery.dao.LotteryWheelDAO;
 import message.ResponseMessage;
 
 import org.springframework.context.ApplicationContext;
@@ -23,19 +25,24 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 
+import album.Album;
+import album.AlbumClass;
+import album.dao.AlbumDAO;
 import article.Article;
 import article.ArticleClass;
 import article.dao.ArticleDAO;
 import register.dao.AppInfoDAO;
 import register.dao.AuthInfoDAO;
 import security.User;
+import vote.Vote;
+import vote.dao.VoteDAO;
 import website.Website;
 import website.dao.WebsiteDAO;
 
 /**
  * @Title: WebsiteController
  * @Description: 微官网非Wizard管理
- * @Company: ZhongHe
+ * @Company: Tuka
  * @author ben
  * @date 2014年1月24日
  */
@@ -198,6 +205,158 @@ public class WebsiteController {
 				List<ArticleClass> articleclasses = articleDao.getDetailedClassinfos(appid);
 				model.addAttribute("articleclasses", articleclasses);
 				return "WebsiteViews/articleclasslist";
+			}
+		}
+	}
+	
+	/**
+	 * @title getAlbumList
+	 * @description 获取账号下可关联的相册列表
+	 * @param appid
+	 * @param model
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/website/albumlist", method = RequestMethod.GET)
+	public String getAlbumList(@CookieValue(value = "appid", required = false) String appid,
+			Model model, HttpServletRequest request){
+		ApplicationContext context = 
+				new ClassPathXmlApplicationContext("All-Modules.xml");
+		AppInfoDAO appInfoDao = (AppInfoDAO) context.getBean("AppInfoDAO");
+		AlbumDAO albumDao = (AlbumDAO) context.getBean("AlbumDAO");
+		((ConfigurableApplicationContext)context).close();
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = (User)auth.getPrincipal();
+		
+		if (appid == null) {       //异常
+			return "redirect:/store/account";     
+		}
+		else {
+			if (appid.equals("") || appInfoDao.checkAppExistsByUser(user.getSid(), 
+					appid) == 0) {                                                          //需先创建app或appid无效
+				request.setAttribute("message", "当前管理的公众账号无效，请先选择或关联微信公众账号!");
+				request.setAttribute("jumpLink", "store/account");
+				return "forward:/store/transfer";   
+			}
+			else {
+				List<Album> albumList = albumDao.getBasicAlbuminfos(appid);
+				model.addAttribute("albumList", albumList);
+				return "WebsiteViews/albumlist";
+			}
+		}
+	}
+	
+	/**
+	 * @title getAlbumClassList
+	 * @description 获取账号下可关联的相册集列表
+	 * @param appid
+	 * @param model
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/website/albumclasslist", method = RequestMethod.GET)
+	public String getAlbumClassList(@CookieValue(value = "appid", required = false) String appid,
+			Model model, HttpServletRequest request){
+		ApplicationContext context = 
+				new ClassPathXmlApplicationContext("All-Modules.xml");
+		AppInfoDAO appInfoDao = (AppInfoDAO) context.getBean("AppInfoDAO");
+		AlbumDAO albumDao = (AlbumDAO) context.getBean("AlbumDAO");
+		((ConfigurableApplicationContext)context).close();
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = (User)auth.getPrincipal();
+		
+		if (appid == null) {       //异常
+			return "redirect:/store/account";     
+		}
+		else {
+			if (appid.equals("") || appInfoDao.checkAppExistsByUser(user.getSid(), 
+					appid) == 0) {                                                          //需先创建app或appid无效
+				request.setAttribute("message", "当前管理的公众账号无效，请先选择或关联微信公众账号!");
+				request.setAttribute("jumpLink", "store/account");
+				return "forward:/store/transfer";   
+			}
+			else {
+				List<AlbumClass> classList = albumDao.getBasicClassinfos(appid);
+				model.addAttribute("classList", classList);
+				return "WebsiteViews/albumclasslist";
+			}
+		}
+	}
+	
+	/**
+	 * @title getVoteList
+	 * @description 获取账号下可关联的投票列表
+	 * @param appid
+	 * @param model
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/website/votelist", method = RequestMethod.GET)
+	public String getVoteList(@CookieValue(value = "appid", required = false) String appid,
+			Model model, HttpServletRequest request){
+		ApplicationContext context = 
+				new ClassPathXmlApplicationContext("All-Modules.xml");
+		AppInfoDAO appInfoDao = (AppInfoDAO) context.getBean("AppInfoDAO");
+		VoteDAO voteDao = (VoteDAO) context.getBean("VoteDAO");
+		((ConfigurableApplicationContext)context).close();
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = (User)auth.getPrincipal();
+		
+		if (appid == null) {       //异常
+			return "redirect:/store/account";     
+		}
+		else {
+			if (appid.equals("") || appInfoDao.checkAppExistsByUser(user.getSid(), 
+					appid) == 0) {                                                          //需先创建app或appid无效
+				request.setAttribute("message", "当前管理的公众账号无效，请先选择或关联微信公众账号!");
+				request.setAttribute("jumpLink", "store/account");
+				return "forward:/store/transfer";   
+			}
+			else {
+				List<Vote> voteList = voteDao.getVoteinfoList(appid);
+				model.addAttribute("voteList", voteList);
+				return "WebsiteViews/votelist";
+			}
+		}
+	}
+	
+	/**
+	 * @title getLotteryWheelList
+	 * @description 获取账号下可关联的大转盘抽奖列表
+	 * @param appid
+	 * @param model
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "/website/lottery/wheellist", method = RequestMethod.GET)
+	public String getLotteryWheelList(@CookieValue(value = "appid", required = false) String appid,
+			Model model, HttpServletRequest request){
+		ApplicationContext context = 
+				new ClassPathXmlApplicationContext("All-Modules.xml");
+		AppInfoDAO appInfoDao = (AppInfoDAO) context.getBean("AppInfoDAO");
+		LotteryWheelDAO wheelDao = (LotteryWheelDAO) context.getBean("LotteryWheelDAO");
+		((ConfigurableApplicationContext)context).close();
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = (User)auth.getPrincipal();
+		
+		if (appid == null) {       //异常
+			return "redirect:/store/account";     
+		}
+		else {
+			if (appid.equals("") || appInfoDao.checkAppExistsByUser(user.getSid(), 
+					appid) == 0) {                                                          //需先创建app或appid无效
+				request.setAttribute("message", "当前管理的公众账号无效，请先选择或关联微信公众账号!");
+				request.setAttribute("jumpLink", "store/account");
+				return "forward:/store/transfer";   
+			}
+			else {
+				List<LotteryWheel> wheelList = wheelDao.getWheelinfoList(appid);
+				model.addAttribute("wheelList", wheelList);
+				return "WebsiteViews/lotterywheellist";
 			}
 		}
 	}

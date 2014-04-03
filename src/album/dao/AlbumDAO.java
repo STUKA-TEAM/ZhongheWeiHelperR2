@@ -560,7 +560,7 @@ public class AlbumDAO {
 	
 	/**
 	 * @title getBasicClassinfos
-	 * @description 根据appid获取相册集的基本信息列表
+	 * @description 根据appid获取相册集的基本信息列表 (classid, className)
 	 * @param appid
 	 * @return
 	 */
