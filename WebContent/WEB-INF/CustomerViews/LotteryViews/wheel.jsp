@@ -39,31 +39,22 @@
     </div>
     <input id="wheelid" type="hidden" value="${wheel.wheelid}"/>
     <input id="wheeluuid" type="hidden" value="${wheel.wheeluuid}"/>
-    
-    <!-- <a class="luckybutton" href="javascript:void(0)" type="button" onclick="cutCount()">减少次数</a> -->
     <%@ include file="../CommonViews/weifooter.jsp"%>   
     <%@ include file="../WebsiteViews/bottom.jsp"%> 
     <script type="text/javascript" src="./js/customer/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="./js/customer/jquery.cookie.js"></script>
     <script type="text/javascript" src="js/customer/mobile-common.js"></script>   
-    <%@ include file="../CommonViews/lotteryShareJS.jsp"%>
     <script type="text/javascript">
     window.shareInfo = new Object();
-    shareInfo.imgUrl = '${message.imageLink}';
-    shareInfo.link = '${message.appLink}';
-    shareInfo.desc = '${message.shareContent}';
-    shareInfo.title = '${message.shareTitle}';
+    shareInfo.imgUrl = "${message.imageLink}";
+    shareInfo.link = "${message.appLink}";
+    shareInfo.desc = "${message.shareContent}";
+    shareInfo.title = "${message.shareTitle}";
     </script>
-  
+    <%@ include file="../CommonViews/lotteryShareJS.jsp"%>
   <script src="./js/customer/lottery_wheel/jQueryRotate.2.2.js"></script>
   <script src="./js/customer/lottery_wheel/jquery.easing.min.js"></script>
   <script>
-  function cutCount(){
-	  var count = $.cookie($("#wheeluuid").val());
-	  
-	  $.cookie($("#wheeluuid").val(), count-10, {path: '/'}); 
-	  alert($.cookie($("#wheeluuid").val()));
-  }
   $(function(){
     var timeOut = function(){  //超时函数
       $("#lotteryBtn").rotate({

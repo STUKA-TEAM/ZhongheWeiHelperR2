@@ -6,6 +6,6 @@
 
     <div id="web-footer">
       <div class="container text-center">
-        <p class="text-muted credit" id = "web-footerText">&copy; ${website.title} 图卡技术支持</p>
+        <p class="text-muted credit" id = "web-footerText">&copy; ${website.title} <a style="text-decoration:none;" href="customer/website/home?websiteid=888">图卡技术支持</a></p>
       </div>
     </div><!-- footer -->

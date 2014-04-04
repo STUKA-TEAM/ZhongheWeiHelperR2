@@ -63,5 +63,14 @@
     <script type="text/javascript" src="js/customer/elove.js"></script>
     <script type="text/javascript" src="js/customer/modal.min.js"></script>    
     <script type="text/javascript" src="js/customer/video.js"></script>  
+    
+    <%@ include file="../CommonViews/shareJS.jsp"%>
+    <script type="text/javascript">
+    window.shareInfo = new Object();
+    shareInfo.imgUrl = '${message.imageLink}';
+    shareInfo.link = '${message.appLink}';
+    shareInfo.desc = '${message.shareContent}';
+    shareInfo.title = '${message.shareTitle}';
+    </script>
   </body>
 </html>

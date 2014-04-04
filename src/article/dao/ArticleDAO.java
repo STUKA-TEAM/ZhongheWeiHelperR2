@@ -610,7 +610,7 @@ public class ArticleDAO {
 	 * @return
 	 */
 	public Article getArticleForCustomer(int articleid){
-		String SQL = "SELECT articleid, title, createTime, content FROM article WHERE articleid = ?";
+		String SQL = "SELECT articleid, title, coverPic, createTime, content FROM article WHERE articleid = ?";
 		Article article = null;
 		
 		try {
@@ -627,6 +627,7 @@ public class ArticleDAO {
 			Article article = new Article();
 			article.setArticleid(rs.getInt("articleid"));
 			article.setTitle(rs.getString("title"));
+			article.setCoverPic(rs.getString("coverPic"));
 			article.setCreateTime(rs.getTimestamp("createTime"));
 			article.setContent(rs.getString("content"));
 			return article;

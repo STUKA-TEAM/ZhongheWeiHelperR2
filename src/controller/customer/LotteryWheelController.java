@@ -66,7 +66,7 @@ public class LotteryWheelController {
 			ShareMessage message = new ShareMessage();
 			message.setWechatNumber(appInfoDao.getWechatNumberByLotteryWheel(wheelid));
 			message.setAppLink(message.getAppLink() + "customer/lottery/wheel?wheelid=" + wheelid);
-            message.setImageLink("");
+            message.setImageLink(message.getImageLink() + "/ZhongheWeiHelperR2/img/lottery_wheel/sharelottery.png");
 			message.setShareTitle(wheel.getWheelName());
 			message.setShareContent(wheel.getWheelDesc());
 			model.addAttribute("message", message);

@@ -56,7 +56,7 @@
       	  success: function (jsonData) {
             var data = JSON.parse(jsonData);
             if(data.status){
-            	$("#contactContainer").html(data.message);
+            	$("#contactContainer").html(data.message+"<br/><a class=\"luckybutton\" href=\"javascript:void(0)\" type=\"button\" onclick=\"window.location.reload();\">再抽一次</a>");
             }else{
             	alert(data.message);
             }

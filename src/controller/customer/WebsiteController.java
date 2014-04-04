@@ -153,6 +153,7 @@ public class WebsiteController {
 				model.addAttribute("article", article);
 				
 				message.setAppLink(message.getAppLink() + "customer/article?articleid=" + article.getArticleid());
+				System.out.println(article.getCoverPic());
 				if (article.getCoverPic() != null && !article.getCoverPic().equals("")) {
 					message.setImageLink(message.getImageLink() + article.getCoverPic() + "_original.jpg");
 				} else {
@@ -218,7 +219,7 @@ public class WebsiteController {
 				model.addAttribute("wheel", wheel);
 				
 				message.setAppLink(message.getAppLink() + "customer/lottery/wheel?wheelid=" + wheel.getWheelid());
-				message.setImageLink("");
+				message.setImageLink(message.getImageLink() + "/ZhongheWeiHelperR2/img/lottery_wheel/sharelottery.png");
 				message.setShareTitle(wheel.getWheelName());
 				message.setShareContent(wheel.getWheelDesc());
 				model.addAttribute("message", message);

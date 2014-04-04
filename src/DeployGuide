@@ -1,4 +1,4 @@
-主项目：
+主项目(war包方式，备份原项目)：
 1.配置environment.properties
 2.配置jdbc.properties
 3.限制远程mysql链接
@@ -6,7 +6,8 @@
 5.更新icon_lib
 6.部署a.htm到服务器根目录
 7.elovedemo默认值
-文件上传项目：
+8.888为公司微官网
+文件上传项目(更新Class文件方式，更新icon_lib)：
 1.配置environment.properties
 2.配置jdbc.properties
 3.配置ffmpeg环境变量
