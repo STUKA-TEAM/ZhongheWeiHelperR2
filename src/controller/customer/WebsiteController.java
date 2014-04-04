@@ -153,7 +153,6 @@ public class WebsiteController {
 				model.addAttribute("article", article);
 				
 				message.setAppLink(message.getAppLink() + "customer/article?articleid=" + article.getArticleid());
-				System.out.println(article.getCoverPic());
 				if (article.getCoverPic() != null && !article.getCoverPic().equals("")) {
 					message.setImageLink(message.getImageLink() + article.getCoverPic() + "_original.jpg");
 				} else {
