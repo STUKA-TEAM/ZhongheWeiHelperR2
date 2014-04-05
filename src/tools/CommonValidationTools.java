@@ -492,6 +492,9 @@ public class CommonValidationTools {
 	 * @return
 	 */
 	public static boolean checkVoteContent(VoteContent content){
+		if (content.getOpenid() == null) {
+			content.setOpenid("");
+		}
 		return true;
 	}
 	
