@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import register.Authority;
 import register.UserInfo;
 import register.dao.AuthInfoDAO;
+import register.dao.InviteDAO;
 import register.dao.UserInfoDAO;
 
 /**
@@ -80,6 +81,7 @@ public class RegisterController {
 					new ClassPathXmlApplicationContext("All-Modules.xml");
 			UserInfoDAO userInfoDao = (UserInfoDAO) context.getBean("UserInfoDAO");
 			AuthInfoDAO authInfoDao = (AuthInfoDAO) context.getBean("AuthInfoDAO");
+			InviteDAO inviteDao = (InviteDAO) context.getBean("InviteDAO");
 			((ConfigurableApplicationContext)context).close();
 			
 			String original = userInfo.getPassword();
@@ -95,6 +97,7 @@ public class RegisterController {
 			}						
 			userInfo.setRoleid(1);   //default 'CUSTOMER'
 			int sid = userInfoDao.insertUserInfo(userInfo);
+			inviteDao.deleteCode(userInfo.getInviteCode());
 			
 			InputStream inputStream = RegisterController.class.getResourceAsStream("/defaultValue.properties");
 			Properties properties = new Properties();

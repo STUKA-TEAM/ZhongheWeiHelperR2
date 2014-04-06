@@ -68,9 +68,8 @@ public class InviteController {
 		if (number >= 1 && number <= 10) {
 			List<String> codeCreate = new ArrayList<String>();
 			for (int i = 0; i < number; i++) {
-				List<String> codeExists = inviteDao.getCodeList();
 				String code = RandomUtil.generateMixedString(6);
-				while (checkExists(code, codeExists)) {
+				while (inviteDao.checkExists(code)) {
 					code = RandomUtil.generateMixedString(6);
 				}
 				codeCreate.add(code);
@@ -85,21 +84,5 @@ public class InviteController {
 		
 		String response = gson.toJson(message);		
 		return response;
-	}
-	
-	/**
-	 * @title checkExists
-	 * @description 检查生成的注册码是否已存在
-	 * @param code
-	 * @param codeList
-	 * @return
-	 */
-	private boolean checkExists(String code, List<String> codeList){
-		for (int i = 0; i < codeList.size(); i++) {
-			if (code.equalsIgnoreCase(codeList.get(i))) {
-				return true;
-			}
-		}
-		return false;
 	}
 }

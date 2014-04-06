@@ -83,14 +83,7 @@ public class CommonValidationTools {
 		InviteDAO inviteDao = (InviteDAO) context.getBean("InviteDAO");
 		((ConfigurableApplicationContext)context).close();
 		
-		List<String> codeList = inviteDao.getCodeList();
-		for (int i = 0; i < codeList.size(); i++) {
-			if (code.equalsIgnoreCase(codeList.get(i))) {
-				inviteDao.deleteCode(codeList.get(i));
-				return true;
-			}
-		}
-		return false;
+		return inviteDao.checkExists(code);
 	}
 	
 	/**
