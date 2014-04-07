@@ -24,6 +24,7 @@ function submitVote(maxSelected){
 		}	
 	}
 	voteContent.voteid = $("#voteid").val();
+	voteContent.openid = "";
 	voteContent.contact = $("#contact").val();
 	voteContent.answer = voteAnswer;
 	  $.ajax({
