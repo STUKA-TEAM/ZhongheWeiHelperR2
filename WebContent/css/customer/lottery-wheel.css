@@ -84,6 +84,9 @@ html, header, body {
 }
 .ly-plate{
   margin: 0 auto;
+  padding-top: 20px;
+  width: 200px;
+  height: 200px;
 }
 .rotate-bg{
   width: 200px;
@@ -91,21 +94,20 @@ html, header, body {
   background:url(../../img/lottery_wheel/ly-plate.png);
   background-size: 200px;
   background-repeat: no-repeat;
-  position:absolute;
-  top: 25px;
-  left: 80px;
+  position: relative;
 }
 .ly-plate div.lottery-star{
-  position:absolute;
-  top: 75px;
-  left: 132px;
-  outline:none
+  position: relative;
+  top: -200px;
+  outline:none;
+  width: 200px;
+  height: 200px;
 }
 .ly-plate div.lottery-star #lotteryBtn{
   cursor: pointer;
-  position: absolute;
-  top:0;
-  left:0;
+  position: relative;
+  top: 50px;
+  left: 1px;
   width: 100px;
   height: 100px;
 }
