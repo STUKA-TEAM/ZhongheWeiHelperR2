@@ -77,4 +77,25 @@ public class InviteDAO {
 			return code;
 		}	
 	}
+	
+	/**
+	 * @title checkExists
+	 * @description 查询邀请码是否存在
+	 * @param code
+	 * @return
+	 */
+	public boolean checkExists(String code){
+		String SQL = "SELECT COUNT(*) FROM invite WHERE code = ?";
+		int count = 0;
+		try {
+			count = jdbcTemplate.queryForObject(SQL, Integer.class, code);
+		} catch (Exception e) {
+			System.out.println("checkExists: " + e.getMessage());
+		}
+		if (count >= 1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

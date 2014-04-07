@@ -742,7 +742,7 @@ public class AlbumDAO {
 		Album album = null;
 		String SQL = "SELECT albumid, albumName, coverPic FROM album WHERE albumid = ?";
 		try {
-			album = jdbcTemplate.queryForObject(SQL, new Object[]{albumid}, new ShareAlbuminfoMapper());
+			album = jdbcTemplate.queryForObject(SQL, new Object[]{albumid}, new AlbumContentMapper());
 		} catch (Exception e) {
 			System.out.println("getAlbumForCustomer: " + e.getMessage());
 		}
@@ -776,17 +776,6 @@ public class AlbumDAO {
 			Album album = new Album();
 			album.setAlbumid(rs.getInt("albumid"));
 			album.setAlbumName(rs.getString("albumName"));
-			return album;
-		}	
-	}
-	
-	private static final class ShareAlbuminfoMapper implements RowMapper<Album>{
-		@Override
-		public Album mapRow(ResultSet rs, int arg1) throws SQLException {
-			Album album = new Album();
-			album.setAlbumid(rs.getInt("albumid"));
-			album.setAlbumName(rs.getString("albumName"));
-			album.setCoverPic(rs.getString("coverPic"));
 			return album;
 		}	
 	}
