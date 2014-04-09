@@ -1,0 +1,24 @@
+.record-bg {
+  background-image: url(../../img/elove/records_footer_bg_5.jpg);
+  background-repeat: repeat-y;
+  background-size: 100% 100%;
+  background-position: bottom;
+}
+.video {
+  margin: 0 auto;
+  width: 90%;
+}
+.video-container {
+  padding-bottom: 30px;
+}
+.photo-list {
+  display: block;
+  margin: 10px auto;
+  width: 90%;
+  padding: 8px;
+  background-color: #ffffff; 
+}
+.photo-list > img {
+  width: 100%;
+  height: auto;
+}
