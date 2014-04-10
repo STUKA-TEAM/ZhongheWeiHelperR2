@@ -15,31 +15,31 @@
     
     <link href="css/customer/bootstrap.min.css" rel="stylesheet">
     <link href="swipelib/swipebox.min.css" rel="stylesheet">
-    <link href="css/customer/zhonghe-elove-5.css" rel="stylesheet">
+    <link href="css/customer/zhonghe-elove-6.css" rel="stylesheet">
     <link href="css/customer/elove-common.css" rel="stylesheet">
     
-    <link href="css/customer/elove-story-5.css" rel="stylesheet">
+    <link href="css/customer/elove-story-6.css" rel="stylesheet">
     
-    <link href="css/customer/elove-record-5.css" rel="stylesheet">
+    <link href="css/customer/elove-record-6.css" rel="stylesheet">
     <link href="css/customer/video-js.min.css" rel="stylesheet">
 
-    <link href="css/customer/elove-info-5.css" rel="stylesheet">
+    <link href="css/customer/elove-info-6.css" rel="stylesheet">
   </head>
   <body>
     <div id="content-container">
-      <%@ include file="story-5.jsp"%>
+      <%@ include file="story-6.jsp"%>
     </div>
     <div class="container-fulid">
       <div id="baidumap" style="visibility:hidden;"><div id="pic"></div></div>
     </div>
     <div class="sidebar-guide" onclick="sidebar_up()">
-      <img src="img/elove/sidebar_guide_5.png" class="sidebar-guide-logo"/>
+      <img src="img/elove/sidebar_guide_6.png" class="sidebar-guide-logo"/>
       <p class="sidebar-guide-tip">点点我~</p>
     </div>
     <div class="sidebar-bg sidebar-bg-miss hidden" onclick="sidebar_dismiss()"></div>
     <div id="sidebar_list" class="sidebar hidden" state="down">
-      <div id="audio" class="audio" onclick="audio_switch(4)">
-        <img src="img/elove/audio_on_5.png" class="audio-logo"/>
+      <div id="audio" class="audio" onclick="audio_switch(6)">
+        <img src="img/elove/audio_on_6.png" class="audio-logo"/>
         <p id="audio-p">音效开启</p>
         <input id="eloveid" type="hidden" value="${elove.eloveid}" />
       </div>
