@@ -4,13 +4,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
     <div class="container-fulid">
-      <img src="img/elove/records_title_5.png" class="img-responsive title" alt="title background"/>
+      <img src="img/elove/records_title_5.jpg" class="img-responsive title" alt="title background"/>
     </div><!-- title -->
   <div class="record-bg">
     <%@ include file="record-video.jsp"%>
     <div class="container-fulid">
       <div class="container-fulid">
-        <img src="img/elove/records_photo_title_5.png" class="img-responsive"/>
+        <img src="img/elove/records_photo_title_5.jpg" class="img-responsive"/>
       </div>
     <%@ include file="record-img.jsp"%>
     </div><!-- photo -->

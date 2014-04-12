@@ -38,7 +38,7 @@
     </div>
     <div class="sidebar-bg sidebar-bg-miss hidden" onclick="sidebar_dismiss()"></div>
     <div id="sidebar_list" class="sidebar hidden" state="down">
-      <div id="audio" class="audio" onclick="audio_switch(4)">
+      <div id="audio" class="audio" onclick="audio_switch(6)">
         <img src="img/elove/audio_on_5.png" class="audio-logo"/>
         <p id="audio-p">音效开启</p>
         <input id="eloveid" type="hidden" value="${elove.eloveid}" />

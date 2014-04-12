@@ -37,7 +37,7 @@ myAudio = null;
 var audio_switch = function(themeid){
  	if(flag=="off"){
  	  if(myAudio == null){
- 		  myAudio = new Audio('./media/elovedemomusic.mp3'); 
+ 		  myAudio = new Audio($("#musicPath").val()+'.mp3'); 
  	      myAudio.addEventListener('ended', function() {
  	        this.currentTime = 0;
  	        this.play();
