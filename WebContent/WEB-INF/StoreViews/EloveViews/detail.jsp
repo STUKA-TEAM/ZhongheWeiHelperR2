@@ -58,6 +58,7 @@
                 <td>${eloveInfo.xinNiang}</td>
                 <td>
                 <a href="./store/elove/wizard/initial/edit?eloveid=${eloveInfo.eloveid}" class="btn btn-sm btn-user">编辑</a>
+                <a class="btn btn-sm btn-info" target="_blank" href="customer/elove/elove?eloveid=${eloveInfo.eloveid}">预览</a>
                 <a target="_blank" href="./customer/elove/lottery/prepare?eloveid=${eloveInfo.eloveid}" class="btn btn-sm btn-user">进入抽奖</a>
                 </td>
                </tr>
