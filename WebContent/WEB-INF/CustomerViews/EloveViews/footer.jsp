@@ -6,5 +6,5 @@
 <jsp:useBean id="now" class="java.util.Date" />
 <fmt:formatDate var="year" value="${now}" pattern="yyyy" />
 <div class="footer">
-  <p>© ${year} ${elove.footerText} <a style="text-decoration:none; color:#777777;" href="customer/website/home?websiteid=888">图卡技术支持</a></p>
+  <p>© ${year} ${elove.footerText} <a style="text-decoration:none; color:#777777;" href="customer/website/home?websiteid=6">图卡技术支持</a></p>
 </div><!-- footer -->

@@ -13,9 +13,7 @@ document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
 			"desc": window.shareInfo.desc,
 			"title": window.shareInfo.title
 		}, function (res) {
-			alert("before:"+$.cookie($("#wheeluuid").val()));
 			cutCount(1);
-			alert("before:"+$.cookie($("#wheeluuid").val()));
 			window.location.reload();
 		});
 	});
