@@ -89,6 +89,9 @@
     	  callback: function(index, element) {
     		var children = $("#position").children();
     		//alert(childNodes.length);
+    		if('${userInfo.imageList.size()}'==2 && index > 1){
+    			index = index - 2;
+    		}
     	    children[selectedId].className = 'off';
     		selectedId = index;
     		children[selectedId].className = 'on';
