@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="tuka">
+
+    <title>nav</title>
+    <!-- 微喜帖css -->
+    <link href="../css/customer/bootstrap.min.css" rel="stylesheet">
+    <link href="./nav-test.css" rel="stylesheet">
+  </head>
+  <body>
+    <div id="nav-item" class="nav-item-home">
+      <img src="./1.png" class="img-responsive">
+    </div>
+    <div id="nav-item" class="nav-item-gps">
+      <img src="./1.png" class="img-responsive">
+    </div>
+    <div id="nav-item" class="nav-item-phone">
+      <img src="./1.png" class="img-responsive">
+    </div>
+    <div id="nav-item" class="nav-item-share">
+      <img src="./1.png" class="img-responsive">
+    </div>
+    <div class="nav-bar">
+      <img src="./1.png" class="img-responsive">
+    </div>
+    
+    <script type="text/javascript" src="../js/customer/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="../js/customer/jQueryRotateCompressed.js"></script>
+    <script type="text/javascript">
+    var flag = true;
+    $(".nav-bar").click(function(){
+      if(flag){
+        $(".nav-item-home").animate({
+          bottom:'112px',
+          left:'10px'
+        }, 400);
+        $(".nav-item-home").rotate({
+          duration: 400,
+          angle: 0,
+          animateTo: 360
+        });
+        $(".nav-item-gps").animate({
+          bottom:'10px',
+          left:'112px'
+        }, 400);
+        $(".nav-item-gps").rotate({
+          duration: 400,
+          angle: 0,
+          animateTo: 360
+        });
+        $(".nav-item-phone").animate({
+          bottom:'90px',
+          left:'53px'
+        }, 400);
+        $(".nav-item-phone").rotate({
+          duration: 400,
+          angle: 0,
+          animateTo: 360
+        });
+        $(".nav-item-share").animate({
+          bottom:'52px',
+          left:'91px'
+        }, 400);
+        $(".nav-item-share").rotate({
+          duration: 400,
+          angle: 0,
+          animateTo: 360
+        });
+        $(this).rotate({
+          duration: 400,
+          angle: 0,
+          animateTo: 225
+        });
+        flag = false;
+      }else{
+        $(".nav-item-home").animate({
+          bottom:'10px',
+          left:'10px'
+        }, 400);
+        $(".nav-item-home").rotate({
+          duration: 400,
+          angle: 0,
+          animateTo: 360
+        });
+        $(".nav-item-gps").animate({
+          bottom:'10px',
+          left:'10px'
+        }, 400);
+        $(".nav-item-gps").rotate({
+          duration: 400,
+          angle: 0,
+          animateTo: 360
+        });
+        $(".nav-item-phone").animate({
+          bottom:'10px',
+          left:'10px'
+        }, 400);
+        $(".nav-item-phone").rotate({
+          duration: 400,
+          angle: 0,
+          animateTo: 360
+        });
+        $(".nav-item-share").animate({
+          bottom:'10px',
+          left:'10px'
+        }, 400);
+        $(".nav-item-share").rotate({
+          duration: 400,
+          angle: 0,
+          animateTo: 360
+        });
+        $(this).rotate({
+          duration: 400,
+          angle: 0,
+          animateTo: 180
+        });
+        flag = true;
+      };
+    });
+    </script>
+  </body>
+</html>
