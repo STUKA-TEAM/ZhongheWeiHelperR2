@@ -17,11 +17,13 @@ body {
   overflow: hidden;
 }
 .nav-bar {
-  height: 160px
+  clear: both;
+  height: 100px;
 }
 .nav-item {
-  display: inline-block;
-  height: 160px;
+  margin-left: 2px;
+  float: left;
+  height: 100px;
   width: 0px;
   background-color: #000000;
   opacity: 0;
@@ -29,19 +31,19 @@ body {
 }
 .nav-link,
 .nav-link:hover {
-  color: #3bb3ff;
+  color: #ffffff;
   font-size: 14px;
   text-decoration:none;
   text-align: center;
 }
 .nav-icon {
   margin-top: 10px;
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
 }
 .nav-item-text {
   margin: 10px auto 0 auto;
   width: 56px;
   height: 28px;
-  border-bottom: solid #3bb3ff 1px;
+  border-bottom: solid #ffffff 1px;
 }
