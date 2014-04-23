@@ -1,6 +1,6 @@
 $(document).ready(function(){
     var count = $(".nav-item").size();
-    $("#scroller").css("width",count*94+"px");
+    $("#scroller").css("width",count*92+2+"px");
     $(".nav-item").each(function(){
         $(this).animate({
             opacity:'0.7',
