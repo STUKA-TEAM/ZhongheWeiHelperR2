@@ -1,0 +1,33 @@
+.nav-bar {
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  width: 32px;
+  height: 32px;
+  z-index: 2px;
+}
+.nav-item-home,
+.nav-item-gps,
+.nav-item-phone,
+.nav-item-share {
+  position: fixed;
+  width: 32px;
+  height: 32px;
+  z-index: -1px;
+}
+.nav-item-home {
+  bottom: 10px;
+  left: 10px;
+}
+.nav-item-share {
+  bottom: 10px;
+  left: 10px;
+}
+.nav-item-gps {
+  bottom: 10px;
+  left: 10px;
+}
+.nav-item-phone {
+  bottom: 10px;
+  left: 10px;
+}
