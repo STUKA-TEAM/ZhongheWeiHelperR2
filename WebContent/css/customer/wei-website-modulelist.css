@@ -1,8 +1,8 @@
 html, header, body {
   max-width: 360px;
-  background-color: #E8E7E4;
+  background-color: #f4f4f4;
   font-family:"Microsoft YaHei";
-  color: #666666;
+  color: #aaa;
 }
 div {
   max-width: 360px;
@@ -11,66 +11,28 @@ div {
 .toolbar{
 	padding-left:2%;
 }
-.navbar-icon {
-  width: 26px;
-  height: auto;
-}
-.navbar-item {
-  font-size: 15px;
-  width: 23%;
-  height: 100%;
-  margin-left: 1%;
-  padding-top: 10px;
-  padding-bottom: 5px;
-  float:left;
-}
-.navbar-item-border {
-  border-right-style: dashed;
-  border-right-color: #3eb2fb;
-  border-right-width: 1px;
-}
-.navbar-bg {
-  width: 100%;
-  height: 50px;
-}
-.navbar-bottom {
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 50px;
-  background-color: #F5F4F3;
-  border-top-style: solid;
-  border-top-color: #C3C0B9;
-  border-top-width: 1px;
-  padding: 5px 0;
-}
 .list-item {
-  padding: 13px;
+  padding: 8px 15px;
   background-color: #f4f4f4;
   border-bottom-style: solid;
-  border-bottom-color: #3eb2fb;
+  border-bottom-color: #ddd;
   border-bottom-width: 1px;
-  color: #666666;
-  font-size: 16px;
+  color: #aaa;
+  font-size: 18px;
   text-align: left; 
 }
 .list-item:hover,
 .list-item:focus {
-  padding: 13px;
   background-color: #ffffff;
-  border-bottom-style: solid;
-  border-bottom-color: #3eb2fb;
-  border-bottom-width: 1px;
-  color: #666666;
-  font-size: 16px;
-  text-align: left; 
 }
-.list-item-icon,
-.list-item-arrow {
-  width: 25px;
-  height: 25px;
+.list-item-icon {
+  width: 90px;
+  height: 48px;
+  border-radius: 5px;
 }
-.list-item-arrow {
-  float: right;
+.list-link,
+.list-link:hover {
+  line-height: 48px;
+  color:#666;
+  text-decoration: none;
 }
