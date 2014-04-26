@@ -38,13 +38,14 @@
     <div class="website-list">
       <ul class="list-unstyled">
 		<c:forEach items="${nodeList}" var="item">
-        <li class="list-item"><a class="noneStyleLink" href="customer/website/resources?nodeid=${item.nodeid}">
-        <c:if test="${item.nodePic!=null}"><img src="${item.nodePic}_original.jpg" class="list-item-icon" alt="home"></c:if> ${item.nodeName} <img src="./img/icon_lib/arrow_blue.png" class="list-item-arrow" alt="home"></a></li>
+        <li class="list-item"><a class="list-link" href="customer/website/resources?nodeid=${item.nodeid}">
+        <c:if test="${item.nodePic!=null}"><img src="${item.nodePic}_original.jpg" class="list-item-icon" alt="home"></c:if> ${item.nodeName}</a></li>
         </c:forEach>
       </ul>
     </div>
     <%@ include file="bottom.jsp"%>
     <script type="text/javascript" src="./js/customer/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="js/customer/jQueryRotateCompressed.js"></script>
     <script type="text/javascript" src="js/customer/mobile-common.js"></script>
     <script src="./js/customer/bootstrap.min.js"></script>
     <script src="js/customer/swipe.js"></script>
