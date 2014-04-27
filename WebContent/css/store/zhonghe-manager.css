@@ -88,6 +88,27 @@
   color: #ffffff;
   background-color: #1ABC9C;
 }
+.submenu-two > li > a {
+  color: #777777;
+  padding-left: 50px
+}
+.submenu-two > li > a:hover,
+.submenu-two > li > a:focus {
+  color: #1ABC9C;
+  border-top-style: none;
+  border-bottom-style: none;
+  border-left-style: solid;
+  border-left-color: #1ABC9C;
+  border-left-width: 5px;
+  background-color: transparent;
+}
+.submenu-two > li.active > a,
+.submenu-two > li.active > a:hover,
+.submenu-two > li.active > a:focus {
+  border: none;
+  color: #ffffff;
+  background-color: #1ABC9C;
+}
 .btn-user {
   color: #ffffff;
   background-color: #1ABC9C;
@@ -207,5 +228,4 @@ fieldset[disabled] .btn-user.active {
 }
 .operationButton{
   margin: 2px;
-}
 }
