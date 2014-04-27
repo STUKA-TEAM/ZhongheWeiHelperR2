@@ -27,7 +27,6 @@ a:hover {
 .article-model {
   background-color: #ffffff;
   min-width: 250px;
-  min-height: 250px;
   margin: 10px auto;
   border-radius: 5px;
   box-shadow: 5px 5px 2px #888888;
@@ -45,7 +44,6 @@ a:hover {
 }
 .article-model-content {
   width: 100%;
-  min-height: 180px;
   text-align: center;
   padding: 5px 20px;
   color: #000000;
