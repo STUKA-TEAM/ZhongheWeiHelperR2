@@ -1,0 +1,49 @@
+html, header, body {
+  max-width: 360px;
+  min-height: 516px;
+  font-family:"Microsoft YaHei";
+}
+body {
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+.nav-container {
+  list-style: none;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  max-width: 360px;
+  height: auto;
+  overflow: hidden;
+}
+.nav-bar {
+  clear: both;
+  height: 100px;
+}
+.nav-item {
+  margin-left: 2px;
+  float: left;
+  height: 100px;
+  width: 0px;
+  background-color: #000000;
+  opacity: 0;
+  text-align: center;
+}
+.nav-link,
+.nav-link:hover {
+  color: #ffffff;
+  font-size: 14px;
+  text-decoration:none;
+  text-align: center;
+}
+.nav-icon {
+  margin-top: 10px;
+  width: 30px;
+  height: 30px;
+}
+.nav-item-text {
+  margin: 10px auto 0 auto;
+  width: 56px;
+  height: 28px;
+  border-bottom: solid #ffffff 1px;
+}
