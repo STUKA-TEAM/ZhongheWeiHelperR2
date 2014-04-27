@@ -7,11 +7,13 @@ import java.util.Properties;
 
 import message.ResponseMessage;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,6 +42,9 @@ import branch.dao.BranchDAO;
 @Controller
 @RequestMapping("/branch")
 public class BranchController {
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
 	/**
 	 * @title getBranchList
 	 * @description 显示分店详细信息列表
@@ -184,6 +189,7 @@ public class BranchController {
 		Timestamp current = new Timestamp(System.currentTimeMillis());			
 		branch.setCreateDate(current);
 		branch.setStoreSid(user.getSid());
+		branch.setPassword(passwordEncoder.encode(branch.getPassword()));
 		
 		String checkMessage = CommonValidationTools.checkBranch(branch);
 		if (!checkMessage.equals("pass")) {
