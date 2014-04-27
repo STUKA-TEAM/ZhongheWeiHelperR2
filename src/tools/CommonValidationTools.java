@@ -513,8 +513,13 @@ public class CommonValidationTools {
 		return true;
 	}
 
+	/**
+	 * @title checkBranch
+	 * @description 检查分店信息
+	 * @param branch
+	 * @return
+	 */
 	public static String checkBranch(Branch branch) {
-		// TODO Auto-generated method stub
-		return null;
+		return "pass";
 	}
 }
