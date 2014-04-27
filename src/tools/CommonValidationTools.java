@@ -16,6 +16,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import branch.Branch;
+import branch.BranchClass;
 import album.Album;
 import album.AlbumClass;
 import article.Article;
@@ -499,5 +501,20 @@ public class CommonValidationTools {
 	 */
 	public static boolean checkLotteryWheel(LotteryWheel wheel){
 		return true;
+	}
+    
+	/**
+	 * @title checkBranchClass
+	 * @description 检查分店类别信息
+	 * @param branchClass
+	 * @return
+	 */
+	public static boolean checkBranchClass(BranchClass branchClass) {
+		return true;
+	}
+
+	public static String checkBranch(Branch branch) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

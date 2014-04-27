@@ -22,5 +22,8 @@
     <bean id="InviteDAO" class="register.dao.InviteDAO">
         <property name="dataSource"  ref="dataSource" />
     </bean>
+    <bean id="RoleInfoDAO" class="register.dao.RoleInfoDAO">
+        <property name="dataSource"  ref="dataSource" />
+    </bean>
       
 </beans>

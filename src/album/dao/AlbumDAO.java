@@ -782,7 +782,7 @@ public class AlbumDAO {
 	
 	/**
 	 * @title getDetailedAlbuminfos
-	 * @description 根据appid查询相册详细信息 (albumid, albumName, coverPic, createTime, albumCount)
+	 * @description 根据appid查询相册详细信息 (albumid, albumName, coverPic, createTime, photoCount)
 	 * 并根据createTime字段降序排序取出
 	 * @param appid
 	 * @return
