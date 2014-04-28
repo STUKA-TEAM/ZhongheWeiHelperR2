@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="zhonghe">
+
+    <title>Elove</title>
+    
+    <!-- 微喜帖css -->
+    <link href="./css/customer/bootstrap.min.css" rel="stylesheet">
+    <link href="./css/customer/store-domain-real.css" rel="stylesheet">
+  </head>
+  <body>
+    <div id='mySwipe' class='swipe'>
+      <div class='swipe-wrap'>
+        <div><img src = './img/store_domain/1.jpg' class="img-responsive center-block"></div>
+        <div><img src = './img/store_domain/2.jpg' class="img-responsive center-block"></div>
+        <div><img src = './img/store_domain/3.jpg' class="img-responsive center-block"></div>
+        <div><img src = './img/store_domain/4.jpg' class="img-responsive center-block"></div>
+        <div><img src = './img/store_domain/5.jpg' class="img-responsive center-block"></div>
+      </div>
+      <nav id="position" class="images-pointer">
+        <a class="on"></a>
+        <a class="off"></a>
+        <a class="off"></a>
+        <a class="off"></a>
+      </nav>
+    </div>
+
+    <script type="text/javascript" src="js/customer/jquery-1.10.2.min.js"></script>
+    <script src="js/customer/swipe.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function(){
+        var elem = document.getElementById('mySwipe');
+        selectedId = 0;
+        window.mySwipe = Swipe(elem, {
+          // startSlide: 4,
+          auto: 4000,
+          continuous: true,
+          // disableScroll: true,
+          // stopPropagation: true,
+          callback: function(index, element) {
+            var children = $("#position").children();
+            //alert(childNodes.length);
+            children[selectedId].className = 'off';
+            selectedId = index;
+            children[selectedId].className = 'on';
+          },
+          // transitionEnd: function(index, element) {}
+        });
+    });
+    </script>
+  </body>
+</html>

@@ -45,22 +45,24 @@ a:hover {
 .store-image {
   display: inline-block;
   width: 30%;
-  vertical-align: top;
+  max-height: 96px;
+  vertical-align: middle;
 }
 .store-text {
   display: inline-block;
   text-align: left;
-  vertical-align: top;
+  vertical-align: middle;
 }
 .store-nav {
   display: inline-block;
   width: 23%;
   border-left: solid 1px #eee;
+  padding-top: 5px;
 }
 .store-nav-image {
   display: inline-block;
-  width: 32px;
-  height: 32px;
+  width: 20px;
+  height: 20px;
 }
 .store-nav-text {
   display: inline-block;
