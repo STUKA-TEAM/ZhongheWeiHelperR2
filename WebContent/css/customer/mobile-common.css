@@ -96,7 +96,7 @@ a:focus.noneStyleLinkGray{
 .swipe-wrap {
   overflow: hidden;
   position: relative;
-  max-width: 3600px;
+  max-width: 36000px;
 }
 .swipe-wrap > div {
   float:left;
@@ -143,21 +143,21 @@ overflow: hidden;
 margin-top:20px;
 font-size:12px;
 }
-.nav-bar {
+.nav-bar-circle {
   position: fixed;
   bottom: 10px;
   left: 10px;
-  width: 32px;
-  height: 32px;
-  z-index: 2px;
+  width: 40px;
+  height: 40px;
+  z-index: 1080px;
 }
 .nav-item-home,
 .nav-item-gps,
 .nav-item-phone,
 .nav-item-share {
   position: fixed;
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
   z-index: -1px;
 }
 .nav-item-home {

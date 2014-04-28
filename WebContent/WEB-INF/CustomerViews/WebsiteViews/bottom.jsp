@@ -15,7 +15,7 @@
     <div id="nav-item" class="nav-item-share">
       <a onclick="switch_guide('#guide_bg','#guide_img')"><img src="img/website-nav/nav-share.png" class="img-responsive"></a>
     </div>
-    <div class="nav-bar">
+    <div class="nav-bar-circle">
       <img src="img/website-nav/nav-bar.png" class="img-responsive">
     </div>
     <div id="guide_bg" class="guide hidden" onclick="close_guide('#guide_bg','#guide_img')">
