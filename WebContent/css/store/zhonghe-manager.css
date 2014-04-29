@@ -229,3 +229,10 @@ fieldset[disabled] .btn-user.active {
 .operationButton{
   margin: 2px;
 }
+.dishes-type-select {
+  width: 250px;
+}
+.dish-pic-preview {
+  width: 128px;
+  height: auto;
+}
