@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE html>
@@ -62,7 +61,7 @@
     <script type="text/javascript">
       var myScroll;
       function loaded() {
-        myScroll = new iScroll('wrapper');
+        myScroll = new iScroll('wrapper', {hScrollbar:false, vScrollbar:false});
       }
       document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
       document.addEventListener('DOMContentLoaded', loaded, false);

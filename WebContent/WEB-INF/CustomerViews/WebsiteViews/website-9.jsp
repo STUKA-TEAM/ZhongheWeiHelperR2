@@ -12,43 +12,31 @@
     <c:set var="request" value="${pageContext.request}" />
     <base href="${fn:replace(request.requestURL, request.requestURI, request.contextPath)}/" />
     <title>${website.title}</title>
-    <link href="css/customer/bootstrap.min.css" rel="stylesheet">
-    <link href="css/customer/wei-website-1-a.css" rel="stylesheet">
-    <link href="css/customer/mobile-common.css" rel="stylesheet">
-    <link href="./css/customer/wei-website-modulelist.css" rel="stylesheet">
+    <link href="./css/customer/bootstrap.min.css" rel="stylesheet">
+    <link href="./css/customer/mobile-common.css" rel="stylesheet">
+    <link href="./css/customer/wei-website-d-common.css" rel="stylesheet">
   </head>
   <body>
-      <div id='mySwipe' class='swipe'>
+      <div id='mySwipe' class='swipe swipe-bg'>
         <div class='swipe-wrap'>
         <c:forEach items="${images}" var="image">
-          <div><img src = '${image}_standard.jpg' class="img-responsive center-block"></div>
+          <div><img src = '${image}_original.jpg' class="img-responsive img-responsive img-swipe center-block"></div>
         </c:forEach>
         </div>
-        <nav id="position" class="images-pointer">
-          <c:forEach var="x" begin="1" end="${images.size()}" step="1">
-          <c:if test="${x=='1'}">
-          <a class="on"></a>
-          </c:if>
-          <c:if test="${x!='1'}">
-          <a class="off"></a>
-          </c:if>
-          </c:forEach>
-        </nav>
       </div>
-    <div class="website-content">
-      <div class="contentlist">
+    <div class="container content" id="module-list">
+      <div class="contentlist clearfix">
       <c:forEach items="${nodes}" var="item">
-          <div class="contentlist-item">
-            <a href="customer/website/resources?nodeid=${item.nodeid}" class="noneStyleLinkGray">
-            <div class="imgContainer"><c:if test="${item.nodePic!=''&&item.nodePic!=null}"><img src="${item.nodePic}_original.jpg" class="img-responsive"></c:if></div>
-            <p class="contentlist-text">${item.nodeName}</p>
-            </a>
-          </div>
+        <div class="contentlist-item">
+          <a href="customer/website/resources?nodeid=${item.nodeid}" class="noneStyleLinkWhite">${item.nodeName}</a>
+        </div>
       </c:forEach>
       </div>
     </div>
-    <%@ include file="../CommonViews/weifooter.jsp"%>   
     <%@ include file="bottom.jsp"%>
+    <div id="guide_bg" class="guide hidden" onclick="close_guide('#guide_bg','#guide_img')">
+        <img id="guide_img" class="guide-pic img-responsive hidden" src="img/common/guide.png"/>
+    </div> 
     <script type="text/javascript" src="js/customer/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="js/customer/jQueryRotateCompressed.js"></script>
     <script type="text/javascript" src="js/customer/mobile-common.js"></script>
@@ -58,19 +46,9 @@
         var elem = document.getElementById('mySwipe');
         selectedId = 0;
         window.mySwipe = Swipe(elem, {
-          // startSlide: 4,
+          startSlide: 0,
           auto: 4000,
           continuous: true,
-          // disableScroll: true,
-          // stopPropagation: true,
-          callback: function(index, element) {
-            var children = $("#position").children();
-            //alert(childNodes.length);
-            children[selectedId].className = 'off';
-            selectedId = index;
-            children[selectedId].className = 'on';
-          },
-          // transitionEnd: function(index, element) {}
         });
     }
     );
@@ -82,6 +60,6 @@
     shareInfo.link = '${message.appLink}';
     shareInfo.desc = '${message.shareContent}';
     shareInfo.title = '${message.shareTitle}';
-    </script>
+    </script>  
   </body>
 </html>

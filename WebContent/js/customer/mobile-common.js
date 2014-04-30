@@ -10,7 +10,7 @@ var close_guide = function(bg, img){
 };
 
 var flag = true;
-    $(".nav-bar").click(function(){
+    $(".nav-bar-circle").click(function(){
       if(flag){
         $(".nav-item-home").animate({
           bottom:'112px',

@@ -1,0 +1,69 @@
+html, header, body {
+  max-width: 360px;
+  background-color: #E8E7E4;
+  font-family:"Microsoft YaHei";
+  color: #666666;
+}
+div {
+  max-width: 360px;
+  text-align: center; 
+}
+h4 {
+  font-family:"Microsoft YaHei";
+  padding-left: 20px;
+  margin-bottom: 2px;
+  color: #000000;
+}
+h5 {
+  font-family:"Microsoft YaHei";
+  padding: 5px 0 15px 0;
+  color: #000000;
+}
+a,
+a:hover {
+  color: #666666;
+  text-decoration: none;
+}
+.store-model {
+  background-color: #ffffff;
+  margin: 10px auto;
+  border-radius: 5px;
+  box-shadow: 5px 5px 2px #888888;
+}
+.store-model-content {
+  width: 100%;
+  text-align: left;
+  padding: 5px;
+}
+.store-model-footer {
+  width: 100%;
+  margin: auto;
+  text-align: left;
+  clear: both;
+  border-top: solid 1px #eee;
+}
+.store-image {
+  display: inline-block;
+  width: 30%;
+  max-height: 96px;
+  vertical-align: middle;
+}
+.store-text {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+}
+.store-nav {
+  display: inline-block;
+  width: 23%;
+  border-left: solid 1px #eee;
+  padding-top: 5px;
+}
+.store-nav-image {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+}
+.store-nav-text {
+  display: inline-block;
+}

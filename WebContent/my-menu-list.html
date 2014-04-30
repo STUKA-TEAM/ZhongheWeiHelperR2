@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="zhonghe">
+
+    <title>Elove</title>
+    
+    <!-- 微喜帖css -->
+    <link href="./css/customer/bootstrap.min.css" rel="stylesheet">
+    <link href="css/customer/mobile-common.css" rel="stylesheet">
+    <link href="./css/customer/menu-list.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container">
+      <div class="menu-list-model">
+        <h4>我的菜单</h4>
+        <div class="table-responsive">
+          <table class="table">
+            <tbody>
+              <tr>
+                <td>海逸海鲜酒店(古北店)</td>
+                <td><button type="button" class="btn btn-sm btn-info">查看</button></td>
+              </tr>
+              <tr>
+                <td>海逸海鲜酒店(滨江店)</td>
+                <td><button type="button" class="btn btn-sm btn-info">查看</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div id="nav-item" class="nav-item-home">
+      <a href='customer/website/home?websiteid=${website.websiteid}'><img src="img/website-nav/nav-home.png" class="img-responsive"></a>
+    </div>
+    <div id="nav-item" class="nav-item-phone">
+      <a href='tel:${website.phone}'><img src="img/website-nav/nav-phone.png" class="img-responsive"></a>
+    </div>
+    <div id="nav-item" class="nav-item-gps">
+      <a href='http://api.map.baidu.com/marker?location=${website.lat},${website.lng}&amp;title=${website.address}&amp;name=${website.address}&amp;content=${website.address}&amp;output=html'><img src="img/website-nav/nav-gps.png" class="img-responsive"></a>
+    </div>
+    <div id="nav-item" class="nav-item-share">
+      <a onclick="switch_guide('#guide_bg','#guide_img')"><img src="img/website-nav/nav-share.png" class="img-responsive"></a>
+    </div>
+    <div class="nav-bar-circle">
+      <img src="img/website-nav/nav-bar.png" class="img-responsive">
+    </div>
+
+    <script type="text/javascript" src="js/customer/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="js/customer/jQueryRotateCompressed.js"></script>
+    <script type="text/javascript" src="js/customer/mobile-common.js"></script>
+
+  </body>
+</html>
