@@ -1,0 +1,18 @@
+html, header, body {
+  max-width: 360px;
+  background-color: #E8E7E4;
+  font-family:"Microsoft YaHei";
+  color: #666666;
+  background-color: #eee;
+}
+div {
+  max-width: 360px;
+  text-align: left; 
+}
+.menu-list-model {
+  background-color: #fff;
+  width: 100%;
+  border: solid #aaa 1px;
+  border-radius: 3px;
+  padding: 5px 10px;
+}

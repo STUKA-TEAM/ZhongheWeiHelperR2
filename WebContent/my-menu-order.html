@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="zhonghe">
+
+    <title>Elove</title>
+    
+    <!-- 微喜帖css -->
+    <link href="./css/customer/bootstrap.min.css" rel="stylesheet">
+    <link href="css/customer/mobile-common.css" rel="stylesheet">
+    <link href="./css/customer/menu-order.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container">
+      <div class="menu-info clearfix">
+        <p class="menu-info-text pull-left">请叫服务员下单</p>
+        <p class="menu-info-price pull-right">2568元</p>
+        <p class="menu-info-text pull-right">共计： </p>
+      </div>
+      <div class="menu-order-model">
+        <h5 class="menu-title">我的菜单<br><small>海逸海鲜酒店(古北店)</small></h5>
+        <div class="menu-btn-group">
+          <button type="button" class="btn btn-xs btn-success"><span class="glyphicon glyphicon-plus"></span> 加菜</button>
+          <button type="button" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-trash"></span> 清空</button>
+        </div>
+        <div class="menu-type">
+          <h5>白酒</h5>
+          <div class="menu-dish">
+            <h5 class="menu-dish-info">洋河蓝色经典<br><small>288远/瓶</small></h5>
+            <div class="dishes-num">
+              <img alt="1" src="./img/icon_lib/round_minus.png" class="dishes-num-minus"/>
+              <div id="count_1" class="dishes-num-count">99</div>
+              <img alt="1" src="./img/icon_lib/round_plus.png" class="dishes-num-plus"/>
+            </div>
+          </div>
+          <div class="menu-dish">
+            <h5 class="menu-dish-info">洋河蓝色经典<br><small>288远/瓶</small></h5>
+            <div class="dishes-num">
+              <img alt="2" src="./img/icon_lib/round_minus.png" class="dishes-num-minus"/>
+              <div id="count_2" class="dishes-num-count">99</div>
+              <img alt="2" src="./img/icon_lib/round_plus.png" class="dishes-num-plus"/>
+            </div>
+          </div>
+          <div class="menu-dish">
+            <h5 class="menu-dish-info">洋河蓝色经典<br><small>288远/瓶</small></h5>
+            <div class="dishes-num">
+              <img alt="3" src="./img/icon_lib/round_minus.png" class="dishes-num-minus"/>
+              <div id="count_3" class="dishes-num-count">99</div>
+              <img alt="3" src="./img/icon_lib/round_plus.png" class="dishes-num-plus"/>
+            </div>
+          </div>
+        </div>
+
+        <div class="menu-type">
+          <h5>白酒</h5>
+          <div class="menu-dish">
+            <h5 class="menu-dish-info">洋河蓝色经典<br><small>288远/瓶</small></h5>
+            <div class="dishes-num">
+              <img alt="1" src="./img/icon_lib/round_minus.png" class="dishes-num-minus"/>
+              <div id="count_1" class="dishes-num-count">99</div>
+              <img alt="1" src="./img/icon_lib/round_plus.png" class="dishes-num-plus"/>
+            </div>
+          </div>
+          <div class="menu-dish">
+            <h5 class="menu-dish-info">洋河蓝色经典<br><small>288远/瓶</small></h5>
+            <div class="dishes-num">
+              <img alt="2" src="./img/icon_lib/round_minus.png" class="dishes-num-minus"/>
+              <div id="count_2" class="dishes-num-count">99</div>
+              <img alt="2" src="./img/icon_lib/round_plus.png" class="dishes-num-plus"/>
+            </div>
+          </div>
+          <div class="menu-dish">
+            <h5 class="menu-dish-info">洋河蓝色经典<br><small>288远/瓶</small></h5>
+            <div class="dishes-num">
+              <img alt="3" src="./img/icon_lib/round_minus.png" class="dishes-num-minus"/>
+              <div id="count_3" class="dishes-num-count">99</div>
+              <img alt="3" src="./img/icon_lib/round_plus.png" class="dishes-num-plus"/>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button type="button" class="btn btn-success btn-share">分享给好友</button>
+    <div id="nav-item" class="nav-item-home">
+      <a href='customer/website/home?websiteid=${website.websiteid}'><img src="img/website-nav/nav-home.png" class="img-responsive"></a>
+    </div>
+    <div id="nav-item" class="nav-item-phone">
+      <a href='tel:${website.phone}'><img src="img/website-nav/nav-phone.png" class="img-responsive"></a>
+    </div>
+    <div id="nav-item" class="nav-item-gps">
+      <a href='http://api.map.baidu.com/marker?location=${website.lat},${website.lng}&amp;title=${website.address}&amp;name=${website.address}&amp;content=${website.address}&amp;output=html'><img src="img/website-nav/nav-gps.png" class="img-responsive"></a>
+    </div>
+    <div id="nav-item" class="nav-item-share">
+      <a onclick="switch_guide('#guide_bg','#guide_img')"><img src="img/website-nav/nav-share.png" class="img-responsive"></a>
+    </div>
+    <div class="nav-bar-circle">
+      <img src="img/website-nav/nav-bar.png" class="img-responsive">
+    </div>
+
+    <script type="text/javascript" src="js/customer/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="js/customer/jQueryRotateCompressed.js"></script>
+    <script type="text/javascript" src="js/customer/mobile-common.js"></script>
+    <script type="text/javascript">
+      $(".dishes-num-plus").click(function(){
+        var dish_id = $(this).attr("alt");
+        var count = parseInt($("#count_"+dish_id).text());
+        $("#count_"+dish_id).text(count+1);
+      });
+      $(".dishes-num-minus").click(function(){
+        var dish_id = $(this).attr("alt");
+        var count = parseInt($("#count_"+dish_id).text());
+        $("#count_"+dish_id).text(count==0?0:count-1);
+      });
+    </script>
+  </body>
+</html>

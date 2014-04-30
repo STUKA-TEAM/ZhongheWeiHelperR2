@@ -1,5 +1,6 @@
 html, header, body {
   max-width: 360px;
+  min-height: 516px;
   font-family:"Microsoft YaHei";
 }
 body {
@@ -42,7 +43,4 @@ div {
 }
 .swipe-bg {
   z-index: -2px;
-}
-.img-swipe {
-  height: 100%;
 }
