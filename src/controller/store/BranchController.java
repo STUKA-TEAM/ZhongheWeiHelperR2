@@ -78,9 +78,10 @@ public class BranchController {
 		allType.setClassid(0);
 		allType.setClassName("所有类别");
 		classList.add(0, allType);
-		for (int i = 0; i < classList.size(); i++) {
-			if (classid == classList.get(i).getClassid()) {
-				classList.get(i).setSelected(true);
+		for (int i = 0, j = classList.size(); i < j; i++) {
+			BranchClass branchClass = classList.get(i);
+			if (classid == branchClass.getClassid()) {
+				branchClass.setSelected(true);
 				break;
 			}
 		}
@@ -152,7 +153,7 @@ public class BranchController {
 		}
 		List<BranchClass> classList = branchDao.getBasicClassinfos(user.getSid());
 		if (selectedList != null) {
-			for (int i = 0; i < classList.size(); i++) {
+			for (int i = 0, j = classList.size(); i < j; i++) {
 				BranchClass branchClass = classList.get(i);
 				if (selectedList.contains(branchClass.getClassid())) {
 					branchClass.setSelected(true);

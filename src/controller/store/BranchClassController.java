@@ -119,7 +119,7 @@ public class BranchClassController {
 		}
 		List<Branch> branchList = branchDao.getBasicBranchinfos(user.getSid());
 		if (selectedList != null) {
-			for (int i = 0; i < branchList.size(); i++) {
+			for (int i = 0, j = branchList.size(); i < j; i++) {
 				Branch branch = branchList.get(i);
 				if (selectedList.contains(branch.getBranchSid())) {
 					branch.setSelected(true);

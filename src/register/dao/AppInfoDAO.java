@@ -387,11 +387,10 @@ public class AppInfoDAO {
 	public int checkAppExistsByUser(int sid, String appid){
 		String SQL = "SELECT COUNT(*) FROM storeuser_application WHERE sid = ? AND appid = ?";
 		int count = 0;
-		
 		try {
 			count = jdbcTemplate.queryForObject(SQL, Integer.class, sid, appid);
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println("checkAppExistsByUser: " + e.getMessage());
 		}
 		return count;
 	}

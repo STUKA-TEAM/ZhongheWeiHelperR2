@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import lottery.dao.LotteryWheelDAO;
 import menu.dao.MenuDAO;
 import message.ResponseMessage;
+import order.dao.DishDAO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -270,6 +271,7 @@ public class BasicController {
 		AlbumDAO albumDao = (AlbumDAO) context.getBean("AlbumDAO");
 		VoteDAO voteDao = (VoteDAO) context.getBean("VoteDAO");
 		LotteryWheelDAO wheelDao = (LotteryWheelDAO) context.getBean("LotteryWheelDAO");
+		DishDAO dishDao = (DishDAO) context.getBean("DishDAO");
 		((ConfigurableApplicationContext)context).close();
 		
 		Gson gson = new Gson();
@@ -330,6 +332,12 @@ public class BasicController {
 				
 				//lotterywheel
 				wheelDao.deleteWheel(appid);
+				
+				//dish
+				dishDao.deleteDish(appid);
+				
+				//dishclass
+				dishDao.deleteDishClass(appid);
 				
 				message.setStatus(true);
 				message.setMessage("删除成功！");

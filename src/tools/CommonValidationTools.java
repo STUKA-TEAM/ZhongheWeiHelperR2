@@ -11,6 +11,8 @@ import java.util.regex.Pattern;
 
 import lottery.LotteryWheel;
 import menu.Menu;
+import order.Dish;
+import order.DishClass;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -521,5 +523,25 @@ public class CommonValidationTools {
 	 */
 	public static String checkBranch(Branch branch) {
 		return "pass";
+	}
+
+	/**
+	 * @title checkDishClass
+	 * @description 检查菜品类别信息
+	 * @param dishClass
+	 * @return
+	 */
+	public static boolean checkDishClass(DishClass dishClass) {
+		return true;
+	}
+
+	/**
+	 * @title checkDish
+	 * @description 检查菜品信息
+	 * @param dish
+	 * @return
+	 */
+	public static boolean checkDish(Dish dish) {
+		return true;
 	}
 }
