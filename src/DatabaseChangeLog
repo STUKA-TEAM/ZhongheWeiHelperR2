@@ -123,6 +123,27 @@ Windows:
             contact      varchar(14)  No                                No                  联系方式
             openid       varchar(32)  No                                No                  中奖标识
 [2014-4-21][index: 0028]表elove修改createTime字段  默认值改为0000-00-00 00:00:00
+[2014-4-23][index: 0029]表menu_node修改nodeLink字段 Length由150改为256
+[2014-4-23][index: 0030]表role添加roleLabel字段     type: varchar(50)  NULL: No  Default: (空)  Comment: 角色标签     Position: After "roleName"
+[2014-4-27][index: 0031]添加表branchclass
+            Name         Type         NULL       Default                Primary Key         Comment
+        ---------------------------------------------------------------------------------------------------------------------------------
+            classid      int(11)      No         <auto_increment>       Yes                 分店类别id
+            storeSid     int(11)      No         0                      No                  分店类别所属商家id
+            className    varchar(40)  No                                No                  分店类别名称
+            createTime   timestamp    No         0000-00-00 00:00:00    No                  分店类别创建时间
+[2014-4-27][index: 0032]添加表branch_branchclass
+            Name         Type         NULL       Default                Primary Key         Comment
+        ---------------------------------------------------------------------------------------------------------------------------------
+            id           int(11)      No         <auto_increment>       Yes                 
+            branchSid    int(11)      No         0                      No                  分店id
+            classid      int(11)      No         0                      No                  分店类别id
+[2014-4-27][index: 0033]添加表branch_store
+            Name         Type         NULL       Default                Primary Key         Comment
+        ---------------------------------------------------------------------------------------------------------------------------------
+            id           int(11)      No         <auto_increment>       Yes                 
+            branchSid    int(11)      No         0                      No                  分店id
+            storeSid     int(11)      No         0                      No                  分店所属商家id
 
 Linux:
 [2014-2-22][index: 0001]done
@@ -153,3 +174,4 @@ Linux:
 [2014-4-02][index: 0026]done
 [2014-4-02][index: 0027]done
 [2014-4-02][index: 0028]done
+[2014-4-03][index: 0029]done

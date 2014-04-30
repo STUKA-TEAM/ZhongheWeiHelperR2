@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="zhonghe">
+    <title>众合微信公共账号管理平台</title>
+    <!-- Bootstrap core CSS -->
+    <link href="./css/store/bootstrap.min.css" rel="stylesheet">
+    <link href="./css/store/zhonghe-wechat.css" rel="stylesheet">
+    <link href="./css/store/zhonghe-manager.css" rel="stylesheet">
+    <link rel="shortcut icon" href="./img/favicon.png">
+  </head>
+  <body>
+    <!-- Fixed navbar -->
+    <div class="navbar navbar-default navbar-white navbar-static-top">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#"><img src="./img/logo.png" alt="Zhonghe Software" /></a>
+      </div>
+      <div class="navbar-collapse collapse">
+        <div class="btn-group navbar-right nav-user">
+          <button type="button" class="btn btn-user dropdown-toggle" data-toggle="dropdown">
+          <span class="glyphicon glyphicon-user"></span>  用户名 <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <li><a href="#">设置</a></li>
+            <li class="divider"></li>
+            <li><a href="#">退出</a></li>
+          </ul>
+        </div>
+      </div><!--/.nav-collapse -->
+    </div><!-- navbar -->
+
+
+    <div class="row">
+      <div class="col-md-2 sidebar">
+        <div class="container account-change">
+          <p><strong>当前正在管理的微信账号</strong></p>
+          <p>公共账号1</p>
+          <p><strong>切换至其他公共账号</strong></p>
+          <form>
+            <select class="form-control account-select">
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+            </select>
+          </form>
+        </div>
+        <ul class="nav nav-pills nav-stacked">
+          <li><a href="./manager.html">账号管理</a></li>
+          <li><a href="./elove.html">Elove管理</a></li>
+          <li><a data-toggle="collapse" data-toggle="collapse" href="#collapseOne">微官网</a>
+            <div id="collapseOne" class="panel-collapse collapse in">
+              <ul class="nav submenu">
+                <li><a href="./paper-manager.html">文章管理</a></li>
+                <li><a href="./paper-type-manager.html">文章类别管理</a></li>
+                <li><a href="./album-manager.html">相册管理</a></li>
+                <li><a href="./album-set-manager.html">相册集管理</a></li>
+                <li><a href="./lottery-mobile-manage.html">大转盘</a></li>
+                <li><a data-toggle="collapse" data-toggle="collapse" href="#collapse_branch">分店管理</a>
+                  <div id="collapse_branch" class="panel-collapse collapse">
+                    <ul class="nav submenu-two">
+                      <li><a href="./branch-manager.html">分店维护</a></li>
+                      <li><a href="./branch-domain.html">分店区域划分</a></li>
+                    </ul>
+                  </div>
+                </li>
+                <li class="active"><a href="./dishes-manage.html">菜品管理</a></li>
+                <li><a href="./dishes-type-manage.html">菜品类别管理</a></li>
+                <li><a href="./website-manager.html">微官网配置</a></li>
+              </ul>
+            </div>
+          </li>
+          <li><a href="./elove.html">Elove管理</a></li>
+        </ul>
+      </div>    
+      <div class="col-md-10 manager-content">
+        <ol class="breadcrumb">
+          <li><a href="#">微官网</a></li>
+          <li class="active">菜品管理</li>
+        </ol>
+        <div class="row website-tab">
+          <div class="album-btn-group clearfix col-md-offset-1">
+            <a class="btn btn-info pull-left btn-margin" href="./dishes-create.html">新建菜品</a>
+            <select class="form-control dishes-type-select">
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+            </select>
+          </div>
+          <div class="col-md-10 col-md-offset-1">
+            <table class="table table-striped table-bordered">
+              <thead>
+                <tr>
+                  <th>创建时间</th>
+                  <th>菜品名称</th>
+                  <th>菜品图片</th>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>2014-1-23 22:59:33</td>
+                  <td>三文鱼拼北极贝</td>
+                  <td><img src="./img/yuxiangrousi.png" class="dish-pic-preview" /></td>
+                  <td><a class="btn btn-sm btn-info" href="./dishes-edit.html">编辑</a></td>
+                  <td><a class="btn btn-sm btn-danger">删除</a></td>
+                </tr>
+                <tr>
+                  <td>2014-1-23 22:59:33</td>
+                  <td>松茸菌炖辽蔘</td>
+                  <td>未添加</td>
+                  <td><a class="btn btn-sm btn-info" href="./dishes-edit.html">编辑</a></td>
+                  <td><a class="btn btn-sm btn-danger">删除</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="footer">
+      <div class="container text-center">
+        <p class="text-muted credit">Copyright ? 2013 zhonghesoftware.com All Rights Reserved. 众合网络科技有限公司 版权所有</p>
+      </div>
+    </div><!-- footer -->
+
+    <!-- include jQuery + carouFredSel plugin -->
+    <script type="text/javascript" src="./js/store/jquery-1.10.2.min.js"></script>
+    <script src="./js/store/bootstrap.min.js"></script>
+  </body>
+</html>

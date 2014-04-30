@@ -1,10 +1,11 @@
 1. role表导入数据
     default:
-        id      roleName
-    -------------------------    
-        1		CUSTOMER
-        2	    ADMINISTRATOR
-        3       AGENT
+        id      roleName          roleLabel
+    ----------------------------------------------    
+        1		CUSTOMER          商家
+        2	    ADMINISTRATOR     管理员
+        3       AGENT             代理
+        4       BRANCHREST        餐饮类分店
 
 2. authority表导入数据
     default:

@@ -24,50 +24,46 @@ a:hover {
   color: #666666;
   text-decoration: none;
 }
-.article-model {
+.store-model {
   background-color: #ffffff;
-  min-width: 250px;
   margin: 10px auto;
   border-radius: 5px;
   box-shadow: 5px 5px 2px #888888;
 }
-.article-model-header {
+.store-model-content {
   width: 100%;
   text-align: left;
-  padding-top: 10px;
+  padding: 5px;
 }
-.article-model-header > small {
-  color: #999999;
-  font-size: 14px;
-  font-family:"Microsoft YaHei";
-  padding-left: 20px;
-}
-.article-model-content {
-  width: 100%;
-  text-align: center;
-  padding: 5px 20px;
-  color: #000000;
-}
-.article-model-content > p {
-  width: 90%;
-}
-.article-model-footer {
-  width: 90%;
-  margin: auto;
-  border-top-style: solid;
-  border-top-color: #666666;
-  border-top-width: 1px;
-  text-align: left;
-}
-.article-image,
-.article-text {
+.store-model-footer {
   width: 100%;
   margin: auto;
-}
-.article-text {
   text-align: left;
+  clear: both;
+  border-top: solid 1px #eee;
 }
-.article-detail {
-  background-color: #f4f4f4;
+.store-image {
+  display: inline-block;
+  width: 30%;
+  max-height: 96px;
+  vertical-align: middle;
+}
+.store-text {
+  display: inline-block;
   text-align: left;
+  vertical-align: middle;
+}
+.store-nav {
+  display: inline-block;
+  width: 23%;
+  border-left: solid 1px #eee;
+  padding-top: 5px;
+}
+.store-nav-image {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+}
+.store-nav-text {
+  display: inline-block;
 }
