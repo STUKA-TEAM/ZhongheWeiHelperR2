@@ -1,0 +1,112 @@
+html, header, body, div {
+  max-width: 360px;
+  background-color: #eee;
+  font-family:"Microsoft YaHei";
+  color: #666;
+}
+a,
+a:hover {
+  color: #666;
+  text-decoration: none;
+}
+.sidebar {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  background-color: #ddd;
+  font-size: 12px;
+  text-align: right;
+  overflow-y: auto;
+  width: 68px;
+  z-index: 1;
+}
+.sidebar-nav {
+  list-style: none;
+  padding: 0;
+}
+.sidebar-nav > li {
+  padding: 5px 10px;
+}
+.sidebar-nav > li.active,
+.sidebar-nav > li:hover {
+  background-color: #bbb;
+  color: #eee;
+}
+.type-count {
+  position: absolute;
+  left: 50px;
+  margin-top: -5px;
+  z-index: 2;
+  width: 15px;
+  height: 15px;
+  background-color: #FF6600;
+  border-radius: 50%;
+  font-size: 8px;
+  color: #fff;
+  text-align: center;
+  opacity: 0.7;
+}
+.dishes-content {
+  width: 100%;
+  background-color: #eee;
+  z-index: 0;
+}
+.dishes-item {
+  margin-left: 70px;
+  border-bottom: solid #bbb 1px;
+}
+.dishes-item-img {
+  display: inline-block;
+  width: 64px;
+  height: 64px;
+  vertical-align: center;
+  margin-left: 10px;
+}
+.dishes-item-text {
+  display: inline-block;
+  vertical-align: top;
+  width: 40%;
+}
+.dishes-item-text > h5 {
+  font-family:"Microsoft YaHei";
+  color: #000;
+}
+.dishes-item-text > h5 > small {
+  color: #FF0000;
+}
+.good {
+  font-size: 10px;
+  color: #aaa;
+  clear: both;
+}
+.good > img {
+  float: left;
+  width: 16px;
+  height: 16px;
+}
+.good > img {
+  float: left;
+}
+.dishes-num {
+  display: inline-block;
+  vertical-align: center;
+  width: 25%;
+}
+.dishes-num-minus,
+.dishes-num-plus {
+  display: inline-block;
+  vertical-align: center;
+  width: 16px;
+  height: 16px;
+}
+.dishes-num-count {
+  display: inline-block;
+  vertical-align: center;
+  width: 20px;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+  border: solid #aaa 1px;
+  border-radius: 2px;
+}
