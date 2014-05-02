@@ -1,24 +1,24 @@
 Windows:
-[2014-1-31][index: 0001]表website删除rootNodeId字段
-[2014-1-31][index: 0002]表website_node添加websiteid字段     type: int(11)  NULL: No  Default: 0  Comment: 微官网id  
-[2014-1-31][index: 0003]添加表website_nodetree 
+[2014-01-31][index: 0001]表website删除rootNodeId字段
+[2014-01-31][index: 0002]表website_node添加websiteid字段     type: int(11)  NULL: No  Default: 0  Comment: 微官网id  
+[2014-01-31][index: 0003]添加表website_nodetree 
             Name         Type         NULL       Default                Primary Key         Comment
         ---------------------------------------------------------------------------------------------------------------------------------
             id           int(11)      No         <auto_increment>       Yes                 
             nodeid       int(11)      No         0                      No                  节点id
             childid      int(11)      No         0                      No                  子节点id (子节点： node|article|articleclass)
-[2014-2-21][index: 0004]表website删除expiredTime字段
-[2014-2-22][index: 0005]添加表customer_contact
+[2014-02-21][index: 0004]表website删除expiredTime字段
+[2014-02-22][index: 0005]添加表customer_contact
             Name         Type         NULL       Default                Primary Key         Comment
         ---------------------------------------------------------------------------------------------------------------------------------
             id           int(11)      No         <auto_increment>       Yes                 
             sid          int(11)      No         0                      No                  商家id
             contact      varchar(14)  No                                No                  联系方式 (手机号)
-[2014-2-22][index: 0006]删除表website_node_acticle
-[2014-2-22][index: 0007]删除表website_node_acticleclass
-[2014-2-22][index: 0008]删除表website_node_structure
-[2014-2-22][index: 0009]表website_node修改childrenType字段  Length由10改为12
-[2014-3-19][index: 0010]添加表menu_node
+[2014-02-22][index: 0006]删除表website_node_acticle
+[2014-02-22][index: 0007]删除表website_node_acticleclass
+[2014-02-22][index: 0008]删除表website_node_structure
+[2014-02-22][index: 0009]表website_node修改childrenType字段  Length由10改为12
+[2014-03-19][index: 0010]添加表menu_node
             Name         Type         NULL       Default                Primary Key         Comment
         ---------------------------------------------------------------------------------------------------------------------------------
             nodeid       int(11)      No         <auto_increment>       Yes                 菜单节点id
@@ -26,20 +26,20 @@ Windows:
             nodeName     varchar(20)  No                                No                  节点名称
             nodeLink     varchar(150) Yes                               No                  节点链接
             nodeType     int(11)      No         0                      No                  1-一级菜单 || 2-二级菜单
-[2014-3-19][index: 0011]添加表menu_nodetree
+[2014-03-19][index: 0011]添加表menu_nodetree
             Name         Type         NULL       Default                Primary Key         Comment
         ---------------------------------------------------------------------------------------------------------------------------------
             id           int(11)      No         <auto_increment>       Yes                 
             nodeid       int(11)      No         0                      No                  菜单节点id
             childid      int(11)      No         0                      No                  子节点id
-[2014-3-21][index: 0012]表elove修改weddingDate字段  Length由15改为40
-[2014-3-21][index: 0013]添加表invite
+[2014-03-21][index: 0012]表elove修改weddingDate字段  Length由15改为40
+[2014-03-21][index: 0013]添加表invite
             Name         Type         NULL       Default                Primary Key         Comment
         ---------------------------------------------------------------------------------------------------------------------------------
             id           int(11)      No         <auto_increment>       Yes                 
             code         varchar(6)   No                                No                  注册码
-[2014-3-21][index: 0014]表website添加sharePic字段     type: varchar(80)  NULL: Yes  Default: NULL  Comment: 分享消息图片
-[2014-3-23][index: 0015]添加表album
+[2014-03-21][index: 0014]表website添加sharePic字段     type: varchar(80)  NULL: Yes  Default: NULL  Comment: 分享消息图片
+[2014-03-23][index: 0015]添加表album
             Name         Type         NULL       Default                Primary Key         Comment
         ---------------------------------------------------------------------------------------------------------------------------------
             albumid      int(11)      No         <auto_increment>       Yes                 相册id
@@ -47,30 +47,30 @@ Windows:
             albumName    varchar(40)  No                                No                  相册名称
             coverPic     varchar(80)  Yes        NULL                   No                  相册封面图片
             createTime   timestamp    No         0000-00-00 00:00:00    No                  相册创建时间
-[2014-3-24][index: 0016]添加表albumclass
+[2014-03-24][index: 0016]添加表albumclass
             Name         Type         NULL       Default                Primary Key         Comment
         ---------------------------------------------------------------------------------------------------------------------------------
             classid      int(11)      No         <auto_increment>       Yes                 相册集id
             appid        varchar(32)  No                                No                  UUID
             className    varchar(40)  No                                No                  相册集名称
             createTime   timestamp    No         0000-00-00 00:00:00    No                  相册集创建时间
-[2014-3-24][index: 0017]添加表album_image
+[2014-03-24][index: 0017]添加表album_image
             Name         Type         NULL       Default                Primary Key         Comment
         ---------------------------------------------------------------------------------------------------------------------------------
             id           int(11)      No         <auto_increment>       Yes                 
             albumid      int(11)      No         0                      No                  相册id
             imagePath    varchar(80)  No                                No                  照片路径
             imageDesc    varchar(300) Yes        NULL                   No                  照片描述信息
-[2014-3-24][index: 0018]添加表album_albumclass
+[2014-03-24][index: 0018]添加表album_albumclass
             Name         Type         NULL       Default                Primary Key         Comment
         ---------------------------------------------------------------------------------------------------------------------------------
             id           int(11)      No         <auto_increment>       Yes                 
             albumid      int(11)      No         0                      No                  相册id
             classid      int(11)      No         0                      No                  相册集id
-[2014-3-24][index: 0019]表articleclass修改className字段  Length由20改为40
-[2014-3-24][index: 0020]表website修改title字段  Length由30改为40
-[2014-3-24][index: 0021]表website_node修改nodeName字段  Length由20改为40
-[2014-3-25][index: 0022]添加表vote
+[2014-03-24][index: 0019]表articleclass修改className字段  Length由20改为40
+[2014-03-24][index: 0020]表website修改title字段  Length由30改为40
+[2014-03-24][index: 0021]表website_node修改nodeName字段  Length由20改为40
+[2014-03-25][index: 0022]添加表vote
             Name         Type         NULL       Default                Primary Key         Comment
         ---------------------------------------------------------------------------------------------------------------------------------
             voteid       int(11)      No         <auto_increment>       Yes                 投票id
@@ -81,7 +81,7 @@ Windows:
             coverPic     varchar(80)  Yes        NULL                   No                  封面图片
             maxSelected  int(11)      No         1                      No                  最大可选数
             count        int(11)      No         0                      No                  投票人数
-[2014-3-25][index: 0023]添加表vote_item
+[2014-03-25][index: 0023]添加表vote_item
             Name         Type         NULL       Default                Primary Key         Comment
         ---------------------------------------------------------------------------------------------------------------------------------
             itemid       int(11)      No         <auto_increment>       Yes                 选项id
@@ -89,14 +89,14 @@ Windows:
             itemName     varchar(80)  Yes        NULL                   No                  选项描述
             itemPic      varchar(80)  Yes        NULL                   No                  选项图片
             count        int(11)      No         0                      No                  投票人数
-[2014-3-25][index: 0024]添加表vote_user
+[2014-03-25][index: 0024]添加表vote_user
             Name         Type         NULL       Default                Primary Key         Comment
         ---------------------------------------------------------------------------------------------------------------------------------
             id           int(11)      No         <auto_increment>       Yes                 
             voteid       int(11)      No         0                      No                  投票id
             wechatOpenid varchar(28)  No                                No                  用户id
             contact      varchar(40)  Yes        NULL                   No                  联系方式
-[2014-3-29][index: 0025]添加表lotterywheel
+[2014-03-29][index: 0025]添加表lotterywheel
             Name         Type         NULL       Default                Primary Key         Comment
         ---------------------------------------------------------------------------------------------------------------------------------
             wheelid      int(11)      No         <auto_increment>       Yes                 抽奖id
@@ -107,7 +107,7 @@ Windows:
             wheelDesc    varchar(400) No                                No                  抽奖描述
             maxDayCount  int(11)      No         0                      No                  每天抽奖次数上限
             count        int(11)      No         0                      No                  累计抽奖次数
-[2014-3-29][index: 0026]添加表lotterywheel_item
+[2014-03-29][index: 0026]添加表lotterywheel_item
             Name         Type         NULL       Default                Primary Key         Comment
         ---------------------------------------------------------------------------------------------------------------------------------
             itemid       int(11)      No         <auto_increment>       Yes                 奖项id
@@ -115,63 +115,104 @@ Windows:
             itemDesc     varchar(40)  No                                No                  奖项描述
             itemCount    int(11)      No         0                      No                  奖品数量
             itemPercent  numeric(6,5) No         0.00000                No                  奖项中奖率
-[2014-3-29][index: 0027]添加表lotterywheel_result
+[2014-03-29][index: 0027]添加表lotterywheel_result
             Name         Type         NULL       Default                Primary Key         Comment
         ---------------------------------------------------------------------------------------------------------------------------------
             resultid     int(11)      No         <auto_increment>       Yes                 中奖id
             itemid       int(11)      No         0                      No                  奖项id
             contact      varchar(14)  No                                No                  联系方式
             openid       varchar(32)  No                                No                  中奖标识
-[2014-4-21][index: 0028]表elove修改createTime字段  默认值改为0000-00-00 00:00:00
-[2014-4-23][index: 0029]表menu_node修改nodeLink字段 Length由150改为256
-[2014-4-23][index: 0030]表role添加roleLabel字段     type: varchar(50)  NULL: No  Default: (空)  Comment: 角色标签     Position: After "roleName"
-[2014-4-27][index: 0031]添加表branchclass
+[2014-04-21][index: 0028]表elove修改createTime字段  默认值改为0000-00-00 00:00:00
+[2014-04-23][index: 0029]表menu_node修改nodeLink字段 Length由150改为256
+[2014-04-23][index: 0030]表role添加roleLabel字段     type: varchar(50)  NULL: No  Default: (空)  Comment: 角色标签     Position: After "roleName"
+[2014-04-27][index: 0031]添加表branchclass
             Name         Type         NULL       Default                Primary Key         Comment
         ---------------------------------------------------------------------------------------------------------------------------------
             classid      int(11)      No         <auto_increment>       Yes                 分店类别id
             storeSid     int(11)      No         0                      No                  分店类别所属商家id
             className    varchar(40)  No                                No                  分店类别名称
             createTime   timestamp    No         0000-00-00 00:00:00    No                  分店类别创建时间
-[2014-4-27][index: 0032]添加表branch_branchclass
+[2014-04-27][index: 0032]添加表branch_branchclass
             Name         Type         NULL       Default                Primary Key         Comment
         ---------------------------------------------------------------------------------------------------------------------------------
             id           int(11)      No         <auto_increment>       Yes                 
             branchSid    int(11)      No         0                      No                  分店id
             classid      int(11)      No         0                      No                  分店类别id
-[2014-4-27][index: 0033]添加表branch_store
+[2014-04-27][index: 0033]添加表branch_store
             Name         Type         NULL       Default                Primary Key         Comment
         ---------------------------------------------------------------------------------------------------------------------------------
             id           int(11)      No         <auto_increment>       Yes                 
             branchSid    int(11)      No         0                      No                  分店id
             storeSid     int(11)      No         0                      No                  分店所属商家id
+[2014-05-01][index: 0034]添加表dish
+            Name         Type         NULL       Default                Primary Key         Comment
+        ---------------------------------------------------------------------------------------------------------------------------------
+            dishid       int(11)      No         <auto_increment>       Yes                 菜品id
+            appid        varchar(32)  No                                No                  UUID
+            dishName     varchar(40)  No                                No                  菜品名称
+            createTime   timestamp    No         0000-00-00 00:00:00    No                  创建时间
+            dishPic      varchar(80)  Yes        <NULL>                 No                  菜品图片
+            dishDesc     varchar(300) Yes        <NULL>                 No                  菜品描述
+            price        int(11)      No         0                      No                  默认价格
+            dishUnit     varchar(10)  No                                No                  菜品单位
+            recomNum     int(11)      No         0                      No                  推荐人数
+[2014-05-01][index: 0035]添加表dishclass
+            Name         Type         NULL       Default                Primary Key         Comment
+        ---------------------------------------------------------------------------------------------------------------------------------
+            classid      int(11)      No         <auto_increment>       Yes                 菜品类别id
+            appid        varchar(32)  No                                No                  UUID
+            className    varchar(40)  No                                No                  菜品类别名称
+            createTime   timestamp    No         0000-00-00 00:00:00    No                  创建时间
+[2014-05-01][index: 0036]添加表dish_dishclass
+            Name         Type         NULL       Default                Primary Key         Comment
+        ---------------------------------------------------------------------------------------------------------------------------------
+            id           int(11)      No         <auto_increment>       Yes                 
+            dishid       int(11)      No         0                      No                  菜品id
+            classid      int(11)      No         0                      No                  菜品类别id
+[2014-05-01][index: 0037]添加表dish_branch
+            Name         Type         NULL       Default                Primary Key         Comment
+        ---------------------------------------------------------------------------------------------------------------------------------
+            id           int(11)      No         <auto_increment>       Yes                 
+            dishid       int(11)      No         0                      No                  菜品id
+            branchSid    int(11)      No         0                      No                  分店id
+            price        int(11)      No         0                      No                  价格
+            available    int(11)      No         0                      No                  是否供应
+[2014-05-01][index: 0038]添加表dish_order
+            Name         Type         NULL       Default                Primary Key         Comment
+        ---------------------------------------------------------------------------------------------------------------------------------
+            id           int(11)      No         <auto_increment>       Yes
+            openid       varchar(28)  No                                No                  用户标识
+            branchSid    int(11)      No         0                      No                  分店id
+            dishid       int(11)      No         0                      No                  菜品id  
+            count        int(11)      No         0                      No                  订菜份数
 
 Linux:
-[2014-2-22][index: 0001]done
-[2014-2-22][index: 0002]done  
-[2014-2-22][index: 0003]done 
-[2014-2-22][index: 0004]done
-[2014-2-22][index: 0005]done
-[2014-2-22][index: 0006]done
-[2014-2-22][index: 0007]done
-[2014-2-22][index: 0008]done
-[2014-2-22][index: 0009]done
-[2014-3-21][index: 0012]done
-[2014-4-02][index: 0010]done
-[2014-4-02][index: 0011]done
-[2014-4-02][index: 0013]done
-[2014-4-02][index: 0014]done
-[2014-4-02][index: 0015]done
-[2014-4-02][index: 0016]done
-[2014-4-02][index: 0017]done
-[2014-4-02][index: 0018]done
-[2014-4-02][index: 0019]done
-[2014-4-02][index: 0020]done
-[2014-4-02][index: 0021]done
-[2014-4-02][index: 0022]done
-[2014-4-02][index: 0023]done
-[2014-4-02][index: 0024]done
-[2014-4-02][index: 0025]done
-[2014-4-02][index: 0026]done
-[2014-4-02][index: 0027]done
-[2014-4-02][index: 0028]done
-[2014-4-03][index: 0029]done
+[2014-02-22][index: 0001]done
+[2014-02-22][index: 0002]done  
+[2014-02-22][index: 0003]done 
+[2014-02-22][index: 0004]done
+[2014-02-22][index: 0005]done
+[2014-02-22][index: 0006]done
+[2014-02-22][index: 0007]done
+[2014-02-22][index: 0008]done
+[2014-02-22][index: 0009]done
+[2014-03-21][index: 0012]done
+[2014-04-02][index: 0010]done
+[2014-04-02][index: 0011]done
+[2014-04-02][index: 0013]done
+[2014-04-02][index: 0014]done
+[2014-04-02][index: 0015]done
+[2014-04-02][index: 0016]done
+[2014-04-02][index: 0017]done
+[2014-04-02][index: 0018]done
+[2014-04-02][index: 0019]done
+[2014-04-02][index: 0020]done
+[2014-04-02][index: 0021]done
+[2014-04-02][index: 0022]done
+[2014-04-02][index: 0023]done
+[2014-04-02][index: 0024]done
+[2014-04-02][index: 0025]done
+[2014-04-02][index: 0026]done
+[2014-04-02][index: 0027]done
+[2014-04-02][index: 0028]done
+[2014-04-03][index: 0029]done

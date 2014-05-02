@@ -20,7 +20,7 @@
       <div id='mySwipe' class='swipe swipe-bg'>
         <div class='swipe-wrap'>
         <c:forEach items="${images}" var="image">
-          <div><img src = '${image}_original.jpg' class="img-responsive img-swipe center-block"></div>
+          <div><img src = '${image}_original.jpg' class="img-responsive img-responsive img-swipe center-block"></div>
         </c:forEach>
         </div>
       </div>

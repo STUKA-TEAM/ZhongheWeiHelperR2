@@ -113,7 +113,6 @@ public class AlbumDAO {
 		
 		if (result > 0) {
 			int classid = kHolder.getKey().intValue();
-			
 			result = insertACRByClassid(classid, albumClass.getAlbumidList());
 			if (result == 0) {
 				return -1;
@@ -715,8 +714,8 @@ public class AlbumDAO {
 		}
 		
 		if (album != null) {
-			album.setClassidList(getClassidList(album.getAlbumid()));
-			album.setPhotoList(getPhotoList(album.getAlbumid()));
+			album.setClassidList(getClassidList(albumid));
+			album.setPhotoList(getPhotoList(albumid));
 		}	
 		return album;
 	}
@@ -809,7 +808,7 @@ public class AlbumDAO {
 	
 	/**
 	 * @title getDetailedAlbuminfos
-	 * @description 根据classid查询相册详细信息 (albumid, albumName, coverPic, createTime, albumCount)
+	 * @description 根据classid查询相册详细信息 (albumid, albumName, coverPic, createTime, photoCount)
 	 * 并根据createTime字段降序排序取出
 	 * @param classid
 	 * @return

@@ -1,4 +1,4 @@
-package controller.internal;
+package controller.branch;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,10 +12,10 @@ import security.User;
 
 /**
  * @Title: BasicInterceptor
- * @Description: internal分支下每个界面可以获取到的基本信息
+ * @Description: branch分支下每个界面可获取到的基本信息
  * @Company: tuka
  * @author ben
- * @date 2014年2月23日
+ * @date 2014年4月28日
  */
 public class BasicInterceptor implements HandlerInterceptor {
 
@@ -23,12 +23,14 @@ public class BasicInterceptor implements HandlerInterceptor {
 	public void afterCompletion(HttpServletRequest arg0,
 			HttpServletResponse arg1, Object arg2, Exception arg3)
 			throws Exception {
+		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void postHandle(HttpServletRequest arg0, HttpServletResponse arg1,
 			Object arg2, ModelAndView arg3) throws Exception {
+		// TODO Auto-generated method stub
 
 	}
 
@@ -38,7 +40,7 @@ public class BasicInterceptor implements HandlerInterceptor {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = (User)auth.getPrincipal();
 		request.setAttribute("username", user.getUsername());
-        return true;   
+		return true;
 	}
 
 }

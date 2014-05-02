@@ -1,0 +1,84 @@
+html, header, body {
+  max-width: 360px;
+  background-color: #E8E7E4;
+  font-family:"Microsoft YaHei";
+  color: #666666;
+  background-color: #eee;
+}
+div {
+  max-width: 360px;
+  text-align: left; 
+}
+.menu-dish {
+  border-top: solid #aaa 1px;
+}
+h5.menu-title {
+  display: inline-block;
+  font-family:"Microsoft YaHei";
+  color: #000;
+  font-size: 14px;
+}
+h5.menu-dish-info {
+  display: inline-block;
+  font-family:"Microsoft YaHei";
+  color: #000;
+}
+h5.menu-dish-info > small {
+  color: #FF0000;
+}
+.menu-order-model {
+  background-color: #fff;
+  width: 100%;
+  border: solid #aaa 1px;
+  border-radius: 3px;
+  padding: 5px 10px;
+  margin-top: 5px;
+}
+.menu-btn-group {
+  display: inline-block;
+  margin-left: 15%;
+}
+.menu-type {
+  border-top: solid #666 1px;
+}
+.dishes-num {
+  display: inline-block;
+  min-width: 80px;
+  padding: 0 10px;
+  margin-left: 35%;
+}
+.dishes-num-minus,
+.dishes-num-plus {
+  display: inline-block;
+  vertical-align: center;
+  width: 16px;
+  height: 16px;
+}
+.dishes-num-count {
+  display: inline-block;
+  vertical-align: center;
+  width: 20px;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+  border: solid #aaa 1px;
+  border-radius: 2px;
+}
+.menu-info {
+  margin-top: 10px;
+  height: 20px;
+  line-height: 20px;
+}
+.menu-info-text {
+  font-size: 12px;
+  color: #aaa;
+}
+.menu-info-price {
+  font-size: 16px;
+  color: #FF0000;
+}
+.btn-share {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+}
