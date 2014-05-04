@@ -284,7 +284,6 @@ public class LotteryWheelController {
 	 * @return
 	 */
 	@RequestMapping(value = "/result", method = RequestMethod.GET)
-	@ResponseBody
 	public String getLotteryResult(@RequestParam(value = "wheelid", required = true) int 
 			wheelid, Model model) {
 		ApplicationContext context = 
@@ -292,10 +291,9 @@ public class LotteryWheelController {
 		LotteryWheelDAO wheelDao = (LotteryWheelDAO) context.getBean("LotteryWheelDAO");
 		((ConfigurableApplicationContext)context).close();
 		
-		Gson gson = new Gson();
 		List<LotteryPrize> prizeList = wheelDao.getLotteryResult(wheelid);
-		String response = gson.toJson(prizeList);
-		return response;
+		model.addAttribute("prizeList", prizeList);
+		return "LotteryViews/wheelResult";
 	}
 	
 	/**
