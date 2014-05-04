@@ -28,9 +28,8 @@
               <thead>
                 <tr>
                   <th>中奖者联系电话</th>
-                  <th>活动名称</th>
-                  <th>参与人数</th>
-                  <th></th>
+                  <th>状态</th>
+                  <th>操作</th>
                 </tr>
               </thead>
               <tbody>
@@ -38,12 +37,7 @@
                 <tr>
                   <td><fmt:formatDate value="${item.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                   <td>${item.wheelName}</td>
-                  <td>${item.count}</td>
-                  <td><a class="btn btn-sm btn-info" href="store/lottery/wheel/edit?wheelid=${item.wheelid}">编辑</a>
-                  <a class="btn btn-sm btn-info" target="_blank" href="customer/lottery/wheel?wheelid=${item.wheelid}">预览</a>
-                  <a class="btn btn-sm btn-info" onclick="viewLink('大转盘抽奖链接','${appPath}customer/lottery/wheel?wheelid=${item.wheelid}')">生成链接</a>
-                  <a class="btn btn-sm btn-user" target="_blank" href="store/">查看中奖情况</a>
-                  <a class="btn btn-sm btn-danger" onclick="submitDeleteWheel('${item.wheelid}')">删除</a></td>
+                  <td><a class="btn btn-sm btn-danger" onclick="submitDeleteWheel('${item.wheelid}')">删除</a></td>
                 </tr>
                 </c:forEach>
               </tbody>
