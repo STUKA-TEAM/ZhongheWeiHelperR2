@@ -31,7 +31,7 @@
             <table class="table table-striped table-bordered">
               <tr>
                 <th>创建时间</th>
-                <th>类别名称</th>
+                <th>区域名称</th>
                 <th>属于该区域的分店数</th>
                 <th></th>
               </tr>

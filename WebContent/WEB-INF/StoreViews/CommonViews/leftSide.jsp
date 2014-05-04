@@ -27,8 +27,8 @@
              <li><a href="store/elove/detail"><span class="glyphicon glyphicon-heart-empty"></span>&nbsp;&nbsp;Elove管理</a></li>
           </c:if>
           <c:if test="${auth.key=='website' && auth.value==true}">
-             <li><a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"><span class="glyphicon glyphicon-globe"></span>&nbsp;&nbsp;微官网管理</a>
-            <div id="collapseOne" class="panel-collapse collapse in">
+             <li><a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"><span class="glyphicon glyphicon-globe"></span>&nbsp;&nbsp;微官网管理</a>
+            <div id="collapseOne" class="panel-collapse collapse">
               <ul class="nav submenu">
                 <li><a href="store/article/list?classid=0"><span class="glyphicon glyphicon-file"></span>&nbsp;&nbsp;文章管理</a></li>
                 <li><a href="store/articleclass/list"><span class="glyphicon glyphicon-list-alt"></span>&nbsp;&nbsp;文章类别管理</a></li>
@@ -41,11 +41,20 @@
             </div></li>
           </c:if>
           <c:if test="${auth.key=='branch' && auth.value==true}">
-             <li><a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"><span class="glyphicon glyphicon-th"></span>&nbsp;&nbsp;分店管理</a>
-            <div id="collapseTwo" class="panel-collapse collapse in">
+             <li><a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"><span class="glyphicon glyphicon-th"></span>&nbsp;&nbsp;分店管理</a>
+            <div id="collapseTwo" class="panel-collapse collapse">
               <ul class="nav submenu">
                 <li><a href="store/branch/list?classid=0"><span class="glyphicon glyphicon-file"></span>&nbsp;&nbsp;分店维护</a></li>
                 <li><a href="store/branchclass/list"><span class="glyphicon glyphicon-list-alt"></span>&nbsp;&nbsp;分店区域划分</a></li>
+              </ul>
+            </div></li>
+          </c:if>
+          <c:if test="${auth.key=='dish' && auth.value==true}">
+             <li><a data-toggle="collapse" data-parent="#accordion" href="#collapse3"><span class="glyphicon glyphicon-cutlery"></span>&nbsp;&nbsp;菜品管理</a>
+            <div id="collapse3" class="panel-collapse collapse">
+              <ul class="nav submenu">
+                <li><a href="store/branch/list?classid=0"><span class="glyphicon glyphicon-file"></span>&nbsp;&nbsp;菜品维护</a></li>
+                <li><a href="store/branchclass/list"><span class="glyphicon glyphicon-list-alt"></span>&nbsp;&nbsp;菜品类别维护</a></li>
               </ul>
             </div></li>
           </c:if>
