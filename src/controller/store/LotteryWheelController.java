@@ -7,6 +7,7 @@ import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 
+import lottery.LotteryPrize;
 import lottery.LotteryWheel;
 import lottery.dao.LotteryWheelDAO;
 import message.ResponseMessage;
@@ -40,6 +41,7 @@ import tools.RandomUtil;
  * @date 2014年3月29日
  */
 @Controller
+@RequestMapping("/lottery/wheel")
 public class LotteryWheelController {
 	/**
 	 * @title getLotteryWheelList
@@ -49,7 +51,7 @@ public class LotteryWheelController {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(value = "/lottery/wheel/list", method = RequestMethod.GET)
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String getLotteryWheelList(@CookieValue(value = "appid", required = false) String appid, 
 			Model model, HttpServletRequest request){
 		ApplicationContext context = 
@@ -96,7 +98,7 @@ public class LotteryWheelController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/lottery/wheel/add", method = RequestMethod.GET)
+	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public String addLotteryWheel(Model model){
 		return "LotteryViews/insertWheel";
 	}
@@ -110,7 +112,7 @@ public class LotteryWheelController {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(value = "/lottery/wheel/edit", method = RequestMethod.GET)
+	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public String editLotteryWheel(@CookieValue(value = "appid", required = false) String appid, 
 			@RequestParam(value = "wheelid", required = true) int wheelid, Model model, 
 			HttpServletRequest request){
@@ -149,7 +151,7 @@ public class LotteryWheelController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/lottery/wheel/insert", method = RequestMethod.POST)
+	@RequestMapping(value = "/insert", method = RequestMethod.POST)
 	@ResponseBody
 	public String createLotteryWheel(@CookieValue(value = "appid", required = false) String appid, 
 		@RequestBody String json, Model model) {
@@ -210,7 +212,7 @@ public class LotteryWheelController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/lottery/wheel/update", method = RequestMethod.POST)
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@ResponseBody
 	public String updateLotteryWheel(@RequestBody String json, Model model) {
 		ApplicationContext context = 
@@ -249,7 +251,7 @@ public class LotteryWheelController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/lottery/wheel/delete", method = RequestMethod.POST)
+	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	@ResponseBody
 	public String deleteLotteryWheel(@RequestParam(value = "wheelid", required = true) 
 	    int wheelid, Model model){
@@ -270,6 +272,59 @@ public class LotteryWheelController {
 			message.setMessage("删除失败！");
 		}
 		
+		String response = gson.toJson(message);
+		return response;
+	}
+	
+	/**
+	 * @title getLotteryResult
+	 * @description 查询抽奖结果详情
+	 * @param wheelid
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/result", method = RequestMethod.GET)
+	@ResponseBody
+	public String getLotteryResult(@RequestParam(value = "wheelid", required = true) int 
+			wheelid, Model model) {
+		ApplicationContext context = 
+				new ClassPathXmlApplicationContext("All-Modules.xml");
+		LotteryWheelDAO wheelDao = (LotteryWheelDAO) context.getBean("LotteryWheelDAO");
+		((ConfigurableApplicationContext)context).close();
+		
+		Gson gson = new Gson();
+		List<LotteryPrize> prizeList = wheelDao.getLotteryResult(wheelid);
+		String response = gson.toJson(prizeList);
+		return response;
+	}
+	
+	/**
+	 * @title updateResultStatus
+	 * @description 领取奖品，更新中奖记录状态
+	 * @param resultid
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/clear", method = RequestMethod.POST)
+	@ResponseBody
+	public String updateResultStatus(@RequestParam(value = "resultid", required = true) int 
+			resultid, Model model) {
+		ApplicationContext context = 
+				new ClassPathXmlApplicationContext("All-Modules.xml");
+		LotteryWheelDAO wheelDao = (LotteryWheelDAO) context.getBean("LotteryWheelDAO");
+		((ConfigurableApplicationContext)context).close();
+		
+		Gson gson = new Gson();
+		ResponseMessage message = new ResponseMessage();
+		
+		int result = wheelDao.updateResultStatus(resultid);
+		if (result > 0) {
+			message.setStatus(true);
+			message.setMessage("操作成功！");
+		}else {
+			message.setStatus(false);
+			message.setMessage("操作失败！");
+		}
 		String response = gson.toJson(message);
 		return response;
 	}

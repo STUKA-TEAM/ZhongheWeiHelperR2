@@ -333,7 +333,7 @@ public class BranchDAO {
 	
 	/**
 	 * @title updateBranch
-	 * @description 更新分店信息、分店图片信息及其与分店类别和商家的关联信息
+	 * @description 更新分店信息、分店图片信息及其与分店类别的关联信息
 	 * @param branch
 	 * @return
 	 */
@@ -351,10 +351,8 @@ public class BranchDAO {
 			}
 			deleteImageList(branchSid);
 			deleteBCRByBranchSid(branchSid);
-			deleteBSR(branchSid);
 			insertImageList(branchSid, currentImages);
 			insertBCRByBranchSid(branchSid, branch.getClassidList());
-			insertBSR(branchSid, branch.getStoreSid());
 			return result;
 		} else {
 			return 0;
