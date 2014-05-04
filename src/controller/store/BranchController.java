@@ -1,9 +1,7 @@
 package controller.store;
 
-import java.io.InputStream;
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.Properties;
 
 import message.ResponseMessage;
 
@@ -86,17 +84,6 @@ public class BranchController {
 			}
 		}
 		model.addAttribute("classList", classList);
-
-		InputStream inputStream = BranchController.class.getResourceAsStream("/environment.properties");
-		Properties properties = new Properties();
-		String appPath = null;
-		try {
-			properties.load(inputStream);
-			appPath = (String)properties.get("applicationPath");
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-		model.addAttribute("appPath", appPath);
 		return "BranchViews/branchList";
 	}
 	

@@ -185,6 +185,7 @@ Windows:
             branchSid    int(11)      No         0                      No                  分店id
             dishid       int(11)      No         0                      No                  菜品id  
             count        int(11)      No         0                      No                  订菜份数
+[2014-05-04][index: 0039]表lotterywheel_result添加status字段     type: int(11)  NULL: No  Default: 1  Comment: 是否有效     Position: After "openid"
 
 Linux:
 [2014-02-22][index: 0001]done

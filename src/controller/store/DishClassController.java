@@ -1,9 +1,7 @@
 package controller.store;
 
-import java.io.InputStream;
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -75,17 +73,6 @@ public class DishClassController {
 			else {	
 				List<DishClass> classList = dishDao.getDetailedClassinfos(appid);
 				model.addAttribute("classList", classList);
-
-				InputStream inputStream = DishClassController.class.getResourceAsStream("/environment.properties");
-				Properties properties = new Properties();
-				String appPath = null;
-				try {
-					properties.load(inputStream);
-					appPath = (String)properties.get("applicationPath");
-				} catch (Exception e) {
-					System.out.println(e.getMessage());
-				}
-				model.addAttribute("appPath", appPath);
 				return "OrderViews/dishclassList";
 			}
 		}

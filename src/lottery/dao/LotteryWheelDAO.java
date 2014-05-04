@@ -10,6 +10,8 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import lottery.LotteryPrize;
+import lottery.LotteryResult;
 import lottery.LotteryWheel;
 import lottery.LotteryWheelItem;
 
@@ -213,6 +215,18 @@ public class LotteryWheelDAO {
 	public int updateContact(int itemid, String openid, String contact){
 		String SQL = "UPDATE lotterywheel_result SET contact = ? WHERE itemid = ? AND openid = ?";
 		int result = jdbcTemplate.update(SQL, contact, itemid, openid);
+		return result <= 0 ? 0 : result;
+	}
+	
+	/**
+	 * @title updateResultStatus
+	 * @description 根据resultid更新该中奖纪录状态 (1 --> 0)
+	 * @param resultid
+	 * @return
+	 */
+	public int updateResultStatus(int resultid){
+		String SQL = "UPDATE lotterywheel_result SET status = status - 1 WHERE resultid = ?";
+		int result = jdbcTemplate.update(SQL, resultid);
 		return result <= 0 ? 0 : result;
 	}
 	
@@ -514,6 +528,74 @@ public class LotteryWheelDAO {
 		public Integer mapRow(ResultSet rs, int arg1) throws SQLException {
 			Integer websiteid = rs.getInt("W.websiteid");
 			return websiteid;
+		}
+	}
+	
+	/**
+	 * @title getLotteryResult
+	 * @description 根据wheelid查询该抽奖活动各奖项信息 (itemid, itemDesc, itemCount) 及中奖详情 (resultid, contact, status)
+	 * @param wheelid
+	 * @return
+	 */
+	public List<LotteryPrize> getLotteryResult(int wheelid){
+		List<LotteryPrize> prizeList = null;
+		String SQL = "SELECT itemid, itemDesc, itemCount FROM lotterywheel_item WHERE "
+				+ "wheelid = ? ORDER BY itemPercent ASC";
+		try {
+			prizeList = jdbcTemplate.query(SQL, new Object[]{wheelid}, new PrizeIteminfoMapper());
+		} catch (Exception e) {
+			System.out.println("getLotteryResult: " + e.getMessage());
+			prizeList = new ArrayList<LotteryPrize>();
+		}
+		for (int i = 0, j = prizeList.size(); i < j; i++) {
+			LotteryPrize prize = prizeList.get(i);
+			prize.setPrizeIndex(i + 1);
+			List<LotteryResult> luckyList = getLuckyResult(prize.getPrizeid());
+			prize.setLuckyList(luckyList);
+			prize.setLuckyNum(luckyList.size());
+		}
+		return prizeList;
+	}
+	
+	private static final class PrizeIteminfoMapper implements RowMapper<LotteryPrize>{
+		@Override
+		public LotteryPrize mapRow(ResultSet rs, int arg1)
+				throws SQLException {
+			LotteryPrize prize = new LotteryPrize();
+			prize.setPrizeid(rs.getInt("itemid"));
+			prize.setPrizeDesc(rs.getString("itemDesc"));
+			prize.setPrizeNum(rs.getInt("itemCount"));
+			return prize;
+		}
+	}
+	
+	/**
+	 * @title getLuckyResult
+	 * @description 根据奖项id查询该奖项中奖详情 (resultid, contact, status)
+	 * @param itemid
+	 * @return
+	 */
+	private List<LotteryResult> getLuckyResult(int itemid){
+		List<LotteryResult> resultList = null;
+		String SQL = "SELECT resultid, contact, status FROM lotterywheel_result WHERE itemid = ?";
+		try {
+			resultList = jdbcTemplate.query(SQL, new Object[]{itemid}, new ResultinfoMapper());
+		} catch (Exception e) {
+			System.out.println("getLuckyResult: " + e.getMessage());
+			resultList = new ArrayList<LotteryResult>();
+		}
+		return resultList;
+	}
+	
+	private static final class ResultinfoMapper implements RowMapper<LotteryResult>{
+		@Override
+		public LotteryResult mapRow(ResultSet rs, int arg1)
+				throws SQLException {
+			LotteryResult result = new LotteryResult();
+			result.setResultid(rs.getInt("resultid"));
+			result.setContact(rs.getString("contact"));
+			result.setStatus(rs.getInt("status"));
+			return result;
 		}
 	}
 }
