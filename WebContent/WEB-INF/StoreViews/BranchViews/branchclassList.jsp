@@ -19,43 +19,41 @@
       <%@ include file="../CommonViews/leftSide.jsp"%>    
       <div class="col-md-10 manager-content">
         <ol class="breadcrumb">
-          <li class="active">大转盘抽奖管理</li>
+          <li class="active">分店区域划分</li>
         </ol>
-        <div class="row website-tab">
-          <div class="album-btn-group clearfix col-md-offset-1">
-            <a class="btn btn-info pull-left btn-margin" href="store/lottery/wheel/add">新建大转盘抽奖</a>
-          </div>
-                    <div class="col-md-10 col-md-offset-1">
-            <table class="table table-striped table-bordered">
-              <thead>
-                <tr>
-                  <th>创建时间</th>
-                  <th>活动名称</th>
-                  <th>参与人数</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                <c:forEach items="${wheelList}" var="item">
-                <tr>
-                  <td><fmt:formatDate value="${item.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-                  <td>${item.wheelName}</td>
-                  <td>${item.count}</td>
-                  <td><a class="btn btn-sm btn-info" href="store/lottery/wheel/edit?wheelid=${item.wheelid}">编辑</a>
-                  <a class="btn btn-sm btn-info" target="_blank" href="customer/lottery/wheel?wheelid=${item.wheelid}">预览</a>
-                  <a class="btn btn-sm btn-info" onclick="viewLink('大转盘抽奖链接','${appPath}customer/lottery/wheel?wheelid=${item.wheelid}')">生成链接</a>
-                  <a class="btn btn-sm btn-user" target="_blank" href="store/">中奖情况</a>
-                  <a class="btn btn-sm btn-danger" onclick="submitDeleteWheel('${item.wheelid}')">删除</a></td>
-                </tr>
-                </c:forEach>
-              </tbody>
-            </table>
+        <div class="row">
+          <div class="col-md-2 col-md-offset-1">
+            <a class="btn btn-info btn-block" href="javascript:void(0);" onclick="addClass()">新建区域</a>
           </div>
         </div>
+        <div class="row website-tab">
+          <div class="col-md-10 col-md-offset-1">
+            <table class="table table-striped table-bordered">
+              <tr>
+                <th>创建时间</th>
+                <th>类别名称</th>
+                <th>属于该区域的分店数</th>
+                <th></th>
+              </tr>
+              <c:forEach items="${classList}" var="item">
+              <tr>
+                <td><fmt:formatDate value="${item.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+                <td>${item.className}</td>
+                <td>${item.branchCount}</td>
+                <td><a class="btn btn-sm btn-info" href="javascript:void(0);" onclick="editClass('${item.classid}')">编辑</a>
+                <a class="btn btn-sm btn-info" target="_blank" href="customer/branchclass?classid=${item.classid}">预览</a>
+                <a class="btn btn-sm btn-info" onclick="viewLink('分店列表链接','${appPath}customer/branchclass?classid=${item.classid}')">生成链接</a>
+                <a class="btn btn-sm btn-danger" onclick="submitDelete('${item.classid}')">删除</a></td>
+              </tr>
+              </c:forEach>
+            </table>
+          </div>
       </div>
+    </div>
     </div>
     
 
+    <%@ include file="../CommonViews/commonDialog.jsp"%>
     <!-- 确认删除弹框 -->
     <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
@@ -70,20 +68,27 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="confirmDeleteWheel()">确认删除</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="confirmDelete()">确认删除</button>
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal --> 
-
-    <%@ include file="../CommonViews/footer.jsp"%>
     
+    <!-- 文章类别编辑框 -->
+    <div class="modal fade" id="paper_type_edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div id="paper_type_dialog" class="modal-dialog">
+
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->    
+    
+    <%@ include file="../CommonViews/footer.jsp"%>
     <!-- 通用提示框 -->
     <%@ include file="../CommonViews/commonDialog.jsp"%>
     <!-- 查看链接通用框 -->
-    <%@ include file="../CommonViews/viewLink.jsp"%>
+    <%@ include file="../CommonViews/viewLink.jsp"%>    
     <!-- include jQuery -->
     <%@ include file="../CommonViews/commonJSList.jsp"%>
-    <script type="text/javascript" src="js/store/wheelLottery.js"></script>
+    <script type="text/javascript" src="js/store/branchclass.js"></script>
+    <script type="text/javascript" src="js/store/upload.js"></script>
   </body>
 </html>

@@ -19,17 +19,15 @@
       <%@ include file="../CommonViews/leftSide.jsp"%>    
       <div class="col-md-10 manager-content">
         <ol class="breadcrumb">
-          <li class="active">大转盘抽奖管理</li>
+          <li class="active"><a href="store/lottery/wheel/list">大转盘管理</a></li>
+          <li class="active">大转盘中奖情况</li>
         </ol>
         <div class="row website-tab">
-          <div class="album-btn-group clearfix col-md-offset-1">
-            <a class="btn btn-info pull-left btn-margin" href="store/lottery/wheel/add">新建大转盘抽奖</a>
-          </div>
-                    <div class="col-md-10 col-md-offset-1">
+            <div class="col-md-10 col-md-offset-1">
             <table class="table table-striped table-bordered">
               <thead>
                 <tr>
-                  <th>创建时间</th>
+                  <th>中奖者联系电话</th>
                   <th>活动名称</th>
                   <th>参与人数</th>
                   <th></th>
@@ -44,7 +42,7 @@
                   <td><a class="btn btn-sm btn-info" href="store/lottery/wheel/edit?wheelid=${item.wheelid}">编辑</a>
                   <a class="btn btn-sm btn-info" target="_blank" href="customer/lottery/wheel?wheelid=${item.wheelid}">预览</a>
                   <a class="btn btn-sm btn-info" onclick="viewLink('大转盘抽奖链接','${appPath}customer/lottery/wheel?wheelid=${item.wheelid}')">生成链接</a>
-                  <a class="btn btn-sm btn-user" target="_blank" href="store/">中奖情况</a>
+                  <a class="btn btn-sm btn-user" target="_blank" href="store/">查看中奖情况</a>
                   <a class="btn btn-sm btn-danger" onclick="submitDeleteWheel('${item.wheelid}')">删除</a></td>
                 </tr>
                 </c:forEach>

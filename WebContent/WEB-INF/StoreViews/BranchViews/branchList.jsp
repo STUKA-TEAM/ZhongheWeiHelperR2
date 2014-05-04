@@ -19,37 +19,49 @@
       <%@ include file="../CommonViews/leftSide.jsp"%>    
       <div class="col-md-10 manager-content">
         <ol class="breadcrumb">
-          <li class="active">大转盘抽奖管理</li>
+          <li class="active">分店维护</li>
         </ol>
         <div class="row website-tab">
-          <div class="album-btn-group clearfix col-md-offset-1">
-            <a class="btn btn-info pull-left btn-margin" href="store/lottery/wheel/add">新建大转盘抽奖</a>
+         <div class="row">
+          <div class="col-md-2 col-md-offset-1">
+            <a href="store/branch/add" class="btn btn-info btn-block">新建分店</a>
           </div>
-                    <div class="col-md-10 col-md-offset-1">
+          <div class="col-md-2">
+            <form>
+              <select class="form-control account-select" onchange="filterByType(this.options[this.options.selectedIndex].value)">
+                <c:forEach items="${classList}" var="item">
+                <option value="${item.classid}" <c:if test="${item.selected}">selected</c:if> >${item.className}</option>
+                ${item.selected}
+				</c:forEach>
+              </select>
+            </form>
+          </div>
+        </div>
+        
+          <div class="row website-tab">
+          <div class="col-md-10 col-md-offset-1">
             <table class="table table-striped table-bordered">
               <thead>
                 <tr>
                   <th>创建时间</th>
-                  <th>活动名称</th>
-                  <th>参与人数</th>
+                  <th>分店名称</th>
+                  <th>账户名</th>
                   <th></th>
                 </tr>
               </thead>
               <tbody>
-                <c:forEach items="${wheelList}" var="item">
+                <c:forEach items="${branchList}" var="item">
                 <tr>
-                  <td><fmt:formatDate value="${item.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-                  <td>${item.wheelName}</td>
-                  <td>${item.count}</td>
-                  <td><a class="btn btn-sm btn-info" href="store/lottery/wheel/edit?wheelid=${item.wheelid}">编辑</a>
-                  <a class="btn btn-sm btn-info" target="_blank" href="customer/lottery/wheel?wheelid=${item.wheelid}">预览</a>
-                  <a class="btn btn-sm btn-info" onclick="viewLink('大转盘抽奖链接','${appPath}customer/lottery/wheel?wheelid=${item.wheelid}')">生成链接</a>
-                  <a class="btn btn-sm btn-user" target="_blank" href="store/">中奖情况</a>
-                  <a class="btn btn-sm btn-danger" onclick="submitDeleteWheel('${item.wheelid}')">删除</a></td>
+                  <td><fmt:formatDate value="${item.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+                  <td>${item.storeName}</td>
+                  <td>${item.username}</td>
+                  <td><a class="btn btn-sm btn-info" href="store/branch/edit?branchid=${item.branchSid}">编辑</a>
+                  <a class="btn btn-sm btn-danger" onclick="submitDelete('${item.branchSid}')">删除</a></td>
                 </tr>
                 </c:forEach>
               </tbody>
             </table>
+          </div>
           </div>
         </div>
       </div>
@@ -66,11 +78,11 @@
           </div>
           <div class="modal-body">
             <h4 id="confirmModalMes" class="modal-title"></h4>
-            <input id="idhidden" type="hidden" value=""/>
+            <input id="itemidhidden" type="hidden" value=""/>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="confirmDeleteWheel()">确认删除</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="confirmDelete()">确认删除</button>
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
@@ -84,6 +96,6 @@
     <%@ include file="../CommonViews/viewLink.jsp"%>
     <!-- include jQuery -->
     <%@ include file="../CommonViews/commonJSList.jsp"%>
-    <script type="text/javascript" src="js/store/wheelLottery.js"></script>
+    <script type="text/javascript" src="js/store/branch.js"></script>
   </body>
 </html>

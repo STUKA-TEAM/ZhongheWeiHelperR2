@@ -40,6 +40,15 @@
               </ul>
             </div></li>
           </c:if>
+          <c:if test="${auth.key=='branch' && auth.value==true}">
+             <li><a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"><span class="glyphicon glyphicon-th"></span>&nbsp;&nbsp;分店管理</a>
+            <div id="collapseTwo" class="panel-collapse collapse in">
+              <ul class="nav submenu">
+                <li><a href="store/branch/list?classid=0"><span class="glyphicon glyphicon-file"></span>&nbsp;&nbsp;分店维护</a></li>
+                <li><a href="store/branchclass/list"><span class="glyphicon glyphicon-list-alt"></span>&nbsp;&nbsp;分店区域划分</a></li>
+              </ul>
+            </div></li>
+          </c:if>
           </c:forEach>
           <!--
           <li><a data-toggle="collapse" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">订餐管理</a>
