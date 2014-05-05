@@ -96,7 +96,7 @@ public class DishController {
 					}
 				}
 				model.addAttribute("classList", classList);
-				return "OrderViews/dishList";
+				return "DishViews/dishList";
 			}
 		}
 	}
@@ -134,7 +134,7 @@ public class DishController {
 			else {
 				List<DishClass> classList = dishDao.getBasicClassinfos(appid);
 				model.addAttribute("classList", classList);
-			    return "OrderViews/insertDish";
+			    return "DishViews/insertDish";
 			}
 		}
 	}
@@ -190,7 +190,7 @@ public class DishController {
 					}
 				}
 				model.addAttribute("classList", classList);
-			    return "OrderViews/updateDish";
+			    return "DishViews/updateDish";
 			}
 		}
 	}

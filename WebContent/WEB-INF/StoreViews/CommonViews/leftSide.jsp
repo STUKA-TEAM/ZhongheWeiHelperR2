@@ -53,8 +53,8 @@
              <li><a data-toggle="collapse" data-parent="#accordion" href="#collapse3"><span class="glyphicon glyphicon-cutlery"></span>&nbsp;&nbsp;菜品管理</a>
             <div id="collapse3" class="panel-collapse collapse">
               <ul class="nav submenu">
-                <li><a href="store/branch/list?classid=0"><span class="glyphicon glyphicon-file"></span>&nbsp;&nbsp;菜品维护</a></li>
-                <li><a href="store/branchclass/list"><span class="glyphicon glyphicon-list-alt"></span>&nbsp;&nbsp;菜品类别维护</a></li>
+                <li><a href="store/dish/list?classid=0"><span class="glyphicon glyphicon-file"></span>&nbsp;&nbsp;菜品维护</a></li>
+                <li><a href="store/dishclass/list"><span class="glyphicon glyphicon-list-alt"></span>&nbsp;&nbsp;菜品类别维护</a></li>
               </ul>
             </div></li>
           </c:if>
