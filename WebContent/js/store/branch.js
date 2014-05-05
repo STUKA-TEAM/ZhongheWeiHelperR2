@@ -131,8 +131,49 @@ function confirmDelete(){
   });
 }
 
-
-
+function changePassword(branchid){
+	$("#paper_type_dialog").html();
+	$("#paper_type_edit").modal("show"); 
+	$("#branchidhidden").val(branchid);
+	
+}
+function submitChange(){
+	if($("#password").val()==""){
+		$("#modalTitle").html("提示：");
+		$("#modalMes").html("密码不能为空！");
+	    $("#operationMesModal").modal("show");
+	    return;
+	}
+	if($("#password").val()!= $("#confirm").val()){
+		$("#modalTitle").html("提示：");
+		$("#modalMes").html("两次输入的密码不一致！");
+	    $("#operationMesModal").modal("show");
+	    return;
+	}
+	var branchid = $("#branchidhidden").val();
+	var passwd = $("#password").val();
+	var url = "store/branch/reset";
+	  $.ajax({
+	   	  type: "POST",
+	   	  url: url,
+	   	  data: "branchid="+branchid+"&passwd="+passwd,
+	   	  success: function (data) {
+	   		  var jsonData=JSON.parse(data);		 
+	   		  if(jsonData.status==true){
+		   	   	  $("#modalMes").html(jsonData.message);
+		   	      $("#operationMesModal").modal("show");
+		   	      setTimeout("location.href='store/branch/list?classid=0'",1500);
+	   		  }else{
+		   	   	  $("#modalMes").html(jsonData.message);
+		   	      $("#operationMesModal").modal("show");
+	   		  }
+	   	  },
+		  error: function(xhr, status, exception){
+	   	   	  $("#modalMes").html(status + '</br>' + exception);
+	   	      $("#operationMesModal").modal("show");
+		  }
+	  });
+}
 
 
 

@@ -56,7 +56,8 @@
                   <td>${item.storeName}</td>
                   <td>${item.username}</td>
                   <td><a class="btn btn-sm btn-info" href="store/branch/edit?branchid=${item.branchSid}">编辑</a>
-                  <a class="btn btn-sm btn-danger" onclick="submitDelete('${item.branchSid}')">删除</a></td>
+                  <a class="btn btn-sm btn-danger" onclick="submitDelete('${item.branchSid}')">删除</a>
+                  <a class="btn btn-sm btn-danger" onclick="changePassword('${item.branchSid}')">更改登录密码</a></td>
                 </tr>
                 </c:forEach>
               </tbody>
@@ -87,6 +88,39 @@
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal --> 
+
+<!-- 更改密码弹窗 -->
+    <div class="modal fade" id="paper_type_edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div id="paper_type_dialog" class="modal-dialog">
+		<div class="modal-content">
+		  <div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		    <h4 class="modal-title" id="myModalLabel">更改分店密码</h4>
+		  </div>
+		  <div class="modal-body">
+		    <div  class="form-horizontal">
+		      <div class="form-group">
+		        <label for="story_groom" class="col-md-3 control-label">新密码</label>
+		        <div class="col-md-7">
+		          <input type="text" class="form-control" id="password" placeholder="">
+		        </div>
+		      </div>
+		      <div class="form-group">
+		        <label for="story_groom" class="col-md-3 control-label">确认密码</label>
+		        <div class="col-md-7">
+		          <input type="text" class="form-control" id="confirm" placeholder="">
+		        </div>
+		      </div>
+		    </div>
+		  </div>
+		  <div class="modal-footer">
+		    <input type="hidden" id="branchidhidden"/>
+		    <button type="button" class="btn btn-info" onclick="submitChange()" >确定</button>
+		  </div>
+		</div><!-- /.modal-content -->       
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal --> 
+
 
     <%@ include file="../CommonViews/footer.jsp"%>
     
