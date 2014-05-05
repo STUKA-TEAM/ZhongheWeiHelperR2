@@ -35,7 +35,7 @@ import tools.CommonValidationTools;
  * @date 2014年5月2日
  */
 @Controller
-@RequestMapping("/dish")
+@RequestMapping("/restaurant/dish")
 public class DishController {
 	/**
 	 * @title getDishList
