@@ -12,6 +12,7 @@ import java.util.regex.Pattern;
 import lottery.LotteryWheel;
 import menu.Menu;
 import order.Dish;
+import order.DishBranch;
 import order.DishClass;
 
 import org.springframework.context.ApplicationContext;
@@ -561,5 +562,15 @@ public class CommonValidationTools {
 		} else {
 			return false;			
 		}
+	}
+
+	/**
+	 * @title checkDishBranch
+	 * @description 验证分店菜品信息
+	 * @param dishBranch
+	 * @return
+	 */
+	public static boolean checkDishBranch(DishBranch dishBranch) {
+		return true;
 	}
 }

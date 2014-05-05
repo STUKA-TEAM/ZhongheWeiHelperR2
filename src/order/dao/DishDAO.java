@@ -12,6 +12,7 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import order.Dish;
+import order.DishBranch;
 import order.DishClass;
 
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -353,6 +354,21 @@ public class DishDAO {
 		} else {
 			return 0;	
 		}
+	}
+	
+	/**
+	 * @title updateDishBranch
+	 * @description 更新分店菜品信息
+	 * @param dishBranch
+	 * @param branchSid
+	 * @return
+	 */
+	public int updateDishBranch(DishBranch dishBranch, int branchSid) {
+		String SQL = "UPDATE dish_branch SET price = ?, available = ? WHERE "
+				+ "dishid = ? AND branchSid = ?";
+		int result = jdbcTemplate.update(SQL, dishBranch.getPrice(), 
+				dishBranch.getAvailable(), dishBranch.getDishid(), branchSid);
+		return result <= 0 ? 0 : result;
 	}
 	
 	/**
@@ -730,6 +746,107 @@ public class DishDAO {
 	}
 	
 	/**
+	 * @title getBranchDishinfos
+	 * @description 根据分店id和appid查询该应用下的所有菜品在该分店的详细信息 (dishid, dishName, createTime, 
+	 * dishPic, dishUnit, price, available)
+	 * @param appid
+	 * @param branchSid
+	 * @return
+	 */
+	public List<DishBranch> getBranchDishinfos(String appid, int branchSid) {
+		List<DishBranch> dishList = null;
+		String SQL = "SELECT dishid, dishName, createTime, dishPic, price, dishUnit "
+				+ "FROM dish WHERE appid = ? ORDER BY createTime DESC";
+		try {
+			dishList = jdbcTemplate.query(SQL, new Object[]{appid}, new BranchDishinfoMapper());
+		} catch (Exception e) {
+			System.out.println("getBranchDishinfos: " + e.getMessage());
+			dishList = new ArrayList<DishBranch>();
+		}
+		for (DishBranch dishBranch : dishList) {
+			DishBranch temp = getDishBranch(dishBranch.getDishid(), branchSid);
+			if (temp != null) {
+				dishBranch.setPrice(temp.getPrice());
+				dishBranch.setAvailable(temp.getAvailable());
+			}
+		}
+		return dishList;
+	}
+	
+	/**
+	 * @title getBranchDishinfos
+	 * @description 根据分店id和菜品类别id查询该菜品类别关联的所有菜品在该分店的详细信息 (dishid, dishName, createTime, 
+	 * dishPic, dishUnit, price, available)
+	 * @param classid
+	 * @param branchSid
+	 * @return
+	 */
+	public List<DishBranch> getBranchDishinfos(int classid, int branchSid) {
+		List<DishBranch> dishList = new ArrayList<DishBranch>();
+		String SQL = "SELECT dishid, dishName, createTime, dishPic, price, dishUnit "
+				+ "FROM dish WHERE dishid = ? ORDER BY createTime DESC";
+		List<Integer> dishidList = getDishidList(classid);
+		for (Integer dishid : dishidList) {
+			try {
+				DishBranch dishBranch = jdbcTemplate.queryForObject(SQL, new Object[]{
+						dishid}, new BranchDishinfoMapper());
+				DishBranch temp = getDishBranch(dishid, branchSid);
+				if (temp != null) {
+					dishBranch.setPrice(temp.getPrice());
+					dishBranch.setAvailable(temp.getAvailable());
+				}
+				dishList.add(dishBranch);
+			} catch (Exception e) {
+				System.out.println("getBranchDishinfos: " + e.getMessage());
+				continue;
+			}
+		}
+		return dishList;
+	}
+	
+	/**
+	 * @title getDishBranch
+	 * @description 根据菜品id和分店id查询该菜品在该分店销售信息 (price, available)
+	 * @param dishid
+	 * @param branchSid
+	 * @return
+	 */
+	private DishBranch getDishBranch(int dishid, int branchSid) {
+		DishBranch dishBranch = null;
+		String SQL = "SELECT price, available FROM dish_branch WHERE dishid = ? AND branchSid = ?";
+		try {
+			dishBranch = jdbcTemplate.queryForObject(SQL, new Object[]{dishid, branchSid}, new DishBranchMapper());
+		} catch (Exception e) {
+			System.out.println("getDishBranch: " + e.getMessage());
+		}
+		return dishBranch;
+	}
+	
+	private static final class BranchDishinfoMapper implements RowMapper<DishBranch>{
+		@Override
+		public DishBranch mapRow(ResultSet rs, int arg1) throws SQLException {
+			DishBranch dishBranch = new DishBranch();
+			dishBranch.setDishid(rs.getInt("dishid"));
+			dishBranch.setDishName(rs.getString("dishName"));
+			dishBranch.setCreateTime(rs.getTimestamp("createTime"));
+			dishBranch.setDishPic(rs.getString("dishPic"));
+			dishBranch.setPrice(rs.getInt("price"));
+			dishBranch.setDishUnit(rs.getString("dishUnit"));
+			return dishBranch;
+		}
+	}
+	
+	private static final class DishBranchMapper implements RowMapper<DishBranch>{
+		@Override
+		public DishBranch mapRow(ResultSet rs, int arg1) throws SQLException {
+			DishBranch dishBranch = new DishBranch();
+			dishBranch.setPrice(rs.getInt("price"));
+			dishBranch.setAvailable(rs.getInt("available"));
+			return dishBranch;
+		}	
+	}
+	
+	/**
 	 * @title getBranchSidList
 	 * @description 根据appid查询所属商家的所有分店id列表
 	 * @param appid
@@ -737,7 +854,8 @@ public class DishDAO {
 	 */
 	private List<Integer> getBranchSidList(String appid) {
 		List<Integer> branchSidList = null;
-		String SQL = "SELECT B.branchSid FROM branch_store B, storeuser_application S WHERE B.storeSid = S.sid AND S.appid = ?";
+		String SQL = "SELECT B.branchSid FROM branch_store B, storeuser_application "
+				+ "S WHERE B.storeSid = S.sid AND S.appid = ?";
 		try {
 			branchSidList = jdbcTemplate.query(SQL, new Object[]{appid}, new BranchSidMapper());
 		} catch (Exception e) {
