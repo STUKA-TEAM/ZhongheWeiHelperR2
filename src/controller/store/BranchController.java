@@ -266,4 +266,45 @@ public class BranchController {
 		String response = gson.toJson(message);
 		return response;
 	}
+	
+	/**
+	 * @title updateBranchPasswd
+	 * @description 更新分店账号密码
+	 * @param branchSid
+	 * @param password
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/reset", method = RequestMethod.POST)
+	@ResponseBody
+	public String updateBranchPasswd(@RequestParam(value = "branchid", required = true) 
+	    int branchSid, @RequestParam(value = "passwd", required = true) String 
+	    password, Model model){
+		ApplicationContext context = 
+				new ClassPathXmlApplicationContext("All-Modules.xml");
+		BranchDAO branchDao = (BranchDAO) context.getBean("BranchDAO");
+		((ConfigurableApplicationContext)context).close();
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = (User)auth.getPrincipal();
+		Gson gson = new Gson();
+		ResponseMessage message = new ResponseMessage();
+		password = passwordEncoder.encode(password);
+		
+		if (!CommonValidationTools.checkBranchSid(branchSid, user.getSid(), branchDao)) {
+			message.setStatus(false);
+			message.setMessage("非法操作！");
+		} else {
+			int result = branchDao.updateBranchPasswd(branchSid, password);
+			if (result > 0) {
+				message.setStatus(true);
+				message.setMessage("操作成功！");
+			}else {
+				message.setStatus(false);
+				message.setMessage("操作失败！");
+			}
+		}
+		String response = gson.toJson(message);
+		return response;
+	}
 }

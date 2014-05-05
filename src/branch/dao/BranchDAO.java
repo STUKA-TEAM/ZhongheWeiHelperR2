@@ -360,6 +360,19 @@ public class BranchDAO {
 	}
 	
 	/**
+	 * @title updateBranchPasswd
+	 * @description 根据branchSid更新该分店账号对应的密码
+	 * @param branchSid
+	 * @param password
+	 * @return
+	 */
+	public int updateBranchPasswd(int branchSid, String password) {
+		String SQL = "UPDATE storeuser SET password = ? WHERE sid = ?";
+		int result = jdbcTemplate.update(SQL, password, branchSid);
+		return result <= 0 ? 0 : result;
+	}
+	
+	/**
 	 * @title updateImageCache
 	 * @description 管理临时表记录
 	 * @param action
@@ -788,5 +801,23 @@ public class BranchDAO {
 			dish.setPrice(rs.getInt("price"));
 			return dish;
 		}
+	}
+	
+	/**
+	 * @title checkBranchStoreMapping
+	 * @description 检查分店id与商家id对应关系是否存在
+	 * @param branchSid
+	 * @param storeSid
+	 * @return
+	 */
+	public int checkBranchStoreMapping(int branchSid, int storeSid) {
+		int count = 0;
+		String SQL = "SELECT COUNT(*) FROM branch_store WHERE branchSid = ? AND storeSid = ?";
+		try {
+			count = jdbcTemplate.queryForObject(SQL, Integer.class, branchSid, storeSid);
+		} catch (Exception e) {
+			System.out.println("checkBranchStoreMapping: " + e.getMessage());
+		}
+		return count;
 	}
 }
