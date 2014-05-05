@@ -20,6 +20,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import branch.Branch;
 import branch.BranchClass;
+import branch.dao.BranchDAO;
 import album.Album;
 import album.AlbumClass;
 import article.Article;
@@ -543,5 +544,22 @@ public class CommonValidationTools {
 	 */
 	public static boolean checkDish(Dish dish) {
 		return true;
+	}
+
+	/**
+	 * @title checkBranchSid
+	 * @description 验证分店id是否有效
+	 * @param branchSid
+	 * @param storeSid
+	 * @param branchDao
+	 * @return
+	 */
+	public static boolean checkBranchSid(int branchSid, int storeSid, BranchDAO
+			branchDao) {
+		if (branchDao.checkBranchStoreMapping(branchSid, storeSid) == 1) {
+			return true;
+		} else {
+			return false;			
+		}
 	}
 }
