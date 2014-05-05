@@ -1,23 +1,20 @@
 function filterByType(classid){
-	location.href="store/branch/list?classid="+classid;
+	location.href="store/dish/list?classid="+classid;
 }
 
 function submitItem(operation){
 	var item = new Object();
-	item.roleid=$("#roleid").val();
-	item.username=$("#username").val();
-	item.password=$("#password").val();
-	item.storeName=$("#storeName").val();
-	item.phone=$("#phone").val();
-	item.address=$("#address").val();
-	item.lng=$("#lng").val();
-	item.lat=$("#lat").val();
-    var linkInputArray=$("#upload1-links").children();
-    var linkArray=new Array();
-    $.each(linkInputArray,function(key,val){
-  	  linkArray.push($(val).val());
-    });
-    item.imageList=linkArray;
+	item.dishName=$("#dishName").val();
+	var picStr=$("#upload1single-links").children();
+	if(picStr.length!=0){
+		item.dishPic=picStr[0].value;
+	}else{
+		item.dishPic=null;
+	}
+	item.price=$("#price").val();
+	item.dishUnit=$("#dishUnit").val();
+	item.recomNum=$("#recomNum").val();
+	item.dishDesc=$("#dishDesc").val();
 
 	var list = new Array();
 	$("input[type=checkbox][name='options']:checked").each(function(){
@@ -28,11 +25,11 @@ function submitItem(operation){
 	var url = "";
 	if(operation=="insert"){
 		if(!validateItem(item))return;
-		url="store/branch/insert";
+		url="store/dish/insert";
 	}else{
 		if(!validateUpdateItem(item))return;
-		item.branchSid=$("#branchSid").val();
-		url="store/branch/update";
+		item.dishid=$("#dishid").val();
+		url="store/dish/update";
 	}
  	  $.ajax({
 	   	  type: "POST",
@@ -45,7 +42,7 @@ function submitItem(operation){
 	   		  if(jsonData.status==true){
 		   	   	  $("#modalMes").html(jsonData.message);
 		   	      $("#operationMesModal").modal("show");
-		   	      setTimeout("location.href='store/branch/list?classid=0'",1500);
+		   	      setTimeout("location.href='store/dish/list?classid=0'",1500);
 	   		  }else{
 		   	   	  $("#modalMes").html(jsonData.message);
 		   	      $("#operationMesModal").modal("show");
@@ -62,13 +59,11 @@ function submitItem(operation){
 
 function validateItem(item){
 	var blankInputArray = new Array();
-	if(item.username=="")blankInputArray.push("登录名");
-    if(item.password=="")blankInputArray.push("密码");
-	if(item.storeName=="")blankInputArray.push("分店名称");
-	if(item.phone=="")blankInputArray.push("分店电话");
-    if(item.address=="")blankInputArray.push("分店地址");
-	if($("#password").val()!=$("#passwordConfirm").val())blankInputArray.push("两次输入的密码不一致");
-	if(blankInputArray.length==0){
+	if(item.dishName=="")blankInputArray.push("菜品名称");
+    if(item.price=="")blankInputArray.push("默认价格");
+	if(item.dishUnit=="")blankInputArray.push("价格单位");
+	if(item.recomNum=="")blankInputArray.push("初始推荐数");
+    if(blankInputArray.length==0){
 		return true;
 	}else{
 		showBlankInputHtml(blankInputArray);
@@ -78,10 +73,10 @@ function validateItem(item){
 
 function validateUpdateItem(item){
 	var blankInputArray = new Array();
-	if(item.username=="")blankInputArray.push("登录名");
-	if(item.storeName=="")blankInputArray.push("分店名称");
-	if(item.phone=="")blankInputArray.push("分店电话");
-    if(item.address=="")blankInputArray.push("分店地址");
+	if(item.dishName=="")blankInputArray.push("菜品名称");
+    if(item.price=="")blankInputArray.push("默认价格");
+	if(item.dishUnit=="")blankInputArray.push("价格单位");
+	if(item.recomNum=="")blankInputArray.push("初始推荐数");
 	if(blankInputArray.length==0){
 		return true;
 	}else{
@@ -111,14 +106,14 @@ function confirmDelete(){
 	var itemid = $("#itemidhidden").val();
     $.ajax({
   	  type: "POST",
-  	  url: "store/branch/delete",
-  	  data: "branchid="+itemid,
+  	  url: "store/dish/delete",
+  	  data: "dishid="+itemid,
    	  success: function (data) {
    		  var jsonData=JSON.parse(data);		 
    		  if(jsonData.status==true){
 	   	   	  $("#modalMes").html(jsonData.message);
 	   	      $("#operationMesModal").modal("show");
-	   	      setTimeout("location.href='store/branch/list?classid=0'",1500);
+	   	      setTimeout("location.href='store/dish/list?classid=0'",1500);
    		  }else{
 	   	   	  $("#modalMes").html(jsonData.message);
 	   	      $("#operationMesModal").modal("show");
@@ -130,7 +125,6 @@ function confirmDelete(){
 	  }
   });
 }
-
 
 
 
