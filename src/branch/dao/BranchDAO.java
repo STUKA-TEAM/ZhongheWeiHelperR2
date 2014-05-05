@@ -625,9 +625,9 @@ public class BranchDAO {
 		List<Integer> branchSidList = getBranchSidList(storeSid);
 		for (int i = 0, j = branchSidList.size(); i < j; i++) {
 			try {
-				Branch temp = jdbcTemplate.queryForObject(SQL, new Object[]{
+				Branch branch = jdbcTemplate.queryForObject(SQL, new Object[]{
 						branchSidList.get(i)}, new BasicBranchinfoMapper());
-				branchList.add(temp);
+				branchList.add(branch);
 			} catch (Exception e) {
 				System.out.println("getBasicBranchinfos: " + e.getMessage());
 				continue;
@@ -636,6 +636,32 @@ public class BranchDAO {
 		return branchList;
 	}
 
+	/**
+	 * @title getBranchClassForCustomer
+	 * @description 根据分店类别id查询其关联的所有分店在手机端显示信息 (sid, storeName, phone, address, 
+	 * lng, lat, imageList)
+	 * @param classid
+	 * @return
+	 */
+	public List<Branch> getBranchClassForCustomer(int classid) {
+		List<Branch> branchList = new ArrayList<Branch>();
+		String SQL = "SELECT sid, storeName, phone, address, lng, lat FROM storeuser WHERE sid = ?";
+		List<Integer> branchSidList = getBranchSidListByClassid(classid);
+		for (Integer branchSid : branchSidList) {
+			try {
+				Branch branch = jdbcTemplate.queryForObject(SQL, new Object[]{
+						branchSid}, new CustomerBranchinfoMapper());
+				branch.setImageList(getImageList(branchSid));
+				branchList.add(branch);
+				
+			} catch (Exception e) {
+				System.out.println("getBranchClassForCustomer: " + e.getMessage());
+				continue;
+			}
+		}
+		return branchList;
+	}
+	
 	/**
 	 * @title getBranchContent
 	 * @description 根据分店id查询分店详细信息 (sid, roleid, username, storeName, phone, 
@@ -648,7 +674,8 @@ public class BranchDAO {
 		String SQL = "SELECT sid, roleid, username, storeName, phone, address, "
 				+ "lng, lat FROM storeuser WHERE sid = ?";
 		try {
-			branch = jdbcTemplate.queryForObject(SQL, new Object[]{branchSid}, new BranchContentMapper());
+			branch = jdbcTemplate.queryForObject(SQL, new Object[]{branchSid}, 
+					new BranchContentMapper());
 		} catch (Exception e) {
 			System.out.println("getBranchContent: " + e.getMessage());
 		}
@@ -659,6 +686,26 @@ public class BranchDAO {
 		return branch;
 	}
 
+	/**
+	 * @title getBranchForCustomer
+	 * @description 根据分店id查询分店在手机端显示信息 (storeName, imageList)
+	 * @param branchSid
+	 * @return
+	 */
+	public Branch getBranchForCustomer(int branchSid) {
+		Branch branch = null;
+		String SQL = "SELECT storeName FROM storeuser WHERE sid = ?";
+		try {
+			branch = jdbcTemplate.queryForObject(SQL, new Object[]{branchSid}, new BranchCustomerMapper());
+		} catch (Exception e) {
+			System.out.println("getBranchForCustomer: " + e.getMessage());
+		}
+		if (branch != null) {
+			branch.setImageList(getImageList(branchSid));
+		}
+		return branch;
+	}
+	
 	/**
 	 * @title getClassidList
 	 * @description 根据分店id查询所关联的所有分店类别id列表
@@ -753,6 +800,20 @@ public class BranchDAO {
 		}
 	}
 	
+	private static final class CustomerBranchinfoMapper implements RowMapper<Branch>{
+		@Override
+		public Branch mapRow(ResultSet rs, int arg1) throws SQLException {
+			Branch branch = new Branch();
+			branch.setBranchSid(rs.getInt("sid"));
+	        branch.setStoreName(rs.getString("storeName"));
+	        branch.setPhone(rs.getString("phone"));
+	        branch.setAddress(rs.getString("address"));
+	        branch.setLng(rs.getBigDecimal("lng"));
+	        branch.setLat(rs.getBigDecimal("lat"));
+			return branch;
+		}	
+	}
+	
 	private static final class BranchContentMapper implements RowMapper<Branch>{
 		@Override
 		public Branch mapRow(ResultSet rs, int arg1) throws SQLException {
@@ -765,6 +826,15 @@ public class BranchDAO {
 	        branch.setAddress(rs.getString("address"));
 	        branch.setLng(rs.getBigDecimal("lng"));
 	        branch.setLat(rs.getBigDecimal("lat"));
+			return branch;
+		}
+	}
+	
+	private static final class BranchCustomerMapper implements RowMapper<Branch>{
+		@Override
+		public Branch mapRow(ResultSet rs, int arg1) throws SQLException {
+			Branch branch = new Branch();
+	        branch.setStoreName(rs.getString("storeName"));
 			return branch;
 		}
 	}
