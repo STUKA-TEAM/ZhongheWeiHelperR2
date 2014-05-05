@@ -150,6 +150,18 @@ public class LotteryWheelDAO {
 	}
 	
 	/**
+	 * @title deleteLuckyResult
+	 * @description 根据中奖纪录id删除中奖纪录
+	 * @param resultid
+	 * @return
+	 */
+	public int deleteLuckyResult(int resultid) {
+		String SQL = "DELETE FROM lotterywheel_result WHERE resultid = ?";
+		int result = jdbcTemplate.update(SQL, resultid);
+		return result <= 0 ? 0 : result;
+	}
+	
+	/**
 	 * @title deleteItemList
 	 * @description 根据wheelid删除奖项信息
 	 * @param wheelid

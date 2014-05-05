@@ -326,4 +326,35 @@ public class LotteryWheelController {
 		String response = gson.toJson(message);
 		return response;
 	}
+	
+	/**
+	 * @title deleteLuckyResult
+	 * @description 删除没有意义的中奖记录
+	 * @param resultid
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/delete", method = RequestMethod.POST)
+	@ResponseBody
+	public String deleteLuckyResult(@RequestParam(value = "resultid", required = true) int 
+			resultid, Model model){
+		ApplicationContext context = 
+				new ClassPathXmlApplicationContext("All-Modules.xml");
+		LotteryWheelDAO wheelDao = (LotteryWheelDAO) context.getBean("LotteryWheelDAO");
+		((ConfigurableApplicationContext)context).close();
+		
+		Gson gson = new Gson();
+		ResponseMessage message = new ResponseMessage();
+		
+		int result = wheelDao.deleteLuckyResult(resultid);
+		if (result > 0) {
+			message.setStatus(true);
+			message.setMessage("删除成功！");
+		}else {
+			message.setStatus(false);
+			message.setMessage("删除失败！");
+		}
+		String response = gson.toJson(message);
+		return response;
+	}
 }
