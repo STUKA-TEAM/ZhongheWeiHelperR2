@@ -84,6 +84,7 @@ public class SecurityController {
 			case "BRANCHREST":
 				message.setStatus(true);
 				message.setMessage("branch/restaurant/dish/list?appid='initial'&classid=0");
+				break;
 			default:
 				message.setStatus(false);
 	        	message.setMessage("用户角色异常！");
