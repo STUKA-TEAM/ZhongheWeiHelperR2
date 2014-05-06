@@ -44,7 +44,7 @@
             <h5>洋河蓝色经典<br><small>288远/瓶</small></h5>
             <div class="good">
               <img src="./img/common/like_black.png" />
-              <p>300人赞过</p>
+             <div class="goodText"><p>300人赞过</p></div>
             </div>
           </div>
           <div class="dishes-num">
@@ -60,7 +60,7 @@
             <h5>洋河蓝色经典<br><small>288远/瓶</small></h5>
             <div class="good">
               <img src="./img/common/like_black.png" />
-              <p>300人赞过</p>
+              <div class="goodText"><p>300人赞过</p></div>
             </div>
           </div>
           <div class="dishes-num">
@@ -76,7 +76,7 @@
             <h5>洋河蓝色经典<br><small>288远/瓶</small></h5>
             <div class="good">
               <img src="./img/common/like_black.png" />
-              <p>300人赞过</p>
+              <div class="goodText"><p>300人赞过</p></div>
             </div>
           </div>
           <div class="dishes-num">
@@ -92,7 +92,7 @@
             <h5>洋河蓝色经典<br><small>288远/瓶</small></h5>
             <div class="good">
               <img src="./img/common/like_black.png" />
-              <p>300人赞过</p>
+              <div class="goodText"><p>300人赞过</p></div>
             </div>
           </div>
           <div class="dishes-num">
@@ -103,6 +103,22 @@
         </div>
       </div>
     </div>
+    
+    <div class="modal fade" id="detail" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div id="modalbody" class="modal-body">
+            <img src="/resources/images/a405fc8160c54620b8a4a7b37255376e_original.jpg">
+          </div>
+          <div id="dishTopInfo">
+          <div id="dishTitle">滑蛋牛柳</div>
+          <div id="dishLike">300人赞过</div>
+          </div>
+          <div id="dishDesc">滑蛋牛柳</div>
+        </div>
+      </div>
+    </div>    
+    
     <div id="nav-item" class="nav-item-home">
       <a href='customer/website/home?websiteid=${website.websiteid}'><img src="img/website-nav/nav-home.png" class="img-responsive"></a>
     </div>
@@ -119,9 +135,10 @@
       <img src="img/website-nav/nav-bar.png" class="img-responsive">
     </div>
     <div class="my-menu">
-      <a href="./my-menu-order.html" class="btn btn-sm btn-info">我的菜单</a>
+      <a data-toggle="modal" data-target="#detail" class="btn btn-sm btn-success">我的菜单</a>
     </div>
     <script type="text/javascript" src="js/customer/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="js/customer/modal.min.js"></script> 
     <script type="text/javascript" src="js/customer/jQueryRotateCompressed.js"></script>
     <script type="text/javascript" src="js/customer/mobile-common.js"></script>
     <script type="text/javascript">

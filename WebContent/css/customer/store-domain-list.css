@@ -10,8 +10,7 @@ div {
 }
 h4 {
   font-family:"Microsoft YaHei";
-  padding-left: 20px;
-  margin-bottom: 2px;
+  margin-bottom: 10px;
   color: #000000;
 }
 h5 {
@@ -52,6 +51,7 @@ a:hover {
   display: inline-block;
   text-align: left;
   vertical-align: middle;
+  margin-left:5px;
 }
 .store-nav-4 {
   display: inline-block;

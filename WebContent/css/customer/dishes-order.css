@@ -1,6 +1,11 @@
-html, header, body, div {
+html, header, body{
   max-width: 360px;
   background-color: #eee;
+  font-family:"Microsoft YaHei";
+  color: #666;
+}
+div{
+  max-width: 360px;
   font-family:"Microsoft YaHei";
   color: #666;
 }
@@ -84,6 +89,11 @@ a:hover {
   color: #aaa;
   clear: both;
 }
+.goodText{
+	display: inline-block;
+    text-align: left;
+	padding-left:5px;
+}
 .good > img {
   float: left;
   width: 16px;
@@ -118,4 +128,33 @@ a:hover {
   bottom: 16px;
   right: 10px;
   z-index: 1080;
+}
+.modal-dialog
+{
+	width:300px;
+}
+.modal-body
+{
+	padding:0px;
+}
+#dishTitle{
+	float:left;
+	width:65%;
+	padding:3px 10px 3px;
+	font-weight:bold;
+}
+#dishLike{
+	width:35%;
+	float:right;
+	color:#FF6600;
+	font-size:12px;
+	padding:3px 10px 3px;
+}
+#dishDesc{
+	padding:0px 10px 8px;
+	font-size:12px;
+}
+#dishTopInfo{
+	width:300px;
+	height:28px;
 }
