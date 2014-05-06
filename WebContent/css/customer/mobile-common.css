@@ -149,7 +149,7 @@ font-size:12px;
   left: 10px;
   width: 40px;
   height: 40px;
-  z-index: 1080px;
+  z-index: 1080;
 }
 .nav-item-home,
 .nav-item-gps,
@@ -158,7 +158,7 @@ font-size:12px;
   position: fixed;
   width: 40px;
   height: 40px;
-  z-index: -1px;
+  z-index: 1000;
 }
 .nav-item-home {
   bottom: 10px;

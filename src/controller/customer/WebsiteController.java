@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import branch.Branch;
+import branch.dao.BranchDAO;
 import register.dao.AppInfoDAO;
 import register.dao.AuthInfoDAO;
 import register.dao.UserInfoDAO;
@@ -113,6 +115,7 @@ public class WebsiteController {
 		AlbumDAO albumDao = null;
 		VoteDAO voteDao = null;
 		LotteryWheelDAO wheelDao = null;
+		BranchDAO branchDao = null;
 		
 		WebsiteNode node = websiteDao.getWebsiteNode(nodeid);
 		String viewName = "WebsiteViews/";
@@ -223,6 +226,13 @@ public class WebsiteController {
 				message.setShareContent(wheel.getWheelDesc());
 				model.addAttribute("message", message);
 				viewName = viewName + "wheel";
+				break;
+			case "branchclass":
+				viewName = "BranchViews/";
+				branchDao = (BranchDAO) context.getBean("BranchDAO");
+				List<Branch> branchList = branchDao.getBranchClassForCustomer(nodeidList.get(0));
+				model.addAttribute("branchList", branchList);
+				viewName = viewName + "branchclassInWebsite";
 				break;
 			default:
 				viewName = viewName + "exception";
