@@ -53,6 +53,8 @@ a:hover {
   z-index: 0;
 }
 .dishes-item {
+  line-height: 78px;
+  height: 78px;
   margin-left: 70px;
   border-bottom: solid #bbb 1px;
 }
@@ -60,7 +62,6 @@ a:hover {
   display: inline-block;
   width: 64px;
   height: 64px;
-  vertical-align: center;
   margin-left: 10px;
   border-radius:4px;
 }
@@ -77,6 +78,8 @@ a:hover {
   color: #FF0000;
 }
 .good {
+  line-height: 16px;
+  height: 16px;
   font-size: 10px;
   color: #aaa;
   clear: both;
@@ -92,7 +95,8 @@ a:hover {
 .dishes-num {
   display: inline-block;
   vertical-align: center;
-  width: 25%;
+  width: 60px;
+  height: 24px;
 }
 .dishes-num-minus,
 .dishes-num-plus {
@@ -108,4 +112,10 @@ a:hover {
   height: 24px;
   line-height: 24px;
   text-align: center;
+}
+.my-menu {
+  position: fixed;
+  bottom: 16px;
+  right: 10px;
+  z-index: 1080;
 }
