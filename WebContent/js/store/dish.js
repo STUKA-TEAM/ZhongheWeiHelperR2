@@ -17,9 +17,10 @@ function submitItem(operation){
 	item.dishDesc=$("#dishDesc").val();
 
 	var list = new Array();
-	$("input[type=checkbox][name='options']:checked").each(function(){
-		list.push($(this).val());
-	});
+	var radioValue=$("input[type=radio][name='options']:checked").val();
+	if(typeof radioValue != 'undefined'){
+		list.push(radioValue);
+	}	
 	item.classidList=list;
 	
 	var url = "";

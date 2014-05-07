@@ -88,7 +88,7 @@
 					      <div class="col-md-4">
 					        <div class="radio">
 					          <label>
-					            <input type="checkbox" name="options" value="${item.classid}" <c:if test="${item.selected}">checked</c:if> >${item.className}
+					            <input type="radio" name="options" value="${item.classid}" <c:if test="${item.selected}">checked</c:if> >${item.className}
 					          </label>
 					        </div>
 					      </div>

@@ -28,12 +28,7 @@ function editClass(classid){
 }
 function submitClass(operation){
 	var item = new Object();
-	var list = new Array();
 	item.className = $("#className").val();
-	$("input[type=checkbox][name='options']:checked").each(function(){
-		list.push($(this).val());
-	});
-	item.dishidList = list;
 	var url = "";
 	if(operation=="insert"){
 		url="store/dishclass/insert";

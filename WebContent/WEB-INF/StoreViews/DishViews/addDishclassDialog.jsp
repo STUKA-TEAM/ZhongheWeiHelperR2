@@ -15,27 +15,6 @@
           <input type="text" class="form-control" id="className" placeholder="">
         </div>
       </div>
-      <div class="form-group">
-        <label for="story_groom" class="col-md-3 control-label">添加菜品</label>
-        <div class="col-md-7">
-          <div class="panel panel-default">
-            <div class="panel-body">
-              <ul class="list-unstyled">
-              <c:forEach items="${dishList}" var="item">
-                <li>
-                  <div class="checkbox">
-                    <label>
-                      <input type="checkbox" name="options" value="${item.dishid}">${item.dishName}
-                    </label>
-                  </div>
-                </li>
-              </c:forEach>
-
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
   <div class="modal-footer">
