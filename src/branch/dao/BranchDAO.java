@@ -653,10 +653,67 @@ public class BranchDAO {
 						branchSid}, new CustomerBranchinfoMapper());
 				branch.setImageList(getImageList(branchSid));
 				branchList.add(branch);
-				
 			} catch (Exception e) {
 				System.out.println("getBranchClassForCustomer: " + e.getMessage());
 				continue;
+			}
+		}
+		return branchList;
+	}
+	
+	/**
+	 * @title getBranchListForCustomer
+	 * @description 根据appid查询其所属商家的所有分店在手机端显示信息 (sid, storeName, phone, address, 
+	 * lng, lat, imageList)
+	 * @param appid
+	 * @return
+	 */
+	public List<Branch> getBranchListForCustomer(String appid) {
+		List<Branch> branchList = new ArrayList<Branch>();
+		String SQL = "SELECT sid, storeName, phone, address, lng, lat FROM storeuser WHERE sid = ?";
+		Integer storeSid = getStoreSid(appid);
+		if (storeSid != null) {
+			List<Integer> branchSidList = getBranchSidList(storeSid);
+			for (Integer branchSid : branchSidList) {
+				try {
+					Branch branch = jdbcTemplate.queryForObject(SQL, new Object[]{
+							branchSid}, new CustomerBranchinfoMapper());
+					branch.setImageList(getImageList(branchSid));
+					branchList.add(branch);
+				} catch (Exception e) {
+					System.out.println("getBranchListForCustomer: " + e.getMessage());
+					continue;
+				}
+			}
+		}
+		return branchList;
+	}
+	
+	/**
+	 * @title getBranchListForOrder
+	 * @description 查询某用户在某应用下的所有订单（按分店划分）
+	 * @param appid
+	 * @param openid
+	 * @return
+	 */
+	public List<Branch> getBranchListForOrder(String appid, String openid) {
+		List<Branch> branchList = new ArrayList<Branch>();
+		String SQL = "SELECT sid, storeName FROM storeuser WHERE sid = ?";
+		Integer storeSid = getStoreSid(appid);
+		if (storeSid != null) {
+			List<Integer> branchSidList = getBranchSidList(storeSid);
+			for (Integer branchSid : branchSidList) {
+				if (getDishOrderNum(openid, branchSid) == 0) {
+					continue;
+				}
+				try {
+					Branch branch = jdbcTemplate.queryForObject(SQL, new Object[]{
+							branchSid}, new BasicBranchinfoMapper());
+					branchList.add(branch);
+				} catch (Exception e) {
+					System.out.println("getBranchListForOrder: " + e.getMessage());
+					continue;
+				}
 			}
 		}
 		return branchList;
@@ -702,6 +759,23 @@ public class BranchDAO {
 		}
 		if (branch != null) {
 			branch.setImageList(getImageList(branchSid));
+		}
+		return branch;
+	}
+	
+	/**
+	 * @title getBasicBranchForCustomer
+	 * @description 根据分店id查询分店在手机端显示基本信息 (storeName)
+	 * @param branchSid
+	 * @return
+	 */
+	public Branch getBasicBranchForCustomer(int branchSid) {
+		Branch branch = null;
+		String SQL = "SELECT storeName FROM storeuser WHERE sid = ?";
+		try {
+			branch = jdbcTemplate.queryForObject(SQL, new Object[]{branchSid}, new BranchCustomerMapper());
+		} catch (Exception e) {
+			System.out.println("getBasicBranchForCustomer: " + e.getMessage());
 		}
 		return branch;
 	}
@@ -776,6 +850,23 @@ public class BranchDAO {
 			dishInfoList = new ArrayList<Dish>();
 		}
 		return dishInfoList;
+	}
+	
+	/**
+	 * @title getStoreSid
+	 * @description 根据appid查询所属商家id
+	 * @param appid
+	 * @return
+	 */
+	private Integer getStoreSid(String appid) {
+		Integer storeSid = null;
+		String SQL = "SELECT sid FROM storeuser_application WHERE appid = ?";
+		try {
+			storeSid = jdbcTemplate.queryForObject(SQL, new Object[]{appid}, new StoreSidMapper());
+		} catch (Exception e) {
+			System.out.println("getStoreSid: " + e.getMessage());
+		}
+		return storeSid;
 	}
 	
 	private static final class DetailedBranchinfoMapper implements RowMapper<Branch>{
@@ -873,6 +964,14 @@ public class BranchDAO {
 		}
 	}
 	
+	private static final class StoreSidMapper implements RowMapper<Integer>{
+		@Override
+		public Integer mapRow(ResultSet rs, int arg1) throws SQLException {
+			Integer storeSid = rs.getInt("sid");
+			return storeSid;
+		}
+	}
+	
 	/**
 	 * @title checkBranchStoreMapping
 	 * @description 检查分店id与商家id对应关系是否存在
@@ -887,6 +986,24 @@ public class BranchDAO {
 			count = jdbcTemplate.queryForObject(SQL, Integer.class, branchSid, storeSid);
 		} catch (Exception e) {
 			System.out.println("checkBranchStoreMapping: " + e.getMessage());
+		}
+		return count;
+	}
+	
+	/**
+	 * @title getDishOrderNum
+	 * @description 查询某用户在某分店的订菜数
+	 * @param openid
+	 * @param branchSid
+	 * @return
+	 */
+	private int getDishOrderNum(String openid, int branchSid) {
+		int count = 0;
+		String SQL = "SELECT COUNT(*) FROM dish_order WHERE openid = ? AND branchSid = ?";
+		try {
+			count = jdbcTemplate.queryForObject(SQL, Integer.class, openid, branchSid);
+		} catch (Exception e) {
+			System.out.println("getDishOrderNum: " + e.getMessage());
 		}
 		return count;
 	}
