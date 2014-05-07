@@ -6,7 +6,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import message.ResponseMessage;
-import order.Dish;
 import order.DishClass;
 import order.dao.DishDAO;
 
@@ -91,7 +90,6 @@ public class DishClassController {
 			Model model, HttpServletRequest request){
 		ApplicationContext context = 
 				new ClassPathXmlApplicationContext("All-Modules.xml");
-		DishDAO dishDao = (DishDAO) context.getBean("DishDAO");
 		AppInfoDAO appInfoDao = (AppInfoDAO) context.getBean("AppInfoDAO");
 		((ConfigurableApplicationContext)context).close();
 
@@ -109,8 +107,6 @@ public class DishClassController {
 				return "forward:/store/transfer";   
 			} 
 			else {
-				List<Dish> dishList = dishDao.getBasicDishinfos(appid);
-				model.addAttribute("dishList", dishList);
 				return "DishViews/addDishclassDialog";
 			}
 		}	
@@ -149,24 +145,8 @@ public class DishClassController {
 				return "forward:/store/transfer";   
 			} 
 			else {
-				List<Integer> selectedList = null;	
-				if (classid > 0) {
-					DishClass dishClass = dishDao.getClassContent(classid);
-					if (dishClass != null) {
-						selectedList = dishClass.getDishidList();
-						model.addAttribute("dishclass", dishClass);
-					}
-				}
-				List<Dish> dishList = dishDao.getBasicDishinfos(appid);
-				if (selectedList != null) {
-					for (int i = 0, j = dishList.size(); i < j; i++) {
-						Dish dish = dishList.get(i);
-						if (selectedList.contains(dish.getDishid())) {
-							dish.setSelected(true);
-						}
-					}
-				}
-				model.addAttribute("dishList", dishList);
+				DishClass dishClass = dishDao.getClassContent(classid);
+			    model.addAttribute("dishclass", dishClass);
 				return "DishViews/editDishclassDialog";
 			}
 		}
@@ -222,7 +202,6 @@ public class DishClassController {
 					} else {
 						message.setStatus(false);
 						message.setMessage("菜品类别创建失败！");
-						System.out.println("Error: " + result);
 					}
 				}
 			}
@@ -261,7 +240,6 @@ public class DishClassController {
 			} else {
 				message.setStatus(false);
 				message.setMessage("菜品类别修改失败！");
-				System.out.println("Error: " + result);
 			}
 		}
 		String response = gson.toJson(message);

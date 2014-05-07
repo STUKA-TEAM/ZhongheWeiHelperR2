@@ -15,8 +15,10 @@ public class DishBranch {
 	private String dishName;
 	private String dishPic;
 	private String dishUnit;
+	private int recomNum;
 	private int price;
 	private int available;
+	private int count;
 	
 	/**
 	 * @return the dishid
@@ -79,6 +81,18 @@ public class DishBranch {
 		this.dishUnit = dishUnit;
 	}
 	/**
+	 * @return the recomNum
+	 */
+	public int getRecomNum() {
+		return recomNum;
+	}
+	/**
+	 * @param recomNum the recomNum to set
+	 */
+	public void setRecomNum(int recomNum) {
+		this.recomNum = recomNum;
+	}
+	/**
 	 * @return the price
 	 */
 	public int getPrice() {
@@ -101,5 +115,17 @@ public class DishBranch {
 	 */
 	public void setAvailable(int available) {
 		this.available = available;
+	}
+	/**
+	 * @return the count
+	 */
+	public int getCount() {
+		return count;
+	}
+	/**
+	 * @param count the count to set
+	 */
+	public void setCount(int count) {
+		this.count = count;
 	}
 }

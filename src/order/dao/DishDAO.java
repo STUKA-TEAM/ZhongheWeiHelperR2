@@ -7,7 +7,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.sql.DataSource;
 
@@ -40,33 +43,18 @@ public class DishDAO {
 	//insert
 	/**
 	 * @title insertDishClass
-	 * @description 插入菜品类别信息及其关联的菜品记录
+	 * @description 插入菜品类别信息
 	 * @param dishClass
 	 * @return
 	 */
-	public int insertDishClass(final DishClass dishClass) {
-		final String SQL = "INSERT INTO dishclass (classid, appid, className, "
+	public int insertDishClass(DishClass dishClass) {
+		String SQL = "INSERT INTO dishclass (classid, appid, className, "
 				+ "createTime) VALUES (default, ?, ?, ?)";
-		KeyHolder kHolder = new GeneratedKeyHolder();
-		int result = jdbcTemplate.update(new PreparedStatementCreator() {
-		    public PreparedStatement createPreparedStatement(Connection connection) throws SQLException{
-		        PreparedStatement ps =
-		            connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
-		        ps.setString(1, dishClass.getAppid());
-		        ps.setString(2, dishClass.getClassName());
-		        ps.setTimestamp(3, dishClass.getCreateTime());
-		        return ps;
-		    }
-		}, kHolder);
-		if (result > 0) {
-			int classid = kHolder.getKey().intValue();
-			insertDCRByClassid(classid, dishClass.getDishidList());
-			return result;
-		} else {
-			return 0;
-		}
+		int result = jdbcTemplate.update(SQL, dishClass.getAppid(), 
+				dishClass.getClassName(), dishClass.getCreateTime());
+		return result <= 0 ? 0 : result;
 	}
-	
+
 	/**
 	 * @title insertDish
 	 * @description 插入菜品信息及其关联的菜品类别与分店记录
@@ -108,11 +96,26 @@ public class DishDAO {
 	}
 	
 	/**
+	 * @title insertDishOrder
+	 * @description 插入新的菜品订单记录
+	 * @param openid
+	 * @param branchSid
+	 * @param dishid
+	 * @return
+	 */
+	public int insertDishOrder(String openid, int branchSid, int dishid) {
+		String SQL = "INSERT INTO dish_order (openid, branchSid, dishid) VALUES (?, ?, ?)";
+		int result = jdbcTemplate.update(SQL, openid, branchSid, dishid);
+		return result <= 0 ? 0 : result;
+	}
+	
+	/**
 	 * @title insertDCRByClassid
 	 * @description 根据菜品类别id插入菜品Dish与菜品类别DishClass关系记录
 	 * @param classid
 	 * @param dishidList
 	 */
+	@SuppressWarnings("unused")
 	private void insertDCRByClassid(int classid, List<Integer> dishidList) {
 		String SQL = "INSERT INTO dish_dishclass (id, dishid, classid) VALUES (default, ?, ?)";
 		for (int i = 0, j = dishidList.size(); i < j; i++) {
@@ -244,6 +247,33 @@ public class DishDAO {
 	}
 	
 	/**
+	 * @title deleteDishOrder
+	 * @description 删除用户在某分店的某条菜品订单记录
+	 * @param openid
+	 * @param branchSid
+	 * @param dishid
+	 * @return
+	 */
+	public int deleteDishOrder(String openid, int branchSid, int dishid) {
+		String SQL = "DELETE FROM dish_order WHERE openid = ? AND branchSid = ? AND dishid = ?";
+		int result = jdbcTemplate.update(SQL, openid, branchSid, dishid);
+		return result <= 0 ? 0 : result;
+	}
+	
+	/**
+	 * @title deleteDishOrder
+	 * @description 删除用户在某分店的所有菜品订单记录
+	 * @param openid
+	 * @param branchSid
+	 * @return
+	 */
+	public int deleteDishOrder(String openid, int branchSid) {
+		String SQL = "DELETE FROM dish_order WHERE openid = ? AND branchSid = ?";
+		int result = jdbcTemplate.update(SQL, openid, branchSid);
+		return result <= 0 ? 0 : result;
+	}
+	
+	/**
 	 * @title deleteDCRByClassid
 	 * @description 根据菜品类别id删除菜品Dish与该菜品类别DishClass的关联记录
 	 * @param classid
@@ -306,21 +336,15 @@ public class DishDAO {
 	//update
 	/**
 	 * @title updateDishClass
-	 * @description 更新菜品类别信息及其与菜品的关联信息
+	 * @description 更新菜品类别信息
 	 * @param dishClass
 	 * @return
 	 */
 	public int updateDishClass(DishClass dishClass) {
 		String SQL = "UPDATE dishclass SET className = ? WHERE classid = ?";
-		int classid = dishClass.getClassid();
-		int result = jdbcTemplate.update(SQL, dishClass.getClassName(), classid);
-		if (result > 0) {
-			deleteDCRByClassid(classid);
-			insertDCRByClassid(classid, dishClass.getDishidList());
-			return result;
-		} else {
-			return 0;
-		}
+		int result = jdbcTemplate.update(SQL, dishClass.getClassName(), 
+				dishClass.getClassid());
+		return result <= 0 ? 0 : result;
 	}
 
 	/**
@@ -357,6 +381,18 @@ public class DishDAO {
 	}
 	
 	/**
+	 * @title updateDishRecom
+	 * @description 更新菜品推荐人数 recomNum = recomNum + 1
+	 * @param dishid
+	 * @return
+	 */
+	public int updateDishRecom(int dishid) {
+		String SQL = "UPDATE dish SET recomNum = recomNum + 1 WHERE dishid = ?";
+		int result = jdbcTemplate.update(SQL, dishid);
+		return result <= 0 ? 0 : result;
+	}
+	
+	/**
 	 * @title updateDishBranch
 	 * @description 更新分店菜品信息
 	 * @param dishBranch
@@ -368,6 +404,36 @@ public class DishDAO {
 				+ "dishid = ? AND branchSid = ?";
 		int result = jdbcTemplate.update(SQL, dishBranch.getPrice(), 
 				dishBranch.getAvailable(), dishBranch.getDishid(), branchSid);
+		return result <= 0 ? 0 : result;
+	}
+	
+	/**
+	 * @title updateDishOrderPlus
+	 * @description 更新菜品订单记录  count = count + 1
+	 * @param openid
+	 * @param branchSid
+	 * @param dishid
+	 * @return
+	 */
+	public int updateDishOrderPlus(String openid, int branchSid, int dishid) {
+		String SQL = "UPDATE dish_order SET count = count + 1 WHERE openid = ? "
+				+ "AND branchSid = ? AND dishid = ?";
+		int result = jdbcTemplate.update(SQL, openid, branchSid, dishid);
+		return result <= 0 ? 0 : result;
+	}
+	
+	/**
+	 * @title updateDishOrderMinus
+	 * @description 更新菜品订单记录  count = count - 1
+	 * @param openid
+	 * @param branchSid
+	 * @param dishid
+	 * @return
+	 */
+	public int updateDishOrderMinus(String openid, int branchSid, int dishid) {
+		String SQL = "UPDATE dish_order SET count = count - 1 WHERE openid = ? "
+				+ "AND branchSid = ? AND dishid = ?";
+		int result = jdbcTemplate.update(SQL, openid, branchSid, dishid);
 		return result <= 0 ? 0 : result;
 	}
 	
@@ -454,6 +520,21 @@ public class DishDAO {
 	}
 	
 	/**
+	 * @title getDishClassMapForOrder
+	 * @description 根据菜品类别id集合查询菜品类别名称className
+	 * @param classidSet
+	 * @return
+	 */
+	public Map<Integer, String> getDishClassMapForOrder(Set<Integer> classidSet) {
+		Map<Integer, String> dishClassMap = new HashMap<Integer, String>();
+		for (Integer classid : classidSet) {
+			String className = getClassName(classid);
+			dishClassMap.put(classid, className);
+		}
+		return dishClassMap;
+	}
+	
+	/**
 	 * @title getClassContent
 	 * @description 根据菜品类别id查询菜品类别详细信息 (classid, className, dishidList)
 	 * @param classid
@@ -471,6 +552,23 @@ public class DishDAO {
 			dishClass.setDishidList(getDishidList(classid));
 		}
 		return dishClass;
+	}
+	
+	/**
+	 * @title getClassName
+	 * @description 根据菜品类别id查询菜品类别名称
+	 * @param classid
+	 * @return
+	 */
+	private String getClassName(int classid) {
+		String className = null;
+		String SQL = "SELECT className FROM dishclass WHERE classid = ?";
+		try {
+			className = jdbcTemplate.queryForObject(SQL, new Object[]{classid}, new ClassNameMapper());
+		} catch (Exception e) {
+			System.out.println("getClassName: " + e.getMessage());
+		}
+		return className;
 	}
 	
 	/**
@@ -544,6 +642,14 @@ public class DishDAO {
 			dishClass.setClassid(rs.getInt("classid"));
 			dishClass.setClassName(rs.getString("className"));
 			return dishClass;
+		}
+	}
+	
+	private static final class ClassNameMapper implements RowMapper<String>{
+		@Override
+		public String mapRow(ResultSet rs, int arg1) throws SQLException {
+			String className = rs.getString("className");
+			return className;
 		}
 	}
 	
@@ -636,6 +742,23 @@ public class DishDAO {
 			dish.setClassidList(getClassidList(dishid));
 		}
 		return dish;
+	}
+	
+	/**
+	 * @title getDishCount
+	 * @description 查询用户在分店某类菜品下的订餐总数
+	 * @param classid
+	 * @param openid
+	 * @param branchSid
+	 * @return
+	 */
+	public int getDishCount(int classid, String openid, int branchSid) {
+		int count = 0;
+		List<Integer> dishidList = getDishidList(classid);
+		for (Integer dishid : dishidList) {
+			count += getDishOrderCount(dishid, branchSid, openid);
+		}
+		return count;
 	}
 	
 	/**
@@ -805,6 +928,90 @@ public class DishDAO {
 	}
 	
 	/**
+	 * @title getDishClassForCustomer
+	 * @description 查询某分店某一类菜品对于某人在手机端显示信息 (dishid, dishName, dishPic, price, 
+	 * dishUnit, recomNum, price, count)
+	 * @param classid
+	 * @param branchSid
+	 * @param openid
+	 * @return
+	 */
+	public List<DishBranch> getDishClassForCustomer(int classid, int branchSid, String openid) {
+		List<DishBranch> dishList = new ArrayList<DishBranch>();
+		String SQL = "SELECT dishid, dishName, dishPic, price, dishUnit, recomNum "
+				+ "FROM dish WHERE dishid = ? ORDER BY recomNum DESC";
+		List<Integer> dishidList = getDishidList(classid);
+		for (Integer dishid : dishidList) {
+			try {
+				DishBranch dishBranch = jdbcTemplate.queryForObject(SQL, new Object[]{
+						dishid}, new CustomerDishinfoMapper());
+				DishBranch temp = getDishBranch(dishid, branchSid);
+				if (temp != null && temp.getAvailable() == 1) {
+					dishBranch.setPrice(temp.getPrice());
+					dishBranch.setCount(getDishOrderCount(dishid, branchSid, openid));
+					dishList.add(dishBranch);
+				}
+			} catch (Exception e) {
+				System.out.println("getDishClassForCustomer: " + e.getMessage());
+				continue;
+			}
+		}
+		return dishList;
+	}
+	
+	/**
+	 * @title getDishMapForOrder
+	 * @description 根据openid和分店id查询用户在该分店的订餐详情（按菜品类别划分）（dishid, dishName, dishPic, price, dishUnit, count）
+	 * @param openid
+	 * @param branchSid
+	 * @return
+	 */
+	public Map<Integer, List<DishBranch>> getDishMapForOrder(String openid, int branchSid) {
+		Map<Integer, List<DishBranch>> dishMap = new HashMap<Integer, List<DishBranch>>();
+		List<DishBranch> dishList = getDishOrder(openid, branchSid);
+		for (DishBranch dishBranch : dishList) {
+			int count = dishBranch.getCount();
+			if (count > 0) {
+				int dishid = dishBranch.getDishid();
+				DishBranch temp = getDishBranchForOrder(dishid, branchSid);
+				if (temp != null) {
+					temp.setCount(count);
+				} else {
+					temp = dishBranch;
+				}
+				
+				List<Integer> classidList = getClassidList(dishid);
+				Integer classid = classidList.get(0);
+				if (dishMap.containsKey(classid)) {
+					dishMap.get(classid).add(temp);
+				} else {
+					dishMap.put(classid, new ArrayList<DishBranch>());
+				}
+			}
+		}
+		return dishMap;
+	}
+	
+	/**
+	 * @title getDishOrder
+	 * @description 根据openid和分店id查询用户在分店的订单记录 (dishid, count)
+	 * @param openid
+	 * @param branchSid
+	 * @return
+	 */
+	private List<DishBranch> getDishOrder(String openid, int branchSid) {
+		List<DishBranch> dishList = null;
+		String SQL = "SELECT dishid, count FROM dish_order WHERE branchSid = ? AND openid = ?";
+		try {
+			dishList = jdbcTemplate.query(SQL, new Object[]{branchSid, openid}, new DishOrderMapper());
+		} catch (Exception e) {
+			System.out.println("getDishOrder: " + e.getMessage());
+			dishList = new ArrayList<DishBranch>();
+		}
+		return dishList;
+	}
+	
+	/**
 	 * @title getDishBranch
 	 * @description 根据菜品id和分店id查询该菜品在该分店销售信息 (price, available)
 	 * @param dishid
@@ -813,13 +1020,60 @@ public class DishDAO {
 	 */
 	private DishBranch getDishBranch(int dishid, int branchSid) {
 		DishBranch dishBranch = null;
-		String SQL = "SELECT price, available FROM dish_branch WHERE dishid = ? AND branchSid = ?";
+		String SQL = "SELECT price, available FROM dish_branch WHERE dishid = ?"
+				+ " AND branchSid = ?";
 		try {
-			dishBranch = jdbcTemplate.queryForObject(SQL, new Object[]{dishid, branchSid}, new DishBranchMapper());
+			dishBranch = jdbcTemplate.queryForObject(SQL, new Object[]{dishid, 
+					branchSid}, new DishBranchMapper());
 		} catch (Exception e) {
 			System.out.println("getDishBranch: " + e.getMessage());
 		}
 		return dishBranch;
+	}
+	
+	/**
+	 * @title getDishBranchForOrder
+	 * @description 根据菜品id和分店id查询用于“我的菜单”显示的菜品信息 (dishid, dishName, dishPic, price, dishUnit)
+	 * @param dishid
+	 * @param branchSid
+	 * @return
+	 */
+	private DishBranch getDishBranchForOrder(int dishid, int branchSid) {
+		DishBranch dishBranch = null;
+		String SQL = "SELECT dishid, dishName, dishPic, price, dishUnit FROM dish WHERE dishid = ?";
+		try {
+			dishBranch = jdbcTemplate.queryForObject(SQL, new Object[]{dishid}, new DishBranchForOrderMapper());
+		} catch (Exception e) {
+			System.out.println("getDishBranchForOrder: " + e.getMessage());
+		}
+		if (dishBranch != null) {
+			DishBranch temp = getDishBranch(dishid, branchSid);
+			if (temp != null) {
+				dishBranch.setPrice(temp.getPrice());
+			}
+		}
+		return dishBranch;
+	}
+	
+	/**
+	 * @title getDishOrderCount
+	 * @description 查询某人在某分店对某道菜的订购数
+	 * @param dishid
+	 * @param branchSid
+	 * @param openid
+	 * @return
+	 */
+	private int getDishOrderCount(int dishid, int branchSid, String openid) {
+		int count = 0;
+		String SQL = "SELECT count FROM dish_order WHERE dishid = ? AND branchSid"
+				+ " = ? AND openid = ?";
+		try {
+			count = jdbcTemplate.queryForObject(SQL, new Object[]{dishid, branchSid,
+					openid}, new DishOrderCountMapper());
+		} catch (Exception e) {
+			System.out.println("getDishOrderCount: " + e.getMessage());
+		}
+		return count <= 0 ? 0 : count;
 	}
 	
 	private static final class BranchDishinfoMapper implements RowMapper<DishBranch>{
@@ -836,6 +1090,20 @@ public class DishDAO {
 		}
 	}
 	
+	private static final class CustomerDishinfoMapper implements RowMapper<DishBranch>{
+		@Override
+		public DishBranch mapRow(ResultSet rs, int arg1) throws SQLException {
+			DishBranch dishBranch = new DishBranch();
+			dishBranch.setDishid(rs.getInt("dishid"));
+			dishBranch.setDishName(rs.getString("dishName"));
+			dishBranch.setDishPic(rs.getString("dishPic"));
+			dishBranch.setPrice(rs.getInt("price"));
+			dishBranch.setDishUnit(rs.getString("dishUnit"));
+			dishBranch.setRecomNum(rs.getInt("recomNum"));
+			return dishBranch;
+		}
+	}
+	
 	private static final class DishBranchMapper implements RowMapper<DishBranch>{
 		@Override
 		public DishBranch mapRow(ResultSet rs, int arg1) throws SQLException {
@@ -844,6 +1112,37 @@ public class DishDAO {
 			dishBranch.setAvailable(rs.getInt("available"));
 			return dishBranch;
 		}	
+	}
+	
+	private static final class DishBranchForOrderMapper implements RowMapper<DishBranch>{
+		@Override
+		public DishBranch mapRow(ResultSet rs, int arg1) throws SQLException {
+			DishBranch dishBranch = new DishBranch();
+			dishBranch.setDishid(rs.getInt("dishid"));
+			dishBranch.setDishName(rs.getString("dishName"));
+			dishBranch.setDishPic(rs.getString("dishPic"));
+			dishBranch.setPrice(rs.getInt("price"));
+			dishBranch.setDishUnit(rs.getString("dishUnit"));
+			return dishBranch;
+		}
+	}
+	
+	private static final class DishOrderMapper implements RowMapper<DishBranch>{
+		@Override
+		public DishBranch mapRow(ResultSet rs, int arg1) throws SQLException {
+			DishBranch dishBranch = new DishBranch();
+			dishBranch.setDishid(rs.getInt("dishid"));
+			dishBranch.setCount(rs.getInt("count"));
+			return dishBranch;
+		}
+	}
+	
+	private static final class DishOrderCountMapper implements RowMapper<Integer>{
+		@Override
+		public Integer mapRow(ResultSet rs, int arg1) throws SQLException {
+			Integer count = rs.getInt("count");
+			return count;
+		}
 	}
 	
 	/**
