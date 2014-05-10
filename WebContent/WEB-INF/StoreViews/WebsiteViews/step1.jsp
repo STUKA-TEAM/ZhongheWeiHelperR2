@@ -141,7 +141,7 @@
           <label class="col-sm-3 control-label">首页图片</label>
           <div class="col-sm-9">
             <input type="file" name="file" class="image-file hidden" onchange="ye.value=value" accept="image/*">
-            <input type="text" name=ye class="form-control file-path" placeholder="自由配图结构可选多张作为轮播图，简约结构选择一张作为背景图（450px*780px）">
+            <input type="text" name=ye class="form-control file-path" placeholder="自由配图结构可多张（490*300），简约结构为一张背景图（450*780）">
             <input type="button" value="选择文件" onclick="file.click()" class="btn btn-sm btn-info">
             <input type="button" value="上传" class="image-multi btn btn-sm btn-info">
           </div>

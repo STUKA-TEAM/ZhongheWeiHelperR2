@@ -11,6 +11,9 @@ import java.util.regex.Pattern;
 
 import lottery.LotteryWheel;
 import menu.Menu;
+import order.Dish;
+import order.DishBranch;
+import order.DishClass;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -18,6 +21,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import branch.Branch;
 import branch.BranchClass;
+import branch.dao.BranchDAO;
 import album.Album;
 import album.AlbumClass;
 import article.Article;
@@ -521,5 +525,52 @@ public class CommonValidationTools {
 	 */
 	public static String checkBranch(Branch branch) {
 		return "pass";
+	}
+
+	/**
+	 * @title checkDishClass
+	 * @description 检查菜品类别信息
+	 * @param dishClass
+	 * @return
+	 */
+	public static boolean checkDishClass(DishClass dishClass) {
+		return true;
+	}
+
+	/**
+	 * @title checkDish
+	 * @description 检查菜品信息
+	 * @param dish
+	 * @return
+	 */
+	public static boolean checkDish(Dish dish) {
+		return true;
+	}
+
+	/**
+	 * @title checkBranchSid
+	 * @description 验证分店id是否有效
+	 * @param branchSid
+	 * @param storeSid
+	 * @param branchDao
+	 * @return
+	 */
+	public static boolean checkBranchSid(int branchSid, int storeSid, BranchDAO
+			branchDao) {
+		if (branchDao.checkBranchStoreMapping(branchSid, storeSid) == 1) {
+			return true;
+		} else {
+			return false;			
+		}
+	}
+
+	/**
+	 * @title checkDishBranch
+	 * @description 验证分店菜品信息
+	 * @param dishBranch
+	 * @return
+	 */
+	public static boolean checkDishBranch(DishBranch dishBranch) {
+		return true;
 	}
 }

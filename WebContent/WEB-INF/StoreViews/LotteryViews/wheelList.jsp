@@ -43,7 +43,8 @@
                   <td>${item.count}</td>
                   <td><a class="btn btn-sm btn-info" href="store/lottery/wheel/edit?wheelid=${item.wheelid}">编辑</a>
                   <a class="btn btn-sm btn-info" target="_blank" href="customer/lottery/wheel?wheelid=${item.wheelid}">预览</a>
-                  <a class="btn btn-sm btn-info" onclick="viewLink('相册链接','${appPath}customer/lottery/wheel?wheelid=${item.wheelid}')">生成链接</a>
+                  <a class="btn btn-sm btn-info" onclick="viewLink('大转盘抽奖链接','${appPath}customer/lottery/wheel?wheelid=${item.wheelid}')">生成链接</a>
+                  <a class="btn btn-sm btn-user" target="_blank" href="store/lottery/wheel/result?wheelid=${item.wheelid}">中奖情况</a>
                   <a class="btn btn-sm btn-danger" onclick="submitDeleteWheel('${item.wheelid}')">删除</a></td>
                 </tr>
                 </c:forEach>

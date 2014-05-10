@@ -1,9 +1,7 @@
 package controller.store;
 
-import java.io.InputStream;
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.Properties;
 
 import message.ResponseMessage;
 
@@ -78,24 +76,14 @@ public class BranchController {
 		allType.setClassid(0);
 		allType.setClassName("所有类别");
 		classList.add(0, allType);
-		for (int i = 0; i < classList.size(); i++) {
-			if (classid == classList.get(i).getClassid()) {
-				classList.get(i).setSelected(true);
+		for (int i = 0, j = classList.size(); i < j; i++) {
+			BranchClass branchClass = classList.get(i);
+			if (classid == branchClass.getClassid()) {
+				branchClass.setSelected(true);
 				break;
 			}
 		}
 		model.addAttribute("classList", classList);
-
-		InputStream inputStream = BranchController.class.getResourceAsStream("/environment.properties");
-		Properties properties = new Properties();
-		String appPath = null;
-		try {
-			properties.load(inputStream);
-			appPath = (String)properties.get("applicationPath");
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-		model.addAttribute("appPath", appPath);
 		return "BranchViews/branchList";
 	}
 	
@@ -152,7 +140,7 @@ public class BranchController {
 		}
 		List<BranchClass> classList = branchDao.getBasicClassinfos(user.getSid());
 		if (selectedList != null) {
-			for (int i = 0; i < classList.size(); i++) {
+			for (int i = 0, j = classList.size(); i < j; i++) {
 				BranchClass branchClass = classList.get(i);
 				if (selectedList.contains(branchClass.getClassid())) {
 					branchClass.setSelected(true);
@@ -274,6 +262,47 @@ public class BranchController {
 		}else {
 			message.setStatus(false);
 			message.setMessage("删除失败！");
+		}
+		String response = gson.toJson(message);
+		return response;
+	}
+	
+	/**
+	 * @title updateBranchPasswd
+	 * @description 更新分店账号密码
+	 * @param branchSid
+	 * @param password
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/reset", method = RequestMethod.POST)
+	@ResponseBody
+	public String updateBranchPasswd(@RequestParam(value = "branchid", required = true) 
+	    int branchSid, @RequestParam(value = "passwd", required = true) String 
+	    password, Model model){
+		ApplicationContext context = 
+				new ClassPathXmlApplicationContext("All-Modules.xml");
+		BranchDAO branchDao = (BranchDAO) context.getBean("BranchDAO");
+		((ConfigurableApplicationContext)context).close();
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = (User)auth.getPrincipal();
+		Gson gson = new Gson();
+		ResponseMessage message = new ResponseMessage();
+		password = passwordEncoder.encode(password);
+		
+		if (!CommonValidationTools.checkBranchSid(branchSid, user.getSid(), branchDao)) {
+			message.setStatus(false);
+			message.setMessage("非法操作！");
+		} else {
+			int result = branchDao.updateBranchPasswd(branchSid, password);
+			if (result > 0) {
+				message.setStatus(true);
+				message.setMessage("操作成功！");
+			}else {
+				message.setStatus(false);
+				message.setMessage("操作失败！");
+			}
 		}
 		String response = gson.toJson(message);
 		return response;

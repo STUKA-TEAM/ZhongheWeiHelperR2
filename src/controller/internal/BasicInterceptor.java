@@ -12,8 +12,8 @@ import security.User;
 
 /**
  * @Title: BasicInterceptor
- * @Description: 每个界面都要获取的基本信息
- * @Company: ZhongHe
+ * @Description: internal分支下每个界面可以获取到的基本信息
+ * @Company: tuka
  * @author ben
  * @date 2014年2月23日
  */
@@ -37,8 +37,7 @@ public class BasicInterceptor implements HandlerInterceptor {
 			Object arg2) throws Exception {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = (User)auth.getPrincipal();
-		request.setAttribute("username", user.getUsername());				
-		
+		request.setAttribute("username", user.getUsername());
         return true;   
 	}
 

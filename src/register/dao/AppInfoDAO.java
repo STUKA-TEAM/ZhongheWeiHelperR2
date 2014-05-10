@@ -141,6 +141,43 @@ public class AppInfoDAO {
 		return result <= 0 ? 0 : result;
 	}
 	
+	//delete
+	/**
+	 * @title: deleteAppInfo
+	 * @description: 删除app应用信息记录
+	 * @param appid
+	 * @return
+	 */
+	public int deleteAppInfo(String appid){
+		String SQL = "DELETE FROM application WHERE appid = ?";
+		int effected = jdbcTemplate.update(SQL, new Object[]{appid});
+		return effected;
+	}
+	
+	/**
+	 * @title: deleteUserAppRelation
+	 * @description: 删除用户app使用对应记录
+	 * @param appid
+	 * @return
+	 */
+	public int deleteUserAppRelation(String appid){
+		String SQL = "DELETE FROM storeuser_application WHERE appid = ?";
+		int effected = jdbcTemplate.update(SQL, new Object[]{appid});
+		return effected;
+	}
+	
+	/**
+	 * @title: deleteAppAuthRelation
+	 * @description: 删除应用与权限对应关系
+	 * @param appid
+	 * @return
+	 */
+	public int deleteAppAuthRelation(String appid){
+		String SQL = "DELETE FROM application_authority WHERE appid = ?";
+		int effected = jdbcTemplate.update(SQL, new Object[]{appid});
+		return effected;
+	}
+	
 	//query
 	/**
 	 * @title getWechatNumberByLotteryWheel
@@ -253,7 +290,9 @@ public class AppInfoDAO {
 	}
 	
 	/**
-	 * @Description: 根据用户id获取管理的app信息
+	 * @title getAppInfoBySid
+	 * @Description 根据用户id获取管理的app信息 (appid, wechatToken, wechatName, wechatOriginalId
+	 * , wechatNumber, address, industry)
 	 * @param sid
 	 * @return
 	 */
@@ -288,8 +327,8 @@ public class AppInfoDAO {
 	
 	/**
 	 * @title: getBasicAppInfo
-	 * @description: 获取基本的应用信息
-	 * @param sid
+	 * @description: 获取基本的应用信息 (appid, wechatName)
+	 * @param sid 商家账户id
 	 * @return
 	 */
 	public List<AppInfo> getBasicAppInfo(int sid){
@@ -313,6 +352,48 @@ public class AppInfoDAO {
 			appInfo.setWechatName(rs.getString("A.wechatName"));
 			return appInfo;
 		}		
+	}
+	
+	/**
+	 * @title getAppInfoForBranch
+	 * @description 根据分店id查询所属商家的所有应用基本信息 (appid, wechatName)
+	 * @param branchSid
+	 * @return
+	 */
+	public List<AppInfo> getAppInfoForBranch(int branchSid) {
+		List<AppInfo> infoList = null;
+		Integer storeSid = getStoreSid(branchSid);
+		if (storeSid != null) {
+			infoList = getBasicAppInfo(storeSid);
+		} else {
+			infoList = new ArrayList<AppInfo>();
+		}
+		return infoList;
+	}
+	
+	/**
+	 * @title getStoreSid
+	 * @description 根据分店id查询对应的商家id
+	 * @param branchSid
+	 * @return
+	 */
+	private Integer getStoreSid(int branchSid) {
+		Integer storeSid = null;
+		String SQL = "SELECT storeSid FROM branch_store WHERE branchSid = ?";
+		try {
+			storeSid = jdbcTemplate.queryForObject(SQL, new Object[]{branchSid}, new StoreSidMapper());
+		} catch (Exception e) {
+			System.out.println("getStoreSid: " + e.getMessage());
+		}
+		return storeSid;
+	}
+	
+	private static final class StoreSidMapper implements RowMapper<Integer>{
+		@Override
+		public Integer mapRow(ResultSet rs, int arg1) throws SQLException {
+			Integer storeSid = rs.getInt("storeSid");
+			return storeSid;
+		}
 	}
 	
 	/**
@@ -387,11 +468,10 @@ public class AppInfoDAO {
 	public int checkAppExistsByUser(int sid, String appid){
 		String SQL = "SELECT COUNT(*) FROM storeuser_application WHERE sid = ? AND appid = ?";
 		int count = 0;
-		
 		try {
 			count = jdbcTemplate.queryForObject(SQL, Integer.class, sid, appid);
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println("checkAppExistsByUser: " + e.getMessage());
 		}
 		return count;
 	}
@@ -515,42 +595,4 @@ public class AppInfoDAO {
 			return expiredTime;
 		}		
 	}
-	
-	//delete
-	/**
-	 * @title: deleteAppInfo
-	 * @description: 删除app应用信息记录
-	 * @param appid
-	 * @return
-	 */
-	public int deleteAppInfo(String appid){
-		String SQL = "DELETE FROM application WHERE appid = ?";
-		int effected = jdbcTemplate.update(SQL, new Object[]{appid});
-		return effected;
-	}
-	
-	/**
-	 * @title: deleteUserAppRelation
-	 * @description: 删除用户app使用对应记录
-	 * @param appid
-	 * @return
-	 */
-	public int deleteUserAppRelation(String appid){
-		String SQL = "DELETE FROM storeuser_application WHERE appid = ?";
-		int effected = jdbcTemplate.update(SQL, new Object[]{appid});
-		return effected;
-	}
-	
-	/**
-	 * @title: deleteAppAuthRelation
-	 * @description: 删除应用与权限对应关系
-	 * @param appid
-	 * @return
-	 */
-	public int deleteAppAuthRelation(String appid){
-		String SQL = "DELETE FROM application_authority WHERE appid = ?";
-		int effected = jdbcTemplate.update(SQL, new Object[]{appid});
-		return effected;
-	}
-	
 }

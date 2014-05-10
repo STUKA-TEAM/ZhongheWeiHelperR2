@@ -29,5 +29,5 @@
             <mvc:mapping path="/**" />  
             <bean class="controller.internal.BasicInterceptor"></bean>  
         </mvc:interceptor>  
-    </mvc:interceptors>  
+    </mvc:interceptors>
 </beans>

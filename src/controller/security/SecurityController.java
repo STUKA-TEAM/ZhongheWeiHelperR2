@@ -67,36 +67,30 @@ public class SecurityController {
 	public String loginSuccess(Model model){
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = (User)auth.getPrincipal();
-		
-		boolean isCustomer = false;
-        boolean isAdmin = false;
-        Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
-        for (GrantedAuthority grantedAuthority : authorities) {
-            if (grantedAuthority.getAuthority().equals("CUSTOMER")) {
-            	isCustomer = true;
-                break;
-            } else if (grantedAuthority.getAuthority().equals("ADMINISTRATOR")) {
-                isAdmin = true;
-                break;
-            }
-        }
-        
         Gson gson = new Gson();
         ResponseMessage message = new ResponseMessage();
-        
-        if (isCustomer) {
-        	message.setStatus(true);
-        	message.setMessage("store/account");
-		}else {
-			if (isAdmin) {
+
+        Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
+        for (GrantedAuthority grantedAuthority : authorities) {
+        	switch (grantedAuthority.getAuthority()) {
+			case "CUSTOMER":
+				message.setStatus(true);
+	        	message.setMessage("store/account");
+				break;
+			case "ADMINISTRATOR":
 				message.setStatus(true);
 	        	message.setMessage("internal/customer/detail");
-			}else {
+	        	break;
+			case "BRANCHREST":
+				message.setStatus(true);
+				message.setMessage("branch/restaurant/dish/list?appid='initial'&classid=0");
+				break;
+			default:
 				message.setStatus(false);
 	        	message.setMessage("用户角色异常！");
+				break;
 			}
-		}
-        
+        }
         String response = gson.toJson(message);
         return response;
 	}

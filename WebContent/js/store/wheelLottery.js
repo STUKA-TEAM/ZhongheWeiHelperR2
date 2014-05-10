@@ -154,3 +154,33 @@ function isNum(s)
     }
     return false;
 }
+
+function getLucky(itemid){
+	$("#confirmModalTitle").html("警告！");
+	$("#confirmModalMes").html("您确定将这个记录标记为已领奖吗？");
+    $("#idhidden").val(itemid);
+    $("#confirmModal").modal("show");
+}
+function confirmGetLucky(){
+	var itemid = $("#idhidden").val();
+    $.ajax({
+  	  type: "POST",
+  	  url: "store/lottery/wheel/clear",
+  	  data: "resultid="+itemid,
+   	  success: function (data) {
+   		  var jsonData=JSON.parse(data);		 
+   		  if(jsonData.status==true){
+	   	   	  $("#modalMes").html(jsonData.message);
+	   	      $("#operationMesModal").modal("show");
+	   	      setTimeout("location.reload()",1500);
+   		  }else{
+	   	   	  $("#modalMes").html(jsonData.message);
+	   	      $("#operationMesModal").modal("show");
+   		  }
+   	  },
+	  error: function(xhr, status, exception){
+   	   	  $("#modalMes").html(status + '</br>' + exception);
+   	      $("#operationMesModal").modal("show");
+	  }
+  });
+}

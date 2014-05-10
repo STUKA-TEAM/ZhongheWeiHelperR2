@@ -10,8 +10,7 @@ div {
 }
 h4 {
   font-family:"Microsoft YaHei";
-  padding-left: 20px;
-  margin-bottom: 2px;
+  margin-bottom: 10px;
   color: #000000;
 }
 h5 {
@@ -40,7 +39,7 @@ a:hover {
   margin: auto;
   text-align: left;
   clear: both;
-  border-top: solid 1px #eee;
+  border-top: solid 1px #ddd;
 }
 .store-image {
   display: inline-block;
@@ -52,12 +51,20 @@ a:hover {
   display: inline-block;
   text-align: left;
   vertical-align: middle;
+  margin-left:5px;
 }
-.store-nav {
+.store-nav-4 {
   display: inline-block;
   width: 23%;
-  border-left: solid 1px #eee;
   padding-top: 5px;
+}
+.store-nav-3 {
+  display: inline-block;
+  width: 32%;
+  padding-top: 5px;
+}
+.store-nav-divide {
+  border-left: solid 1px #ddd;
 }
 .store-nav-image {
   display: inline-block;

@@ -26,12 +26,12 @@
         </div>
         <nav id="position" class="images-pointer">
           <c:forEach var="x" begin="1" end="${images.size()}" step="1">
-          <c:if test="${x=='1'}">
-          <a class="on"></a>
-          </c:if>
-          <c:if test="${x!='1'}">
-          <a class="off"></a>
-          </c:if>
+		  <c:if test="${x=='1'}">
+		  <a class="on"></a>
+		  </c:if>
+		  <c:if test="${x!='1'}">
+		  <a class="off"></a>
+		  </c:if>
           </c:forEach>
         </nav>
       </div>
@@ -55,23 +55,26 @@
     <script src="js/customer/swipe.js"></script>
     <script type="text/javascript">
     $(document).ready(function(){
-        var elem = document.getElementById('mySwipe');
-        selectedId = 0;
-        window.mySwipe = Swipe(elem, {
-          // startSlide: 4,
-          auto: 4000,
-          continuous: true,
-          // disableScroll: true,
-          // stopPropagation: true,
-          callback: function(index, element) {
-            var children = $("#position").children();
-            //alert(childNodes.length);
-            children[selectedId].className = 'off';
-            selectedId = index;
-            children[selectedId].className = 'on';
-          },
-          // transitionEnd: function(index, element) {}
-        });
+    	var elem = document.getElementById('mySwipe');
+    	selectedId = 0;
+    	window.mySwipe = Swipe(elem, {
+    	  // startSlide: 4,
+    	  auto: 4000,
+    	  continuous: true,
+    	  // disableScroll: true,
+    	  // stopPropagation: true,
+    	  callback: function(index, element) {
+    		var children = $("#position").children();
+    		//alert(childNodes.length);
+    		if('${images.size()}'==2 && index > 1){
+    			index = index - 2;
+    		}
+    	    children[selectedId].className = 'off';
+    		selectedId = index;
+    		children[selectedId].className = 'on';
+    	  },
+    	  // transitionEnd: function(index, element) {}
+    	});
     }
     );
     </script>

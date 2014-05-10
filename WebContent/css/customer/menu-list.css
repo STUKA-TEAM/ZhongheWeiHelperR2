@@ -9,10 +9,17 @@ div {
   max-width: 360px;
   text-align: left; 
 }
+h4 {
+  font-family:"Microsoft YaHei";
+  font-weight: bold;
+  color: #000;
+}
 .menu-list-model {
+  margin: 10px auto;
   background-color: #fff;
   width: 100%;
-  border: solid #aaa 1px;
-  border-radius: 3px;
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 2px 2px 2px #888888;
   padding: 5px 10px;
 }
