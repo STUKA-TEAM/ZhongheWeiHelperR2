@@ -67,7 +67,7 @@ public class DishController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/branch", method = RequestMethod.GET)
+	@RequestMapping(value = "/branchMenu", method = RequestMethod.GET)
 	public String getBranch(@RequestParam(value = "openid", required = true) String 
 			openid, @RequestParam(value = "branchid", required = true) int branchSid,
 			@RequestParam(value = "appid", required = true) String appid, Model model) {
@@ -80,6 +80,9 @@ public class DishController {
 		for (DishClass dishClass : classList) {
 			int classid = dishClass.getClassid();
 			dishClass.setDishCount(dishDao.getDishCount(classid, openid, branchSid));
+		}
+		if(classList.size() > 0){
+			classList.get(0).setSelected(true);
 		}
 		model.addAttribute("classList", classList);
 		
@@ -105,7 +108,7 @@ public class DishController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/branch", method = RequestMethod.GET)
+	@RequestMapping(value = "/branchMenuByClass", method = RequestMethod.GET)
 	public String getBranch(@RequestParam(value = "openid", required = true) String 
 			openid, @RequestParam(value = "branchid", required = true) int branchSid,
 			@RequestParam(value = "classid", required = true) int classid, Model model) {
@@ -241,7 +244,7 @@ public class DishController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/delete", method = RequestMethod.POST)
+	@RequestMapping(value = "/deleteAll", method = RequestMethod.POST)
 	@ResponseBody
 	public String deleteDishOrder(@RequestParam(value = "openid", required = true) String
 			openid, @RequestParam(value = "branchid", required = true) int branchSid, 

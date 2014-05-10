@@ -39,6 +39,7 @@ public class WeixinMessageController {
 		){
 			try {
 				Map<String, String> xmlMap = WeixinMessageUtil.parseXml(request);
+				String openid = xmlMap.get("FromUserName");
 				if(xmlMap.get("MsgType")==WeiXinConstant.MSG_TYPE_TEST_FROM_REQ){
 					return echostr;
 				}
@@ -88,7 +89,7 @@ public class WeixinMessageController {
 								NewsItemToResponse theme = new NewsItemToResponse();
 								theme.setTitle("在线菜单");
 								theme.setPicUrl("");
-								theme.setUrl("http://www.baidu.com");
+								theme.setUrl(MethodUtils.getApplicationPath()+"customer/dish/branchlist?openid="+openid+"&appid="+appid);
 								List<NewsItemToResponse> articles = new ArrayList<NewsItemToResponse>();
 								articles.add(theme);
 						    return WeixinMessageUtil.newsMessageToXmlForResponse(xmlMap, articles);

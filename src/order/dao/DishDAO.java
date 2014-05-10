@@ -1071,7 +1071,6 @@ public class DishDAO {
 			count = jdbcTemplate.queryForObject(SQL, new Object[]{dishid, branchSid,
 					openid}, new DishOrderCountMapper());
 		} catch (Exception e) {
-			System.out.println("getDishOrderCount: " + e.getMessage());
 		}
 		return count <= 0 ? 0 : count;
 	}

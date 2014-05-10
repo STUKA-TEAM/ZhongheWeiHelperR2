@@ -20,7 +20,7 @@ a:hover {
   bottom: 0;
   left: 0;
   background-color: #ddd;
-  font-size: 12px;
+  font-size: 14px;
   text-align: right;
   overflow-y: auto;
   width: 68px;
@@ -31,7 +31,7 @@ a:hover {
   padding: 0;
 }
 .sidebar-nav > li {
-  padding: 5px 10px;
+  padding: 5px 5px;
 }
 .sidebar-nav > li.active,
 .sidebar-nav > li:hover {
@@ -47,10 +47,11 @@ a:hover {
   height: 15px;
   background-color: #FF6600;
   border-radius: 50%;
-  font-size: 8px;
+  font-size: 10px;
   color: #fff;
   text-align: center;
   opacity: 0.7;
+  vertical-align: middle;
 }
 .dishes-content {
   width: 100%;
@@ -73,7 +74,9 @@ a:hover {
 .dishes-item-text {
   display: inline-block;
   vertical-align: top;
+  padding-left:10px;
   width: 40%;
+  
 }
 .dishes-item-text > h5 {
   font-family:"Microsoft YaHei";
@@ -89,6 +92,7 @@ a:hover {
   color: #aaa;
   clear: both;
 }
+
 .goodText{
 	display: inline-block;
     text-align: left;
@@ -96,28 +100,29 @@ a:hover {
 }
 .good > img {
   float: left;
-  width: 16px;
-  height: 16px;
+  width: 14px;
+  height: 14px;
 }
 .good > img {
   float: left;
 }
+
 .dishes-num {
-  display: inline-block;
-  vertical-align: center;
-  width: 60px;
+  float:right;
+  padding-right:10px;
+  width: 70px;
   height: 24px;
 }
 .dishes-num-minus,
 .dishes-num-plus {
   display: inline-block;
-  vertical-align: center;
+  vertical-align: middle;
   width: 16px;
   height: 16px;
 }
 .dishes-num-count {
   display: inline-block;
-  vertical-align: center;
+  vertical-align: middle;
   width: 20px;
   height: 24px;
   line-height: 24px;
