@@ -18,6 +18,7 @@
     </div>
   </div>
   <div class="modal-footer">
+    <input id="editclassid" type="hidden" value="${dishclass.classid}">
     <button type="button" class="btn btn-info" onclick="submitClass('update')" >确定</button>
   </div>
 </div><!-- /.modal-content -->

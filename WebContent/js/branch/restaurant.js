@@ -1,9 +1,9 @@
 function filterByApp(appid){
-	location.href="branch/restaurant/dish/list?appid='+"+appid+"+'&classid=0";
+	location.href="branch/restaurant/dish/list?appid="+appid+"&classid=0";
 }
 function filterByDishclass(classid){
 	appid=$("#appInfo").val();
-	location.href="branch/restaurant/dish/list?appid='+"+appid+"+'&classid="+classid;
+	location.href="branch/restaurant/dish/list?appid="+appid+"&classid="+classid;
 }
 
 function submitChange(dishid){
