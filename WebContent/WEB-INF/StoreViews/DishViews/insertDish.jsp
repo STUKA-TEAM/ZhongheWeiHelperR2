@@ -43,7 +43,7 @@
 	                  <input type="file" name="file" class="image-file hidden" onchange="ye.value=value" accept="image/*">
 	                  <input type="text" name=ye class="form-control file-path">
 	                  <input type="button" value="选择文件" onclick="file.click()" class="btn btn-sm btn-info">
-	                  <input type="button" value="上传" class="image-original btn btn-sm btn-info">
+	                  <input type="button" value="上传" class="image-squaremulti btn btn-sm btn-info">
 	                </div>
 	              </form>  
 	              <div class="form-group">

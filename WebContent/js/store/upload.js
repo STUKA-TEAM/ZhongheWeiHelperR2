@@ -40,6 +40,32 @@ $(document).ready(function(){
 	    });
 	});
 	
+	$(document).on('click','.image-squaremulti',function(){
+	    var form = this.parentElement.parentElement;
+	    var formData = new FormData(form);
+	    $.ajax({
+	        url: '/resources/upload/image/multiSquare',  //Server script to process data
+	        type: 'POST',
+	        //Ajax events
+	        beforeSend: function(xhr, settings){
+	        	beforeSendHandler(xhr, form);
+	        },
+	        success: function(data){
+	        	var id = form.id;
+	        	completeHandler(id, data, form);
+	        },
+	        error: function(xhr, status, exception){
+	        	errorHandler(status, exception);
+	        },
+	        // Form data
+	        data: formData,
+	        //Options to tell jQuery not to process data or worry about content-type.
+	        cache: false,
+	        contentType: false,
+	        processData: false
+	    });
+	});
+	
 	$(document).on('click','.image-original',function(){
 	    var form = this.parentElement.parentElement;
 	    var formData = new FormData(form);

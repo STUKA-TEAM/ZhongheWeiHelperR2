@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import register.dao.AppInfoDAO;
+import website.ShareMessage;
+
 import com.google.gson.Gson;
 
 import branch.Branch;
@@ -119,6 +122,8 @@ public class DishController {
 		
 		List<DishBranch> dishList = dishDao.getDishClassForCustomer(classid, branchSid, openid);
 		model.addAttribute("dishList", dishList);
+		model.addAttribute("branchid", branchSid);
+		model.addAttribute("openid", openid);
 		return "DishViews/dishList";
 	}
 	
@@ -344,9 +349,10 @@ public class DishController {
 				new ClassPathXmlApplicationContext("All-Modules.xml");
 		DishDAO dishDao = (DishDAO) context.getBean("DishDAO");
 		BranchDAO branchDao = (BranchDAO) context.getBean("BranchDAO");
+		AppInfoDAO appInfoDAO = (AppInfoDAO) context.getBean("AppInfoDAO");
 		((ConfigurableApplicationContext)context).close();
 		
-		Branch branch = branchDao.getBasicBranchForCustomer(branchSid);
+		Branch branch = branchDao.getBranchForCustomer(branchSid);
 		model.addAttribute("branch", branch);
 		
 		Map<Integer, List<DishBranch>> dishMap = dishDao.getDishMapForOrder(openid, branchSid);
@@ -354,10 +360,30 @@ public class DishController {
 		model.addAttribute("dishMap", dishMap);
 		model.addAttribute("dishClassMap", dishClassMap);
 		
+		int sumPrice = 0;
+		for (Map.Entry<Integer, List<DishBranch>> entry : dishMap.entrySet()) {
+			for (DishBranch dishBranch : entry.getValue()) {
+				sumPrice = sumPrice + dishBranch.getPrice()*dishBranch.getCount();
+			}
+		}
+		model.addAttribute("sumPrice", sumPrice);
+		
 		model.addAttribute("openid", openid);
 		model.addAttribute("branchid", branchSid);
 		model.addAttribute("appid", appid);
 		model.addAttribute("type", type);
+		
+		ShareMessage message = new ShareMessage();
+		message.setWechatNumber(appInfoDAO.getWechatNumberByAppid(appid));
+		message.setAppLink(message.getAppLink() + "customer/dish/order?branchid="+branchSid+"&openid="+openid+"&appid="+appid+"&type=other");
+		if (branch.getImageList() != null && branch.getImageList().size()>0) {
+			message.setImageLink(message.getImageLink() + branch.getImageList().get(0) + "_original.jpg");
+		} else {
+			message.setImageLink("");
+		}
+		message.setShareTitle("我在"+branch.getStoreName()+"点了菜，来看看吧");
+		message.setShareContent("");
+		model.addAttribute("message", message);
 		return "DishViews/order";
 	}
 }

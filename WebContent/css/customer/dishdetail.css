@@ -1,0 +1,30 @@
+.modal-dialog
+{
+	width:300px;
+	margin: 30px auto;
+}
+.modal-body
+{
+	padding:0px;
+}
+#dishTitle{
+	float:left;
+	width:65%;
+	padding:3px 10px 3px;
+	font-weight:bold;
+}
+#dishLike{
+	width:35%;
+	float:right;
+	color:#FF6600;
+	font-size:12px;
+	padding:3px 10px 3px;
+}
+#dishDesc{
+	padding:0px 10px 8px;
+	font-size:12px;
+}
+#dishTopInfo{
+	width:300px;
+	height:28px;
+}

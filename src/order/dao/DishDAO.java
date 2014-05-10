@@ -929,7 +929,7 @@ public class DishDAO {
 	
 	/**
 	 * @title getDishClassForCustomer
-	 * @description 查询某分店某一类菜品对于某人在手机端显示信息 (dishid, dishName, dishPic, price, 
+	 * @description 查询某分店某一类菜品对于某人在手机端显示信息 (dishid, dishName, dishPic, dishDesc, price, 
 	 * dishUnit, recomNum, price, count)
 	 * @param classid
 	 * @param branchSid
@@ -938,7 +938,7 @@ public class DishDAO {
 	 */
 	public List<DishBranch> getDishClassForCustomer(int classid, int branchSid, String openid) {
 		List<DishBranch> dishList = new ArrayList<DishBranch>();
-		String SQL = "SELECT dishid, dishName, dishPic, price, dishUnit, recomNum "
+		String SQL = "SELECT dishid, dishName, dishPic, dishDesc, price, dishUnit, recomNum "
 				+ "FROM dish WHERE dishid = ? ORDER BY recomNum DESC";
 		List<Integer> dishidList = getDishidList(classid);
 		for (Integer dishid : dishidList) {
@@ -986,6 +986,7 @@ public class DishDAO {
 					dishMap.get(classid).add(temp);
 				} else {
 					dishMap.put(classid, new ArrayList<DishBranch>());
+					dishMap.get(classid).add(temp);
 				}
 			}
 		}
@@ -1033,14 +1034,14 @@ public class DishDAO {
 	
 	/**
 	 * @title getDishBranchForOrder
-	 * @description 根据菜品id和分店id查询用于“我的菜单”显示的菜品信息 (dishid, dishName, dishPic, price, dishUnit)
+	 * @description 根据菜品id和分店id查询用于“我的菜单”显示的菜品信息 (dishid, dishName, dishPic, dishDesc, price, dishUnit, recomNum)
 	 * @param dishid
 	 * @param branchSid
 	 * @return
 	 */
 	private DishBranch getDishBranchForOrder(int dishid, int branchSid) {
 		DishBranch dishBranch = null;
-		String SQL = "SELECT dishid, dishName, dishPic, price, dishUnit FROM dish WHERE dishid = ?";
+		String SQL = "SELECT dishid, dishName, dishPic, dishDesc, price, dishUnit, recomNum FROM dish WHERE dishid = ?";
 		try {
 			dishBranch = jdbcTemplate.queryForObject(SQL, new Object[]{dishid}, new DishBranchForOrderMapper());
 		} catch (Exception e) {
@@ -1096,6 +1097,7 @@ public class DishDAO {
 			dishBranch.setDishid(rs.getInt("dishid"));
 			dishBranch.setDishName(rs.getString("dishName"));
 			dishBranch.setDishPic(rs.getString("dishPic"));
+			dishBranch.setDishDesc(rs.getString("dishDesc"));
 			dishBranch.setPrice(rs.getInt("price"));
 			dishBranch.setDishUnit(rs.getString("dishUnit"));
 			dishBranch.setRecomNum(rs.getInt("recomNum"));
@@ -1120,8 +1122,10 @@ public class DishDAO {
 			dishBranch.setDishid(rs.getInt("dishid"));
 			dishBranch.setDishName(rs.getString("dishName"));
 			dishBranch.setDishPic(rs.getString("dishPic"));
+			dishBranch.setDishDesc(rs.getString("dishDesc"));
 			dishBranch.setPrice(rs.getInt("price"));
 			dishBranch.setDishUnit(rs.getString("dishUnit"));
+			dishBranch.setRecomNum(rs.getInt("recomNum"));
 			return dishBranch;
 		}
 	}

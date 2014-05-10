@@ -28,6 +28,7 @@ h5.menu-dish-info {
   font-family:"Microsoft YaHei";
   color: #000;
   font-weight: normal;
+  padding-left:10px;
 }
 h5.menu-dish-info > small {
   color: #FF0000;
@@ -49,8 +50,8 @@ h5.menu-dish-info > small {
 .dishes-num {
   display: inline-block;
   min-width: 80px;
-  padding: 0 10px;
-  margin-left: 35%;
+  padding: 10px 10px 0px;
+  float:right;
 }
 .dishes-num-minus,
 .dishes-num-plus {
@@ -63,6 +64,14 @@ h5.menu-dish-info > small {
   display: inline-block;
   vertical-align: center;
   width: 20px;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+}
+.dishes-num-count-other{
+  display: inline-block;
+  vertical-align: center;
+  width: 60px;
   height: 24px;
   line-height: 24px;
   text-align: center;
@@ -84,8 +93,21 @@ h5.menu-dish-info > small {
   font-size: 16px;
   color: #FF0000;
 }
-.btn-share {
-  position: fixed;
-  bottom: 10px;
-  right: 10px;
+
+#shareButton{
+	float:right;
+	margin-top:20px;
+	margin-bottom:20px;
+}
+.dishes-item-img {
+  display: inline-block;
+  width: 64px;
+  height: 64px;
+  margin-left: 10px;
+  margin-top:10px;
+  margin-bottom:10px;
+  border-radius:4px;
+}
+.hiddenRecomNum{
+  display:none;
 }

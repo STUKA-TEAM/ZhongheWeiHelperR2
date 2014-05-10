@@ -180,6 +180,31 @@ public class AppInfoDAO {
 	
 	//query
 	/**
+	 * @title getWechatNumberByAppid
+	 * @description 根据appid查询微信号
+	 * @param appid
+	 * @return
+	 */
+	public String getWechatNumberByAppid(String appid){
+		String wechatNumber = null;
+		String SQL = "SELECT wechatNumber FROM application WHERE appid = ?";
+		try {
+			wechatNumber = jdbcTemplate.queryForObject(SQL, new Object[]{appid}, new WechatNumberByAppidMapper());
+		} catch (Exception e) {
+			System.out.println("getWechatNumberByAppid: " + e.getMessage());
+		}
+		return wechatNumber;
+	}
+	
+	private static final class WechatNumberByAppidMapper implements RowMapper<String>{
+		@Override
+		public String mapRow(ResultSet rs, int arg1) throws SQLException {
+			String wechatNumber = rs.getString("wechatNumber");
+			return wechatNumber;
+		}	
+	}
+	
+	/**
 	 * @title getWechatNumberByLotteryWheel
 	 * @description 根据wheelid查询微信号
 	 * @param wheelid

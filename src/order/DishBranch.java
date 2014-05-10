@@ -16,6 +16,7 @@ public class DishBranch {
 	private String dishPic;
 	private String dishUnit;
 	private int recomNum;
+	private String dishDesc;
 	private int price;
 	private int available;
 	private int count;
@@ -127,5 +128,11 @@ public class DishBranch {
 	 */
 	public void setCount(int count) {
 		this.count = count;
+	}
+	public String getDishDesc() {
+		return dishDesc;
+	}
+	public void setDishDesc(String dishDesc) {
+		this.dishDesc = dishDesc;
 	}
 }

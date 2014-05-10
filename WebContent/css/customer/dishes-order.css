@@ -31,7 +31,7 @@ a:hover {
   padding: 0;
 }
 .sidebar-nav > li {
-  padding: 5px 5px;
+  padding: 8px 5px;
 }
 .sidebar-nav > li.active,
 .sidebar-nav > li:hover {
@@ -94,7 +94,8 @@ a:hover {
 }
 
 .goodText{
-	display: inline-block;
+	float: left;
+	width:80px;
     text-align: left;
 	padding-left:5px;
 }
@@ -106,7 +107,10 @@ a:hover {
 .good > img {
   float: left;
 }
-
+.goodTextNum, 
+.goodTextSub{
+	float:left;
+}
 .dishes-num {
   float:right;
   padding-right:10px;
@@ -133,33 +137,4 @@ a:hover {
   bottom: 16px;
   right: 10px;
   z-index: 1080;
-}
-.modal-dialog
-{
-	width:300px;
-}
-.modal-body
-{
-	padding:0px;
-}
-#dishTitle{
-	float:left;
-	width:65%;
-	padding:3px 10px 3px;
-	font-weight:bold;
-}
-#dishLike{
-	width:35%;
-	float:right;
-	color:#FF6600;
-	font-size:12px;
-	padding:3px 10px 3px;
-}
-#dishDesc{
-	padding:0px 10px 8px;
-	font-size:12px;
-}
-#dishTopInfo{
-	width:300px;
-	height:28px;
 }

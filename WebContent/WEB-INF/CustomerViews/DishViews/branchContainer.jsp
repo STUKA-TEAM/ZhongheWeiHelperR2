@@ -17,6 +17,7 @@
     <link href="./css/customer/bootstrap.min.css" rel="stylesheet">
     <link href="css/customer/mobile-common.css" rel="stylesheet">
     <link href="./css/customer/dishes-order.css" rel="stylesheet">
+    <link href="./css/customer/dishdetail.css" rel="stylesheet">
 
     <script type="application/javascript" src="./js/customer/iscroll.js"></script>
     <script type="text/javascript">
@@ -32,66 +33,47 @@
   <body>
   <body>
     <div id="type_wrapper" class="sidebar">
+      <input type="hidden" id="currentClass" value="${classList[0].classid}">
       <ul id="scroller" class="sidebar-nav">
         <c:forEach items="${classList}" var="item">
-        <li <c:if test="${item.selected}"> class="active" </c:if>><c:if test="${item.dishCount>0}"><div class="type-count">${item.dishCount}</div></c:if>${item.className}</li>
+        <li id="${item.classid}_dishClass" class="dishClasLi<c:if test="${item.selected}"> active </c:if>" onclick="changeCurrentClass(this, '${openid}', '${branchid}')"><div id="${item.classid}_dishClassNoticeContainer"><c:if test="${item.dishCount>0}"><div id="${item.classid}_dishClassNotice" class="type-count">${item.dishCount}</div></c:if></div>${item.className}</li>
         </c:forEach>
       </ul>
     </div>
-    <div class="dishes-content">
+    <div id="dishesContent" class="dishes-content">
       <div class="dishes-list">
       <c:forEach items="${dishList}" var="item">
         <div class="dishes-item">
-          <img src="./img/yanghe_wine.jpg" class="dishes-item-img"/>
+          <c:if test="${not empty item.dishPic}">
+          <img id="${item.dishid}_dishImg" src="${item.dishPic}_small.jpg" class="dishes-item-img" onclick="showDishDetail('${item.dishid}')"/>
+          <input id="${item.dishid}_dishImgID" type="hidden" value="${item.dishPic}">
+          </c:if>
           <div class="dishes-item-text">
-            <h5>${item.dishName}<br><c:if test="${item.price!=0}"><small>${item.price}元/${item.dishUnit}</small></c:if></h5>
-            <div id="" class="good">
-              <img class="goodImg" src="./img/common/like_black.png" />
-             <div class="goodText"><p>${item.recomNum}人赞过</p></div>
+            <h5 onclick="showDishDetail('${item.dishid}')"><div id="${item.dishid}_dishName">${item.dishName}</div><c:if test="${item.price!=0}"><small>${item.price}元/${item.dishUnit}</small></c:if></h5>
+            <div id="${item.dishid}_good" class="good" onclick="clickLike('${item.dishid}')">
+             <img id="${item.dishid}_goodImg" class="goodImg" src="./img/common/like_black.png" />
+             <div class="goodText"><div id="${item.dishid}_goodNum" class="goodTextNum">${item.recomNum}</div><div class="goodTextSub">人赞过</div></div>
             </div>
+            <input id="${item.dishid}_dishDesc" type="hidden" value="${item.dishDesc}"/>
           </div>
           <div class="dishes-num">
-            <img alt="1" src="./img/common/round_minus.png" class="dishes-num-minus"/>
-            <div id="count_1" class="dishes-num-count">${item.count}</div>
-            <img alt="1" src="./img/common/round_plus.png" class="dishes-num-plus"/>
+            <img id="${item.dishid}_countMinus" src="./img/common/round_minus.png" class="dishes-num-minus" onclick="minusCount('${openid}','${branchid}','${item.dishid}')"/>
+            <div id="${item.dishid}_count" class="dishes-num-count">${item.count}</div>
+            <img id="${item.dishid}_countPlus" src="./img/common/round_plus.png" class="dishes-num-plus" onclick="plusCount('${openid}','${branchid}','${item.dishid}')"/>
           </div>
         </div>
       </c:forEach>
       </div>
     </div>
-    
-    <div class="modal fade" id="detail" tabindex="-1">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div id="modalbody" class="modal-body">
-            <img src="/resources/images/a405fc8160c54620b8a4a7b37255376e_original.jpg">
-          </div>
-          <div id="dishTopInfo">
-          <div id="dishTitle">滑蛋牛柳</div>
-          <div id="dishLike">300人赞过</div>
-          </div>
-          <div id="dishDesc">滑蛋牛柳</div>
-        </div>
-      </div>
-    </div>    
+    <%@ include file="dishDetail.jsp"%>
+      
     <div class="my-menu">
-      <a data-toggle="modal" data-target="#detail" class="btn btn-sm btn-success">我的菜单</a>
+      <a href="customer/dish/orderlist?openid=${openid}&appid=${appid}" class="btn btn-sm btn-success">我的菜单</a>
     </div>
     <script type="text/javascript" src="js/customer/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="js/customer/modal.min.js"></script> 
     <script type="text/javascript" src="js/customer/jQueryRotateCompressed.js"></script>
     <script type="text/javascript" src="js/customer/mobile-common.js"></script>
-    <script type="text/javascript">
-      $(".dishes-num-plus").click(function(){
-        var dish_id = $(this).attr("alt");
-        var count = parseInt($("#count_"+dish_id).text());
-        $("#count_"+dish_id).text(count+1);
-      });
-      $(".dishes-num-minus").click(function(){
-        var dish_id = $(this).attr("alt");
-        var count = parseInt($("#count_"+dish_id).text());
-        $("#count_"+dish_id).text(count==0?0:count-1);
-      });
-    </script>
+    <script type="text/javascript" src="js/customer/onlineMenu.js"></script>
   </body>
 </html>
