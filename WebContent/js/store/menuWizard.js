@@ -47,7 +47,7 @@ function validateStep1(step1Info){
 		return true;
 	}else{
 		showBlankInputHtml(blankInputArray);
-		return false;
+		return true;
 	}
 }
 
@@ -75,7 +75,6 @@ function getStep2Data(){
 					  step2Info.success = false;
 				  }			 
 				  step2Info.nodeList = nodeList;
-
 			  },
 			  error: function(XMLHttpRequest, textStatus, errorThrown) {
 					$("#modalTitle").html("出现错误");
@@ -92,10 +91,16 @@ function getButtonNodeJson(){
 	var firstButtonArray = new Array();
 	var blankInputArray = new Array();
 	for(var k = 0; k < nodeList.length; k++){
-		if(nodeList[k].nodeType==2&&nodeList[k].nodeLink==""){
+		if(nodeList[k].nodeType==2&&nodeList[k].type=="view"&&nodeList[k].nodeLink==""){
 			blankInputArray.push(nodeList[k].nodeName);
 		}
-		if(nodeList[k].nodeType==1&&getChildButtonArray(nodeList[k].UUID).length==0&&nodeList[k].nodeLink==""){
+		if(nodeList[k].nodeType==1&&nodeList[k].type=="view"&&getChildButtonArray(nodeList[k].UUID).length==0&&nodeList[k].nodeLink==""){
+			blankInputArray.push(nodeList[k].nodeName);
+		}
+		if(nodeList[k].nodeType==2&&nodeList[k].type=="click"&&nodeList[k].nodeKey==""){
+			blankInputArray.push(nodeList[k].nodeName);
+		}
+		if(nodeList[k].nodeType==1&&nodeList[k].type=="click"&&getChildButtonArray(nodeList[k].UUID).length==0&&nodeList[k].nodeKey==""){
 			blankInputArray.push(nodeList[k].nodeName);
 		}
 	}
@@ -111,8 +116,14 @@ function getButtonNodeJson(){
 				if(childButton.length>0){
 					button.sub_button = childButton;
 				}else{
-					button.type = "view";
-					button.url = nodeList[i].nodeLink;
+					if(nodeList[i].type=="view"){
+						button.type = "view";
+						button.url = nodeList[i].nodeLink;						
+					}
+					if(nodeList[i].type=="click"){
+						button.type = "click";
+						button.key = nodeList[i].nodeKey;						
+					}
 				}
 				firstButtonArray.push(button);
 			}
@@ -129,9 +140,15 @@ function getChildButtonArray(UUID){
 	for(var i = 0; i < nodeList.length; i++){
 		if(nodeList[i].fatherUUID == UUID){
 			var button = new Object();
-			button.type = "view";
+			if(nodeList[i].type=="view"){
+				button.type = "view";
+				button.url = nodeList[i].nodeLink;						
+			}
+			if(nodeList[i].type=="click"){
+				button.type = "click";
+				button.key = nodeList[i].nodeKey;						
+			}
 			button.name = nodeList[i].nodeName;
-			button.url = nodeList[i].nodeLink;
 			childButtonArray.push(button);
 		}
 	}
@@ -325,9 +342,19 @@ function addFirstMenu(){
         +"</li>";
    var node = new Object();
    node.UUID = uuid;
-   node.nodeName = $("#firstButtonName").val();
-   node.nodeLink = $("#firstButtonLink").val();
+   node.nodeName = $("#firstButtonName").val();  
    node.nodeType = 1;
+   var type = $('input[name="addFirstButtonButtonType"]:checked').val();
+   if(type=="view"){
+	   node.type="view";
+	   node.nodeLink = $("#firstButtonLink").val();
+	   node.nodeKey = "";
+   }
+   if(type=="click"){
+	   node.type="click";
+	   node.nodeLink = "";
+	   node.nodeKey = $("#firstButtonKey").val();
+   }
    node.fatherUUID = "";
    nodeList.push(node);
    $("#menuButtons").append(addHtml);
@@ -349,6 +376,7 @@ function addSecondMenuWindow(obj){
 function addSecondMenu(){
 	var currentFirstMenu = $("#currentFirstMenu").val();
 	var currentFirstNode = getNodeFromUUID(currentFirstMenu);
+	currentFirstNode.nodeKey = "";
 	currentFirstNode.nodeLink = "";
 	var uuid = getUUID();
     var addHtml = "<li id=\""+uuid+"\" class=\""+currentFirstMenu+"_2nd\">"
@@ -364,13 +392,117 @@ function addSecondMenu(){
     var node = new Object();
     node.UUID = uuid;
     node.nodeName = $("#secondButtonName").val();
-    node.nodeLink = $("#secondButtonLink").val();
     node.nodeType = 2;
+    var type = $('input[name="addSecondButtonButtonType"]:checked').val();
+    if(type=="view"){
+ 	   node.type="view";
+ 	   node.nodeLink = $("#secondButtonLink").val();
+ 	   node.nodeKey = "";
+    }
+    if(type=="click"){
+ 	   node.type="click";
+ 	   node.nodeLink = "";
+ 	   node.nodeKey = $("#secondButtonKey").val();
+    }
     node.fatherUUID = currentFirstMenu;
     nodeList.push(node);
    $("#"+currentFirstMenu+"_ul").append(addHtml);
    $("#"+currentFirstMenu+"_sub").collapse("show");
    $("#addSecondButton").modal("hide");
+}
+
+function changeButtonTypeRadioForNew(type){
+	var modalBodyHtml1 = "<div class=\"form-group\">"
+                        +"<label for=\"firstButtonName\" class=\"col-sm-3 control-label\">按钮名称</label>"
+                        +"<div class=\"col-sm-9\">"
+                        +"<input type=\"radio\" name=\"addFirstButtonButtonType\" placeholder=\"\" value=\"view\" checked>跳转链接类型"
+				        +"<input type=\"radio\" name=\"addFirstButtonButtonType\" placeholder=\"\" value=\"click\" onchange=\"changeButtonTypeRadioForNew(\'click\')\">回复消息类型"				       
+                        +"</div>"
+                        +"</div>"
+                        +"<div class=\"form-group\">"
+                        +"<label for=\"firstButtonName\" class=\"col-sm-3 control-label\">按钮名称</label>"
+                        +"<div class=\"col-sm-9\">"
+                        +"<input type=\"text\" class=\"form-control\" id=\"firstButtonName\" placeholder=\"\" value=\"\">"
+                        +"</div>"
+                        +"</div>"
+                        +"<div class=\"form-group\">"
+                        +"<label for=\"firstButtonLink\" class=\"col-sm-3 control-label\">关联链接</label>"
+                        +"<div class=\"col-sm-9\">"
+                        +"<input type=\"text\" class=\"form-control\" id=\"firstButtonLink\" placeholder=\"\" value=\"\">"
+                        +"</div>"
+                        +"</div>";
+	var modalBodyHtml2 = "<div class=\"form-group\">"
+        +"<label for=\"firstButtonName\" class=\"col-sm-3 control-label\">按钮名称</label>"
+        +"<div class=\"col-sm-9\">"
+        +"<input type=\"radio\" name=\"addFirstButtonButtonType\" placeholder=\"\" value=\"view\" onchange=\"changeButtonTypeRadioForNew(\'view\')\">跳转链接类型"
+        +"<input type=\"radio\" name=\"addFirstButtonButtonType\" placeholder=\"\" value=\"click\" checked>回复消息类型"				       
+        +"</div>"
+        +"</div>"
+        +"<div class=\"form-group\">"
+        +"<label for=\"firstButtonName\" class=\"col-sm-3 control-label\">按钮名称</label>"
+        +"<div class=\"col-sm-9\">"
+        +"<input type=\"text\" class=\"form-control\" id=\"firstButtonName\" placeholder=\"\" value=\"\">"
+        +"</div>"
+        +"</div>"
+        +"<div class=\"form-group\">"
+        +"<label for=\"firstButtonLink\" class=\"col-sm-3 control-label\">消息键值</label>"
+        +"<div class=\"col-sm-9\">"
+        +"<input type=\"text\" class=\"form-control\" id=\"firstButtonKey\" placeholder=\"\" value=\"\">"
+        +"</div>"
+        +"</div>";
+	if(type=="view"){
+		$("#addFirstButtonModalBody").html(modalBodyHtml1);
+	}
+	if(type=="click"){
+		$("#addFirstButtonModalBody").html(modalBodyHtml2);
+	}
+}
+
+function changeButtonTypeRadioForNew2(type){
+	var modalBodyHtml1 = "<div class=\"form-group\">"
+                        +"<label for=\"secondButtonName\" class=\"col-sm-3 control-label\">按钮名称</label>"
+                        +"<div class=\"col-sm-9\">"
+                        +"<input type=\"radio\" name=\"addSecondButtonButtonType\" placeholder=\"\" value=\"view\" checked>跳转链接类型"
+				        +"<input type=\"radio\" name=\"addSecondButtonButtonType\" placeholder=\"\" value=\"click\" onchange=\"changeButtonTypeRadioForNew2(\'click\')\">回复消息类型"				       
+                        +"</div>"
+                        +"</div>"
+                        +"<div class=\"form-group\">"
+                        +"<label for=\"secondButtonName\" class=\"col-sm-3 control-label\">按钮名称</label>"
+                        +"<div class=\"col-sm-9\">"
+                        +"<input type=\"text\" class=\"form-control\" id=\"secondButtonName\" placeholder=\"\" value=\"\">"
+                        +"</div>"
+                        +"</div>"
+                        +"<div class=\"form-group\">"
+                        +"<label for=\"secondButtonLink\" class=\"col-sm-3 control-label\">关联链接</label>"
+                        +"<div class=\"col-sm-9\">"
+                        +"<input type=\"text\" class=\"form-control\" id=\"secondButtonLink\" placeholder=\"\" value=\"\">"
+                        +"</div>"
+                        +"</div>";
+	var modalBodyHtml2 = "<div class=\"form-group\">"
+        +"<label for=\"secondButtonName\" class=\"col-sm-3 control-label\">按钮名称</label>"
+        +"<div class=\"col-sm-9\">"
+        +"<input type=\"radio\" name=\"addSecondButtonButtonType\" placeholder=\"\" value=\"view\" onchange=\"changeButtonTypeRadioForNew2(\'view\')\">跳转链接类型"
+        +"<input type=\"radio\" name=\"addSecondButtonButtonType\" placeholder=\"\" value=\"click\" checked>回复消息类型"				       
+        +"</div>"
+        +"</div>"
+        +"<div class=\"form-group\">"
+        +"<label for=\"secondButtonName\" class=\"col-sm-3 control-label\">按钮名称</label>"
+        +"<div class=\"col-sm-9\">"
+        +"<input type=\"text\" class=\"form-control\" id=\"secondButtonName\" placeholder=\"\" value=\"\">"
+        +"</div>"
+        +"</div>"
+        +"<div class=\"form-group\">"
+        +"<label for=\"secondButtonLink\" class=\"col-sm-3 control-label\">消息键值</label>"
+        +"<div class=\"col-sm-9\">"
+        +"<input type=\"text\" class=\"form-control\" id=\"secondButtonKey\" placeholder=\"\" value=\"\">"
+        +"</div>"
+        +"</div>";
+	if(type=="view"){
+		$("#addSecondButtonModalBody").html(modalBodyHtml1);
+	}
+	if(type=="click"){
+		$("#addSecondButtonModalBody").html(modalBodyHtml2);
+	}
 }
 
 function editButtonWindow(obj){
@@ -382,7 +514,14 @@ function editButtonWindow(obj){
 					        +"<input type=\"text\" class=\"form-control\" id=\"buttonName\" placeholder=\"\" value=\"\">"
 					        +"</div>"
 					        +"</div>";
-	var secondButtonHtml = "<div class=\"form-group\">"
+	var secondButtonHtml1 = "<div class=\"form-group\">"
+					       +"<label for=\"buttonName\" class=\"col-sm-3 control-label\">按钮类型</label>"
+					       +"<div class=\"col-sm-9\">"
+					       +"<input type=\"radio\" name=\"buttonType\" placeholder=\"\" value=\"view\" checked>跳转链接类型"
+					       +"<input type=\"radio\" name=\"buttonType\" placeholder=\"\" value=\"click\" onchange=\"changeButtonTypeRadio(\'editButtonBody\',\'click\',\'"+thisId+"\')\">回复消息类型"
+					       +"</div>"
+					       +"</div>"
+		                   +"<div class=\"form-group\">"
                            +"<label for=\"buttonName\" class=\"col-sm-3 control-label\">按钮名称</label>"
                            +"<div class=\"col-sm-9\">"
                            +"<input type=\"text\" class=\"form-control\" id=\"buttonName\" placeholder=\"\" value=\"\">"
@@ -394,11 +533,36 @@ function editButtonWindow(obj){
                            +"<input type=\"text\" class=\"form-control\" id=\"buttonLink\" placeholder=\"\" value=\"\">"
                            +"</div>"
                            +"</div>";
+	var secondButtonHtml2 = "<div class=\"form-group\">"
+					       +"<label for=\"buttonName\" class=\"col-sm-3 control-label\">按钮类型</label>"
+					       +"<div class=\"col-sm-9\">"
+					       +"<input type=\"radio\" name=\"buttonType\" placeholder=\"\" value=\"view\" onchange=\"changeButtonTypeRadio(\'editButtonBody\',\'view\',\'"+thisId+"\')\">跳转链接类型"
+					       +"<input type=\"radio\" name=\"buttonType\" placeholder=\"\" value=\"click\" checked>回复消息类型"
+					       +"</div>"
+					       +"</div>"
+					        +"<div class=\"form-group\">"
+					        +"<label for=\"buttonName\" class=\"col-sm-3 control-label\">按钮名称</label>"
+					        +"<div class=\"col-sm-9\">"
+					        +"<input type=\"text\" class=\"form-control\" id=\"buttonName\" placeholder=\"\" value=\"\">"
+					        +"</div>"
+					        +"</div>"
+					        +"<div class=\"form-group\">"
+					        +"<label for=\"buttonLink\" class=\"col-sm-3 control-label\">消息代码</label>"
+					        +"<div class=\"col-sm-9\">"
+					        +"<input type=\"text\" class=\"form-control\" id=\"buttonKey\" placeholder=\"\" value=\"\">"
+					        +"</div>"
+					        +"</div>";
     if(buttonNode.nodeType == 2 || $("#"+thisId+"_ul").children().length == 0){
-    	$("#editButtonBody").html(secondButtonHtml);
-    	$("#buttonLink").val(buttonNode.nodeLink);
-    }else{
-    	
+    	if(buttonNode.type=="view"){
+        	$("#editButtonBody").html(secondButtonHtml1);
+        	$("#buttonLink").val(buttonNode.nodeLink);    		
+    	}
+    	if(buttonNode.type=="click"){
+        	$("#editButtonBody").html(secondButtonHtml2);
+        	$("#buttonKey").val(buttonNode.nodeKey);    		
+    	}
+
+    }else{	
     	$("#editButtonBody").html(firstButtonHtml);
     }
     $("#currentButton").val(thisId);
@@ -406,11 +570,73 @@ function editButtonWindow(obj){
 
 	$("#editButton").modal("show");
 }
+
+function changeButtonTypeRadio(container,type,thisId){
+	var buttonNode = getNodeFromUUID(thisId);
+	var secondButtonHtml1 = "<div class=\"form-group\">"
+	       +"<label for=\"buttonName\" class=\"col-sm-3 control-label\">按钮类型</label>"
+	       +"<div class=\"col-sm-9\">"
+	       +"<input type=\"radio\" name=\"buttonType\" placeholder=\"\" value=\"view\" checked>跳转链接类型"
+	       +"<input type=\"radio\" name=\"buttonType\" placeholder=\"\" value=\"click\" onchange=\"changeButtonTypeRadio(\'editButtonBody\',\'click\',\'"+thisId+"\')\">回复消息类型"
+	       +"</div>"
+	       +"</div>"
+        +"<div class=\"form-group\">"
+        +"<label for=\"buttonName\" class=\"col-sm-3 control-label\">按钮名称</label>"
+        +"<div class=\"col-sm-9\">"
+        +"<input type=\"text\" class=\"form-control\" id=\"buttonName\" placeholder=\"\" value=\"\">"
+        +"</div>"
+        +"</div>"
+        +"<div class=\"form-group\">"
+        +"<label for=\"buttonLink\" class=\"col-sm-3 control-label\">关联链接</label>"
+        +"<div class=\"col-sm-9\">"
+        +"<input type=\"text\" class=\"form-control\" id=\"buttonLink\" placeholder=\"\" value=\"\">"
+        +"</div>"
+        +"</div>";
+var secondButtonHtml2 = "<div class=\"form-group\">"
+	       +"<label for=\"buttonName\" class=\"col-sm-3 control-label\">按钮类型</label>"
+	       +"<div class=\"col-sm-9\">"
+	       +"<input type=\"radio\" name=\"buttonType\" placeholder=\"\" value=\"view\" onchange=\"changeButtonTypeRadio(\'editButtonBody\',\'view\',\'"+thisId+"\')\">跳转链接类型"
+	       +"<input type=\"radio\" name=\"buttonType\" placeholder=\"\" value=\"click\" checked>回复消息类型"
+	       +"</div>"
+	       +"</div>"
+	        +"<div class=\"form-group\">"
+	        +"<label for=\"buttonName\" class=\"col-sm-3 control-label\">按钮名称</label>"
+	        +"<div class=\"col-sm-9\">"
+	        +"<input type=\"text\" class=\"form-control\" id=\"buttonName\" placeholder=\"\" value=\"\">"
+	        +"</div>"
+	        +"</div>"
+	        +"<div class=\"form-group\">"
+	        +"<label for=\"buttonLink\" class=\"col-sm-3 control-label\">消息代码</label>"
+	        +"<div class=\"col-sm-9\">"
+	        +"<input type=\"text\" class=\"form-control\" id=\"buttonKey\" placeholder=\"\" value=\"\">"
+	        +"</div>"
+	        +"</div>";	
+	if(type=="view"){
+		$("#"+container).html(secondButtonHtml1);
+		$("#buttonName").val(buttonNode.nodeName);
+		$("#buttonLink").val(buttonNode.nodeLink);
+	}else{
+		$("#"+container).html(secondButtonHtml2);
+		$("#buttonName").val(buttonNode.nodeName);
+		$("#buttonKey").val(buttonNode.nodeKey);
+	}
+	
+}
 function editButton(){
     var currentButton = $("#currentButton").val();
     var buttonNode = getNodeFromUUID(currentButton);	
     if(buttonNode.nodeType == 2 || $("#"+currentButton+"_ul").children().length == 0){
-    	buttonNode.nodeLink = $("#buttonLink").val();
+    	var type = $('input[name="buttonType"]:checked').val();
+    	if(type=="view"){
+    		buttonNode.type="view";
+    		buttonNode.nodeKey = "";
+    		buttonNode.nodeLink = $("#buttonLink").val();
+    	}
+    	if(type=="click"){
+    		buttonNode.type="click";
+    		buttonNode.nodeKey = $("#buttonKey").val();
+    		buttonNode.nodeLink = "";
+    	}   	
     }
     $("#"+currentButton+"_name").html($("#buttonName").val());
     buttonNode.nodeName = $("#buttonName").val();
@@ -437,9 +663,11 @@ function deleteButton(){
 	$("#"+deleteId).remove();
 	$("#deleteButtonWindow").modal("hide");
 }
+
 function getUUID(){
 	return (new UUID()).id;
 }
+
 function getNodeFromUUID(uuid){
 	  var node = null;
 	  $.each(nodeList,function(key,val){
@@ -449,6 +677,7 @@ function getNodeFromUUID(uuid){
 		  });
 	  return node;
 	}	
+
 function getNodeKeyFromUUID(uuid){
 	  var nodeKey = null;
 	  $.each(nodeList,function(key,val){
@@ -458,6 +687,7 @@ function getNodeKeyFromUUID(uuid){
 		  });
 	  return nodeKey;
 }
+
 function showList(){
 	alert(JSON.stringify(nodeList));
 }

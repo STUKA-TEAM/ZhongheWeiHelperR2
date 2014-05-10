@@ -50,6 +50,7 @@ public class GetWeixinMesController {
 		if(createWeiXinButtonMes.getErrcode()==0){
 			return "y";
 		}else {
+			System.out.println("CODE:"+createWeiXinButtonMes.getErrcode()+"MES:"+createWeiXinButtonMes.getErrmsg());
 			return "n";
 		}
 	}

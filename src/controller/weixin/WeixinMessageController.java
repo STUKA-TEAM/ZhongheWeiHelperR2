@@ -42,27 +42,63 @@ public class WeixinMessageController {
 				if(xmlMap.get("MsgType")==WeiXinConstant.MSG_TYPE_TEST_FROM_REQ){
 					return echostr;
 				}
+				
 				if(xmlMap.get("MsgType").equals(WeiXinConstant.MSG_TYPE_EVENT_FROM_REQ)){
+					System.out.println(xmlMap.get("MsgType"));
 					ApplicationContext context = 
-							new ClassPathXmlApplicationContext("All-Modules.xml");
-					WelcomeDAO welcomeDAO = (WelcomeDAO)context.getBean("WelcomeDAO");
-					((ConfigurableApplicationContext)context).close();
-					Welcome welcome = welcomeDAO.getWelcome(appid);
-					if (welcome.getType().equals("text")) {
-						return WeixinMessageUtil.textMessageToXmlForResponse(xmlMap,
-								welcome.getContents().get(0).getContent());
-					} else {
-						List<NewsItemToResponse> articles = new ArrayList<NewsItemToResponse>();
-						for (WelcomeContent welcomeContent : welcome.getContents()) {
-							NewsItemToResponse welcomeNews = new NewsItemToResponse();
-							welcomeNews.setTitle(welcomeContent.getContent());
-							welcomeNews.setPicUrl(MethodUtils.getImageHost() + welcomeContent.getCoverPic() + "_standard.jpg");
-							welcomeNews.setUrl(welcomeContent.getLink());
-							articles.add(welcomeNews);
+							new ClassPathXmlApplicationContext("All-Modules.xml");	
+					
+					if(xmlMap.get("Event").equals(WeiXinConstant.EVENT_SUBSRIBE_FROM_REQ)){
+						WelcomeDAO welcomeDAO = (WelcomeDAO)context.getBean("WelcomeDAO");
+						Welcome welcome = welcomeDAO.getWelcome(appid);
+						if (welcome.getType().equals("text")) {
+							return WeixinMessageUtil.textMessageToXmlForResponse(xmlMap,
+									welcome.getContents().get(0).getContent());
+						} else {
+							List<NewsItemToResponse> articles = new ArrayList<NewsItemToResponse>();
+							for (WelcomeContent welcomeContent : welcome.getContents()) {
+								NewsItemToResponse welcomeNews = new NewsItemToResponse();
+								welcomeNews.setTitle(welcomeContent.getContent());
+								welcomeNews.setPicUrl(MethodUtils.getImageHost() + welcomeContent.getCoverPic() + "_standard.jpg");
+								welcomeNews.setUrl(welcomeContent.getLink());
+								articles.add(welcomeNews);
+							}
+							return WeixinMessageUtil.newsMessageToXmlForResponse(xmlMap, articles);							
 						}
-						return WeixinMessageUtil.newsMessageToXmlForResponse(xmlMap, articles);							
 					}
+					if(xmlMap.get("Event").equals(WeiXinConstant.EVENT_CLICK_FROM_REQ)){
+						if(xmlMap.get("EventKey").equals("elovedemo")){		
+							EloveWizardDAO eloveWizardDAO = (EloveWizardDAO) context.getBean("EloveWizardDAO");
+							ThemeInfoDAO themeInfoDAO = (ThemeInfoDAO)context.getBean("ThemeInfoDAO");
+							ArrayList<Integer> themeidList = (ArrayList<Integer>) MethodUtils.getEloveDemoIdList();
+							List<NewsItemToResponse> articles = new ArrayList<NewsItemToResponse>();
+
+							for (Integer integer : themeidList) {
+								EloveWizard eloveWizard = eloveWizardDAO.getElove(integer);
+								NewsItemToResponse theme = new NewsItemToResponse();
+								theme.setTitle(themeInfoDAO.getEloveThemeName(eloveWizard.getThemeid()));
+								theme.setPicUrl(MethodUtils.getImageHost()+eloveWizard.getCoverPic()+"_standard.jpg");
+								theme.setUrl(MethodUtils.getApplicationPath()+"customer/elove/elove?eloveid=" + integer );
+								articles.add(theme);
+							}													
+						    return WeixinMessageUtil.newsMessageToXmlForResponse(xmlMap, articles);
+						}
+						
+						if(xmlMap.get("EventKey").equals("onlineMenu")){		
+								NewsItemToResponse theme = new NewsItemToResponse();
+								theme.setTitle("在线菜单");
+								theme.setPicUrl("");
+								theme.setUrl("http://www.baidu.com");
+								List<NewsItemToResponse> articles = new ArrayList<NewsItemToResponse>();
+								articles.add(theme);
+						    return WeixinMessageUtil.newsMessageToXmlForResponse(xmlMap, articles);
+						}
+						
+					}
+					((ConfigurableApplicationContext)context).close();
 				}
+				
+				
 				if(xmlMap.get("MsgType").equals(WeiXinConstant.MSG_TYPE_TEXT_FROM_REQ)){
 					ApplicationContext context = 
 							new ClassPathXmlApplicationContext("All-Modules.xml");

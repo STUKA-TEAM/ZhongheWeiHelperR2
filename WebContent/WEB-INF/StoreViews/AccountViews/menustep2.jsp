@@ -98,7 +98,14 @@
             <h4 class="modal-title">添加一级菜单按钮</h4>
           </div>
           <div class="modal-body">
-            <div class="form-horizontal">
+            <div id="addFirstButtonModalBody" class="form-horizontal">
+              <div class="form-group">
+                <label for="firstButtonName" class="col-sm-3 control-label">按钮名称</label>
+                <div class="col-sm-9">
+                  <input type="radio" name="addFirstButtonButtonType" placeholder="" value="view" checked>跳转链接类型
+				  <input type="radio" name="addFirstButtonButtonType" placeholder="" value="click" onchange="changeButtonTypeRadioForNew('click')">回复消息类型				       
+                </div>
+              </div>
               <div class="form-group">
                 <label for="firstButtonName" class="col-sm-3 control-label">按钮名称</label>
                 <div class="col-sm-9">
@@ -112,7 +119,6 @@
                 </div>
               </div>
             </div>
- 
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -132,7 +138,14 @@
             <input id="currentFirstMenu" type="hidden" />
           </div>
           <div class="modal-body">
-            <div class="form-horizontal">
+            <div id="addSecondButtonModalBody" class="form-horizontal">
+              <div class="form-group">
+                <label for="secondButtonName" class="col-sm-3 control-label">按钮名称</label>
+                <div class="col-sm-9">
+                  <input type="radio" name="addSecondButtonButtonType" placeholder="" value="view" checked>跳转链接类型
+				  <input type="radio" name="addSecondButtonButtonType" placeholder="" value="click" onchange="changeButtonTypeRadioForNew2('click')">回复消息类型				       
+                </div>
+              </div>
               <div class="form-group">
                 <label for="secondButtonName" class="col-sm-3 control-label">按钮名称</label>
                 <div class="col-sm-9">

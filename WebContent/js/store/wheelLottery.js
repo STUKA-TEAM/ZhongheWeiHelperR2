@@ -184,3 +184,33 @@ function confirmGetLucky(){
 	  }
   });
 }
+
+function deleteLucky(itemid){
+	$("#deleteConfirmModalTitle").html("警告！");
+	$("#deleteConfirmModalMes").html("您确定将这个抽奖记录删除吗？删除后此记录不可恢复。");
+    $("#deleteidhidden").val(itemid);
+    $("#deleteConfirmModal").modal("show");
+}
+function confirmDeleteLucky(){
+	var itemid = $("#deleteidhidden").val();
+    $.ajax({
+  	  type: "POST",
+  	  url: "store/lottery/wheel/deleteResult",
+  	  data: "resultid="+itemid,
+   	  success: function (data) {
+   		  var jsonData=JSON.parse(data);		 
+   		  if(jsonData.status==true){
+	   	   	  $("#modalMes").html(jsonData.message);
+	   	      $("#operationMesModal").modal("show");
+	   	      setTimeout("location.reload()",1500);
+   		  }else{
+	   	   	  $("#modalMes").html(jsonData.message);
+	   	      $("#operationMesModal").modal("show");
+   		  }
+   	  },
+	  error: function(xhr, status, exception){
+   	   	  $("#modalMes").html(status + '</br>' + exception);
+   	      $("#operationMesModal").modal("show");
+	  }
+  });
+}

@@ -334,7 +334,7 @@ public class LotteryWheelController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/delete", method = RequestMethod.POST)
+	@RequestMapping(value = "/deleteResult", method = RequestMethod.POST)
 	@ResponseBody
 	public String deleteLuckyResult(@RequestParam(value = "resultid", required = true) int 
 			resultid, Model model){

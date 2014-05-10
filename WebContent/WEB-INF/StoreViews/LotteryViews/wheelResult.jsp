@@ -31,7 +31,8 @@
                 <tr>
                   <th>中奖者联系电话</th>
                   <th>状态</th>
-                  <th>操作</th>
+                  <th>领奖</th>
+                  <th>删除</th>
                 </tr>
               </thead>
               <tbody>
@@ -40,6 +41,7 @@
                   <td>${item.contact}</td>
                   <td><c:choose><c:when test="${item.status==1}">未领奖</c:when><c:when test="${item.status==0}">已领奖</c:when></c:choose></td>
                   <td><c:choose><c:when test="${item.status==1}"><a class="btn btn-sm btn-danger" onclick="getLucky('${item.resultid}')">领奖</a></c:when><c:when test="${item.status==0}"><button type="button" class="btn btn-default btn-sm" disabled="disabled">已领奖</button></c:when></c:choose></td>
+                  <td><a class="btn btn-sm btn-danger" onclick="deleteLucky('${item.resultid}')">删除</a></td>
                 </tr>
                 </c:forEach>
               </tbody>
@@ -51,7 +53,7 @@
     </div>
     
 
-    <!-- 确认删除弹框 -->
+    <!-- 确认领奖弹框 -->
     <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -66,6 +68,26 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
             <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="confirmGetLucky()">确认领奖</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal --> 
+    
+        <!-- 确认删除弹框 -->
+    <div class="modal fade" id="deleteConfirmModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 id="deleteConfirmModalTitle" class="modal-title text-danger"></h4>
+          </div>
+          <div class="modal-body">
+            <h4 id="deleteConfirmModalMes" class="modal-title"></h4>
+            <input id="deleteidhidden" type="hidden" value=""/>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="confirmDeleteLucky()">确认领奖</button>
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
