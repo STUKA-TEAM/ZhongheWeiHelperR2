@@ -187,6 +187,8 @@ Windows:
             count        int(11)      No         0                      No                  订菜份数
 [2014-05-04][index: 0039]表lotterywheel_result添加status字段     type: int(11)  NULL: No  Default: 1  Comment: 是否有效     Position: After "openid"
 [2014-05-06][index: 0040]表dish_order修改count字段  默认值改为1
+[2014-05-07][index: 0041]表menu_node添加nodeKey字段     type: varchar(40)  NULL: YES  Default: NULL  Comment: 节点键值     Position: After "nodeLink"
+                                                                                       添加type字段    type: varchar(10)  NULL: No  Default: view  Comment: 按钮类型 (view | click)  Position: After "nodeType"
 
 Linux:
 [2014-02-22][index: 0001]done
@@ -229,3 +231,4 @@ Linux:
 [2014-05-04][index: 0038]done
 [2014-05-04][index: 0039]done
 [2014-05-06][index: 0040]done
+[2014-05-08][index: 0041]done

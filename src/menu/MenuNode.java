@@ -14,7 +14,9 @@ public class MenuNode {
 	private String fatherUUID;
 	private String nodeName;
 	private String nodeLink;
+	private String nodeKey;
 	private int nodeType;
+	private String type;
 	
 	/**
 	 * @return the nodeid
@@ -89,6 +91,18 @@ public class MenuNode {
 		this.nodeLink = nodeLink;
 	}
 	/**
+	 * @return the nodeKey
+	 */
+	public String getNodeKey() {
+		return nodeKey;
+	}
+	/**
+	 * @param nodeKey the nodeKey to set
+	 */
+	public void setNodeKey(String nodeKey) {
+		this.nodeKey = nodeKey;
+	}
+	/**
 	 * @return the nodeType
 	 */
 	public int getNodeType() {
@@ -99,5 +113,17 @@ public class MenuNode {
 	 */
 	public void setNodeType(int nodeType) {
 		this.nodeType = nodeType;
+	}
+	/**
+	 * @return the type
+	 */
+	public String getType() {
+		return type;
+	}
+	/**
+	 * @param type the type to set
+	 */
+	public void setType(String type) {
+		this.type = type;
 	}
 }

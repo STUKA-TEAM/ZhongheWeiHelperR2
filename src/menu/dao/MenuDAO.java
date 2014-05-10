@@ -98,7 +98,8 @@ public class MenuDAO {
 	 * @return
 	 */
 	public int insertNodeRelation(int nodeid, int childid){
-		String SQL = "INSERT INTO menu_nodetree (id, nodeid, childid) VALUES (default, ?, ?)";
+		String SQL = "INSERT INTO menu_nodetree (id, nodeid, childid) VALUES "
+				+ "(default, ?, ?)";
 		int result = jdbcTemplate.update(SQL, nodeid, childid);
 		return result <= 0 ? 0 : result;
 	}
@@ -111,18 +112,22 @@ public class MenuDAO {
 	 * @return
 	 */
 	public int insertMenuNode(final String appid, final MenuNode node){
-		final String SQL = "INSERT INTO menu_node (nodeid, appid, nodeName, nodeLink, nodeType) VALUES (default, ?, ?, ?, ?)";
+		final String SQL = "INSERT INTO menu_node (appid, nodeName, nodeLink, "
+				+ "nodeKey, nodeType, type) VALUES (?, ?, ?, ?, ?, ?)";
 		int result = 0;
 		
 		KeyHolder kHolder = new GeneratedKeyHolder();
 		result = jdbcTemplate.update(new PreparedStatementCreator() {
-		    public PreparedStatement createPreparedStatement(Connection connection) throws SQLException{
+		    public PreparedStatement createPreparedStatement(Connection connection)
+		    		throws SQLException{
 		        PreparedStatement ps =
 		            connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
 		        ps.setString(1, appid);
 		        ps.setString(2, node.getNodeName());
 		        ps.setString(3, node.getNodeLink());
-		        ps.setInt(4, node.getNodeType());
+		        ps.setString(4, node.getNodeKey());
+		        ps.setInt(5, node.getNodeType());
+		        ps.setString(6, node.getType());
 		        return ps;
 		    }
 		}, kHolder);
@@ -209,13 +214,15 @@ public class MenuDAO {
 	
 	/**
 	 * @title getMenuNodeList
-	 * @description 
+	 * @description 根据appid查询菜单节点详细信息 (nodeid, nodeName, nodeLink, nodeKey, 
+	 * nodeType, type)
 	 * @param appid
 	 * @return
 	 */
 	public List<MenuNode> getMenuNodeList(String appid){
 		List<MenuNode> nodeList = null;
-		String SQL = "SELECT nodeid, nodeName, nodeLink, nodeType FROM menu_node WHERE appid = ?";
+		String SQL = "SELECT nodeid, nodeName, nodeLink, nodeKey, nodeType, type "
+				+ "FROM menu_node WHERE appid = ?";
 		try {
 			nodeList = jdbcTemplate.query(SQL, new Object[]{appid}, new FullNodeInfoMapper());
 		} catch (Exception e) {
@@ -241,6 +248,8 @@ public class MenuDAO {
 			node.setNodeType(rs.getInt("nodeType"));
 			node.setNodeName(rs.getString("nodeName"));
 			node.setNodeLink(rs.getString("nodeLink"));
+			node.setNodeKey(rs.getString("nodeKey"));
+			node.setType(rs.getString("type"));
 			return node;
 		}
 	}
