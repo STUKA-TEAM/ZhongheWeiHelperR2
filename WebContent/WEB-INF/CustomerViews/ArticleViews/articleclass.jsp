@@ -30,9 +30,11 @@
           <small><fmt:formatDate value="${item.createTime}" pattern="yyyy-MM-dd"/></small>
         </div>
         <div class="article-model-content">
+        <c:if test="${not empty item.coverPic}">
           <div  class="article-image">
             <img src="${item.coverPic}_standard.jpg" class="img-responsive" alt="article">
           </div>
+        </c:if>
         </div>       
         <div class="article-model-footer">
           <h5>查看全文</h5>
@@ -43,6 +45,7 @@
     </div>
     <%@ include file="../WebsiteViews/bottom.jsp"%>
     <script type="text/javascript" src="./js/customer/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="js/customer/jQueryRotateCompressed.js"></script>
     <script type="text/javascript" src="js/customer/mobile-common.js"></script>
     <script src="./js/customer/bootstrap.min.js"></script>
   </body>
