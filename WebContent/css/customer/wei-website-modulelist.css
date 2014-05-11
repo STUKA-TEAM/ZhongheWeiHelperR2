@@ -35,4 +35,6 @@ div {
   line-height: 48px;
   color:#666;
   text-decoration: none;
+  width: 100%;
+  display: block;
 }
