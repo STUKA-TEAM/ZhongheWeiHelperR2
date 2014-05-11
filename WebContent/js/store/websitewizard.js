@@ -72,7 +72,6 @@ function showBlankInputHtml(blankInputArray){
 	$("#modalTitle").html("为了保证微官网效果，您需要完善下列信息：");
 	$("#modalMes").html(blankInputhtml);
     $("#operationMesModal").modal("show");
-
     return;
 }
 
@@ -217,7 +216,8 @@ function addNodeItem(node){
     +"<a class=\"btn btn-sm btn-info operationButton\" onclick=\"relateAlbumWindow(\'"+node.UUID+"\')"+"\">关联相册</a>"
     +"<a class=\"btn btn-sm btn-info operationButton\" onclick=\"relateAlbumClassWindow(\'"+node.UUID+"\')"+"\">关联相册集</a>"
     +"<a class=\"btn btn-sm btn-info operationButton\" onclick=\"relateVoteWindow(\'"+node.UUID+"\')"+"\">关联投票</a>"
-    +"<a class=\"btn btn-sm btn-info operationButton\" onclick=\"relateLotteryWheelWindow(\'"+node.UUID+"\')"+"\">关联大转盘</a></td>"
+    +"<a class=\"btn btn-sm btn-info operationButton\" onclick=\"relateLotteryWheelWindow(\'"+node.UUID+"\')"+"\">关联大转盘</a>"
+    +"<a class=\"btn btn-sm btn-info operationButton\" onclick=\"relateBranchclassWindow(\'"+node.UUID+"\')"+"\">关联分店区域</a></td>"
     +"<td>" 
     +"<a class=\"btn btn-sm btn-info\" onclick=\""+"editNodeWindow('"+node.UUID+"')"+"\">编辑</a>"
     +"<a class=\"btn btn-sm btn-danger\" onclick=\""+"deleteNode('"+node.UUID+"')"+"\">删除</a>"  
@@ -561,6 +561,45 @@ function relateLotteryWheel(){
 	}
 	$("#relate_LotteryWheel").modal("hide");
 }
+
+//关联分店区域弹窗
+function relateBranchclassWindow(uuid){
+	var inputList = new Array();
+	  $.ajax({
+		  type: "GET",
+		  url: "store/website/branchclasslist",
+		  success: function (data) {		  
+			  $("#relateBranchClass").html(data);
+			  inputList = $("input[name=branchClassOptionsRadios]");
+			  var checkedKey=-1;
+			  var currentNode = getNodeFromUUID(uuid);
+			    $.each(inputList,function(key,val){
+			    	if($(inputList[key]).val()==currentNode.childid){
+			    		checkedKey = key;
+			    	}
+			      });
+			    if(checkedKey>=0){
+			    	$(inputList[checkedKey]).prop("checked", true);
+			    }
+			  $("#branchClassEditCurrentNode").val(uuid);
+			  $("#relate_branchclass_type").modal("show");
+		  }
+		});
+}
+
+//关联分店区域操作
+function relateBranchclass(){
+	var checkedVal = $("input[name='branchClassOptionsRadios']:checked").val();
+	if(typeof(checkedVal)!="undefined"){
+		var node = getNodeFromUUID($("#branchClassEditCurrentNode").val());
+		node.childrenType = "branchclass";
+		node.childid=checkedVal;
+		$("#"+node.UUID+"-content").html("关联分店区域");
+		deleteChildNode(node.UUID);
+	}
+	$("#relate_branchclass_type").modal("hide");
+}
+
 function getNodeFromUUID(uuid){
   var node = null;
   $.each(nodeList,function(key,val){
@@ -623,6 +662,9 @@ function getNodeChildHTML(uuid){
 		    if(node.childrenType=="lotterywheel"){
 		    	nodetypeText = "关联大转盘";
 		    }
+		    if(node.childrenType=="branchclass"){
+		    	nodetypeText = "关联分店区域";
+		    }
 			var picHTML = "";
 			if(node.nodePic!=null){
 				picHTML = "<img src=\""+node.nodePic+"_original.jpg"+"\" class=\"pic-preview img-responsive\"/>";
@@ -637,7 +679,8 @@ function getNodeChildHTML(uuid){
 		    +"<a class=\"btn btn-sm btn-info operationButton\" onclick=\"relateAlbumWindow(\'"+node.UUID+"\')"+"\">关联相册</a>"
 		    +"<a class=\"btn btn-sm btn-info operationButton\" onclick=\"relateAlbumClassWindow(\'"+node.UUID+"\')"+"\">关联相册集</a>"
 		    +"<a class=\"btn btn-sm btn-info operationButton\" onclick=\"relateVoteWindow(\'"+node.UUID+"\')"+"\">关联投票</a>"
-		    +"<a class=\"btn btn-sm btn-info operationButton\" onclick=\"relateLotteryWheelWindow(\'"+node.UUID+"\')"+"\">关联大转盘</a></td>"
+		    +"<a class=\"btn btn-sm btn-info operationButton\" onclick=\"relateLotteryWheelWindow(\'"+node.UUID+"\')"+"\">关联大转盘</a>"
+		    +"<a class=\"btn btn-sm btn-info operationButton\" onclick=\"relateBranchclassWindow(\'"+node.UUID+"\')"+"\">关联分店区域</a></td>"
 		    +"<td>" 
 		    +"<a class=\"btn btn-sm btn-info\" onclick=\""+"editNodeWindow('"+node.UUID+"')"+"\">编辑</a>"
 		    +"<a class=\"btn btn-sm btn-danger\" onclick=\""+"deleteNode('"+node.UUID+"')"+"\">删除</a>"  
