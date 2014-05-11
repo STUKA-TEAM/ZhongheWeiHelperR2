@@ -59,11 +59,15 @@
         </div>
         </c:forEach>
       </div>
-      <button id="shareButton" type="button" class="btn btn-success btn-share">分享给好友</button>
+      <button id="shareButton" type="button" class="btn btn-success btn-share" onclick="switch_guide('#guide_bg','#guide_img')">分享给好友</button>
     </div>
+    
+    <div id="guide_bg" class="guide hidden" onclick="close_guide('#guide_bg','#guide_img')">
+        <img id="guide_img" class="guide-pic img-responsive hidden" src="img/common/guide.png"/>
+    </div> 
     <%@ include file="dishDetail.jsp"%>
 
-
+    <%@ include file="../CommonViews/weifooter.jsp"%>
     <script type="text/javascript" src="js/customer/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="js/customer/modal.min.js"></script> 
     <script type="text/javascript" src="js/customer/mobile-common.js"></script>

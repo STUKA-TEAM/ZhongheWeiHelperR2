@@ -20,13 +20,13 @@
       <%@ include file="../CommonViews/leftSide.jsp"%>    
       <div class="col-md-10 manager-content">
         <ol class="breadcrumb">
-          <li><a href="store/branch/list?classid=0">分店管理</a></li>
-          <li class="active">编辑分店</li>
+          <li><a href="store/branch/list?classid=0">菜品管理</a></li>
+          <li class="active">编辑菜品</li>
         </ol>
           <div class="row website-tab">
             <div class="panel panel-info col-md-10 col-md-offset-1">
               <div class="panel-heading">
-                <h4>编辑分店</h4>
+                <h4>编辑菜品</h4>
               </div>
               <div class="panel-body">
                 <div  class="form-horizontal">

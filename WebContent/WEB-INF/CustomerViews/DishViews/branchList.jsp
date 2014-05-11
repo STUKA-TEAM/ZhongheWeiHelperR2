@@ -32,26 +32,22 @@
           </div>
         </div>
         <div class="store-model-footer">
-          <div class="store-nav-4">
-            <a href="customer/dish/branchMenu?openid=${openid}&appid=${appid}&branchid=${item.branchSid}">
+          <a class="store-nav-4" href="customer/dish/branchMenu?openid=${openid}&appid=${appid}&branchid=${item.branchSid}">
               <img src="./img/icon_lib/calendar02-black.png" class="store-nav-image" alt="article">
               <p class="store-nav-text">菜单</p>
-            </a>
-          </div>
-          <div class="store-nav-4 store-nav-divide">
+          </a>
+          <a class="store-nav-4 store-nav-divide" href="tel:${item.phone}">
             <img src="./img/icon_lib/phone-black.png" class="store-nav-image" alt="article">
             <p class="store-nav-text">预定</p>
-          </div>
-          <div class="store-nav-4 store-nav-divide">
+          </a>
+          <a class="store-nav-4 store-nav-divide" href='http://api.map.baidu.com/marker?location=${item.lat},${item.lng}&amp;title=${item.address}&amp;name=${item.address}&amp;content=${item.address}&amp;output=html'>
             <img src="./img/icon_lib/map02-black.png" class="store-nav-image" alt="article">
             <p class="store-nav-text">导航</p>
-          </div>
-          <div class="store-nav-4 store-nav-divide">
-            <a href="./store-domain-real.html">
+          </a>
+          <a class="store-nav-4 store-nav-divide" href="customer/dish/showStore?branchid=${item.branchSid}">
               <img src="./img/icon_lib/pic-black.png" class="store-nav-image" alt="article">
               <p class="store-nav-text">实景</p>
-            </a>
-          </div>
+          </a>
         </div>
       </div>
       </c:forEach>

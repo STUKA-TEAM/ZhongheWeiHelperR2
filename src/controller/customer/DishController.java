@@ -62,6 +62,27 @@ public class DishController {
 	}
 	
 	/**
+	 * @title getStoreImage
+	 * @description 根据albumid获取相册信息
+	 * @param model
+	 * @param albumid
+	 * @param websiteid
+	 * @return
+	 */
+	@RequestMapping(value = "/showStore", method = RequestMethod.GET)
+	public String getStoreImage(Model model, @RequestParam(value = "branchid", required = true) int brachSid){
+		ApplicationContext context = 
+				new ClassPathXmlApplicationContext("All-Modules.xml");
+		BranchDAO branchDAO = (BranchDAO) context.getBean("BranchDAO");
+		((ConfigurableApplicationContext)context).close();
+		
+		Branch branch = branchDAO.getBranchForCustomer(brachSid);
+        model.addAttribute("branch", branch);
+
+		return "DishViews/showStore";
+	}
+	
+	/**
 	 * @title getBranch
 	 * @description 获取某分店与用户相关的全部菜品详细信息
 	 * @param openid
