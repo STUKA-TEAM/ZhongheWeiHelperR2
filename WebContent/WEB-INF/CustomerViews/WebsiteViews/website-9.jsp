@@ -24,7 +24,7 @@
         </c:forEach>
         </div>
       </div>
-    <div class="container content" id="module-list">
+    <div class="container" id="module-list">
       <div class="contentlist clearfix">
       <c:forEach items="${nodes}" var="item">
         <div class="contentlist-item">

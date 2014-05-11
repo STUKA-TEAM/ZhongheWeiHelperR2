@@ -2,6 +2,7 @@ html, header, body {
   max-width: 360px;
   min-height: 516px;
   font-family:"Microsoft YaHei";
+  text-align: center;
 }
 body {
   background-repeat: no-repeat;
@@ -14,14 +15,8 @@ div {
   max-width: 360px;
   text-align: center;
 }
-.content {
-  position: fixed;
-  top: 0;
-  left: 0;
-}
 .contentlist {
   margin: 60px auto;
-  width: 100%;
 }
 .contentlist-item {
   display: inline-block;
