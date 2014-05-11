@@ -23,6 +23,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import branch.BranchClass;
+import branch.dao.BranchDAO;
+
 import com.google.gson.Gson;
 
 import album.Album;
@@ -361,4 +364,24 @@ public class WebsiteController {
 		}
 	}
 	
+	/**
+	 * @title getBranchClassList
+	 * @description 获取账号下可关联的分店类别列表
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/website/branchclasslist", method = RequestMethod.GET)
+	public String getBranchClassList(Model model){
+		ApplicationContext context = 
+				new ClassPathXmlApplicationContext("All-Modules.xml");
+		BranchDAO branchDao = (BranchDAO) context.getBean("BranchDAO");
+		((ConfigurableApplicationContext)context).close();
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = (User)auth.getPrincipal();
+		
+		List<BranchClass> classList = branchDao.getBasicClassinfos(user.getSid());
+		model.addAttribute("classList", classList);
+		return "WebsiteViews/branchclasslist";
+	}
 }
