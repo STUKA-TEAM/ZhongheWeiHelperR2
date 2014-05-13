@@ -1,5 +1,7 @@
 package controller.customer;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -114,6 +116,14 @@ public class DishController {
 			DishClass dishClass = classList.get(0);
 			int classid = dishClass.getClassid();
 			List<DishBranch> dishList = dishDao.getDishClassForCustomer(classid, branchSid, openid);
+			Collections.sort(dishList, new Comparator<DishBranch>() {
+				@Override
+				public int compare(DishBranch dish1, DishBranch dish2) {
+					int recomNum1 = dish1.getRecomNum();
+					int recomNum2 = dish2.getRecomNum();
+					return recomNum1 < recomNum2 ? 1 : (recomNum1 == recomNum2 ? 0 : -1);
+				}
+			});
 			model.addAttribute("dishList", dishList);
 		}
 		
@@ -142,7 +152,16 @@ public class DishController {
 		((ConfigurableApplicationContext)context).close();
 		
 		List<DishBranch> dishList = dishDao.getDishClassForCustomer(classid, branchSid, openid);
+		Collections.sort(dishList, new Comparator<DishBranch>() {
+			@Override
+			public int compare(DishBranch dish1, DishBranch dish2) {
+				int recomNum1 = dish1.getRecomNum();
+				int recomNum2 = dish2.getRecomNum();
+				return recomNum1 < recomNum2 ? 1 : (recomNum1 == recomNum2 ? 0 : -1);
+			}
+		});
 		model.addAttribute("dishList", dishList);
+		
 		model.addAttribute("branchid", branchSid);
 		model.addAttribute("openid", openid);
 		return "DishViews/dishList";
