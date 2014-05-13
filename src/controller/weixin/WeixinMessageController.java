@@ -88,7 +88,7 @@ public class WeixinMessageController {
 						if(xmlMap.get("EventKey").equals("onlineMenu")){		
 								NewsItemToResponse theme = new NewsItemToResponse();
 								theme.setTitle("在线菜单");
-								theme.setPicUrl("");
+								theme.setPicUrl(MethodUtils.getApplicationPath()+"/img/wechat_newsInfo/onlineMenuInfo.jpg");
 								theme.setUrl(MethodUtils.getApplicationPath()+"customer/dish/branchlist?openid="+openid+"&appid="+appid);
 								List<NewsItemToResponse> articles = new ArrayList<NewsItemToResponse>();
 								articles.add(theme);

@@ -12,7 +12,7 @@
     <meta name="author" content="zhonghe">
     <c:set var="request" value="${pageContext.request}" />
     <base href="${fn:replace(request.requestURL, request.requestURI, request.contextPath)}/" />
-    <title>${website.title}</title>
+    <title>${branch.storeName}</title>
     
     
   
@@ -33,19 +33,17 @@
 
   </head>
   <body>
-  <div id="head">${album.albumName}</div>
+  <div id="head">${branch.storeName}</div>
   <div id="container">
-      <c:forEach items="${album.photoList}" var="item">
+      <c:forEach items="${branch.imageList}" var="item">
       <div class="item">
-      <a href="${item.imagePath}_original.jpg" class="swipebox" title="${item.imageDesc}">
-        <img class="swipeimg" src="${item.imagePath}_original.jpg" alt="image">
+      <a href="${item}_original.jpg" class="swipebox" title="">
+        <img class="swipeimg" src="${item}_original.jpg" alt="image">
       </a>
       </div>
       </c:forEach>
     </div>
     <%@ include file="../CommonViews/weifooter.jsp"%>
-    <%@ include file="../WebsiteViews/bottom.jsp"%>
-    <script type="text/javascript" src="js/customer/jQueryRotateCompressed.js"></script>
     <script type="text/javascript" src="js/customer/mobile-common.js"></script>
   <script src="./swipelib/jquery.swipebox.min.js"></script>
   <script type="text/javascript">
@@ -56,13 +54,5 @@
   } )( jQuery );
   </script>
   
-    <%@ include file="../CommonViews/shareJS.jsp"%>
-    <script type="text/javascript">
-    window.shareInfo = new Object();
-    shareInfo.imgUrl = '${message.imageLink}';
-    shareInfo.link = '${message.appLink}';
-    shareInfo.desc = '${message.shareContent}';
-    shareInfo.title = '${message.shareTitle}';
-    </script>
   </body>
 </html>

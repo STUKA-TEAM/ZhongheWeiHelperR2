@@ -1,6 +1,6 @@
 html, header, body {
   max-width: 360px;
-  background-color: #f4f4f4;
+  background-color: #F9F9F9;
   font-family:"Microsoft YaHei";
   color: #aaa;
 }
@@ -35,4 +35,6 @@ div {
   line-height: 48px;
   color:#666;
   text-decoration: none;
+  width: 100%;
+  display: block;
 }

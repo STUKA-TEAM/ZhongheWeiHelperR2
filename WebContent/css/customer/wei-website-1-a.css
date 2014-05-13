@@ -1,6 +1,6 @@
 html, header, body {
   max-width: 360px;
-  background-color: #E8E7E4;
+  background-color: #f4f4f4;
   font-family:"Microsoft YaHei";
   color: #666666;
 }
@@ -25,12 +25,12 @@ div {
   width: 46%;
   max-height: 125px;
   margin: 5px 2%;
-  background-color: #F5F4F3;
+  background-color: #FFF;
   text-align: left;
   font-size: 14px;
   border-radius: 5px;
   overflow: hidden;
-  box-shadow: 2px 2px 2px #888888;
+  box-shadow: 2px 2px 2px #9A9A9A;
 }
 .contentlist-item:hover,
 .contentlist-item:focus {

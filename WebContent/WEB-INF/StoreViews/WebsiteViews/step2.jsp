@@ -246,7 +246,26 @@
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
- 
+
+    <div class="modal fade" id="relate_branchclass_type" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <input type="hidden" id="branchClassEditCurrentNode"/>
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">关联分店区域</h4>
+          </div>
+          <div id="relateBranchClass" class="modal-body">
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-info" onclick="relateBranchclass()">确定</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+     
     <!-- 系统图片提示框 -->
 <div class="modal fade"  id="sysIcon" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
