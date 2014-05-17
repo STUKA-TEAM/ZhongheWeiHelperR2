@@ -13,7 +13,7 @@
 }
 .baby-name {
   position: absolute;
-  top: 350px;
+  top: 355px;
   left: 54%;
   color: #FE3267;
   font-size: 18px;
@@ -23,7 +23,7 @@
 @media (max-width: 370px){
   .baby-name {
     position: absolute;
-    top: 340px;
+    top: 355px;
     left: 54%;
     color: #FE3267;
     font-size: 18px;
@@ -34,7 +34,7 @@
 @media (max-width: 360px){
   .baby-name {
     position: absolute;
-    top: 330px;
+    top: 345px;
     left: 54%;
     color: #FE3267;
     font-size: 18px;
@@ -45,7 +45,7 @@
 @media (max-width: 350px){
   .baby-name {
     position: absolute;
-    top: 320px;
+    top: 335px;
     left: 54%;
     color: #FE3267;
     font-size: 18px;
@@ -56,7 +56,7 @@
 @media (max-width: 340px){
   .baby-name {
     position: absolute;
-    top: 310px;
+    top: 325px;
     left: 54%;
     color: #FE3267;
     font-size: 18px;
@@ -67,7 +67,7 @@
 @media (max-width: 330px){
   .baby-name {
     position: absolute;
-    top: 300px;
+    top: 315px;
     left: 54%;
     color: #FE3267;
     font-size: 18px;
@@ -78,7 +78,7 @@
 @media (max-width: 320px){
   .baby-name {
     position: absolute;
-    top: 290px;
+    top: 295px;
     left: 54%;
     color: #FE3267;
     font-size: 18px;
