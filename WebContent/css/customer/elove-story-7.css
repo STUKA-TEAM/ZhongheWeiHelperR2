@@ -7,14 +7,9 @@
   width: 100%;
 }
 .photo {
-  position: absolute;
-  top: 180px;
-  width: 100%;
-  z-index: -1;
-}
-.photo-img {
-  width: 180px;
-  height: 180px;
+  background-repeat: no-repeat;
+  background-size: 55% 80%;
+  background-position: top;
 }
 .baby-name {
   position: absolute;

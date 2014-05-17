@@ -6,11 +6,8 @@
       <img src="img/elove/story_title_7.png" class="img-responsive" alt="title background"/>
     </div><!-- title -->
     
-    <div class="container-fulid">
+    <div class="container-fulid photo" style="background-image:url(${elove.majorGroupPhoto}_original.jpg)">
       <img src="img/elove/title_bg_7.png" class="img-responsive photo-container" />
-      <div class="photo">
-        <img src="${elove.majorGroupPhoto}_original.jpg" class="center-block photo-img"/>
-      </div>
 	  <p class="baby-name">${elove.xinLang}</p>     
     </div>
     <div class="content-bg">
