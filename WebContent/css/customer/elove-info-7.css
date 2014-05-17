@@ -1,0 +1,104 @@
+.title {
+  background-image: url(../../img/elove/info_title_7.png);
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: top;
+  width: 100%;
+  padding-bottom: 69%;
+}
+.info-bg {
+  background-image: url(../../img/elove/footer_bg_7.png);
+  background-repeat: repeat-y;
+  background-size: 100%;
+}
+.logo-container {
+  position: absolute;
+  top: 0;
+  height: auto;
+  width: 100%;
+}
+.logo {
+  display: block;
+  height: 97px;
+  width: 97px;
+  border: 3px solid #ffffff;
+  border-radius: 50%;
+  margin: 5px;
+  background-size: 100% 100%;
+  overflow: hidden;
+  margin-left: 7%;
+  margin-top: 8%;
+}
+@media (max-width: 340px){
+.logo {
+  display: block;
+  height: 92px;
+  width: 92px;
+  border: 3px solid #ffffff;
+  border-radius: 50%;
+  margin: 5px;
+  background-size: 100% 100%;
+  overflow: hidden;
+  margin-left: 7%;
+  margin-top: 7%;
+}
+}
+.message-content {
+  height: auto;
+  width: 100%;
+}
+.info-list {
+  margin: 0 auto;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.info-list > li {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  clear: both;
+  width: 100%;
+  margin: 5px auto;
+}
+.info-list > li > div {
+  position: relative;
+  float: left;
+}
+.info-title {
+  color: #ffffff;
+  background-color: #F26DA6;
+  width: 20%;
+  height: 50px;
+  display: table;
+}
+.info-title > p {
+  margin: 0 auto;
+  display: table-cell;
+  vertical-align: middle;
+}
+.info-content {
+  color: #F26DA6;
+  font-size: 15px;
+  background-color: #FDF0F7;
+  width: 65%;
+  line-height: 50px;
+}
+.info-content > p {
+  margin: 0 auto;
+}
+.info-content > p > a {
+  color: #F26DA6;
+}
+.btn-block {
+  width: 60%;
+  margin: 0 auto;
+}
+#baidumap{
+  width: 100%;
+  height: 150px;
+  margin: 0;
+  position: absolute;
+  top: 100px;
+  visibility: hidden;
+  border-radius: 5px;
+}
