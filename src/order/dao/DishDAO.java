@@ -939,7 +939,7 @@ public class DishDAO {
 	public List<DishBranch> getDishClassForCustomer(int classid, int branchSid, String openid) {
 		List<DishBranch> dishList = new ArrayList<DishBranch>();
 		String SQL = "SELECT dishid, dishName, dishPic, dishDesc, price, dishUnit, recomNum "
-				+ "FROM dish WHERE dishid = ? ORDER BY recomNum DESC";
+				+ "FROM dish WHERE dishid = ?";
 		List<Integer> dishidList = getDishidList(classid);
 		for (Integer dishid : dishidList) {
 			try {

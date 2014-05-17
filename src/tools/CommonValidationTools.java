@@ -43,8 +43,14 @@ import website.dao.WebsiteDAO;
 
 
 public class CommonValidationTools {
+	/**
+	 * @title checkEmail
+	 * @description 检查邮箱地址是否正确
+	 * @param email
+	 * @return
+	 */
 	public static boolean checkEmail(String email){
-		String check = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";  
+		String check = "^([a-z0-9A-Z]+[-|_|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";  
 		Pattern regex = Pattern.compile(check);  
 		Matcher matcher = regex.matcher(email);
 		return matcher.matches();
@@ -57,16 +63,29 @@ public class CommonValidationTools {
 	 * @return
 	 */
 	public static boolean checkPhone(String phone){
-		String check = "^(13[1,2,3,4,5,6,7,8,9]|15[0,1,2,3,4,5,6,,7,8,9]|188|187)\\d{8}$";
+		String check = "^(13[0-9]|15[0-9]|18[0-9])\\d{8}$";
 		Pattern regex = Pattern.compile(check);
 		Matcher matcher = regex.matcher(phone);		 
 		return matcher.matches();
 	}
 	
+	/**
+	 * @title checkPassword
+	 * @description 检查两次输入密码是否一致
+	 * @param original
+	 * @param again
+	 * @return
+	 */
 	public static boolean checkPassword(String original, String again){
 		return original.equals(again);
 	}
 	
+	/**
+	 * @title checkUsername
+	 * @description 检查用户名是否重复
+	 * @param username
+	 * @return
+	 */
 	public static boolean checkUsername(String username){
 		ApplicationContext context = 
 				new ClassPathXmlApplicationContext("All-Modules.xml");
@@ -524,6 +543,26 @@ public class CommonValidationTools {
 	 * @return
 	 */
 	public static String checkBranch(Branch branch) {
+		String username = branch.getUsername();
+		int branchSid = branch.getBranchSid();
+		List<String> imageList = branch.getImageList();
+		if (branchSid < 0 || username == null || branch.getRoleid() == 0 || 
+				branch.getStoreName() == null || branch.getPhone() == null || 
+				branch.getAddress() == null || branch.getLat() == null || 
+				branch.getLng() == null || imageList == null || branch.getClassidList() == null) {
+			return "信息填写不完整";
+		}
+		if (!checkUsername(username)) {
+			return "该用户名已被注册";
+		}
+		if (!checkUsernameFormat(username)) {
+			return "该用户名包含非法字符或长度非法";
+		}
+		if (branchSid == 0) {
+			if (branch.getCreateDate() == null || branch.getStoreSid() == 0) {
+				return "信息填写不完整";
+			}
+		}
 		return "pass";
 	}
 
