@@ -50,7 +50,7 @@ public class CommonValidationTools {
 	 * @return
 	 */
 	public static boolean checkEmail(String email){
-		String check = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";  
+		String check = "^([a-z0-9A-Z]+[-|_|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";  
 		Pattern regex = Pattern.compile(check);  
 		Matcher matcher = regex.matcher(email);
 		return matcher.matches();
@@ -63,7 +63,7 @@ public class CommonValidationTools {
 	 * @return
 	 */
 	public static boolean checkPhone(String phone){
-		String check = "^(13[1,2,3,4,5,6,7,8,9]|15[0,1,2,3,4,5,6,,7,8,9]|188|187)\\d{8}$";
+		String check = "^(13[0-9]|15[0-9]|18[0-9])\\d{8}$";
 		Pattern regex = Pattern.compile(check);
 		Matcher matcher = regex.matcher(phone);		 
 		return matcher.matches();
