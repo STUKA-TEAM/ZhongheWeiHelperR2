@@ -42,16 +42,19 @@ a:hover {
   border-top: solid 1px #ddd;
 }
 .store-image {
-  display: inline-block;
-  width: 30%;
-  max-height: 96px;
-  vertical-align: middle;
+display: block;
+width: 85px;
+height: 85px;
+vertical-align: middle;
+float: left;
 }
 .store-text {
-  display: inline-block;
-  text-align: left;
-  vertical-align: middle;
-  margin-left:5px;
+display: block;
+text-align: left;
+vertical-align: middle;
+margin-left: 5px;
+float: right;
+width: 65%;
 }
 .store-nav-4 {
   display: inline-block;
