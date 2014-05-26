@@ -72,6 +72,7 @@ body{
 }
 .info-content > p > a {
   color: #387b95;
+  text-decoration:none;
 }
 .btn-block {
   width: 60%;
