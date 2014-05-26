@@ -73,6 +73,7 @@
 }
 .info-content > p > a {
   color: #b16fc9;
+  text-decoration:none;
 }
 .btn-block {
   width: 60%;

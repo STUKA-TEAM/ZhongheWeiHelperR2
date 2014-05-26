@@ -1,0 +1,11 @@
+.video {
+  margin: 0 auto;
+  width: 90%;
+}
+.video-container {
+  padding-bottom: 30px;
+}
+.photo-list > img {
+  width: 100%;
+  height: auto;
+}

@@ -1,19 +1,14 @@
 .title {
-  background-image: url(../../img/elove/info_title_6.jpg);
+  background-image: url(../../img/elove/info_title_8.png);
   background-repeat: no-repeat;
   background-size: 100%;
   background-position: top;
-}
-.info-bg {
-  background-image: url(../../img/elove/info_footer_6.jpg);
-  background-repeat: repeat-y;
-  background-size: 100% 100%;
-  background-position: bottom;
+  width: 100%;
+  padding-bottom: 69%;
 }
 .logo-container {
   position: absolute;
   top: 0;
-  display: block;
   height: auto;
   width: 100%;
 }
@@ -29,11 +24,19 @@
   margin-left: 7%;
   margin-top: 8%;
 }
-.message {
-  padding-top: 180px;
-  height: auto;
-  width: 100%;
-  margin: 0 auto;
+@media (max-width: 340px){
+.logo {
+  display: block;
+  height: 92px;
+  width: 92px;
+  border: 3px solid #ffffff;
+  border-radius: 50%;
+  margin: 5px;
+  background-size: 100% 100%;
+  overflow: hidden;
+  margin-left: 7%;
+  margin-top: 7%;
+}
 }
 .message-content {
   height: auto;
@@ -58,7 +61,7 @@
 }
 .info-title {
   color: #ffffff;
-  background-color: #1989bb;
+  background-color: #009EC3;
   width: 20%;
   height: 50px;
   display: table;
@@ -69,9 +72,9 @@
   vertical-align: middle;
 }
 .info-content {
-  color: #1989bb;
+  color: #009EC3;
   font-size: 15px;
-  background-color: #ecfafd;
+  background-color: #F0FAFC;
   width: 65%;
   line-height: 50px;
 }
@@ -79,7 +82,7 @@
   margin: 0 auto;
 }
 .info-content > p > a {
-  color: #1989bb;
+  color: #009EC3;
   text-decoration:none;
 }
 .btn-block {
