@@ -19,7 +19,7 @@
     <link href="./css/customer/dishes-order.css" rel="stylesheet">
     <link href="./css/customer/dishdetail.css" rel="stylesheet">
 
-    <script type="application/javascript" src="./js/customer/iscroll.js"></script>
+    <!-- <script type="application/javascript" src="./js/customer/iscroll.js"></script>
     <script type="text/javascript">
       var type_scroll;
       function loaded() {
@@ -27,7 +27,7 @@
       }
       document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
       document.addEventListener('DOMContentLoaded', loaded, false);
-    </script>
+    </script> -->
 
   </head>
   <body>

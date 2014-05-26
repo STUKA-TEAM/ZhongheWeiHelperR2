@@ -13,7 +13,7 @@
       <ul class="info-list">
         <li>
           <div class="info-title">
-            <p>婚礼<br>时间</p>
+            <p>宴会<br>时间</p>
           </div>
           <div class="info-content">
             <p>${elove.weddingDate}</p>
