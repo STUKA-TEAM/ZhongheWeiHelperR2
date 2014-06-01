@@ -11,6 +11,7 @@ import java.sql.Timestamp;
  */
 public class DishBranch {
 	private int dishid;
+	private int creatorSid;
 	private Timestamp createTime;
 	private String dishName;
 	private String dishPic;
@@ -20,6 +21,7 @@ public class DishBranch {
 	private int price;
 	private int available;
 	private int count;
+	private boolean allowed;
 	
 	/**
 	 * @return the dishid
@@ -32,6 +34,18 @@ public class DishBranch {
 	 */
 	public void setDishid(int dishid) {
 		this.dishid = dishid;
+	}
+	/**
+	 * @return the creatorSid
+	 */
+	public int getCreatorSid() {
+		return creatorSid;
+	}
+	/**
+	 * @param creatorSid the creatorSid to set
+	 */
+	public void setCreatorSid(int creatorSid) {
+		this.creatorSid = creatorSid;
 	}
 	/**
 	 * @return the createTime
@@ -94,6 +108,18 @@ public class DishBranch {
 		this.recomNum = recomNum;
 	}
 	/**
+	 * @return the dishDesc
+	 */
+	public String getDishDesc() {
+		return dishDesc;
+	}
+	/**
+	 * @param dishDesc the dishDesc to set
+	 */
+	public void setDishDesc(String dishDesc) {
+		this.dishDesc = dishDesc;
+	}
+	/**
 	 * @return the price
 	 */
 	public int getPrice() {
@@ -129,10 +155,16 @@ public class DishBranch {
 	public void setCount(int count) {
 		this.count = count;
 	}
-	public String getDishDesc() {
-		return dishDesc;
+	/**
+	 * @return the allowed
+	 */
+	public boolean getAllowed() {
+		return allowed;
 	}
-	public void setDishDesc(String dishDesc) {
-		this.dishDesc = dishDesc;
+	/**
+	 * @param allowed the allowed to set
+	 */
+	public void setAllowed(boolean allowed) {
+		this.allowed = allowed;
 	}
 }

@@ -430,7 +430,6 @@ public class AppInfoDAO {
 	public List<String> getAppidList(int sid){
 		String SQL = "SELECT appid FROM storeuser_application WHERE sid = ?";
 		List<String> appidList = null;
-		
 		try {
 			appidList = jdbcTemplate.query(SQL, new Object[]{sid}, new AppidMapper());
 		} catch (Exception e) {
@@ -438,6 +437,24 @@ public class AppInfoDAO {
 			System.out.println(e.getMessage());
 		}
 		return appidList;
+	}
+	
+	/**
+	 * @title getAppidByWebsite
+	 * @description 根据websiteid查询appid
+	 * @param websiteid
+	 * @return
+	 */
+	public String getAppidByWebsite(int websiteid){
+		String SQL = "SELECT appid FROM website WHERE websiteid = ?";
+		String appid = null;
+		try {
+			appid = jdbcTemplate.queryForObject(SQL, new Object[]{websiteid}, 
+					new AppidMapper());
+		} catch (Exception e) {
+			System.out.println("getAppidByWebsite: " + e.getMessage());
+		}
+		return appid;
 	}
 	
 	private static final class AppidMapper implements RowMapper<String>{

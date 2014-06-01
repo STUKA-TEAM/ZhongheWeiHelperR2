@@ -13,6 +13,7 @@ import java.util.List;
 public class Dish {
 	private int dishid;
 	private String appid;
+	private int creatorSid;
 	private String dishName;
 	private Timestamp createTime;
 	private String dishPic;
@@ -46,6 +47,18 @@ public class Dish {
 	 */
 	public void setAppid(String appid) {
 		this.appid = appid;
+	}
+	/**
+	 * @return the creatorSid
+	 */
+	public int getCreatorSid() {
+		return creatorSid;
+	}
+	/**
+	 * @param creatorSid the creatorSid to set
+	 */
+	public void setCreatorSid(int creatorSid) {
+		this.creatorSid = creatorSid;
 	}
 	/**
 	 * @return the dishName

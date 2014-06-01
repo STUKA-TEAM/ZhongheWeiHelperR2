@@ -62,22 +62,23 @@ public class DishDAO {
 	 * @return
 	 */
 	public int insertDish(final Dish dish) {
-		final String SQL = "INSERT INTO dish (dishid, appid, dishName, createTime,"
-				+ " dishPic, dishDesc, price, dishUnit, recomNum) VALUES (default,"
-				+ " ?, ?, ?, ?, ?, ?, ?, ?)";
+		final String SQL = "INSERT INTO dish (dishid, appid, creatorSid, dishName, "
+				+ "createTime, dishPic, dishDesc, price, dishUnit, recomNum) VALUES "
+				+ "(default, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		KeyHolder kHolder = new GeneratedKeyHolder();
 		int result = jdbcTemplate.update(new PreparedStatementCreator() {
 		    public PreparedStatement createPreparedStatement(Connection connection) throws SQLException{
 		        PreparedStatement ps =
 		            connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
 		        ps.setString(1, dish.getAppid());
-		        ps.setString(2, dish.getDishName());
-		        ps.setTimestamp(3, dish.getCreateTime());
-		        ps.setString(4, dish.getDishPic());
-		        ps.setString(5, dish.getDishDesc());
-		        ps.setInt(6, dish.getPrice());
-		        ps.setString(7, dish.getDishUnit());
-		        ps.setInt(8, dish.getRecomNum());
+		        ps.setInt(2, dish.getCreatorSid());
+		        ps.setString(3, dish.getDishName());
+		        ps.setTimestamp(4, dish.getCreateTime());
+		        ps.setString(5, dish.getDishPic());
+		        ps.setString(6, dish.getDishDesc());
+		        ps.setInt(7, dish.getPrice());
+		        ps.setString(8, dish.getDishUnit());
+		        ps.setInt(9, dish.getRecomNum());
 		        return ps;
 		    }
 		}, kHolder);
@@ -117,7 +118,8 @@ public class DishDAO {
 	 */
 	@SuppressWarnings("unused")
 	private void insertDCRByClassid(int classid, List<Integer> dishidList) {
-		String SQL = "INSERT INTO dish_dishclass (id, dishid, classid) VALUES (default, ?, ?)";
+		String SQL = "INSERT INTO dish_dishclass (id, dishid, classid) VALUES "
+				+ "(default, ?, ?)";
 		for (int i = 0, j = dishidList.size(); i < j; i++) {
 			jdbcTemplate.update(SQL, dishidList.get(i), classid);
 		}
@@ -130,7 +132,8 @@ public class DishDAO {
 	 * @param classidList
 	 */
 	private void insertDCRByDishid(int dishid, List<Integer> classidList) {
-		String SQL = "INSERT INTO dish_dishclass (id, dishid, classid) VALUES (default, ?, ?)";
+		String SQL = "INSERT INTO dish_dishclass (id, dishid, classid) VALUES "
+				+ "(default, ?, ?)";
 		for (int i = 0, j = classidList.size(); i < j; i++) {
 			jdbcTemplate.update(SQL, dishid, classidList.get(i));
 		}
@@ -144,7 +147,8 @@ public class DishDAO {
 	 * @param price
 	 */
 	private void insertDBR(int dishid, String appid, int price) {
-		String SQL = "INSERT INTO dish_branch (id, dishid, branchSid, price, available) VALUES (default, ?, ?, ?, ?)";
+		String SQL = "INSERT INTO dish_branch (id, dishid, branchSid, price, "
+				+ "available) VALUES (default, ?, ?, ?, ?)";
 		List<Integer> branchSidList = getBranchSidList(appid);
 		for (int i = 0, j = branchSidList.size(); i < j; i++) {
 			jdbcTemplate.update(SQL, dishid, branchSidList.get(i), price, 0);
@@ -159,7 +163,8 @@ public class DishDAO {
 	 * @return
 	 */
 	private int insertImageTempRecord(String imagePath, Timestamp current){
-		String SQL = "INSERT INTO image_temp_record (id, imagePath, createDate) VALUES (default, ?, ?)";		
+		String SQL = "INSERT INTO image_temp_record (id, imagePath, createDate) "
+				+ "VALUES (default, ?, ?)";		
 		int result = jdbcTemplate.update(SQL, imagePath, current);
 		return result <= 0 ? 0 : result;
 	}
@@ -255,7 +260,8 @@ public class DishDAO {
 	 * @return
 	 */
 	public int deleteDishOrder(String openid, int branchSid, int dishid) {
-		String SQL = "DELETE FROM dish_order WHERE openid = ? AND branchSid = ? AND dishid = ?";
+		String SQL = "DELETE FROM dish_order WHERE openid = ? AND branchSid = ? "
+				+ "AND dishid = ?";
 		int result = jdbcTemplate.update(SQL, openid, branchSid, dishid);
 		return result <= 0 ? 0 : result;
 	}
@@ -866,17 +872,17 @@ public class DishDAO {
 	
 	/**
 	 * @title getBranchDishinfos
-	 * @description 根据分店id和appid查询该应用下的所有菜品在该分店的详细信息 (dishid, dishName, createTime, 
-	 * dishPic, dishUnit, price, available)
+	 * @description 根据分店id和appid查询该应用下的所有菜品在该分店的详细信息 (dishid, creatorSid, dishName, 
+	 * createTime, dishPic, dishUnit, price, available)
 	 * @param appid
 	 * @param branchSid
 	 * @return
 	 */
 	public List<DishBranch> getBranchDishinfos(String appid, int branchSid) {
 		List<DishBranch> dishList = null;
-		String SQL = "SELECT D.dishid, D.dishName, D.createTime, D.dishPic, "
-				+ "D.price, D.dishUnit FROM dish D WHERE D.appid = ? ORDER BY "
-				+ "D.createTime DESC";
+		String SQL = "SELECT D.dishid, D.creatorSid, D.dishName, D.createTime, "
+				+ "D.dishPic, D.price, D.dishUnit FROM dish D WHERE D.appid = ? "
+				+ "ORDER BY D.createTime DESC";
 		try {
 			dishList = jdbcTemplate.query(SQL, new Object[]{appid}, new BranchDishinfoMapper());
 		} catch (Exception e) {
@@ -889,22 +895,27 @@ public class DishDAO {
 				dishBranch.setPrice(temp.getPrice());
 				dishBranch.setAvailable(temp.getAvailable());
 			}
+			if (dishBranch.getCreatorSid() == branchSid) {
+				dishBranch.setAllowed(true);
+			} else {
+				dishBranch.setAllowed(false);
+			}
 		}
 		return dishList;
 	}
 	
 	/**
 	 * @title getBranchDishinfos
-	 * @description 根据分店id和菜品类别id查询该菜品类别关联的所有菜品在该分店的详细信息 (dishid, dishName, createTime, 
-	 * dishPic, dishUnit, price, available)
+	 * @description 根据分店id和菜品类别id查询该菜品类别关联的所有菜品在该分店的详细信息  (dishid, creatorSid, dishName, 
+	 * createTime, dishPic, dishUnit, price, available)
 	 * @param classid
 	 * @param branchSid
 	 * @return
 	 */
 	public List<DishBranch> getBranchDishinfos(int classid, int branchSid) {
 		List<DishBranch> dishList = null;
-		String SQL = "SELECT D.dishid, D.dishName, D.createTime, D.dishPic, "
-				+ "D.price, D.dishUnit FROM dish D, dish_dishclass E WHERE "
+		String SQL = "SELECT D.dishid, D.creatorSid, D.dishName, D.createTime, "
+				+ "D.dishPic, D.price, D.dishUnit FROM dish D, dish_dishclass E WHERE "
 				+ "D.dishid = E.dishid AND E.classid = ? ORDER BY D.createTime DESC";
 		try {
 			dishList = jdbcTemplate.query(SQL, new Object[]{classid}, new BranchDishinfoMapper());
@@ -917,6 +928,42 @@ public class DishDAO {
 			if (temp != null) {
 				dishBranch.setPrice(temp.getPrice());
 				dishBranch.setAvailable(temp.getAvailable());
+			}
+			if (dishBranch.getCreatorSid() == branchSid) {
+				dishBranch.setAllowed(true);
+			} else {
+				dishBranch.setAllowed(false);
+			}
+		}
+		return dishList;
+	}
+	
+	/**
+	 * @title getBranchDishForCustomer
+	 * @description 查询某应用下分店全部菜品在手机端显示信息 (dishid, dishName, dishPic, dishDesc, price, 
+	 * dishUnit, recomNum)
+	 * @param appid
+	 * @param branchSid
+	 * @return
+	 */
+	public List<DishBranch> getBranchDishForCustomer(String appid, int branchSid) {
+		List<DishBranch> dishList = null;
+		String SQL = "SELECT D.dishid, D.dishName, D.dishPic, D.dishDesc, D.price, "
+				+ "D.dishUnit, D.recomNum FROM dish D WHERE D.appid = ? ORDER BY "
+				+ "D.recomNum DESC";
+		try {
+			dishList = jdbcTemplate.query(SQL, new Object[]{appid}, new CustomerDishinfoMapper());
+		} catch (Exception e) {
+			System.out.println("getBranchDishForCustomer: " + e.getMessage());
+			dishList = new ArrayList<DishBranch>();
+		}
+		for (int i = 0, j = dishList.size(); i < j; i++) {
+			DishBranch dishBranch = dishList.get(i);
+			DishBranch temp = getDishBranch(dishBranch.getDishid(), branchSid);
+			if (temp != null && temp.getAvailable() == 1) {
+				dishBranch.setPrice(temp.getPrice());
+			} else {
+				dishList.remove(i);
 			}
 		}
 		return dishList;
@@ -932,24 +979,26 @@ public class DishDAO {
 	 * @return
 	 */
 	public List<DishBranch> getDishClassForCustomer(int classid, int branchSid, String openid) {
-		List<DishBranch> dishList = new ArrayList<DishBranch>();
-		String SQL = "SELECT dishid, dishName, dishPic, dishDesc, price, dishUnit, recomNum "
-				+ "FROM dish WHERE dishid = ?";
-		List<Integer> dishidList = getDishidList(classid);
-		for (Integer dishid : dishidList) {
-			try {
-				DishBranch dishBranch = jdbcTemplate.queryForObject(SQL, new Object[]{
-						dishid}, new CustomerDishinfoMapper());
+		List<DishBranch> dishList = null;
+		String SQL = "SELECT D.dishid, D.dishName, D.dishPic, D.dishDesc, D.price, "
+				+ "D.dishUnit, D.recomNum FROM dish D, dish_dishclass E WHERE "
+				+ "D.dishid = E.dishid AND E.classid = ? ORDER BY D.recomNum DESC";
+		try {
+			dishList = jdbcTemplate.query(SQL, new Object[]{classid}, new CustomerDishinfoMapper());
+			for (int i = 0, j = dishList.size(); i < j; i++) {
+				DishBranch dishBranch = dishList.get(i);
+				int dishid = dishBranch.getDishid();
 				DishBranch temp = getDishBranch(dishid, branchSid);
 				if (temp != null && temp.getAvailable() == 1) {
 					dishBranch.setPrice(temp.getPrice());
 					dishBranch.setCount(getDishOrderCount(dishid, branchSid, openid));
-					dishList.add(dishBranch);
+				} else {
+					dishList.remove(i);
 				}
-			} catch (Exception e) {
-				System.out.println("getDishClassForCustomer: " + e.getMessage());
-				continue;
 			}
+		} catch (Exception e) {
+			System.out.println("getDishClassForCustomer: " + e.getMessage());
+			dishList = new ArrayList<DishBranch>();
 		}
 		return dishList;
 	}
@@ -1076,6 +1125,7 @@ public class DishDAO {
 		public DishBranch mapRow(ResultSet rs, int arg1) throws SQLException {
 			DishBranch dishBranch = new DishBranch();
 			dishBranch.setDishid(rs.getInt("D.dishid"));
+			dishBranch.setCreatorSid(rs.getInt("D.creatorSid"));
 			dishBranch.setDishName(rs.getString("D.dishName"));
 			dishBranch.setCreateTime(rs.getTimestamp("D.createTime"));
 			dishBranch.setDishPic(rs.getString("D.dishPic"));
@@ -1089,13 +1139,13 @@ public class DishDAO {
 		@Override
 		public DishBranch mapRow(ResultSet rs, int arg1) throws SQLException {
 			DishBranch dishBranch = new DishBranch();
-			dishBranch.setDishid(rs.getInt("dishid"));
-			dishBranch.setDishName(rs.getString("dishName"));
-			dishBranch.setDishPic(rs.getString("dishPic"));
-			dishBranch.setDishDesc(rs.getString("dishDesc"));
-			dishBranch.setPrice(rs.getInt("price"));
-			dishBranch.setDishUnit(rs.getString("dishUnit"));
-			dishBranch.setRecomNum(rs.getInt("recomNum"));
+			dishBranch.setDishid(rs.getInt("D.dishid"));
+			dishBranch.setDishName(rs.getString("D.dishName"));
+			dishBranch.setDishPic(rs.getString("D.dishPic"));
+			dishBranch.setDishDesc(rs.getString("D.dishDesc"));
+			dishBranch.setPrice(rs.getInt("D.price"));
+			dishBranch.setDishUnit(rs.getString("D.dishUnit"));
+			dishBranch.setRecomNum(rs.getInt("D.recomNum"));
 			return dishBranch;
 		}
 	}

@@ -125,7 +125,7 @@ public class DishController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	@RequestMapping(value = "/branch/update", method = RequestMethod.POST)
 	@ResponseBody
 	public String updateDishBranch(@RequestBody String json, Model model) {
 		ApplicationContext context = 
@@ -173,7 +173,46 @@ public class DishController {
 
 		List<DishClass> classList = dishDao.getBasicClassinfos(appid);
 		model.addAttribute("classList", classList);
+		model.addAttribute("appid", appid);
 		return "Restaurant/insertDish";
+	}
+	
+	/**
+	 * @title editDish
+	 * @description 编辑已有的菜品(第一步)
+	 * @param appid
+	 * @param dishid
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/edit", method = RequestMethod.GET)
+	public String editDish(@RequestParam(value = "appid", required = true) String 
+			appid, @RequestParam(value = "dishid", required = true) int dishid, 
+			Model model){
+		ApplicationContext context = 
+				new ClassPathXmlApplicationContext("All-Modules.xml");
+		DishDAO dishDao = (DishDAO) context.getBean("DishDAO");
+		((ConfigurableApplicationContext)context).close();
+
+		List<Integer> selectedList = null;
+		if (dishid > 0) {
+			Dish dish = dishDao.getDishContent(dishid);
+			if (dish != null) {
+				selectedList = dish.getClassidList();
+				model.addAttribute("dish", dish);
+			}
+		}
+		List<DishClass> classList = dishDao.getBasicClassinfos(appid);
+		if (selectedList != null) {
+			for (int i = 0, j = classList.size(); i < j; i++) {
+				DishClass dishClass = classList.get(i);
+				if (selectedList.contains(dishClass.getClassid())) {
+					dishClass.setSelected(true);
+				}
+			}
+		}
+		model.addAttribute("classList", classList);
+		return "Restaurant/updateDish";
 	}
 	
 	/**
@@ -191,10 +230,13 @@ public class DishController {
 		DishDAO dishDao = (DishDAO) context.getBean("DishDAO");
 		((ConfigurableApplicationContext)context).close();
 
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = (User)auth.getPrincipal();
 		Gson gson = new Gson();
 		ResponseMessage message = new ResponseMessage();
 		Dish dish = gson.fromJson(json, Dish.class);
 		Timestamp current = new Timestamp(System.currentTimeMillis());
+		dish.setCreatorSid(user.getSid());
 		dish.setCreateTime(current);
 
 		if (!CommonValidationTools.checkDish(dish)) {
@@ -209,6 +251,73 @@ public class DishController {
 				message.setStatus(false);
 				message.setMessage("菜品创建失败！");
 			}
+		}
+		String response = gson.toJson(message);
+		return response;
+	}
+	
+    /**
+     * @title updateDish
+     * @description 编辑已有的菜品(第二步)
+     * @param json
+     * @param model
+     * @return
+     */
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	@ResponseBody
+	public String updateDish(@RequestBody String json, Model model) {
+		ApplicationContext context = 
+				new ClassPathXmlApplicationContext("All-Modules.xml");
+		DishDAO dishDao = (DishDAO) context.getBean("DishDAO");
+		((ConfigurableApplicationContext)context).close();
+
+		Gson gson = new Gson();
+		ResponseMessage message = new ResponseMessage();
+		Dish dish = gson.fromJson(json, Dish.class);
+
+		if (!CommonValidationTools.checkDish(dish)) {
+			message.setStatus(false);
+			message.setMessage("菜品信息不完整或有误！");
+		} else {
+			int result = dishDao.updateDish(dish);
+			if (result > 0) {
+				message.setStatus(true);
+				message.setMessage("菜品修改保存成功！");
+			} else {
+				message.setStatus(false);
+				message.setMessage("菜品修改保存失败！");
+			}
+		}
+		String response = gson.toJson(message);
+		return response;
+	}
+	
+    /**
+     * @title deleteDish
+     * @description 删除菜品
+     * @param dishid
+     * @param model
+     * @return
+     */
+	@RequestMapping(value = "/delete", method = RequestMethod.POST)
+	@ResponseBody
+	public String deleteDish(@RequestParam(value="dishid", required = true) int 
+			dishid, Model model){
+		ApplicationContext context = 
+				new ClassPathXmlApplicationContext("All-Modules.xml");
+		DishDAO dishDao = (DishDAO) context.getBean("DishDAO");
+		((ConfigurableApplicationContext)context).close();
+
+		Gson gson = new Gson();
+		ResponseMessage message = new ResponseMessage();
+
+		int result = dishDao.deleteDish(dishid);
+		if (result > 0) {
+			message.setStatus(true);
+			message.setMessage("菜品删除成功！");
+		}else {
+			message.setStatus(false);
+			message.setMessage("菜品删除失败！");
 		}
 		String response = gson.toJson(message);
 		return response;

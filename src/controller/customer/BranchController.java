@@ -2,6 +2,9 @@ package controller.customer;
 
 import java.util.List;
 
+import order.DishBranch;
+import order.dao.DishDAO;
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import register.dao.AppInfoDAO;
 import article.Article;
 import article.dao.ArticleDAO;
 import branch.Branch;
@@ -63,6 +67,32 @@ public class BranchController {
 		List<Article> articleList = articleDao.getDynamicArticlesForCustomer(branchSid);
 		model.addAttribute("articleList", articleList);
 		return "BranchViews/articleList";
+	}
+	
+	/**
+	 * @title getDishList
+	 * @description 查询某应用下分店可供应全部菜品详细信息
+	 * @param branchSid
+	 * @param websiteid
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/branch/dishes", method = RequestMethod.GET)
+	public String getDishList(@RequestParam(value = "branchid", required = true) int 
+			branchSid, @RequestParam(value = "websiteid", required = true) int websiteid, 
+			Model model){
+		ApplicationContext context = 
+				new ClassPathXmlApplicationContext("All-Modules.xml");
+		AppInfoDAO appInfoDao = (AppInfoDAO) context.getBean("AppInfoDAO");
+		DishDAO dishDao = (DishDAO) context.getBean("DishDAO");
+		((ConfigurableApplicationContext)context).close();
+		
+		String appid = appInfoDao.getAppidByWebsite(websiteid);
+		if (appid != null) {
+			List<DishBranch> dishList = dishDao.getBranchDishForCustomer(appid, branchSid);
+			model.addAttribute("dishList", dishList);
+		}
+		return "BranchViews/dishList";
 	}
 	
 	/**

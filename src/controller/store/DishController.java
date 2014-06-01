@@ -214,7 +214,7 @@ public class DishController {
 		((ConfigurableApplicationContext)context).close();
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		User user = (User)auth.getPrincipal();
+		int uid = ((User)auth.getPrincipal()).getSid();
 		Gson gson = new Gson();
 		ResponseMessage message = new ResponseMessage();
 
@@ -223,7 +223,7 @@ public class DishController {
 			message.setMessage("请重新登录！");
 		}
 		else {
-			if (appid.trim().equals("") || appInfoDao.checkAppExistsByUser(user.getSid(), 
+			if (appid.trim().equals("") || appInfoDao.checkAppExistsByUser(uid, 
 					appid) == 0) {
 				message.setStatus(false);
 				message.setMessage("当前管理的公众账号无效，请先选择或关联微信公众账号!");
@@ -232,6 +232,7 @@ public class DishController {
 				Dish dish = gson.fromJson(json, Dish.class);
 				Timestamp current = new Timestamp(System.currentTimeMillis());
 				dish.setAppid(appid);
+				dish.setCreatorSid(uid);
 				dish.setCreateTime(current);
 
 				if (!CommonValidationTools.checkDish(dish)) {
