@@ -184,7 +184,6 @@ public class CommonValidationTools {
 	public static boolean checkUserInfoForUpdate(UserInfo userInfo){
 		int sid = userInfo.getSid();
 		String storeName = userInfo.getStoreName();
-		String cellPhone = userInfo.getCellPhone();
 		String address = userInfo.getAddress();
 		BigDecimal lng = userInfo.getLng();
 		BigDecimal lat = userInfo.getLat();
@@ -193,9 +192,6 @@ public class CommonValidationTools {
 			return false;
 		}
 		if (storeName == null) {
-			return false;
-		}
-		if (cellPhone == null || !checkPhone(cellPhone)) {
 			return false;
 		}
 		if (address == null) {
