@@ -13,6 +13,7 @@ import java.util.List;
 public class Article {
 	private int articleid;
 	private String appid;
+	private int branchSid;
 	private String title;
 	private String coverPic;
 	private Timestamp createTime;
@@ -43,6 +44,18 @@ public class Article {
 	 */
 	public void setAppid(String appid) {
 		this.appid = appid;
+	}
+	/**
+	 * @return the branchSid
+	 */
+	public int getBranchSid() {
+		return branchSid;
+	}
+	/**
+	 * @param branchSid the branchSid to set
+	 */
+	public void setBranchSid(int branchSid) {
+		this.branchSid = branchSid;
 	}
 	/**
 	 * @return the title

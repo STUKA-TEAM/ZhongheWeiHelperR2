@@ -26,6 +26,7 @@ import register.RoleInfo;
 import register.dao.RoleInfoDAO;
 import security.User;
 import tools.CommonValidationTools;
+import article.dao.ArticleDAO;
 import branch.Branch;
 import branch.BranchClass;
 import branch.dao.BranchDAO;
@@ -250,13 +251,16 @@ public class BranchController {
 		ApplicationContext context = 
 				new ClassPathXmlApplicationContext("All-Modules.xml");
 		BranchDAO branchDao = (BranchDAO) context.getBean("BranchDAO");
-		((ConfigurableApplicationContext)context).close();
 		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = (User)auth.getPrincipal();
 		Gson gson = new Gson();
 		ResponseMessage message = new ResponseMessage();
 		
 		int result = branchDao.deleteBranch(branchSid);
 		if (result > 0) {
+			ArticleDAO articleDao = (ArticleDAO) context.getBean("ArticleDAO");
+			articleDao.deleteDynamicArticleList(user.getSid());
 			message.setStatus(true);
 			message.setMessage("删除成功！");
 		}else {
@@ -264,6 +268,7 @@ public class BranchController {
 			message.setMessage("删除失败！");
 		}
 		String response = gson.toJson(message);
+		((ConfigurableApplicationContext)context).close();
 		return response;
 	}
 	

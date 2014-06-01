@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import article.Article;
+import article.dao.ArticleDAO;
 import branch.Branch;
 import branch.dao.BranchDAO;
 
@@ -44,8 +46,28 @@ public class BranchController {
 	}
 	
 	/**
+	 * @title getArticleList
+	 * @description 查询动态文章列表信息
+	 * @param branchSid
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/branch/activities", method = RequestMethod.GET)
+	public String getArticleList(@RequestParam(value = "branchid", required = true) int 
+			branchSid, Model model){
+		ApplicationContext context = 
+				new ClassPathXmlApplicationContext("All-Modules.xml");
+		ArticleDAO articleDao = (ArticleDAO) context.getBean("ArticleDAO");
+		((ConfigurableApplicationContext)context).close();
+		
+		List<Article> articleList = articleDao.getDynamicArticlesForCustomer(branchSid);
+		model.addAttribute("articleList", articleList);
+		return "BranchViews/articleList";
+	}
+	
+	/**
 	 * @title getBranch
-	 * @description 查询分店详细信息
+	 * @description 查询分店详细信息R
 	 * @param branchSid
 	 * @param model
 	 * @return

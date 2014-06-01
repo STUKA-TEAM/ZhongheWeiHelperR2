@@ -13,6 +13,7 @@ import javax.sql.DataSource;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -47,12 +48,10 @@ public class ArticleDAO {
 	 * @return
 	 */
 	public int insertArticle(final Article article){
-		int result = 0;
 		final String SQL = "INSERT INTO article (articleid, appid, title, coverPic, "
 				+ "createTime, content) VALUES (default, ?, ?, ?, ?, ?)";
-		
 		KeyHolder kHolder = new GeneratedKeyHolder();
-		result = jdbcTemplate.update(new PreparedStatementCreator() {
+		int result = jdbcTemplate.update(new PreparedStatementCreator() {
 		    public PreparedStatement createPreparedStatement(Connection connection) throws SQLException{
 		        PreparedStatement ps =
 		            connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
@@ -64,28 +63,69 @@ public class ArticleDAO {
 		        return ps;
 		    }
 		}, kHolder);
-		
 		if (result > 0) {
+			int articleid = kHolder.getKey().intValue();
 			String coverPic = article.getCoverPic();
-			if (coverPic != null && !coverPic.equals("")) {
-				deleteImageTempRecord(coverPic);
-			}
-			
+			if (coverPic != null && !updateImageCache("delete", coverPic, null)) {
+				return -1;
+			}	
 			Document doc = Jsoup.parse(article.getContent());
 			Elements imgs = doc.select("img[src]");
-			for (int i = 0; i < imgs.size(); i++) {
-				String imagePath = imgs.get(i).attr("src");
+			for (Element element : imgs) {
+				String imagePath = element.attr("src");
 				if (!imagePath.startsWith("/resources")) {
 					continue;
 				}
 				int index = imagePath.indexOf('_');
-				deleteImageTempRecord(imagePath.substring(0, index));
+				if (!updateImageCache("delete", imagePath.substring(0, index), null)) {
+					return -2;
+				}
 			}
-			
-			int articleid = kHolder.getKey().intValue();
-			result = insertACR(articleid, article.getClassidList());
-			if (result == 0) {
+			insertACR(articleid, article.getClassidList());
+			return result;
+		}else {
+			return 0;
+		}
+	}
+	
+	/**
+	 * @title insertDynamicArticle
+	 * @description 插入动态文章记录
+	 * @param article
+	 * @return
+	 */
+	public int insertDynamicArticle(final Article article){
+		final String SQL = "INSERT INTO article_dynamic (articleid, branchSid, title, coverPic, "
+				+ "createTime, content) VALUES (default, ?, ?, ?, ?, ?)";
+		KeyHolder kHolder = new GeneratedKeyHolder();
+		int result = jdbcTemplate.update(new PreparedStatementCreator() {
+		    public PreparedStatement createPreparedStatement(Connection connection) throws SQLException{
+		        PreparedStatement ps =
+		            connection.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
+		        ps.setInt(1, article.getBranchSid());
+		        ps.setString(2, article.getTitle());
+		        ps.setString(3, article.getCoverPic());
+		        ps.setTimestamp(4, article.getCreateTime());
+		        ps.setString(5, article.getContent());
+		        return ps;
+		    }
+		}, kHolder);
+		if (result > 0) {
+			String coverPic = article.getCoverPic();
+			if (coverPic != null && !updateImageCache("delete", coverPic, null)) {
 				return -1;
+			}	
+			Document doc = Jsoup.parse(article.getContent());
+			Elements imgs = doc.select("img[src]");
+			for (Element element : imgs) {
+				String imagePath = element.attr("src");
+				if (!imagePath.startsWith("/resources")) {
+					continue;
+				}
+				int index = imagePath.indexOf('_');
+				if (!updateImageCache("delete", imagePath.substring(0, index), null)) {
+					return -2;
+				}
 			}
 			return result;
 		}else {
@@ -202,37 +242,19 @@ public class ArticleDAO {
 	 */
 	public int deleteArticle(int articleid){
 		String SQL = "DELETE FROM article WHERE articleid = ?";
-		int result = 0;
-		
 		Article temp = getArticleBasicMedia(articleid);
 		if (temp != null) {
-			Timestamp current = new Timestamp(System.currentTimeMillis());
-			
 			String coverPic = temp.getCoverPic();
-			if (coverPic != null && !coverPic.equals("")) {
-				insertImageTempRecord(coverPic, current);
+			if (coverPic != null) {
+				updateImageCache("insert", coverPic, null);
 			}
-			
-			String content = temp.getContent();
-			if (!content.equals("")) {
-				Document doc = Jsoup.parse(content);
-				Elements imgs = doc.select("img[src]");
-				for (int i = 0; i < imgs.size(); i++) {
-					String imagePath = imgs.get(i).attr("src");
-					if (!imagePath.startsWith("/resources")) {
-						continue;
-					}
-					int index = imagePath.indexOf('_');
-					insertImageTempRecord(imagePath.substring(0, index), current);
-				}
-			}			
+			List<String> imageList = parseEditorContent(temp.getContent());
+			updateImageCache("insert", imageList, null);			
 		} else {
 			return 0;
 		}
-		
 		deleteACRByArticleid(articleid);
-		
-		result = jdbcTemplate.update(SQL, articleid);
+		int result = jdbcTemplate.update(SQL, articleid);
 		return result <= 0 ? 0 : result;
 	}
 	
@@ -244,40 +266,71 @@ public class ArticleDAO {
 	 */
 	public int deleteArticle(String appid){
 		String SQL = "DELETE FROM article WHERE appid = ?";
-		int result = 0;
-		
 		List<Integer> articleidList = getArticleidList(appid);
-		for (int i = 0; i < articleidList.size(); i++) {
-			int articleid = articleidList.get(i);
-			
+		for (Integer articleid : articleidList) {
 			Article temp = getArticleBasicMedia(articleid);
 			if (temp != null) {
-				Timestamp current = new Timestamp(System.currentTimeMillis());
-				
 				String coverPic = temp.getCoverPic();
-				if (coverPic != null && !coverPic.equals("")) {
-					insertImageTempRecord(coverPic, current);
+				if (coverPic != null) {
+					updateImageCache("insert", coverPic, null);
 				}
-				
-				String content = temp.getContent();
-				if (!content.equals("")) {
-					Document doc = Jsoup.parse(content);
-					Elements imgs = doc.select("img[src]");
-					for (int j = 0; j < imgs.size(); j++) {
-						String imagePath = imgs.get(j).attr("src");
-						if (!imagePath.startsWith("/resources")) {
-							continue;
-						}
-						int index = imagePath.indexOf('_');
-						insertImageTempRecord(imagePath.substring(0, index), current);
-					}
-				}			
+				List<String> imageList = parseEditorContent(temp.getContent());
+				updateImageCache("insert", imageList, null);			
+			} else {
+				return 0;
 			}
-			
 			deleteACRByArticleid(articleid);
 		}
-		
-		result = jdbcTemplate.update(SQL, appid);
+		int result = jdbcTemplate.update(SQL, appid);
+		return result <= 0 ? 0 : result;
+	}
+	
+	/**
+	 * @title deleteDynamicArticle
+	 * @description 根据文章id删除动态文章记录
+	 * @param articleid
+	 * @return
+	 */
+	public int deleteDynamicArticle(int articleid){
+		String SQL = "DELETE FROM article_dynamic WHERE articleid = ?";
+		Article temp = getDynamicArticleBasicMedia(articleid);
+		if (temp != null) {
+			String coverPic = temp.getCoverPic();
+			if (coverPic != null) {
+				updateImageCache("insert", coverPic, null);
+			}
+			List<String> imageList = parseEditorContent(temp.getContent());
+			updateImageCache("insert", imageList, null);			
+		} else {
+			return 0;
+		}
+		int result = jdbcTemplate.update(SQL, articleid);
+		return result <= 0 ? 0 : result;
+	}
+	
+	/**
+	 * @title deleteDynamicArticleList
+	 * @description 根据分店id删除其关联的动态文章记录
+	 * @param branchSid
+	 * @return
+	 */
+	public int deleteDynamicArticleList(int branchSid){
+		String SQL = "DELETE FROM article_dynamic WHERE branchSid = ?";
+		List<Integer> articleidList = getDynamicArticleidList(branchSid);
+		for (Integer articleid : articleidList) {
+			Article temp = getDynamicArticleBasicMedia(articleid);
+			if (temp != null) {
+				String coverPic = temp.getCoverPic();
+				if (coverPic != null) {
+					updateImageCache("insert", coverPic, null);
+				}
+				List<String> imageList = parseEditorContent(temp.getContent());
+				updateImageCache("insert", imageList, null);			
+			} else {
+				return 0;
+			}
+		}
+		int result = jdbcTemplate.update(SQL, branchSid);
 		return result <= 0 ? 0 : result;
 	}
 	
@@ -354,54 +407,30 @@ public class ArticleDAO {
 	 * @return
 	 */
 	public int updateArticle(Article article){
-		String SQL = "UPDATE article SET title = ?, coverPic = ?, content = ? WHERE articleid = ?";
-		
+		String SQL = "UPDATE article SET title = ?, coverPic = ?, content = ? "
+				+ "WHERE articleid = ?";
 		Article temp = getArticleBasicMedia(article.getArticleid());
-		if (temp == null) {
-			return 0;
-		}
-
-		int result = jdbcTemplate.update(SQL, article.getTitle(), article.getCoverPic(), 
-				article.getContent(), article.getArticleid());
-		
-		if (result > 0) {
-			Timestamp current = new Timestamp(System.currentTimeMillis());
-			
-			String originalCoverPic = temp.getCoverPic();
-			String currentCoverPic = article.getCoverPic();
-			if (currentCoverPic == null) {
-				currentCoverPic = "";
+		if (temp != null) {
+			String coverPic = temp.getCoverPic();
+			if (coverPic == null) {
+				coverPic = "";
 			}
-			if (!currentCoverPic.equals(originalCoverPic)) {
-				if (originalCoverPic != null && !originalCoverPic.equals("")) {
-					insertImageTempRecord(originalCoverPic, current);
-				}
-				
-				if (!currentCoverPic.equals("")) {
-					deleteImageTempRecord(currentCoverPic);
-				}
-			}
-			
-			List<String> originalImages = parseEditorContent(temp.getContent());
-			List<String> currentImages = parseEditorContent(article.getContent());
-			for (int i = 0; i < originalImages.size(); i++) {
-				String imagePath = originalImages.get(i);
-				if (!currentImages.contains(imagePath)) {
-					insertImageTempRecord(imagePath, current);
-				}
-			}
-			for (int i = 0; i < currentImages.size(); i++) {
-				String imagePath = currentImages.get(i);
-				if (!originalImages.contains(imagePath)) {
-					deleteImageTempRecord(imagePath);
-				}
-			}
-			
-			deleteACRByArticleid(article.getArticleid());
-			result = insertACR(article.getArticleid(), article.getClassidList());
-			if (result == 0) {
+			if (!updateImageCache("update", coverPic, article.getCoverPic())) {
 				return -1;
 			}
+			List<String> originalImages = parseEditorContent(temp.getContent());
+			List<String> currentImages = parseEditorContent(article.getContent());
+			if (!updateImageCache("update", originalImages, currentImages)) {
+				return -2;
+			}
+		} else {
+			return 0;
+		}
+		int result = jdbcTemplate.update(SQL, article.getTitle(), article.getCoverPic(), 
+				article.getContent(), article.getArticleid());
+		if (result > 0) {	
+			deleteACRByArticleid(article.getArticleid());
+			insertACR(article.getArticleid(), article.getClassidList());
 			return result;
 		}else {
 			return 0;
@@ -409,27 +438,34 @@ public class ArticleDAO {
 	}
 	
 	/**
-	 * @title: parseEditorContent
-	 * @description: 解析编辑器内容获取图片信息列表
-	 * @param content
+	 * @title updateDynamicArticle
+	 * @description 更新动态文章信息
+	 * @param article
 	 * @return
 	 */
-	private List<String> parseEditorContent(String content){
-		List<String> imageList = new ArrayList<String>();
-		
-		if (!content.equals("")) {
-			Document doc = Jsoup.parse(content);
-			Elements imgs = doc.select("img[src]");
-			for (int i = 0; i < imgs.size(); i++) {
-				String imagePath = imgs.get(i).attr("src");
-				if (!imagePath.startsWith("/resources")) {
-					continue;
-				}
-				int index = imagePath.indexOf('_');
-				imageList.add(imagePath.substring(0, index));
+	public int updateDynamicArticle(Article article){
+		String SQL = "UPDATE article_dynamic SET title = ?, coverPic = ?, content"
+				+ " = ? WHERE articleid = ?";
+		Article temp = getDynamicArticleBasicMedia(article.getArticleid());
+		if (temp != null) {
+			String coverPic = temp.getCoverPic();
+			if (coverPic == null) {
+				coverPic = "";
 			}
+			if (!updateImageCache("update", coverPic, article.getCoverPic())) {
+				return -1;
+			}
+			List<String> originalImages = parseEditorContent(temp.getContent());
+			List<String> currentImages = parseEditorContent(article.getContent());
+			if (!updateImageCache("update", originalImages, currentImages)) {
+				return -2;
+			}
+		} else {
+			return 0;
 		}
-		return imageList;
+		int result = jdbcTemplate.update(SQL, article.getTitle(), article.getCoverPic(), 
+				article.getContent(), article.getArticleid());	
+		return result <= 0 ? 0 : result;
 	}
 	
 	/**
@@ -452,6 +488,117 @@ public class ArticleDAO {
 		} else {
 			return 0;
 		}
+	}
+	
+	/**
+	 * @title: parseEditorContent
+	 * @description: 解析编辑器内容获取图片信息列表
+	 * @param content
+	 * @return
+	 */
+	private List<String> parseEditorContent(String content){
+		List<String> imageList = new ArrayList<String>();
+		if (!content.equals("")) {
+			Document doc = Jsoup.parse(content);
+			Elements imgs = doc.select("img[src]");
+			for (Element element : imgs) {
+				String imagePath = element.attr("src");
+				if (!imagePath.startsWith("/resources")) {
+					continue;
+				}
+				int index = imagePath.indexOf('_');
+				imageList.add(imagePath.substring(0, index));
+			}
+		}
+		return imageList;
+	}
+	
+	/**
+	 * @title updateImageCache
+	 * @description 管理临时表记录
+	 * @param action
+	 * @param image
+	 * @param newImage
+	 * @return
+	 */
+	private boolean updateImageCache(String action, String image, String newImage) {
+		Timestamp current = new Timestamp(System.currentTimeMillis());
+		boolean result = false;
+		switch (action) {
+		case "delete":
+			result = true;
+			if (deleteImageTempRecord(image) == 0) {
+				result = false;
+			}
+			break;
+		case "insert":
+			result = true;
+			insertImageTempRecord(image, current);
+			break;
+		case "update":
+			result = true;
+			if (!image.equals(newImage)) {
+				if (!image.equals("")) {
+					insertImageTempRecord(image, current);
+				}
+				if (newImage != null && deleteImageTempRecord(newImage) == 0) {
+					result = false;
+				}
+			}
+			break;
+		default:
+			break;
+		}
+		return result;
+	}
+	
+	/**
+	 * @title updateImageCache
+	 * @description 管理临时表记录
+	 * @param action
+	 * @param imageList
+	 * @param newList
+	 * @return
+	 */
+	private boolean updateImageCache(String action, List<String> imageList, List<String> newList) {
+		Timestamp current = new Timestamp(System.currentTimeMillis());
+		boolean result = false;
+		switch (action) {
+		case "delete":
+			result = true;
+			for (int i = 0, j = imageList.size(); i < j; i++) {
+				if (deleteImageTempRecord(imageList.get(i)) == 0) {
+					result = false;
+				}
+			}
+			break;
+		case "insert":
+			result = true;
+			for (int i = 0, j = imageList.size(); i < j; i++) {
+				insertImageTempRecord(imageList.get(i), current);
+			}
+			break;
+		case "update":
+			result = true;
+			for (int i = 0, j = imageList.size(); i < j; i++) {
+				String imagePath = imageList.get(i);
+				if (!newList.contains(imagePath)) {
+					insertImageTempRecord(imagePath, current);
+				}
+			}
+			for (int i = 0, j = newList.size(); i < j; i++) {
+				String imagePath = newList.get(i);
+				if (!imageList.contains(imagePath)) {
+					if(deleteImageTempRecord(imagePath) == 0) {
+						result = false;
+					}
+				}
+			}
+			break;
+		default:
+			break;
+		}
+		return result;
 	}
 	
 	//query
@@ -547,11 +694,30 @@ public class ArticleDAO {
 				+ "FROM article A, article_articleclass B WHERE A.articleid "
 				+ "= B.articleid AND B.classid = ? ORDER BY A.createTime DESC";
 		List<Article> articleList = null;
-		
 		try {
 			articleList = jdbcTemplate.query(SQL, new Object[]{classid}, new ArticleIntroinfoMapper());
 		} catch (Exception e) {
 			System.out.println("getArticleClassForCustomer: " + e.getMessage());
+			articleList = new ArrayList<Article>();
+		}
+		return articleList;
+	}
+	
+	/**
+	 * @title getDynamicArticlesForCustomer
+	 * @description 根据分店id获取手机端动态文章列表展示的文章信息
+	 * @param branchSid
+	 * @return
+	 */
+	public List<Article> getDynamicArticlesForCustomer(int branchSid){
+		String SQL = "SELECT A.articleid, A.title, A.coverPic, A.createTime "
+				+ "FROM article_dynamic A WHERE A.branchSid = ? ORDER BY "
+				+ "A.createTime DESC";
+		List<Article> articleList = null;
+		try {
+			articleList = jdbcTemplate.query(SQL, new Object[]{branchSid}, new ArticleIntroinfoMapper());
+		} catch (Exception e) {
+			System.out.println("getDynamicArticlesForCustomer: " + e.getMessage());
 			articleList = new ArrayList<Article>();
 		}
 		return articleList;
@@ -571,22 +737,39 @@ public class ArticleDAO {
 	
 	/**
 	 * @title: getArticleContent
-	 * @description: 根据文章id获取文章内容以及所属类别信息
+	 * @description: 根据文章id获取文章内容以及所属类别信息(articleid, title, coverPic, content, classidList)
 	 * @param articleid
 	 * @return
 	 */
 	public Article getArticleContent(int articleid){
-		String SQL = "SELECT articleid, title, coverPic, content FROM article WHERE articleid = ?";
+		String SQL = "SELECT articleid, title, coverPic, content FROM article "
+				+ "WHERE articleid = ?";
 		Article article = null;
-		
 		try {
 			article = jdbcTemplate.queryForObject(SQL, new Object[]{articleid}, new ArticleContentMapper());
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-		}
-		
+		}	
 		if (article != null) {
 			article.setClassidList(getClassidList(articleid));
+		}
+		return article;
+	}
+	
+	/**
+	 * @title getDynamicArticleContent
+	 * @description 根据文章id获取动态文章内容信息(articleid, title, coverPic, content)
+	 * @param articleid
+	 * @return
+	 */
+	public Article getDynamicArticleContent(int articleid){
+		String SQL = "SELECT articleid, title, coverPic, content FROM article_dynamic "
+				+ "WHERE articleid = ?";
+		Article article = null;
+		try {
+			article = jdbcTemplate.queryForObject(SQL, new Object[]{articleid}, new ArticleContentMapper());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
 		}
 		return article;
 	}
@@ -640,10 +823,9 @@ public class ArticleDAO {
 	 * @param classid
 	 * @return
 	 */
-	public List<Integer> getArticleidList(int classid){
+	private List<Integer> getArticleidList(int classid){
 		String SQL = "SELECT articleid FROM article_articleclass WHERE classid = ?";
 		List<Integer> articleidList = null;
-		
 		try {
 			articleidList = jdbcTemplate.query(SQL, new Object[]{classid}, new ArticleidMapper());
 		} catch (Exception e) {
@@ -655,16 +837,33 @@ public class ArticleDAO {
 	
 	/**
 	 * @title: getArticleidList
-	 * @description:  由appid获取所关联文章id列表
+	 * @description: 由appid获取所关联文章id列表
 	 * @param appid
 	 * @return
 	 */
-	public List<Integer> getArticleidList(String appid){
+	private List<Integer> getArticleidList(String appid){
 		String SQL = "SELECT articleid FROM article WHERE appid = ?";
-        List<Integer> articleidList = null;
-		
+        List<Integer> articleidList = null;	
 		try {
 			articleidList = jdbcTemplate.query(SQL, new Object[]{appid}, new ArticleidMapper());
+		} catch (Exception e) {
+			articleidList = new ArrayList<Integer>();
+			System.out.println(e.getMessage());
+		}
+		return articleidList;
+	}
+	
+	/** 
+	 * @title getDynamicArticleidList
+	 * @description 根据分店id查询所关联的动态文章id列表
+	 * @param branchSid
+	 * @return
+	 */
+	private List<Integer> getDynamicArticleidList(int branchSid){
+		String SQL = "SELECT articleid FROM article_dynamic WHERE branchSid = ?";
+        List<Integer> articleidList = null;
+		try {
+			articleidList = jdbcTemplate.query(SQL, new Object[]{branchSid}, new ArticleidMapper());
 		} catch (Exception e) {
 			articleidList = new ArrayList<Integer>();
 			System.out.println(e.getMessage());
@@ -732,10 +931,26 @@ public class ArticleDAO {
 	 * @param articleid
 	 * @return
 	 */
-	public Article getArticleBasicMedia(int articleid){
+	private Article getArticleBasicMedia(int articleid){
 		String SQL = "SELECT coverPic, content FROM article WHERE articleid = ?";
 		Article article = null;
-		
+		try {
+			article = jdbcTemplate.queryForObject(SQL, new Object[]{articleid}, new ArticleBasicMediaMapper());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return article;
+	}
+	
+	/**
+	 * @title getDynamicArticleBasicMedia
+	 * @description 获取动态文章的所有图片信息来源
+	 * @param articleid
+	 * @return
+	 */
+	private Article getDynamicArticleBasicMedia(int articleid){
+		String SQL = "SELECT coverPic, content FROM article_dynamic WHERE articleid = ?";
+		Article article = null;
 		try {
 			article = jdbcTemplate.queryForObject(SQL, new Object[]{articleid}, new ArticleBasicMediaMapper());
 		} catch (Exception e) {
@@ -764,7 +979,6 @@ public class ArticleDAO {
 		String SQL = "SELECT A.articleid, A.title, A.coverPic, A.createTime FROM "
 				+ "article A WHERE A.appid = ? ORDER BY A.createTime DESC";
 		List<Article> articleList = null;
-		
 		try {
 			articleList = jdbcTemplate.query(SQL, new Object[]{appid}, new BasicArticleinfoMapper());
 		} catch (Exception e) {
@@ -785,7 +999,6 @@ public class ArticleDAO {
 				+ "article A, article_articleclass B WHERE A.articleid = B.articleid "
 				+ "AND B.classid = ? ORDER BY A.createTime DESC";
         List<Article> articleList = null;
-		
 		try {
 			articleList = jdbcTemplate.query(SQL, new Object[]{classid}, new BasicArticleinfoMapper());
 		} catch (Exception e) {
@@ -793,6 +1006,25 @@ public class ArticleDAO {
 			System.out.println(e.getMessage());
 		}
 		return articleList;		
+	}
+	
+	/**
+	 * @title getDynamicArticleinfos
+	 * @description 根据分店id获取动态文章信息列表(包括文章id, 标题, 封面图片, 创建时间)
+	 * @param branchSid
+	 * @return
+	 */
+	public List<Article> getDynamicArticleinfos(int branchSid){
+		String SQL = "SELECT A.articleid, A.title, A.coverPic, A.createTime FROM "
+				+ "article_dynamic A WHERE A.branchSid = ? ORDER BY A.createTime DESC";
+		List<Article> articleList = null;
+		try {
+			articleList = jdbcTemplate.query(SQL, new Object[]{branchSid}, new BasicArticleinfoMapper());
+		} catch (Exception e) {
+			articleList = new ArrayList<Article>();
+			System.out.println(e.getMessage());
+		}
+		return articleList;
 	}
 	
 	private static final class BasicArticleinfoMapper implements RowMapper<Article>{

@@ -336,7 +336,7 @@ public class ArticleController {
 	 * @param str
 	 * @return
 	 */
-	private String convertSymbol(String str) {
+	private static String convertSymbol(String str) {
 		str = str.replaceAll("&", "&amp;");
 		str = str.replaceAll("<", "&lt;");
 		str = str.replaceAll(">", "&gt;");

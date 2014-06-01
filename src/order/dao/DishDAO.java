@@ -669,8 +669,8 @@ public class DishDAO {
 	 */
 	public List<Dish> getDetailedDishinfos(String appid) {
 		List<Dish> dishList = null;
-		String SQL = "SELECT dishid, dishName, createTime, dishPic FROM dish "
-				+ "WHERE appid = ? ORDER BY createTime DESC";
+		String SQL = "SELECT D.dishid, D.dishName, D.createTime, D.dishPic FROM"
+				+ " dish D WHERE D.appid = ? ORDER BY D.createTime DESC";
 		try {
 			dishList = jdbcTemplate.query(SQL, new Object[]{appid}, new DetailedDishinfoMapper());
 		} catch (Exception e) {
@@ -687,19 +687,15 @@ public class DishDAO {
 	 * @return
 	 */
 	public List<Dish> getDetailedDishinfos(int classid) {
-		List<Dish> dishList = new ArrayList<Dish>();
-		String SQL = "SELECT dishid, dishName, createTime, dishPic FROM dish "
-				+ "WHERE dishid = ? ORDER BY createTime DESC";
-		List<Integer> dishidList = getDishidList(classid);
-		for (int i = 0, j = dishidList.size(); i < j; i++) {
-			try {
-				Dish dish = jdbcTemplate.queryForObject(SQL, new Object[]{
-						dishidList.get(i)}, new DetailedDishinfoMapper());
-				dishList.add(dish);
-			} catch (Exception e) {
-				System.out.println("getDetailedDishinfos: " + e.getMessage());
-				continue;
-			}
+		List<Dish> dishList = null;
+		String SQL = "SELECT D.dishid, D.dishName, D.createTime, D.dishPic FROM"
+				+ " dish D, dish_dishclass E WHERE D.dishid = E.dishid AND "
+				+ "E.classid = ? ORDER BY D.createTime DESC";	
+		try {
+			dishList = jdbcTemplate.query(SQL, new Object[]{classid}, new DetailedDishinfoMapper());
+		} catch (Exception e) {
+			System.out.println("getDetailedDishinfos: " + e.getMessage());
+			dishList = new ArrayList<Dish>();
 		}
 		return dishList;
 	}
@@ -818,10 +814,10 @@ public class DishDAO {
 		@Override
 		public Dish mapRow(ResultSet rs, int arg1) throws SQLException {
 			Dish dish = new Dish();
-			dish.setDishid(rs.getInt("dishid"));
-			dish.setDishName(rs.getString("dishName"));
-			dish.setCreateTime(rs.getTimestamp("createTime"));
-			dish.setDishPic(rs.getString("dishPic"));
+			dish.setDishid(rs.getInt("D.dishid"));
+			dish.setDishName(rs.getString("D.dishName"));
+			dish.setCreateTime(rs.getTimestamp("D.createTime"));
+			dish.setDishPic(rs.getString("D.dishPic"));
 			return dish;
 		}
 	}
@@ -878,8 +874,9 @@ public class DishDAO {
 	 */
 	public List<DishBranch> getBranchDishinfos(String appid, int branchSid) {
 		List<DishBranch> dishList = null;
-		String SQL = "SELECT dishid, dishName, createTime, dishPic, price, dishUnit "
-				+ "FROM dish WHERE appid = ? ORDER BY createTime DESC";
+		String SQL = "SELECT D.dishid, D.dishName, D.createTime, D.dishPic, "
+				+ "D.price, D.dishUnit FROM dish D WHERE D.appid = ? ORDER BY "
+				+ "D.createTime DESC";
 		try {
 			dishList = jdbcTemplate.query(SQL, new Object[]{appid}, new BranchDishinfoMapper());
 		} catch (Exception e) {
@@ -905,23 +902,21 @@ public class DishDAO {
 	 * @return
 	 */
 	public List<DishBranch> getBranchDishinfos(int classid, int branchSid) {
-		List<DishBranch> dishList = new ArrayList<DishBranch>();
-		String SQL = "SELECT dishid, dishName, createTime, dishPic, price, dishUnit "
-				+ "FROM dish WHERE dishid = ? ORDER BY createTime DESC";
-		List<Integer> dishidList = getDishidList(classid);
-		for (Integer dishid : dishidList) {
-			try {
-				DishBranch dishBranch = jdbcTemplate.queryForObject(SQL, new Object[]{
-						dishid}, new BranchDishinfoMapper());
-				DishBranch temp = getDishBranch(dishid, branchSid);
-				if (temp != null) {
-					dishBranch.setPrice(temp.getPrice());
-					dishBranch.setAvailable(temp.getAvailable());
-				}
-				dishList.add(dishBranch);
-			} catch (Exception e) {
-				System.out.println("getBranchDishinfos: " + e.getMessage());
-				continue;
+		List<DishBranch> dishList = null;
+		String SQL = "SELECT D.dishid, D.dishName, D.createTime, D.dishPic, "
+				+ "D.price, D.dishUnit FROM dish D, dish_dishclass E WHERE "
+				+ "D.dishid = E.dishid AND E.classid = ? ORDER BY D.createTime DESC";
+		try {
+			dishList = jdbcTemplate.query(SQL, new Object[]{classid}, new BranchDishinfoMapper());
+		} catch (Exception e) {
+			System.out.println("getBranchDishinfos: " + e.getMessage());
+			dishList = new ArrayList<DishBranch>();
+		}
+		for (DishBranch dishBranch : dishList) {
+			DishBranch temp = getDishBranch(dishBranch.getDishid(), branchSid);
+			if (temp != null) {
+				dishBranch.setPrice(temp.getPrice());
+				dishBranch.setAvailable(temp.getAvailable());
 			}
 		}
 		return dishList;
@@ -1080,12 +1075,12 @@ public class DishDAO {
 		@Override
 		public DishBranch mapRow(ResultSet rs, int arg1) throws SQLException {
 			DishBranch dishBranch = new DishBranch();
-			dishBranch.setDishid(rs.getInt("dishid"));
-			dishBranch.setDishName(rs.getString("dishName"));
-			dishBranch.setCreateTime(rs.getTimestamp("createTime"));
-			dishBranch.setDishPic(rs.getString("dishPic"));
-			dishBranch.setPrice(rs.getInt("price"));
-			dishBranch.setDishUnit(rs.getString("dishUnit"));
+			dishBranch.setDishid(rs.getInt("D.dishid"));
+			dishBranch.setDishName(rs.getString("D.dishName"));
+			dishBranch.setCreateTime(rs.getTimestamp("D.createTime"));
+			dishBranch.setDishPic(rs.getString("D.dishPic"));
+			dishBranch.setPrice(rs.getInt("D.price"));
+			dishBranch.setDishUnit(rs.getString("D.dishUnit"));
 			return dishBranch;
 		}
 	}
