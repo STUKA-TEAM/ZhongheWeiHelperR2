@@ -790,7 +790,7 @@ public class BranchDAO {
 		Integer storeSid = null;
 		String SQL = "SELECT storeSid FROM branch_store WHERE branchSid = ?";
 		try {
-			storeSid = jdbcTemplate.queryForObject(SQL, new Object[]{branchSid}, new StoreSidMapper());
+			storeSid = jdbcTemplate.queryForObject(SQL, new Object[]{branchSid}, new StoreSidMapper2());
 		} catch (Exception e) {
 			System.out.println("getStoreSid: " + e.getMessage());
 			storeSid = -1;
@@ -986,6 +986,14 @@ public class BranchDAO {
 		@Override
 		public Integer mapRow(ResultSet rs, int arg1) throws SQLException {
 			Integer storeSid = rs.getInt("sid");
+			return storeSid;
+		}
+	}
+	
+	private static final class StoreSidMapper2 implements RowMapper<Integer>{
+		@Override
+		public Integer mapRow(ResultSet rs, int arg1) throws SQLException {
+			Integer storeSid = rs.getInt("storeSid");
 			return storeSid;
 		}
 	}
