@@ -141,7 +141,7 @@ public class BranchController {
 			List<DishBranch> dishList = dishDao.getBranchDishForCustomer(appid, branchSid);
 			model.addAttribute("dishList", dishList);
 		}
-		return "BranchViews/dishList";
+		return "BranchViews/branchContainer";
 	}
 	
 	/**

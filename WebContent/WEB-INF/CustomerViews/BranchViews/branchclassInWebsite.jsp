@@ -42,7 +42,7 @@
             <img src="./img/icon_lib/map02-black.png" class="store-nav-image" alt="article">
             <p class="store-nav-text">导航</p>
           </a>
-          <a class="store-nav-4 store-nav-divide" href="customer/branch/activities?branchid=${item.branchSid}">
+          <a class="store-nav-4 store-nav-divide" href="customer/branch/activities?branchid=${item.branchSid}&websiteid=${website.websiteid}">
               <img src="./img/icon_lib/tag-black.png" class="store-nav-image" alt="article">
               <p class="store-nav-text">活动</p>
           </a>
