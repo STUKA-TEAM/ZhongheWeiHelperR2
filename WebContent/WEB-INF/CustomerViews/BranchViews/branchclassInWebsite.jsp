@@ -30,17 +30,21 @@
           </div>
         </div>
         <div class="store-model-footer">
-          <a class="store-nav-3" href="tel:${item.phone}">
+          <a class="store-nav-4" href="customer/branch/dishes?branchid=${item.branchSid}&websiteid=${website.websiteid}">
+              <img src="./img/icon_lib/calendar02-black.png" class="store-nav-image" alt="article">
+              <p class="store-nav-text">菜单</p>
+          </a>        
+          <a class="store-nav-4 store-nav-divide" href="tel:${item.phone}">
             <img src="./img/icon_lib/phone-black.png" class="store-nav-image" alt="article">
             <p class="store-nav-text">预定</p>
           </a>
-          <a class="store-nav-3 store-nav-divide" href='http://api.map.baidu.com/marker?location=${item.lat},${item.lng}&amp;title=${item.address}&amp;name=${item.address}&amp;content=${item.address}&amp;output=html'>
+          <a class="store-nav-4 store-nav-divide" href='http://api.map.baidu.com/marker?location=${item.lat},${item.lng}&amp;title=${item.address}&amp;name=${item.address}&amp;content=${item.address}&amp;output=html'>
             <img src="./img/icon_lib/map02-black.png" class="store-nav-image" alt="article">
             <p class="store-nav-text">导航</p>
           </a>
-          <a class="store-nav-3 store-nav-divide" href="customer/branch?branchid=${item.branchSid}">
-              <img src="./img/icon_lib/pic-black.png" class="store-nav-image" alt="article">
-              <p class="store-nav-text">实景</p>
+          <a class="store-nav-4 store-nav-divide" href="customer/branch/activities?branchid=${item.branchSid}">
+              <img src="./img/icon_lib/tag-black.png" class="store-nav-image" alt="article">
+              <p class="store-nav-text">活动</p>
           </a>
         </div>
       </div>
