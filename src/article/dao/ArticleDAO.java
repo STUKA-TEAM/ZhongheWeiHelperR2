@@ -821,7 +821,7 @@ public class ArticleDAO {
 			article = jdbcTemplate.queryForObject(SQL, new Object[]{articleid}, 
 					new CustomerArticleMapper());
 		} catch (Exception e) {
-			System.out.println("getDynamicArticleForCustomer" + e.getMessage());
+			System.out.println("getDynamicArticleForCustomer: " + e.getMessage());
 		}
 		return article;
 	}

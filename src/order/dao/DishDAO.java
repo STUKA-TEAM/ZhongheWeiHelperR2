@@ -950,22 +950,22 @@ public class DishDAO {
 	}
 	
 	/**
-	 * @title getBranchDishForCustomer
-	 * @description 查询某应用下分店全部菜品在手机端显示信息 (dishid, dishName, dishPic, dishDesc, price, 
+	 * @title getDishClassForCustomer
+	 * @description 查询某分店某一类菜品在手机端显示信息 (dishid, dishName, dishPic, dishDesc, price, 
 	 * dishUnit, recomNum)
-	 * @param appid
+	 * @param classid
 	 * @param branchSid
 	 * @return
 	 */
-	public List<DishBranch> getBranchDishForCustomer(String appid, int branchSid) {
+	public List<DishBranch> getDishClassForCustomer(int classid, int branchSid) {
 		List<DishBranch> dishList = null;
 		String SQL = "SELECT D.dishid, D.dishName, D.dishPic, D.dishDesc, D.price, "
-				+ "D.dishUnit, D.recomNum FROM dish D WHERE D.appid = ? ORDER BY "
-				+ "D.recomNum DESC";
+				+ "D.dishUnit, D.recomNum FROM dish D, dish_dishclass E WHERE "
+				+ "D.dishid = E.dishid AND E.classid = ? ORDER BY D.recomNum DESC";
 		try {
-			dishList = jdbcTemplate.query(SQL, new Object[]{appid}, new CustomerDishinfoMapper());
+			dishList = jdbcTemplate.query(SQL, new Object[]{classid}, new CustomerDishinfoMapper());
 		} catch (Exception e) {
-			System.out.println("getBranchDishForCustomer: " + e.getMessage());
+			System.out.println("getDishClassForCustomer: " + e.getMessage());
 			dishList = new ArrayList<DishBranch>();
 		}
 		for (int i = dishList.size() - 1; i >= 0; i--) {
@@ -983,7 +983,7 @@ public class DishDAO {
 	/**
 	 * @title getDishClassForCustomer
 	 * @description 查询某分店某一类菜品对于某人在手机端显示信息 (dishid, dishName, dishPic, dishDesc, price, 
-	 * dishUnit, recomNum, price, count)
+	 * dishUnit, recomNum, count)
 	 * @param classid
 	 * @param branchSid
 	 * @param openid
