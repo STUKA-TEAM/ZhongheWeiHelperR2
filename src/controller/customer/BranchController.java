@@ -3,6 +3,7 @@ package controller.customer;
 import java.util.List;
 
 import order.DishBranch;
+import order.DishClass;
 import order.dao.DishDAO;
 
 import org.springframework.context.ApplicationContext;
@@ -138,10 +139,44 @@ public class BranchController {
 		
 		String appid = appInfoDao.getAppidByWebsite(websiteid);
 		if (appid != null) {
-			List<DishBranch> dishList = dishDao.getBranchDishForCustomer(appid, branchSid);
-			model.addAttribute("dishList", dishList);
-		}
+			List<DishClass> classList = dishDao.getBasicClassinfos(appid);
+			if(classList.size() > 0){
+				classList.get(0).setSelected(true);
+			}
+			model.addAttribute("classList", classList);
+			if (classList.size() > 0) {
+				DishClass dishClass = classList.get(0);
+				int classid = dishClass.getClassid();
+				List<DishBranch> dishList = dishDao.getDishClassForCustomer(classid, branchSid);
+				model.addAttribute("dishList", dishList);
+			}
+
+		model.addAttribute("branchid", branchSid);
 		return "BranchViews/branchContainer";
+	}
+	
+	/**
+	 * @title getDishByClass
+	 * @description 获取某分店某类别菜品详细信息
+	 * @param branchSid
+	 * @param classid
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/branch/dish", method = RequestMethod.GET)
+	public String getDishByClass(@RequestParam(value = "branchid", required = true) int 
+			branchSid, @RequestParam(value = "classid", required = true) int classid, 
+			Model model) {
+		ApplicationContext context = 
+				new ClassPathXmlApplicationContext("All-Modules.xml");
+		DishDAO dishDao = (DishDAO) context.getBean("DishDAO");
+		((ConfigurableApplicationContext)context).close();
+		
+		List<DishBranch> dishList = dishDao.getDishClassForCustomer(classid, branchSid);
+		model.addAttribute("dishList", dishList);
+		
+		model.addAttribute("branchid", branchSid);
+		return "BranchViews/dishList";
 	}
 	
 	/**
