@@ -36,7 +36,7 @@ function submitChange(dishid){
 		   	   	  $("#modalMes").html(jsonData.message);
 		   	      $("#operationMesModal").modal("show");
 		   	      setTimeout(function(){
-		   	    	location.href="branch/restaurant/dish/list?appid='+"+$("#appInfo").val()+"+'&classid="+$("#dishclass").val();
+		   	    	location.href="branch/restaurant/dish/list?appid="+$("#appInfo").val()+"&classid="+$("#dishclass").val();
 		   	      },1500);
 	   		  }else{
 		   	   	  $("#modalMes").html(jsonData.message);

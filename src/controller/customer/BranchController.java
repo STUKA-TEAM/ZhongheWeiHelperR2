@@ -138,21 +138,22 @@ public class BranchController {
 		((ConfigurableApplicationContext)context).close();
 		
 		String appid = appInfoDao.getAppidByWebsite(websiteid);
-		if (appid != null) {
-			List<DishClass> classList = dishDao.getBasicClassinfos(appid);
-			if(classList.size() > 0){
-				classList.get(0).setSelected(true);
-			}
-			model.addAttribute("classList", classList);
-			if (classList.size() > 0) {
-				DishClass dishClass = classList.get(0);
-				int classid = dishClass.getClassid();
-				List<DishBranch> dishList = dishDao.getDishClassForCustomer(classid, branchSid);
-				model.addAttribute("dishList", dishList);
-			}
-
-		model.addAttribute("branchid", branchSid);
-		return "BranchViews/branchContainer";
+  		if (appid != null) {
+ 			List<DishClass> classList = dishDao.getBasicClassinfos(appid);
+ 			if(classList.size() > 0){
+ 				classList.get(0).setSelected(true);
+ 			}
+ 			model.addAttribute("classList", classList);
+ 			if (classList.size() > 0) {
+ 				DishClass dishClass = classList.get(0);
+ 				int classid = dishClass.getClassid();
+ 				List<DishBranch> dishList = dishDao.getDishClassForCustomer(classid, branchSid);
+ 				model.addAttribute("dishList", dishList);
+ 			}
+  		}
+ 
+ 		model.addAttribute("branchid", branchSid);
+ 		return "BranchViews/branchContainer";
 	}
 	
 	/**
