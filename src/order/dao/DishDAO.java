@@ -876,9 +876,10 @@ public class DishDAO {
 	 * createTime, dishPic, dishUnit, price, available)
 	 * @param appid
 	 * @param branchSid
+	 * @param storeSid
 	 * @return
 	 */
-	public List<DishBranch> getBranchDishinfos(String appid, int branchSid) {
+	public List<DishBranch> getBranchDishinfos(String appid, int branchSid, int storeSid) {
 		List<DishBranch> dishList = null;
 		String SQL = "SELECT D.dishid, D.creatorSid, D.dishName, D.createTime, "
 				+ "D.dishPic, D.price, D.dishUnit FROM dish D WHERE D.appid = ? "
@@ -889,16 +890,21 @@ public class DishDAO {
 			System.out.println("getBranchDishinfos: " + e.getMessage());
 			dishList = new ArrayList<DishBranch>();
 		}
-		for (DishBranch dishBranch : dishList) {
+		for (int i = dishList.size() - 1; i >= 0; i--) {
+			DishBranch dishBranch = dishList.get(i);
+			int creatorSid = dishBranch.getCreatorSid();
+			if (creatorSid == branchSid) {
+				dishBranch.setAllowed(true);
+			} else {
+				if (creatorSid != storeSid) {
+					dishList.remove(i);
+					continue;
+				}
+			}
 			DishBranch temp = getDishBranch(dishBranch.getDishid(), branchSid);
 			if (temp != null) {
 				dishBranch.setPrice(temp.getPrice());
 				dishBranch.setAvailable(temp.getAvailable());
-			}
-			if (dishBranch.getCreatorSid() == branchSid) {
-				dishBranch.setAllowed(true);
-			} else {
-				dishBranch.setAllowed(false);
 			}
 		}
 		return dishList;
@@ -912,7 +918,7 @@ public class DishDAO {
 	 * @param branchSid
 	 * @return
 	 */
-	public List<DishBranch> getBranchDishinfos(int classid, int branchSid) {
+	public List<DishBranch> getBranchDishinfos(int classid, int branchSid, int storeSid) {
 		List<DishBranch> dishList = null;
 		String SQL = "SELECT D.dishid, D.creatorSid, D.dishName, D.createTime, "
 				+ "D.dishPic, D.price, D.dishUnit FROM dish D, dish_dishclass E WHERE "
@@ -923,16 +929,21 @@ public class DishDAO {
 			System.out.println("getBranchDishinfos: " + e.getMessage());
 			dishList = new ArrayList<DishBranch>();
 		}
-		for (DishBranch dishBranch : dishList) {
+		for (int i = dishList.size() - 1; i >= 0; i--) {
+			DishBranch dishBranch = dishList.get(i);
+			int creatorSid = dishBranch.getCreatorSid();
+			if (creatorSid == branchSid) {
+				dishBranch.setAllowed(true);
+			} else {
+				if (creatorSid != storeSid) {
+					dishList.remove(i);
+					continue;
+				}
+			}
 			DishBranch temp = getDishBranch(dishBranch.getDishid(), branchSid);
 			if (temp != null) {
 				dishBranch.setPrice(temp.getPrice());
 				dishBranch.setAvailable(temp.getAvailable());
-			}
-			if (dishBranch.getCreatorSid() == branchSid) {
-				dishBranch.setAllowed(true);
-			} else {
-				dishBranch.setAllowed(false);
 			}
 		}
 		return dishList;
@@ -957,7 +968,7 @@ public class DishDAO {
 			System.out.println("getBranchDishForCustomer: " + e.getMessage());
 			dishList = new ArrayList<DishBranch>();
 		}
-		for (int i = 0, j = dishList.size(); i < j; i++) {
+		for (int i = dishList.size() - 1; i >= 0; i--) {
 			DishBranch dishBranch = dishList.get(i);
 			DishBranch temp = getDishBranch(dishBranch.getDishid(), branchSid);
 			if (temp != null && temp.getAvailable() == 1) {
@@ -985,20 +996,20 @@ public class DishDAO {
 				+ "D.dishid = E.dishid AND E.classid = ? ORDER BY D.recomNum DESC";
 		try {
 			dishList = jdbcTemplate.query(SQL, new Object[]{classid}, new CustomerDishinfoMapper());
-			for (int i = 0, j = dishList.size(); i < j; i++) {
-				DishBranch dishBranch = dishList.get(i);
-				int dishid = dishBranch.getDishid();
-				DishBranch temp = getDishBranch(dishid, branchSid);
-				if (temp != null && temp.getAvailable() == 1) {
-					dishBranch.setPrice(temp.getPrice());
-					dishBranch.setCount(getDishOrderCount(dishid, branchSid, openid));
-				} else {
-					dishList.remove(i);
-				}
-			}
 		} catch (Exception e) {
 			System.out.println("getDishClassForCustomer: " + e.getMessage());
 			dishList = new ArrayList<DishBranch>();
+		}
+		for (int i = dishList.size() - 1; i >= 0; i--) {
+			DishBranch dishBranch = dishList.get(i);
+			int dishid = dishBranch.getDishid();
+			DishBranch temp = getDishBranch(dishid, branchSid);
+			if (temp != null && temp.getAvailable() == 1) {
+				dishBranch.setPrice(temp.getPrice());
+				dishBranch.setCount(getDishOrderCount(dishid, branchSid, openid));
+			} else {
+				dishList.remove(i);
+			}
 		}
 		return dishList;
 	}

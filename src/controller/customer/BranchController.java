@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import register.dao.AppInfoDAO;
+import website.ShareMessage;
+import website.Website;
+import website.dao.WebsiteDAO;
 import article.Article;
 import article.dao.ArticleDAO;
 import branch.Branch;
@@ -58,15 +61,61 @@ public class BranchController {
 	 */
 	@RequestMapping(value = "/branch/activities", method = RequestMethod.GET)
 	public String getArticleList(@RequestParam(value = "branchid", required = true) int 
-			branchSid, Model model){
+			branchSid, @RequestParam(value = "websiteid", required = true) int websiteid, 
+			Model model){
 		ApplicationContext context = 
 				new ClassPathXmlApplicationContext("All-Modules.xml");
 		ArticleDAO articleDao = (ArticleDAO) context.getBean("ArticleDAO");
+		WebsiteDAO websiteDao = (WebsiteDAO) context.getBean("WebsiteDAO");
 		((ConfigurableApplicationContext)context).close();
 		
+		Website website = websiteDao.getWebsiteInfoForCustomer(websiteid);		
+        model.addAttribute("website", website);
 		List<Article> articleList = articleDao.getDynamicArticlesForCustomer(branchSid);
 		model.addAttribute("articleList", articleList);
 		return "BranchViews/articleList";
+	}
+	
+	/**
+	 * @title getArticle
+	 * @description 查询单篇动态文章信息
+	 * @param articleid
+	 * @param websiteid
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/branch/activity", method = RequestMethod.GET)
+	public String getArticle(@RequestParam(value = "activityid", required = true) int 
+			articleid, @RequestParam(value = "websiteid", required = true) int websiteid, 
+			Model model){
+		ApplicationContext context = 
+				new ClassPathXmlApplicationContext("All-Modules.xml");
+		WebsiteDAO websiteDao = (WebsiteDAO) context.getBean("WebsiteDAO");
+		ArticleDAO articleDao = (ArticleDAO) context.getBean("ArticleDAO");
+		AppInfoDAO appInfoDao = (AppInfoDAO) context.getBean("AppInfoDAO");
+		((ConfigurableApplicationContext)context).close();
+		
+		Website website = websiteDao.getWebsiteInfoForCustomer(websiteid);		
+        model.addAttribute("website", website);
+		Article article = articleDao.getDynamicArticleForCustomer(articleid);	
+		if (article != null) {		
+			ShareMessage message = new ShareMessage();
+			message.setWechatNumber(appInfoDao.getWechatNumberByWebsite(websiteid));
+			message.setAppLink(message.getAppLink() + "customer/branch/activity?"
+					+ "activityid=" + articleid + "&websiteid=" + websiteid);
+			String coverPic = article.getCoverPic();
+			if (coverPic != null) {
+				message.setImageLink(message.getImageLink() + coverPic + "_original.jpg");
+			} else {
+				message.setImageLink("");
+			}
+			message.setShareTitle(article.getTitle());
+			message.setShareContent("");
+			
+			model.addAttribute("message", message);			
+			model.addAttribute("article", article);	
+		}
+		return "BranchViews/article";
 	}
 	
 	/**
