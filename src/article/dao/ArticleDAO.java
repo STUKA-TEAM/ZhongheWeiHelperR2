@@ -788,18 +788,40 @@ public class ArticleDAO {
 	
 	/**
 	 * @title: getArticleForCustomer
-	 * @description: 根据articleid获取手机端单篇文章所需信息
+	 * @description: 根据articleid获取手机端文章显示信息(articleid, title, coverPic, 
+	 * createTime, content)
 	 * @param articleid
 	 * @return
 	 */
 	public Article getArticleForCustomer(int articleid){
-		String SQL = "SELECT articleid, title, coverPic, createTime, content FROM article WHERE articleid = ?";
-		Article article = null;
-		
+		String SQL = "SELECT articleid, title, coverPic, createTime, content "
+				+ "FROM article WHERE articleid = ?";
+		Article article = null;	
 		try {
-			article = jdbcTemplate.queryForObject(SQL, new Object[]{articleid}, new CustomerArticleMapper());
+			article = jdbcTemplate.queryForObject(SQL, new Object[]{articleid}, 
+					new CustomerArticleMapper());
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println("getArticleForCustomer" + e.getMessage());
+		}
+		return article;
+	}
+	
+	/**
+	 * @title getDynamicArticleForCustomer
+	 * @description 根据articleid获取手机端动态文章显示信息(articleid, title, coverPic, 
+	 * createTime, content)
+	 * @param articleid
+	 * @return
+	 */
+	public Article getDynamicArticleForCustomer(int articleid){
+		String SQL = "SELECT articleid, title, coverPic, createTime, content "
+				+ "FROM article_dynamic WHERE articleid = ?";
+		Article article = null;
+		try {
+			article = jdbcTemplate.queryForObject(SQL, new Object[]{articleid}, 
+					new CustomerArticleMapper());
+		} catch (Exception e) {
+			System.out.println("getDynamicArticleForCustomer" + e.getMessage());
 		}
 		return article;
 	}

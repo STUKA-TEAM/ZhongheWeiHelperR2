@@ -781,6 +781,24 @@ public class BranchDAO {
 	}
 	
 	/**
+	 * @title getStoreSid
+	 * @description 根据分店id查询商家id,若查询不到则返回-1
+	 * @param branchSid
+	 * @return
+	 */
+	public Integer getStoreSid(int branchSid) {
+		Integer storeSid = null;
+		String SQL = "SELECT storeSid FROM branch_store WHERE branchSid = ?";
+		try {
+			storeSid = jdbcTemplate.queryForObject(SQL, new Object[]{branchSid}, new StoreSidMapper());
+		} catch (Exception e) {
+			System.out.println("getStoreSid: " + e.getMessage());
+			storeSid = -1;
+		}
+		return storeSid;
+	}
+	
+	/**
 	 * @title getClassidList
 	 * @description 根据分店id查询所关联的所有分店类别id列表
 	 * @param branchSid

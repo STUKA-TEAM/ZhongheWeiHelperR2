@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import branch.dao.BranchDAO;
+
 import com.google.gson.Gson;
 
 import register.AppInfo;
@@ -55,11 +57,13 @@ public class DishController {
 				new ClassPathXmlApplicationContext("All-Modules.xml");
 		DishDAO dishDao = (DishDAO) context.getBean("DishDAO");
 		AppInfoDAO appInfoDao = (AppInfoDAO) context.getBean("AppInfoDAO");
+		BranchDAO branchDao = (BranchDAO) context.getBean("BranchDAO");
 		((ConfigurableApplicationContext)context).close();
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = (User)auth.getPrincipal();
 		int branchSid = user.getSid();
+		int storeSid = branchDao.getStoreSid(branchSid);
 		boolean match = false;
 		
 		List<AppInfo> appInfoList = appInfoDao.getAppInfoForBranch(branchSid);
@@ -105,10 +109,10 @@ public class DishController {
 		
 		List<DishBranch> dishList = null;
 		if (classid == 0) {
-			dishList = dishDao.getBranchDishinfos(appid, branchSid);
+			dishList = dishDao.getBranchDishinfos(appid, branchSid, storeSid);
 		}else {
 			if (classid > 0) {
-				dishList = dishDao.getBranchDishinfos(classid, branchSid);
+				dishList = dishDao.getBranchDishinfos(classid, branchSid, storeSid);
 			}
 		}
 		model.addAttribute("dishList", dishList);
