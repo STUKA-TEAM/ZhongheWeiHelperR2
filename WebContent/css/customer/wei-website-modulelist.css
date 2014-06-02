@@ -12,13 +12,13 @@ div {
 	padding-left:2%;
 }
 .list-item {
-  padding: 8px 15px;
+  padding: 8px 10px;
   background-color: #f4f4f4;
   border-bottom-style: solid;
   border-bottom-color: #ddd;
   border-bottom-width: 1px;
   color: #aaa;
-  font-size: 18px;
+  font-size: 16px;
   text-align: left; 
 }
 .list-item:hover,

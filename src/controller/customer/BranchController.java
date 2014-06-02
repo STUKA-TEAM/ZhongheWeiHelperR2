@@ -164,7 +164,7 @@ public class BranchController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/branch/dish", method = RequestMethod.GET)
+	@RequestMapping(value = "/branch/branchMenuByClass", method = RequestMethod.GET)
 	public String getDishByClass(@RequestParam(value = "branchid", required = true) int 
 			branchSid, @RequestParam(value = "classid", required = true) int classid, 
 			Model model) {

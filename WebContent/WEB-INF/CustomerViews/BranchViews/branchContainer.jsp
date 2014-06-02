@@ -56,11 +56,7 @@
             </div>
             <input id="${item.dishid}_dishDesc" type="hidden" value="${item.dishDesc}"/>
           </div>
-          <div class="dishes-num">
-            <img id="${item.dishid}_countMinus" src="./img/common/round_minus.png" class="dishes-num-minus" onclick="minusCount('${openid}','${branchid}','${item.dishid}')"/>
-            <div id="${item.dishid}_count" class="dishes-num-count">${item.count}</div>
-            <img id="${item.dishid}_countPlus" src="./img/common/round_plus.png" class="dishes-num-plus" onclick="plusCount('${openid}','${branchid}','${item.dishid}')"/>
-          </div>
+
         </div>
       </c:forEach>
       </div>
@@ -70,6 +66,6 @@
     <script type="text/javascript" src="js/customer/modal.min.js"></script> 
     <script type="text/javascript" src="js/customer/jQueryRotateCompressed.js"></script>
     <script type="text/javascript" src="js/customer/mobile-common.js"></script>
-    <script type="text/javascript" src="js/customer/onlineMenu.js"></script>
+    <script type="text/javascript" src="js/customer/onlineMenuInWebsite.js"></script>
   </body>
 </html>

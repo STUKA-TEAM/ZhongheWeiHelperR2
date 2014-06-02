@@ -62,6 +62,9 @@ function validateItem(item){
 	var blankInputArray = new Array();
 	if(item.dishName=="")blankInputArray.push("菜品名称");
     if(item.price=="")blankInputArray.push("默认价格");
+    if(item.price!=""&&isNaN(item.price)){
+    	blankInputArray.push("默认价格只能填写数字");
+    }
 	if(item.dishUnit=="")blankInputArray.push("价格单位");
 	if(item.recomNum=="")blankInputArray.push("初始推荐数");
     if(blankInputArray.length==0){
@@ -76,6 +79,9 @@ function validateUpdateItem(item){
 	var blankInputArray = new Array();
 	if(item.dishName=="")blankInputArray.push("菜品名称");
     if(item.price=="")blankInputArray.push("默认价格");
+    if(item.price!=""&&isNaN(item.price)){
+    	blankInputArray.push("默认价格只能填写数字");
+    }
 	if(item.dishUnit=="")blankInputArray.push("价格单位");
 	if(item.recomNum=="")blankInputArray.push("初始推荐数");
 	if(blankInputArray.length==0){

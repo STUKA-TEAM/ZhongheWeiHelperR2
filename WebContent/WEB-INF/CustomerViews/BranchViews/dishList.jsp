@@ -18,11 +18,7 @@
       </div>
       <input id="${item.dishid}_dishDesc" type="hidden" value="${item.dishDesc}"/>
     </div>
-    <div class="dishes-num">
-      <img id="${item.dishid}_countMinus" src="./img/common/round_minus.png" class="dishes-num-minus" onclick="minusCount('${openid}','${branchid}','${item.dishid}')"/>
-      <div id="${item.dishid}_count" class="dishes-num-count">${item.count}</div>
-      <img id="${item.dishid}_countPlus" src="./img/common/round_plus.png" class="dishes-num-plus" onclick="plusCount('${openid}','${branchid}','${item.dishid}')"/>
-    </div>
+
   </div>
 </c:forEach>
 </div>

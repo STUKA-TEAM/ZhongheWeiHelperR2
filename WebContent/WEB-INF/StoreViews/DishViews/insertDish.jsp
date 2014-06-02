@@ -58,19 +58,19 @@
                   <div class="form-group">
                     <label for="price" class="col-md-3 control-label">默认价格</label>
                     <div class="col-md-7">
-                      <input type="text" class="form-control" id="price" placeholder="">
+                      <input type="text" class="form-control" id="price" placeholder="本菜品的价格（数字）">
                     </div>
                   </div>
                   <div class="form-group">
                     <label for="dishUnit" class="col-md-3 control-label">价格单位</label>
                     <div class="col-md-7">
-                      <input type="text" class="form-control" id="dishUnit" placeholder="">
+                      <input type="text" class="form-control" id="dishUnit" placeholder="本菜品的单位（如：例，个，瓶）">
                     </div>
                   </div>
                   <div class="form-group">
                     <label for="recomNum" class="col-md-3 control-label">初始推荐数</label>
                     <div class="col-md-7">
-                      <input type="text" class="form-control" id="recomNum" placeholder="">
+                      <input type="text" class="form-control" id="recomNum" placeholder="手机上看到的本菜品的推荐数的初始值">
                     </div>
                   </div>
 	                <div class="form-group">
