@@ -232,7 +232,7 @@ public class WebsiteController {
 				branchDao = (BranchDAO) context.getBean("BranchDAO");
 				List<Branch> branchList = branchDao.getBranchClassForCustomer(nodeidList.get(0));
 				model.addAttribute("branchList", branchList);
-				viewName = viewName + "branchclassInWebsite";
+				viewName = viewName + "restaurantBranchclass";
 				break;
 			default:
 				viewName = viewName + "exception";
