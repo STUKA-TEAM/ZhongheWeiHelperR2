@@ -1,11 +1,7 @@
 package controller.store;
 
-import java.io.InputStream;
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.Properties;
-
-import javax.servlet.http.HttpServletRequest;
 
 import message.ResponseMessage;
 
@@ -18,7 +14,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,7 +23,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.gson.Gson;
 
 import register.RoleInfo;
-import register.dao.AppInfoDAO;
 import register.dao.RoleInfoDAO;
 import security.User;
 import tools.CommonValidationTools;
@@ -58,67 +52,41 @@ public class BranchController {
 	 * @return
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String getBranchList(@CookieValue(value = "appid", required = false) String 
-			appid, @RequestParam(value = "classid", required = true) int classid, 
-			Model model, HttpServletRequest request){
+	public String getBranchList(@RequestParam(value = "classid", required = true) int classid, 
+			Model model){
 		ApplicationContext context = 
 				new ClassPathXmlApplicationContext("All-Modules.xml");
 		BranchDAO branchDao = (BranchDAO) context.getBean("BranchDAO");
-		AppInfoDAO appInfoDao = (AppInfoDAO) context.getBean("AppInfoDAO");
 		((ConfigurableApplicationContext)context).close();
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = (User)auth.getPrincipal();
 		
-		if (appid == null) {
-			return "redirect:/store/account";     
-		}
-		else {
-			if (appid.equals("") || appInfoDao.checkAppExistsByUser(user.getSid(), 
-					appid) == 0) {
-				request.setAttribute("message", "当前管理的公众账号无效，请先选择或关联微信公众账号!");
-				request.setAttribute("jumpLink", "store/account");
-				return "forward:/store/transfer";   
-			}
-			else {
-				List<Branch> branchList = null;
-				if (classid == 0) {
-					branchList = branchDao.getDetailedBranchinfos(user.getSid());
-				}else {
-					if (classid > 0) {
-						branchList = branchDao.getDetailedBranchinfosByClassid(classid);
-					}
-				}
-				model.addAttribute("branchList", branchList);
-				
-				List<BranchClass> classList = branchDao.getBasicClassinfos(user.getSid());
-				BranchClass allType = new BranchClass();
-				allType.setClassid(0);
-				allType.setClassName("所有类别");
-				classList.add(0, allType);
-				for (int i = 0, j = classList.size(); i < j; i++) {
-					BranchClass branchClass = classList.get(i);
-					if (classid == branchClass.getClassid()) {
-						branchClass.setSelected(true);
-						break;
-					}
-				}
-				model.addAttribute("classList", classList);
-				
-				InputStream inputStream = BranchController.class.getResourceAsStream("/environment.properties");
-				Properties properties = new Properties();
-				String appPath = null;
-				try {
-					properties.load(inputStream);
-					appPath = (String)properties.get("applicationPath");
-				} catch (Exception e) {
-					System.out.println(e.getMessage());
-				}
-				model.addAttribute("appPath", appPath);
-				model.addAttribute("appid", appid);
-				return "BranchViews/branchList";
+		List<Branch> branchList = null;
+		if (classid == 0) {
+			branchList = branchDao.getDetailedBranchinfos(user.getSid());
+		} else {
+			if (classid > 0) {
+				branchList = branchDao.getDetailedBranchinfosByClassid(classid);
 			}
 		}
+		model.addAttribute("branchList", branchList);
+
+		List<BranchClass> classList = branchDao.getBasicClassinfos(user
+				.getSid());
+		BranchClass allType = new BranchClass();
+		allType.setClassid(0);
+		allType.setClassName("所有类别");
+		classList.add(0, allType);
+		for (int i = 0, j = classList.size(); i < j; i++) {
+			BranchClass branchClass = classList.get(i);
+			if (classid == branchClass.getClassid()) {
+				branchClass.setSelected(true);
+				break;
+			}
+		}
+		model.addAttribute("classList", classList);
+		return "BranchViews/branchList";
 	}
 	
 	/**
