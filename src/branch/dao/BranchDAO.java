@@ -644,19 +644,18 @@ public class BranchDAO {
 	 * @return
 	 */
 	public List<Branch> getBranchClassForCustomer(int classid) {
-		List<Branch> branchList = new ArrayList<Branch>();
-		String SQL = "SELECT sid, storeName, phone, address, lng, lat FROM storeuser WHERE sid = ?";
-		List<Integer> branchSidList = getBranchSidListByClassid(classid);
-		for (Integer branchSid : branchSidList) {
-			try {
-				Branch branch = jdbcTemplate.queryForObject(SQL, new Object[]{
-						branchSid}, new CustomerBranchinfoMapper());
-				branch.setImageList(getImageList(branchSid));
-				branchList.add(branch);
-			} catch (Exception e) {
-				System.out.println("getBranchClassForCustomer: " + e.getMessage());
-				continue;
-			}
+		List<Branch> branchList = null;
+		String SQL = "SELECT S.sid, S.storeName, S.phone, S.address, S.lng, S.lat "
+				+ "FROM storeuser S, branch_branchclass B WHERE S.sid = B.branchSid "
+				+ "AND B.classid = ? ORDER BY S.createDate ASC";
+		try {
+			branchList = jdbcTemplate.query(SQL, new Object[]{classid}, new CustomerBranchinfoMapper());
+		} catch (Exception e) {
+			System.out.println("getBranchClassForCustomer: " + e.getMessage());
+			branchList = new ArrayList<Branch>();
+		}
+		for (Branch branch : branchList) {
+			branch.setImageList(getImageList(branch.getBranchSid()));
 		}
 		return branchList;
 	}
@@ -669,22 +668,19 @@ public class BranchDAO {
 	 * @return
 	 */
 	public List<Branch> getBranchListForCustomer(String appid) {
-		List<Branch> branchList = new ArrayList<Branch>();
-		String SQL = "SELECT sid, storeName, phone, address, lng, lat FROM storeuser WHERE sid = ?";
-		Integer storeSid = getStoreSid(appid);
-		if (storeSid != null) {
-			List<Integer> branchSidList = getBranchSidList(storeSid);
-			for (Integer branchSid : branchSidList) {
-				try {
-					Branch branch = jdbcTemplate.queryForObject(SQL, new Object[]{
-							branchSid}, new CustomerBranchinfoMapper());
-					branch.setImageList(getImageList(branchSid));
-					branchList.add(branch);
-				} catch (Exception e) {
-					System.out.println("getBranchListForCustomer: " + e.getMessage());
-					continue;
-				}
-			}
+		List<Branch> branchList = null;
+		String SQL = "SELECT S.sid, S.storeName, S.phone, S.address, S.lng, S.lat "
+				+ "FROM storeuser S, storeuser_application T, branch_store B WHERE "
+				+ "S.sid = B.branchSid AND B.storeSid = T.sid AND T.appid = ? ORDER BY "
+				+ "S.createDate ASC";
+		try {
+			branchList = jdbcTemplate.query(SQL, new Object[]{appid}, new CustomerBranchinfoMapper());
+		} catch (Exception e) {
+			System.out.println("getBranchClassForCustomer: " + e.getMessage());
+			branchList = new ArrayList<Branch>();
+		}
+		for (Branch branch : branchList) {
+			branch.setImageList(getImageList(branch.getBranchSid()));
 		}
 		return branchList;
 	}
@@ -913,12 +909,12 @@ public class BranchDAO {
 		@Override
 		public Branch mapRow(ResultSet rs, int arg1) throws SQLException {
 			Branch branch = new Branch();
-			branch.setBranchSid(rs.getInt("sid"));
-	        branch.setStoreName(rs.getString("storeName"));
-	        branch.setPhone(rs.getString("phone"));
-	        branch.setAddress(rs.getString("address"));
-	        branch.setLng(rs.getBigDecimal("lng"));
-	        branch.setLat(rs.getBigDecimal("lat"));
+			branch.setBranchSid(rs.getInt("S.sid"));
+	        branch.setStoreName(rs.getString("S.storeName"));
+	        branch.setPhone(rs.getString("S.phone"));
+	        branch.setAddress(rs.getString("S.address"));
+	        branch.setLng(rs.getBigDecimal("S.lng"));
+	        branch.setLat(rs.getBigDecimal("S.lat"));
 			return branch;
 		}	
 	}

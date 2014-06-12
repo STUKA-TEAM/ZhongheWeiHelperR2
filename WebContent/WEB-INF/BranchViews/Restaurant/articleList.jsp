@@ -45,7 +45,7 @@
                 </c:if>
                 </td>
                 <td><a class="btn btn-sm btn-info" href="branch/restaurant/article/edit?articleid=${item.articleid}">编辑</a>
-                <a class="btn btn-sm btn-info" target="_blank" href="${item.articleid}">预览</a>
+                <a class="btn btn-sm btn-info" target="_blank" href="customer/branch/activity?activityid=${item.articleid}&websiteid=">预览</a>
                 <a class="btn btn-sm btn-danger" onclick="submitDeleteArticle('${item.articleid}')">删除</a></td>                              
               </tr>
 			  </c:forEach>

@@ -87,7 +87,7 @@ public class BranchController {
 	 */
 	@RequestMapping(value = "/branch/activity", method = RequestMethod.GET)
 	public String getArticle(@RequestParam(value = "activityid", required = true) int 
-			articleid, @RequestParam(value = "websiteid", required = true) int websiteid, 
+			articleid, @RequestParam(value = "websiteid", required = false) Integer websiteid, 
 			Model model){
 		ApplicationContext context = 
 				new ClassPathXmlApplicationContext("All-Modules.xml");
@@ -96,25 +96,26 @@ public class BranchController {
 		AppInfoDAO appInfoDao = (AppInfoDAO) context.getBean("AppInfoDAO");
 		((ConfigurableApplicationContext)context).close();
 		
-		Website website = websiteDao.getWebsiteInfoForCustomer(websiteid);		
-        model.addAttribute("website", website);
-		Article article = articleDao.getDynamicArticleForCustomer(articleid);	
-		if (article != null) {		
-			ShareMessage message = new ShareMessage();
-			message.setWechatNumber(appInfoDao.getWechatNumberByWebsite(websiteid));
-			message.setAppLink(message.getAppLink() + "customer/branch/activity?"
-					+ "activityid=" + articleid + "&websiteid=" + websiteid);
-			String coverPic = article.getCoverPic();
-			if (coverPic != null) {
-				message.setImageLink(message.getImageLink() + coverPic + "_original.jpg");
-			} else {
-				message.setImageLink("");
+		Article article = articleDao.getDynamicArticleForCustomer(articleid);
+		model.addAttribute("article", article);	
+		if (websiteid != null) {
+			Website website = websiteDao.getWebsiteInfoForCustomer(websiteid);		
+	        model.addAttribute("website", website);
+	        if (article != null) {		
+				ShareMessage message = new ShareMessage();
+				message.setWechatNumber(appInfoDao.getWechatNumberByWebsite(websiteid));
+				message.setAppLink(message.getAppLink() + "customer/branch/activity?"
+						+ "activityid=" + articleid + "&websiteid=" + websiteid);
+				String coverPic = article.getCoverPic();
+				if (coverPic != null) {
+					message.setImageLink(message.getImageLink() + coverPic + "_original.jpg");
+				} else {
+					message.setImageLink("");
+				}
+				message.setShareTitle(article.getTitle());
+				message.setShareContent("");
+				model.addAttribute("message", message);
 			}
-			message.setShareTitle(article.getTitle());
-			message.setShareContent("");
-			
-			model.addAttribute("message", message);			
-			model.addAttribute("article", article);	
 		}
 		return "BranchViews/article";
 	}
