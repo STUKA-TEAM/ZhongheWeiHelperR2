@@ -5,6 +5,8 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
 
+import javax.servlet.http.HttpServletRequest;
+
 import message.ResponseMessage;
 
 import org.springframework.context.ApplicationContext;
@@ -14,6 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 
+import register.dao.AppInfoDAO;
 import security.User;
 import tools.CommonValidationTools;
 import branch.Branch;
@@ -45,29 +49,45 @@ public class BranchClassController {
 	 * @return
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String getBranchClassList(Model model){
+	public String getBranchClassList(@CookieValue(value = "appid", required = false) String 
+			appid, Model model, HttpServletRequest request){
 		ApplicationContext context = 
 				new ClassPathXmlApplicationContext("All-Modules.xml");
 		BranchDAO branchDao = (BranchDAO) context.getBean("BranchDAO");
+		AppInfoDAO appInfoDao = (AppInfoDAO) context.getBean("AppInfoDAO");
 		((ConfigurableApplicationContext)context).close();
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = (User)auth.getPrincipal();
 		
-		List<BranchClass> classList = branchDao.getDetailedClassinfos(user.getSid());
-		model.addAttribute("classList", classList);
-		
-		InputStream inputStream = BranchClassController.class.getResourceAsStream("/environment.properties");
-		Properties properties = new Properties();
-		String appPath = null;
-		try {
-			properties.load(inputStream);
-			appPath = (String)properties.get("applicationPath");
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
+		if (appid == null) {
+			return "redirect:/store/account";
 		}
-		model.addAttribute("appPath", appPath);
-		return "BranchViews/branchclassList";
+		else {
+			if (appid.equals("") || appInfoDao.checkAppExistsByUser(user.getSid(), 
+					appid) == 0) {
+				request.setAttribute("message", "当前管理的公众账号无效，请先选择或关联微信公众账号!");
+				request.setAttribute("jumpLink", "store/account");
+				return "forward:/store/transfer";
+			}
+			else {
+				List<BranchClass> classList = branchDao.getDetailedClassinfos(user.getSid());
+				model.addAttribute("classList", classList);
+				
+				InputStream inputStream = BranchClassController.class.getResourceAsStream("/environment.properties");
+				Properties properties = new Properties();
+				String appPath = null;
+				try {
+					properties.load(inputStream);
+					appPath = (String)properties.get("applicationPath");
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
+				}
+				model.addAttribute("appPath", appPath);
+				model.addAttribute("appid", appid);
+				return "BranchViews/branchclassList";
+			}
+		}
 	}
 	
 	/**
