@@ -200,6 +200,7 @@ Windows:
             content      text         No                                No                  文章内容
 [2014-05-31][index: 0043]表storeuser修改cellPhone字段  NULL改为YES,默认值改为NULL
 [2014-06-01][index: 0044]表dish添加creatorSid字段     type: int(11)  NULL: No  Default: 0  Comment: 创建者id  Position: After "appid"
+[2014-06-12][index: 0045]表application添加followLink字段     type: varchar(256)  NULL: Yes  Default: NULL  Comment: 关注链接     Position: After "welcomeType"
 
 Linux:
 [2014-02-22][index: 0001]done

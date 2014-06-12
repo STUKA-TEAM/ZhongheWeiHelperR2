@@ -52,9 +52,9 @@ import website.dao.WebsiteDAO;
 /**
  * @Title: BasicController
  * @Description: 控制账户相关的信息
- * @Company: ZhongHe
+ * @Company: tuka
  * @author ben
- * @date 2013年12月27日
+ * @date 2014年6月12日
  */
 @Controller
 public class BasicController {
@@ -259,7 +259,8 @@ public class BasicController {
 	 */
 	@RequestMapping(value = "/app/delete", method = RequestMethod.POST)
 	@ResponseBody
-    public String login(Model model, @RequestParam(value = "appid", required = true) String appid) {
+    public String deleteApp(@RequestParam(value = "appid", required = true) String 
+    		appid, Model model) {
 		ApplicationContext context = 
 				new ClassPathXmlApplicationContext("All-Modules.xml");
 		AppInfoDAO appInfoDao = (AppInfoDAO) context.getBean("AppInfoDAO");
@@ -343,10 +344,62 @@ public class BasicController {
 				message.setMessage("删除成功！");
 			}
 		}
-		
 		String response = gson.toJson(message);
         return response;
     }
+	
+	/**
+	 * @title editFollowLink
+	 * @description 编辑关注链接（第一步）
+	 * @param appid
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/app/followlink/edit", method = RequestMethod.GET)
+	public String editFollowLink(@RequestParam(value = "appid", required = true) String 
+			appid, Model model) {
+		ApplicationContext context = 
+				new ClassPathXmlApplicationContext("All-Modules.xml");
+		AppInfoDAO appInfoDao = (AppInfoDAO) context.getBean("AppInfoDAO");
+		((ConfigurableApplicationContext)context).close();
+		
+		String followLink = appInfoDao.getFollowLink(appid);
+		model.addAttribute("followLink", followLink);
+		model.addAttribute("appid", appid);
+		return "AccountViews/updateFollowLink";
+	}
+	
+	/**
+	 * @title updateFollowLink
+	 * @description 更新应用的关联链接
+	 * @param appid
+	 * @param followLink
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/app/followlink/update", method = RequestMethod.POST)
+	public String updateFollowLink(@RequestParam(value = "appid", required = true) String 
+			appid, @RequestParam(value = "follow", required = true) String followLink, 
+			Model model) {
+		ApplicationContext context = 
+				new ClassPathXmlApplicationContext("All-Modules.xml");
+		AppInfoDAO appInfoDao = (AppInfoDAO) context.getBean("AppInfoDAO");
+		((ConfigurableApplicationContext)context).close();
+		
+		Gson gson = new Gson();
+		ResponseMessage message = new ResponseMessage();
+		
+		int result = appInfoDao.updateFollowLink(appid, followLink);
+		if (result > 0) {
+			message.setStatus(true);
+			message.setMessage("操作成功！");			
+		} else {
+			message.setStatus(false);
+			message.setMessage("操作失败！");
+		}
+		String response = gson.toJson(message);
+		return response;
+	}
 	
     /**
      * @title: generateRandomAppid

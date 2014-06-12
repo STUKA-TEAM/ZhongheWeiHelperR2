@@ -65,6 +65,8 @@ public class ArticleController {
 			message.setShareContent("");
 			model.addAttribute("message", message);
 			
+			String followLink = appInfoDao.getFollowLinkByArticle(articleid);
+			model.addAttribute("followLink", followLink);
 			model.addAttribute("article", article);
 			viewName = viewName + "article";		
 		} else {

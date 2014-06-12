@@ -46,7 +46,9 @@ public class AppInfoDAO {
 	 * @return
 	 */
 	public int insertAppInfo(final AppInfo appInfo){
-		final String SQL = "INSERT INTO application (id, appid, wechatToken, wechatName, wechatOriginalId, wechatNumber, address, industry) VALUES (default, ?, ?, ?, ?, ?, ?, ?)";
+		final String SQL = "INSERT INTO application (id, appid, wechatToken, "
+				+ "wechatName, wechatOriginalId, wechatNumber, address, industry) "
+				+ "VALUES (default, ?, ?, ?, ?, ?, ?, ?)";
 		int result = 0;
 		
 		KeyHolder kHolder = new GeneratedKeyHolder();
@@ -176,6 +178,20 @@ public class AppInfoDAO {
 		String SQL = "DELETE FROM application_authority WHERE appid = ?";
 		int effected = jdbcTemplate.update(SQL, new Object[]{appid});
 		return effected;
+	}
+	
+	//update
+	/**
+	 * @title updateFollowLink
+	 * @description 更新该应用的关联链接
+	 * @param appid
+	 * @param followLink
+	 * @return
+	 */
+	public int updateFollowLink(String appid, String followLink) {
+		String SQL = "UPDATE application SET followLink = ? WHERE appid = ?";
+		int result = jdbcTemplate.update(SQL, followLink, appid);
+		return result <= 0 ? 0 : result;
 	}
 	
 	//query
@@ -312,6 +328,51 @@ public class AppInfoDAO {
 			String wechatNumber = rs.getString("A.wechatNumber");
 			return wechatNumber;
 		}	
+	}
+	
+	/**
+	 * @title getFollowLink
+	 * @description 根据appid查询该应用的关联链接
+	 * @param appid
+	 * @return
+	 */
+	public String getFollowLink(String appid) {
+		String SQL = "SELECT A.followLink FROM application A WHERE A.appid = ?";
+		String followLink = null;
+		try {
+			followLink = jdbcTemplate.queryForObject(SQL, new Object[]{appid}, 
+					new FollowLinkMapper());
+		} catch (Exception e) {
+			System.out.println("getFollowLink: " + e.getMessage());
+		}
+		return followLink;
+	}
+	
+	/**
+	 * @title getFollowLinkByArticle
+	 * @description 根据文章id查询所在应用下的关联链接
+	 * @param articleid
+	 * @return
+	 */
+	public String getFollowLinkByArticle(int articleid) {
+		String SQL = "SELECT A.followLink FROM application A, article B WHERE "
+				+ "A.appid = B.appid AND B.articleid = ?";
+		String followLink = null;
+		try {
+			followLink = jdbcTemplate.queryForObject(SQL, new Object[]{articleid}, 
+					new FollowLinkMapper());
+		} catch (Exception e) {
+			System.out.println("getFollowLinkByArticle: " + e.getMessage());
+		}
+		return followLink;
+	}
+	
+	private static final class FollowLinkMapper implements RowMapper<String>{
+		@Override
+		public String mapRow(ResultSet rs, int arg1) throws SQLException {
+			String followLink = rs.getString("A.followLink");
+			return followLink;
+		}
 	}
 	
 	/**
