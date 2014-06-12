@@ -29,6 +29,7 @@ import register.dao.AppInfoDAO;
 import security.User;
 import tools.CommonValidationTools;
 import vote.Vote;
+import vote.VoteContent;
 import vote.dao.VoteDAO;
 
 /**
@@ -60,12 +61,12 @@ public class VoteController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = (User)auth.getPrincipal();
 		
-		if (appid == null) {       //异常
+		if (appid == null) {
 			return "redirect:/store/account";     
 		}
 		else {
 			if (appid.equals("") || appInfoDao.checkAppExistsByUser(user.getSid(), 
-					appid) == 0) {                                                          //需先创建app或appid无效
+					appid) == 0) {
 				request.setAttribute("message", "当前管理的公众账号无效，请先选择或关联微信公众账号!");
 				request.setAttribute("jumpLink", "store/account");
 				return "forward:/store/transfer";   
@@ -270,5 +271,25 @@ public class VoteController {
 		
 		String response = gson.toJson(message);
 		return response;
+	}
+	
+	/**
+	 * @title getVoteUser
+	 * @description 获取某一投票活动的参与用户信息
+	 * @param voteid
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/vote/user", method = RequestMethod.GET)
+	public String getVoteUser(@RequestParam(value = "voteid", required = true) int 
+			voteid, Model model){
+		ApplicationContext context = 
+				new ClassPathXmlApplicationContext("All-Modules.xml");
+		VoteDAO voteDao = (VoteDAO) context.getBean("VoteDAO");
+		((ConfigurableApplicationContext)context).close();
+		
+		List<VoteContent> contentList = voteDao.getVoteUserList(voteid);
+		model.addAttribute("userList", contentList);
+		return "VoteViews/userList";
 	}
 }
