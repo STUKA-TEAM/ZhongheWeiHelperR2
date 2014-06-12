@@ -582,7 +582,8 @@ public class WebsiteDAO {
 	
 	/**
 	 * @title: getWebsiteInfoForCustomer
-	 * @description: 根据微官网id获取手机端所需微官网基本信息
+	 * @description: 根据微官网id获取手机端所需微官网基本信息(websiteid, appid, title, phone, 
+	 * address, lng, lat, shareTitle, shareContent, sharePic, footerText, themeId)
 	 * @param websiteid
 	 * @return
 	 */
@@ -591,11 +592,10 @@ public class WebsiteDAO {
 				+ "shareTitle, shareContent, sharePic, footerText, themeId FROM "
 				+ "website WHERE websiteid = ?";
 		Website website = null;
-		
 		try {
 			website = jdbcTemplate.queryForObject(SQL, new Object[]{websiteid}, new CustomerWebsiteInfoMapper());
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println("getWebsiteInfoForCustomer: " + e.getMessage());
 		}
 		return website;
 	}
@@ -622,18 +622,17 @@ public class WebsiteDAO {
 	
 	/**
 	 * @title: getBasicWebsiteInfo
-	 * @description: 获取微官网基本信息
+	 * @description: 获取微官网基本信息(websiteid, getCode, title, createTime)
 	 * @param appid
 	 * @return
 	 */
 	public Website getBasicWebsiteInfo(String appid){
 		String SQL = "SELECT websiteid, getCode, title, createTime FROM website WHERE appid = ?";
 		Website website = null;
-		
 		try {
 			website = jdbcTemplate.queryForObject(SQL, new Object[]{appid}, new BasicWebsiteInfoMapper());
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println("getBasicWebsiteInfo: " + e.getMessage());
 		}
 		return website;
 	}

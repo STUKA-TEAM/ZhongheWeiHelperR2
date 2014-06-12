@@ -42,15 +42,23 @@ public class BranchController {
 	 */
 	@RequestMapping(value = "/branchclass", method = RequestMethod.GET)
 	public String getBranchClass(@RequestParam(value = "classid", required = true) int 
-			classid, Model model){
+			classid, @RequestParam(value = "appid", required = true) String appid, 
+			Model model){
 		ApplicationContext context = 
 				new ClassPathXmlApplicationContext("All-Modules.xml");
 		BranchDAO branchDao = (BranchDAO) context.getBean("BranchDAO");
+		WebsiteDAO websiteDao = (WebsiteDAO) context.getBean("WebsiteDAO");
 		((ConfigurableApplicationContext)context).close();
 		
 		List<Branch> branchList = branchDao.getBranchClassForCustomer(classid);
 		model.addAttribute("branchList", branchList);
-		return "BranchViews/branchclass";
+		
+		Integer websiteid = websiteDao.getWebsiteidByAppid(appid);
+		if (websiteid != null) {
+			Website website = websiteDao.getWebsiteInfoForCustomer(websiteid);	
+	        model.addAttribute("website", website);
+		}
+		return "BranchViews/restaurantBranchclass";
 	}
 	
 	/**

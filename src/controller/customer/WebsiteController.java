@@ -129,6 +129,7 @@ public class WebsiteController {
 			
 			ShareMessage message = new ShareMessage();
 			message.setWechatNumber(appInfoDao.getWechatNumberByWebsite(website.getWebsiteid()));
+			String followLink = null;
 			
 			switch (childrenType) {
 			case "node":
@@ -152,7 +153,8 @@ public class WebsiteController {
 			case "article":
 				viewName = "ArticleViews/";
 				articleDao = (ArticleDAO) context.getBean("ArticleDAO");
-				Article article = articleDao.getArticleForCustomer(nodeidList.get(0));
+				int articleid = nodeidList.get(0);
+				Article article = articleDao.getArticleForCustomer(articleid);
 				model.addAttribute("article", article);
 				
 				message.setAppLink(message.getAppLink() + "customer/article?articleid=" + article.getArticleid());
@@ -164,6 +166,9 @@ public class WebsiteController {
 				message.setShareTitle(article.getTitle());
 				message.setShareContent("");
 				model.addAttribute("message", message);
+				
+				followLink = appInfoDao.getFollowLinkByArticle(articleid);
+				model.addAttribute("followLink", followLink);
 				viewName = viewName + "article";
 				break;
 			case "articleclass":
@@ -232,7 +237,7 @@ public class WebsiteController {
 				branchDao = (BranchDAO) context.getBean("BranchDAO");
 				List<Branch> branchList = branchDao.getBranchClassForCustomer(nodeidList.get(0));
 				model.addAttribute("branchList", branchList);
-				viewName = viewName + "branchclassInWebsite";
+				viewName = viewName + "restaurantBranchclass";
 				break;
 			default:
 				viewName = viewName + "exception";

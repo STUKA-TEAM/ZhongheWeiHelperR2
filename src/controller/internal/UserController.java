@@ -26,6 +26,7 @@ import elove.EloveNotpay;
 import elove.dao.EloveInfoDAO;
 import register.AppInfo;
 import register.AuthInfo;
+import register.Authority;
 import register.UserInfo;
 import register.dao.AppInfoDAO;
 import register.dao.AuthInfoDAO;
@@ -40,13 +41,14 @@ import tools.CommonValidationTools;
  * @date 2014年2月20日
  */
 @Controller
+@RequestMapping("/customer")
 public class UserController {
 	/**
 	 * @description: 获取商家CUSTOMER的信息列表
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/customer/detail", method = RequestMethod.GET)
+	@RequestMapping(value = "/detail", method = RequestMethod.GET)
 	public String getCustomerList(Model model){
 		ApplicationContext context = 
 				new ClassPathXmlApplicationContext("All-Modules.xml");
@@ -55,8 +57,33 @@ public class UserController {
 		
 		List<UserInfo> infoList = userInfoDao.getCustomerInfoList();
 		model.addAttribute("infoList", infoList);
-		
 		return "customerList";
+	}
+	
+	/**
+	 * @title getAuthorityList
+	 * @description 查询商家的权限信息
+	 * @param sid
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/authorities", method = RequestMethod.GET)
+	public String getAuthorityList(@RequestParam(value = "sid", required = true) int 
+			sid, Model model){
+		ApplicationContext context = 
+				new ClassPathXmlApplicationContext("All-Modules.xml");
+		AuthInfoDAO authInfoDao = (AuthInfoDAO) context.getBean("AuthInfoDAO");
+		((ConfigurableApplicationContext)context).close();
+		
+		List<Integer> authidList = authInfoDao.getAuthidList(sid);
+		List<Authority> authorityList = authInfoDao.getAllAuthorities();
+		for (Authority authority : authorityList) {
+			if (authidList.contains(authority.getAuthid())) {
+				authority.setSelected(true);
+			}
+		}
+		model.addAttribute("authorityList", authorityList);
+		return "authorityList";
 	}
 	
 	/**
@@ -65,7 +92,7 @@ public class UserController {
 	 * @param sid
 	 * @return
 	 */
-	@RequestMapping(value = "/customer/edit", method = RequestMethod.GET)
+	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public String editCustomerInfo(Model model, @RequestParam(value = "sid", required = true) int sid){
 		ApplicationContext context = 
 				new ClassPathXmlApplicationContext("All-Modules.xml");
@@ -126,7 +153,7 @@ public class UserController {
 	 * @param json
 	 * @return
 	 */
-	@RequestMapping(value = "/customer/basic/update", method = RequestMethod.POST)
+	@RequestMapping(value = "/basic/update", method = RequestMethod.POST)
 	@ResponseBody
 	public String updateBasic(Model model, @RequestBody String json){
 		ApplicationContext context = 
@@ -149,10 +176,8 @@ public class UserController {
 			}else {
 				message.setStatus(false);
 				message.setMessage("更改失败！");
-				System.out.println("Error " + result);
 			}
 		}
-		
 		String response = gson.toJson(message);
 		return response;
 	}
@@ -163,7 +188,7 @@ public class UserController {
 	 * @param json
 	 * @return
 	 */
-	@RequestMapping(value = "/customer/elove/notpaylist/query", method = RequestMethod.GET)
+	@RequestMapping(value = "/elove/notpaylist/query", method = RequestMethod.GET)
 	public String getEloveNotPay(Model model, @RequestParam(value = "sid", required = true) int sid){
 		ApplicationContext context = 
 				new ClassPathXmlApplicationContext("All-Modules.xml");
@@ -206,7 +231,7 @@ public class UserController {
 	 * @param json
 	 * @return
 	 */
-	@RequestMapping(value = "/customer/elove/notpaylist/update", method = RequestMethod.POST)
+	@RequestMapping(value = "/elove/notpaylist/update", method = RequestMethod.POST)
 	@ResponseBody
 	public String updateEloveNotpay(Model model, @RequestBody String json){
 		ApplicationContext context = 
@@ -232,7 +257,6 @@ public class UserController {
 				message.setMessage("更改失败！");
 			}
 		}
-		
 		String response = gson.toJson(message);
 		return response;
 	}
@@ -243,7 +267,7 @@ public class UserController {
 	 * @param json
 	 * @return
 	 */
-	@RequestMapping(value = "/customer/contact/update", method = RequestMethod.POST)
+	@RequestMapping(value = "/contact/update", method = RequestMethod.POST)
 	@ResponseBody
 	public String updateContact(Model model, @RequestBody String json){
 		ApplicationContext context = 
@@ -268,7 +292,6 @@ public class UserController {
 				message.setMessage("更改失败！");
 			}
 		}
-		
 		String response = gson.toJson(message);
 		return response;
 	}

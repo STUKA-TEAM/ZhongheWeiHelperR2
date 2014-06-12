@@ -23,6 +23,7 @@ public class Dish {
 	private int recomNum;
 	private List<Integer> classidList;
 	private boolean selected;
+	private String creatorName;
 	
 	/**
 	 * @return the dishid
@@ -167,5 +168,17 @@ public class Dish {
 	 */
 	public void setSelected(boolean selected) {
 		this.selected = selected;
+	}
+	/**
+	 * @return the creatorName
+	 */
+	public String getCreatorName() {
+		return creatorName;
+	}
+	/**
+	 * @param creatorName the creatorName to set
+	 */
+	public void setCreatorName(String creatorName) {
+		this.creatorName = creatorName;
 	}
 }

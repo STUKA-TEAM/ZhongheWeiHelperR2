@@ -624,6 +624,34 @@ public class VoteDAO {
 	}
 	
 	/**
+	 * @title getVoteUserList
+	 * @description 根据投票id查询投票者信息列表(wechatOpenid, contact)
+	 * @param voteid
+	 * @return
+	 */
+	public List<VoteContent> getVoteUserList(int voteid) {
+		String SQL = "SELECT wechatOpenid, contact FROM vote_user WHERE voteid = ?";
+		List<VoteContent> contentList = null;
+		try {
+			contentList = jdbcTemplate.query(SQL, new Object[]{voteid}, new VoteUserMapper());
+		} catch (Exception e) {
+			System.out.println("getVoteUserList: " + e.getMessage());
+			contentList = new ArrayList<VoteContent>();
+		}
+		return contentList;
+	}
+	
+	private static final class VoteUserMapper implements RowMapper<VoteContent>{
+		@Override
+		public VoteContent mapRow(ResultSet rs, int arg1) throws SQLException {
+			VoteContent content = new VoteContent();
+			content.setOpenid(rs.getString("wechatOpenid"));
+			content.setContact(rs.getString("contact"));
+			return content;
+		}
+	}
+	
+	/**
 	 * @title getVoteItemList
 	 * @description 根据voteid查询投票选项信息列表
 	 * @param voteid

@@ -244,7 +244,7 @@ public class DishController {
 			message.setStatus(false);
 			message.setMessage("菜品信息不完整或有误！");
 		} else {
-			int result = dishDao.insertDish(dish);
+			int result = dishDao.insertBranchDish(dish);
 			if (result > 0) {
 				message.setStatus(true);
 				message.setMessage("菜品创建成功！");
@@ -316,9 +316,49 @@ public class DishController {
 		if (result > 0) {
 			message.setStatus(true);
 			message.setMessage("菜品删除成功！");
-		}else {
+		} else {
 			message.setStatus(false);
 			message.setMessage("菜品删除失败！");
+		}
+		String response = gson.toJson(message);
+		return response;
+	}
+	
+	/**
+	 * @title supplyAllDish
+	 * @description 供应所有菜品
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/supplyAll", method = RequestMethod.POST)
+	@ResponseBody
+	public String supplyAllDish(@RequestParam(value = "appid", required = true) String 
+			appid, @RequestParam(value = "classid", required = true) int classid, 
+			Model model){
+		ApplicationContext context = 
+				new ClassPathXmlApplicationContext("All-Modules.xml");
+		DishDAO dishDao = (DishDAO) context.getBean("DishDAO");
+		((ConfigurableApplicationContext)context).close();
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		int branchSid = ((User)auth.getPrincipal()).getSid();
+		Gson gson = new Gson();
+		ResponseMessage message = new ResponseMessage();
+
+		int result = 0;
+		if (classid == 0) {
+			result = dishDao.updateDishStatus(branchSid, appid);
+		} else {
+			if (classid > 0) {
+				result = dishDao.updateDishStatus(branchSid, classid);
+			}
+		}
+		if (result > 0) {
+			message.setStatus(true);
+			message.setMessage("操作成功！");
+		} else {
+			message.setStatus(false);
+			message.setMessage("操作失败！");
 		}
 		String response = gson.toJson(message);
 		return response;

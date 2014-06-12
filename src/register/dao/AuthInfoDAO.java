@@ -120,6 +120,24 @@ public class AuthInfoDAO {
 	
 	//query
 	/**
+	 * @title getAuthidList
+	 * @description 根据sid查询该商家对应的权限id列表
+	 * @param sid
+	 * @return
+	 */
+	public List<Integer> getAuthidList(int sid) {
+		String SQL = "SELECT authid FROM customer_authority WHERE sid = ?";
+		List<Integer> authidList = null;
+		try {
+			authidList = jdbcTemplate.query(SQL, new Object[]{sid}, new AuthidMapper());
+		} catch (Exception e) {
+			System.out.println("getAuthidList: " + e.getMessage());
+			authidList = new ArrayList<Integer>();
+		}
+		return authidList;
+	}
+	
+	/**
 	 * @title: getAuthid
 	 * @description: 查询权限名字对应的id
 	 * @param authPinyin
@@ -131,7 +149,7 @@ public class AuthInfoDAO {
 		try {
 			authid = jdbcTemplate.queryForObject(SQL, new Object[]{authPinyin}, new AuthidMapper());
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println("getAuthid: " + e.getMessage());
 		}
 		return authid;
 	}
@@ -235,15 +253,14 @@ public class AuthInfoDAO {
 	 */
 	public List<Authority> getAllAuthorities(){
 		String SQL = "SELECT * FROM authority";
-		List<Authority> aList = null;
-		
+		List<Authority> authorityList = null;
 		try {
-			aList = jdbcTemplate.query(SQL, new FullAuthorityMapper());
+			authorityList = jdbcTemplate.query(SQL, new FullAuthorityMapper());
 		} catch (Exception e) {
-			aList = new ArrayList<Authority>();
-			System.out.println(e.getMessage());
+			authorityList = new ArrayList<Authority>();
+			System.out.println("getAllAuthorities: " + e.getMessage());
 		}
-		return aList;
+		return authorityList;
 	}
 	
 	private static final class FullAuthorityMapper implements RowMapper<Authority>{
