@@ -201,6 +201,60 @@ Windows:
 [2014-05-31][index: 0043]表storeuser修改cellPhone字段  NULL改为YES,默认值改为NULL
 [2014-06-01][index: 0044]表dish添加creatorSid字段     type: int(11)  NULL: No  Default: 0  Comment: 创建者id  Position: After "appid"
 [2014-06-12][index: 0045]表application添加followLink字段     type: varchar(256)  NULL: Yes  Default: NULL  Comment: 关注链接     Position: After "welcomeType"
+[2014-06-13][index: 0046]添加表voucher                                                                                       
+            Name         Type         NULL       Default                Primary Key         Comment
+        ---------------------------------------------------------------------------------------------------------------------------------
+            voucherid    int(11)      No         <auto_increment>       Yes                 优惠券id
+            appid        varchar(255) No                                No                  应用标识
+            title        varchar(255) No                                No                  标题
+            createTime   timestamp    No         0000-00-00 00:00:00    No                  创建时间
+            description  varchar(255) Yes        NULL                   No                  描述
+            coverPic     varchar(255) Yes        NULL                   No                  封面图片
+            destroyKey   varchar(255) No                                No                  使用秘钥
+            totalNum     int(11)      No         0                      No                  总数
+            isPublic     int(11)      No         0                      No                  是否发布
+[2014-06-13][index: 0047]添加表voucher_record                                                                                      
+            Name         Type         NULL       Default                Primary Key         Comment
+        ---------------------------------------------------------------------------------------------------------------------------------
+            recordid     int(11)      No         <auto_increment>       Yes                 记录id
+            voucherid    int(11)      No         0                      No                  优惠券id
+            appid        varchar(255) No                                No                  应用标识
+            openid       varchar(255) No                                No                  用户标识
+            createTime   timestamp    No         0000-00-00 00:00:00    No                  创建时间
+            key          varchar(255) No                                No                  记录标识
+            contact      varchar(255) Yes        NULL                   No                  联系方式
+            isUsed       int(11)      No         0                      No                  是否被使用
+[2014-06-13][index: 0048]添加表sniping                                                                                       
+            Name          Type          NULL       Default                Primary Key         Comment
+        ---------------------------------------------------------------------------------------------------------------------------------
+            snipingid     int(11)       No         <auto_increment>       Yes                 抢购id
+            appid         varchar(255)  No                                No                  应用标识
+            title         varchar(255)  No                                No                  标题
+            createTime    timestamp     No         0000-00-00 00:00:00    No                  创建时间
+            startTime     timestamp     No         0000-00-00 00:00:00    No                  开始时间
+            description   varchar(255)  Yes        NULL                   No                  描述
+            originalPrice numeric(10,2) No         0.00                   No                  原价
+            currentPrice  numeric(10,2) No         0.00                   No                  现价 
+            destroyKey    varchar(255)  No                                No                  使用秘钥
+            totalNum      int(11)       No         0                      No                  总数
+            isPublic      int(11)       No         0                      No                  是否发布
+[2014-06-13][index: 0049]添加表sniping_image                                                                                      
+            Name         Type         NULL       Default                Primary Key         Comment
+        ---------------------------------------------------------------------------------------------------------------------------------
+            imageid      int(11)      No         <auto_increment>       Yes                 图片id
+            snipingid    int(11)      No         0                      No                  抢购id
+            imagePath    varchar(255) No                                No                  图片路径
+[2014-06-13][index: 0050]添加表sniping_record                                                                                      
+            Name         Type         NULL       Default                Primary Key         Comment
+        ---------------------------------------------------------------------------------------------------------------------------------
+            recordid     int(11)      No         <auto_increment>       Yes                 记录id
+            snipingid    int(11)      No         0                      No                  抢购id
+            appid        varchar(255) No                                No                  应用标识
+            openid       varchar(255) No                                No                  用户标识
+            createTime   timestamp    No         0000-00-00 00:00:00    No                  创建时间
+            key          varchar(255) No                                No                  记录标识
+            contact      varchar(255) Yes        NULL                   No                  联系方式
+            isUsed       int(11)      No         0                      No                  是否被使用
 
 Linux:
 [2014-02-22][index: 0001]done
