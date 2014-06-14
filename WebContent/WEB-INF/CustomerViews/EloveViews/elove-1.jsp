@@ -80,7 +80,6 @@
       function loaded() {
         myScroll = new iScroll('wrapper', {hScrollbar:false, vScrollbar:false});
       }
-      document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
       document.addEventListener('DOMContentLoaded', loaded, false);
     </script>
     <script type="text/javascript">
