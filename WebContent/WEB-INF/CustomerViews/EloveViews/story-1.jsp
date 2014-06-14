@@ -6,7 +6,7 @@
       <img src="img/elove/story_title_1.png" class="img-responsive title" alt="title background"/>
     </div><!-- title -->
     <div class="content-bg">
-      <div class="container-fulid photo-container">
+      <div class="container-fulid">
         <div class="container-fulid photo">
           <img src="${elove.majorGroupPhoto}_original.jpg" class="img-responsive center-block"/>
           <p class="couple-name">${elove.xinLang} <img src="img/elove/heart.png"/> ${elove.xinNiang}</p>

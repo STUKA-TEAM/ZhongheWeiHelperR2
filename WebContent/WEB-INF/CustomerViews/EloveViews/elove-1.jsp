@@ -34,7 +34,6 @@
         <div id="audio" class="audio-item pull-left" onclick="audio_switch(1)">
           <input type="hidden" id="musicPath" value="${elove.music}"/>
           <img src="img/elove/audio_on_1.png" class="audio-logo nav-logo"/>
-          <a id="audio-p">音效开启</a>
           <input id="eloveid" type="hidden" value="${elove.eloveid}" />
         </div>
         <div id="story" class="top-nav-item pull-left active">

@@ -219,17 +219,22 @@ div {
   width: 18px;
   margin-right: 2px;
 }
-.top-nav-item,
-.audio-item {
+.top-nav-item {
   width: 110px;
   height: 40px;
 }
-.top-nav-item > a,
-.audio-item > a {
+.audio-item {
+  width: 60px;
+  height: 40px;
+}
+.top-nav-item > a {
   color: #ed94ae;
   font-size: 18px;
   text-decoration: none;
   line-height: 40px;
+}
+.audio-logo {
+  margin-top: 10px;
 }
 .top-nav-item:focus,
 .top-nav-item.active {
