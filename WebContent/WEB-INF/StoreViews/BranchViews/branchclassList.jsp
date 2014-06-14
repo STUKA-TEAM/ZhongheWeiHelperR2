@@ -42,7 +42,7 @@
                 <td>${item.branchCount}</td>
                 <td><a class="btn btn-sm btn-info" href="javascript:void(0);" onclick="editClass('${item.classid}')">编辑</a>
                 <a class="btn btn-sm btn-info" target="_blank" href="customer/branchclass?classid=${item.classid}">预览</a>
-                <a class="btn btn-sm btn-info" onclick="viewLink('分店列表链接','${appPath}customer/branchclass?classid=${item.classid}')">生成链接</a>
+                <a class="btn btn-sm btn-info" onclick="viewLink('分店列表链接','${appPath}customer/branchclass?classid=${item.classid}&appid=${appid}')">生成链接</a>
                 <a class="btn btn-sm btn-danger" onclick="submitDelete('${item.classid}')">删除</a></td>
               </tr>
               </c:forEach>

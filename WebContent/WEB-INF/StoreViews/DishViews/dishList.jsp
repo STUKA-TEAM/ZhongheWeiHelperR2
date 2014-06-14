@@ -43,6 +43,7 @@
             <table class="table table-striped table-bordered">
               <thead>
                 <tr>
+                  <th>创建者</th>
                   <th>创建时间</th>
                   <th>菜品名称</th>
                   <th>菜品图片</th>
@@ -52,6 +53,7 @@
               <tbody>
                 <c:forEach items="${dishList}" var="item">
                 <tr>
+                  <td>${item.creatorName}</td>
                   <td><fmt:formatDate value="${item.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                   <td>${item.dishName}</td>
                   <td><c:if test="${not empty item.dishPic}"><img src="${item.dishPic}_original.jpg" class="dish-pic-preview"/></c:if><c:if test="${empty item.dishPic}">未添加图片</c:if></td>
