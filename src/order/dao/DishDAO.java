@@ -17,6 +17,7 @@ import javax.sql.DataSource;
 import order.Dish;
 import order.DishBranch;
 import order.DishClass;
+import order.DishClassBranch;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -48,10 +49,11 @@ public class DishDAO {
 	 * @return
 	 */
 	public int insertDishClass(DishClass dishClass) {
-		String SQL = "INSERT INTO dishclass (classid, appid, className, "
-				+ "createTime) VALUES (default, ?, ?, ?)";
-		int result = jdbcTemplate.update(SQL, dishClass.getAppid(), 
-				dishClass.getClassName(), dishClass.getCreateTime());
+		String SQL = "INSERT INTO dishclass (classid, appid, creatorSid, "
+				+ "className, createTime) VALUES (default, ?, ?, ?, ?)";
+		int result = jdbcTemplate.update(SQL, dishClass.getAppid(),
+				dishClass.getCreatorSid(), dishClass.getClassName(),
+				dishClass.getCreateTime());
 		return result <= 0 ? 0 : result;
 	}
 
@@ -254,6 +256,20 @@ public class DishDAO {
 	}
 	
 	/**
+	 * @title deleteBranchDishClass
+	 * @description 根据菜品类别id删除菜品类别信息及其与菜品和分店的关联记录
+	 * @param classid
+	 * @return
+	 */
+	public int deleteBranchDishClass(int classid) {
+		String SQL = "DELETE FROM dishclass WHERE classid = ?";
+		deleteDCRByClassid(classid);
+	    deleteCBR(classid);
+		int result = jdbcTemplate.update(SQL, classid);
+		return result <= 0 ? 0 : result;
+	}
+	
+	/**
 	 * @title deleteDish
 	 * @description 根据菜品id删除菜品信息及其与菜品类别、分店、订单的关联信息
 	 * @param dishid
@@ -382,6 +398,18 @@ public class DishDAO {
 	}
 	
 	/**
+	 * @title deleteCBR
+	 * @description 根据菜品类别id删除该菜品类别DishClass与分店Branch的关联记录
+	 * @param classid
+	 * @return
+	 */
+	private int deleteCBR(int classid) {
+		String SQL = "DELETE FROM dishclass_branch WHERE classid = ?";
+		int result = jdbcTemplate.update(SQL, classid);
+		return result <= 0 ? 0 : result;
+	}
+	
+	/**
 	 * @title: deleteImageTempRecord
 	 * @description: 删除图片在临时表中记录
 	 * @param imagePath
@@ -468,6 +496,31 @@ public class DishDAO {
 	}
 	
 	/**
+	 * @title updateDishClassBranch
+	 * @description 更新分店与菜品类别关系记录
+	 * @param classBranch
+	 * @param branchSid
+	 * @return
+	 */
+	public int updateDishClassBranch(DishClassBranch classBranch, int branchSid) {
+		int result = 0;
+		String SQL = null;
+		switch (classBranch.getAvailable()) {
+		case 0:
+			SQL = "DELETE FROM dishclass_branch WHERE classid = ? AND branchSid = ?";
+			result = jdbcTemplate.update(SQL, classBranch.getClassid(), branchSid);
+			break;
+		case 1:
+			SQL = "INSERT INTO dishclass_branch (classid, branchSid) VALUES (?, ?)";
+			result = jdbcTemplate.update(SQL, classBranch.getClassid(), branchSid);
+			break;
+		default:
+			break;
+		}
+		return result <= 0 ? 0 : result;
+	}
+	
+	/**
 	 * @title updateDishStatus
 	 * @description 将该分店在该应用下的所有菜品设置为供应状态
 	 * @param branchSid
@@ -494,6 +547,27 @@ public class DishDAO {
 				+ "WHERE D.dishid = E.dishid AND E.classid = ?)";
 		int result = jdbcTemplate.update(SQL, branchSid, classid);
 		return result <= 0 ? 0 : result;
+	}
+	
+	/**
+	 * @title updateDishClassStatus
+	 * @description 将该分店在该应用下的所有菜品类别设置为有效状态
+	 * @param branchSid
+	 * @param appid
+	 * @return
+	 */
+	public int updateDishClassStatus(int branchSid, String appid) {
+		String SQL = "INSERT INTO dishclass_branch (classid, branchSid) VALUES "
+				+ "(?, ?)";
+		List<Integer> classidList = getClassidList(appid);
+		for (Integer classid : classidList) {
+			if (getBranchDishClassCount(classid, branchSid) > 0) {
+				continue;
+			} else {
+				jdbcTemplate.update(SQL, classid, branchSid);
+			}
+		}
+		return 1;
 	}
 	
 	/**
@@ -568,14 +642,16 @@ public class DishDAO {
 	//query
 	/**
 	 * @title getDetailedClassinfos
-	 * @description 根据appid查询应用下的菜品类别详细信息列表 (classid, className, createTime, dishCount)
+	 * @description 根据appid查询应用下的菜品类别详细信息列表 (classid, className, createTime, 
+	 * storeName, dishCount)
 	 * @param appid
 	 * @return
 	 */
 	public List<DishClass> getDetailedClassinfos(String appid) {
 		List<DishClass> classList = null;
-		String SQL = "SELECT classid, className, createTime FROM dishclass "
-				+ "WHERE appid = ? ORDER BY createTime DESC";
+		String SQL = "SELECT D.classid, D.className, D.createTime, S.storeName "
+				+ "FROM dishclass D, storeuser S WHERE D.creatorSid = S.sid AND "
+				+ "D.appid = ? ORDER BY D.createTime DESC";
 		try {
 			classList = jdbcTemplate.query(SQL, new Object[]{appid}, new DetailedClassinfoMapper());
 		} catch (Exception e) {
@@ -717,9 +793,10 @@ public class DishDAO {
 		@Override
 		public DishClass mapRow(ResultSet rs, int arg1) throws SQLException {
 			DishClass dishClass = new DishClass();
-			dishClass.setClassid(rs.getInt("classid"));
-			dishClass.setClassName(rs.getString("className"));
-			dishClass.setCreateTime(rs.getTimestamp("createTime"));
+			dishClass.setClassid(rs.getInt("D.classid"));
+			dishClass.setClassName(rs.getString("D.className"));
+			dishClass.setCreateTime(rs.getTimestamp("D.createTime"));
+			dishClass.setCreatorName(rs.getString("S.storeName"));
 			return dishClass;
 		}
 	}
@@ -748,6 +825,80 @@ public class DishDAO {
 			Integer dishid = rs.getInt("dishid");
 			return dishid;
 		}
+	}
+	
+	/**
+	 * @title getBranchDishClassinfos
+	 * @description 查询分店菜品类别信息列表(classid, creatorSid, className, createTime, 
+	 * allowed, available)
+	 * @param appid
+	 * @param branchSid
+	 * @param storeSid
+	 * @return
+	 */
+	public List<DishClassBranch> getBranchDishClassinfos(String appid, int 
+			branchSid, int storeSid) {
+		List<DishClassBranch> classList = null;
+		String SQL = "SELECT classid, creatorSid, className, createTime FROM "
+				+ "dishclass WHERE appid = ? ORDER BY creatorSid DESC, "
+				+ "createTime DESC";
+		try {
+			classList = jdbcTemplate.query(SQL, new Object[]{appid}, new 
+					BranchDishClassinfoMapper());
+		} catch (Exception e) {
+			System.out.println("getBranchDishClassinfos: " + e.getMessage());
+			classList = new ArrayList<DishClassBranch>();
+		}
+		for (int i = classList.size() - 1; i >= 0; i--) {
+			DishClassBranch classBranch = classList.get(i);
+			int creatorSid = classBranch.getCreatorSid();
+			if (creatorSid == branchSid) {
+				classBranch.setAllowed(true);
+			} else {
+				if (creatorSid != storeSid) {
+					classList.remove(i);
+					continue;
+				}
+			}
+			int count = getDishCount(classBranch.getClassid());
+			classBranch.setDishCount(count);
+			int available = getBranchDishClassCount(classBranch.getClassid(), 
+					branchSid) > 0 ? 1 : 0;
+			classBranch.setAvailable(available);
+		}
+		return classList;
+	}
+	
+	/**
+	 * @title getBranchDishClassCount
+	 * @description 查询分店与菜品类别的对应记录数
+	 * @param classid
+	 * @param branchSid
+	 * @return
+	 */
+	private int getBranchDishClassCount(int classid, int branchSid) {
+		int count = 0;
+		String SQL = "SELECT COUNT(*) FROM dishclass_branch WHERE classid = ? "
+				+ "AND branchSid = ?";
+		try {
+			count = jdbcTemplate.queryForObject(SQL, Integer.class, classid, branchSid);
+		} catch (Exception e) {
+			System.out.println("getBranchDishClassCount: " + e.getMessage());
+		}
+		return count;
+	}
+	
+	private static final class BranchDishClassinfoMapper implements RowMapper<DishClassBranch>{
+		@Override
+		public DishClassBranch mapRow(ResultSet rs, int arg1)
+				throws SQLException {
+			DishClassBranch classBranch = new DishClassBranch();
+			classBranch.setClassid(rs.getInt("classid"));
+			classBranch.setCreatorSid(rs.getInt("creatorSid"));
+			classBranch.setClassName(rs.getString("className"));
+			classBranch.setCreateTime(rs.getTimestamp("createTime"));
+			return classBranch;
+		}	
 	}
 	
 	/**
