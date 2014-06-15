@@ -182,6 +182,30 @@ function confirmDelete(){
   });
 }
 
+function supplyAll(){
+	var appid = $("#appInfo").val();
+	var classid = $("#dishclass").val();
+	  $.ajax({
+		  type: "POST",
+		  url: "branch/restaurant/dish/supplyAll",
+		  data: "appid="+appid+"&classid="+classid,
+	 	  success: function (data) {
+	 		  var jsonData=JSON.parse(data);		 
+	 		  if(jsonData.status==true){
+		   	   	  $("#modalMes").html(jsonData.message);
+		   	      $("#operationMesModal").modal("show");
+		   	      setTimeout("location.href='branch/restaurant/dish/list?appid=initial&classid=0'",1500);
+	 		  }else{
+		   	   	  $("#modalMes").html(jsonData.message);
+		   	      $("#operationMesModal").modal("show");
+	 		  }
+	 	  },
+		  error: function(xhr, status, exception){
+	 	   	  $("#modalMes").html(status + '</br>' + exception);
+	 	      $("#operationMesModal").modal("show");
+		  }
+	});
+}
 
 
 

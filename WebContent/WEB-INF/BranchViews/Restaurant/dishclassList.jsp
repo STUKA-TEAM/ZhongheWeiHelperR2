@@ -26,8 +26,8 @@
           <div class="col-md-2 album-btn-group clearfix col-md-offset-1">
             <button type="button" class="btn btn-info" onclick="addClass()">新建菜品类别</button>
           </div>  
-          <div class="col-md-2 album-btn-group clearfix col-md-offset-1">
-            <button type="button" class="btn btn-info" onclick="addClass()">显示所有类别</button>
+          <div class="col-md-2 album-btn-group clearfix">
+            <button type="button" class="btn btn-success" onclick="supplyAll()">显示所有类别</button>
           </div>      
           <div class="col-md-3 album-btn-group clearfix">
           所属的微信公众账号

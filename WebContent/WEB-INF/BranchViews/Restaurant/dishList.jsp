@@ -25,8 +25,11 @@
         <div class="row website-tab">
           <div class="col-md-2 album-btn-group clearfix col-md-offset-1">
             <a href="branch/restaurant/dish/add?appid=<c:forEach items="${appInfoList}" var="item"><c:if test="${item.isCharged}">${item.appid}</c:if></c:forEach>" class="btn btn-info btn-block">新建菜品</a>
-          </div>        
-          <div class="col-md-3 album-btn-group clearfix col-md-offset-1">
+          </div>  
+          <div class="col-md-2 album-btn-group clearfix col-md-offset-1">
+            <button type="button" class="btn btn-success" onclick="supplyAll()">供应所有类别</button>
+          </div>      
+          <div class="col-md-3 album-btn-group clearfix">
           所属的微信公众账号
             <select id="appInfo" class="form-control dishes-type-select" onchange="filterByApp(this.options[this.options.selectedIndex].value)">
             <c:forEach items="${appInfoList}" var="item">

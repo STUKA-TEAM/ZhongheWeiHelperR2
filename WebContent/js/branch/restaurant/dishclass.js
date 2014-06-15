@@ -127,6 +127,30 @@ function confirmDelete(){
 });
 }
 
+function supplyAll(){
+	var appid = $("#appInfo").val();
+	  $.ajax({
+		  type: "POST",
+		  url: "branch/restaurant/dishclass/supplyAll",
+		  data: "appid="+appid,
+	 	  success: function (data) {
+	 		  var jsonData=JSON.parse(data);		 
+	 		  if(jsonData.status==true){
+		   	   	  $("#modalMes").html(jsonData.message);
+		   	      $("#operationMesModal").modal("show");
+		   	      setTimeout("location.href='branch/restaurant/dishclass/list?appid="+$("#appInfo").val()+"'",1500);
+	 		  }else{
+		   	   	  $("#modalMes").html(jsonData.message);
+		   	      $("#operationMesModal").modal("show");
+	 		  }
+	 	  },
+		  error: function(xhr, status, exception){
+	 	   	  $("#modalMes").html(status + '</br>' + exception);
+	 	      $("#operationMesModal").modal("show");
+		  }
+	});
+}
+
 
 
 
