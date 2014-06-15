@@ -1,6 +1,7 @@
 package controller.store;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import register.dao.AppInfoDAO;
 import security.User;
 import tools.CommonValidationTools;
+import branch.dao.BranchDAO;
 
 import com.google.gson.Gson;
 
@@ -132,7 +134,7 @@ public class DishController {
 				return "forward:/store/transfer";   
 			}
 			else {
-				List<DishClass> classList = dishDao.getBasicClassinfos(appid);
+				List<DishClass> classList = dishDao.getBasicClassinfos(appid, user.getSid());
 				model.addAttribute("classList", classList);
 			    return "DishViews/insertDish";
 			}
@@ -156,16 +158,17 @@ public class DishController {
 				new ClassPathXmlApplicationContext("All-Modules.xml");
 		DishDAO dishDao = (DishDAO) context.getBean("DishDAO");
 		AppInfoDAO appInfoDao = (AppInfoDAO) context.getBean("AppInfoDAO");
+		BranchDAO branchDao = (BranchDAO) context.getBean("BranchDAO");
 		((ConfigurableApplicationContext)context).close();
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		User user = (User)auth.getPrincipal();
+		int storeSid = ((User)auth.getPrincipal()).getSid();
 
 		if (appid == null) {
 			return "redirect:/store/account";     
 		}
 		else {
-			if (appid.trim().equals("") || appInfoDao.checkAppExistsByUser(user.getSid(), 
+			if (appid.trim().equals("") || appInfoDao.checkAppExistsByUser(storeSid, 
 					appid) == 0) {
 				request.setAttribute("message", "当前管理的公众账号无效，请先选择或关联微信公众账号!");
 				request.setAttribute("jumpLink", "store/account");
@@ -173,14 +176,25 @@ public class DishController {
 			}
 			else {
 				List<Integer> selectedList = null;
+				int creatorSid = 0;
 				if (dishid > 0) {
 					Dish dish = dishDao.getDishContent(dishid);
 					if (dish != null) {
 						selectedList = dish.getClassidList();
 						model.addAttribute("dish", dish);
+						creatorSid = dish.getCreatorSid();
 					}
 				}
-				List<DishClass> classList = dishDao.getBasicClassinfos(appid);
+				List<DishClass> classList = null;
+				if (creatorSid == storeSid) {
+					classList = dishDao.getBasicClassinfos(appid, storeSid);
+				} else {
+					if (branchDao.getStoreSid(creatorSid) == storeSid) {
+						classList = dishDao.getBasicClassinfos(appid, creatorSid, storeSid);
+					} else {
+						classList = new ArrayList<DishClass>();
+					}
+				}
 				if (selectedList != null) {
 					for (int i = 0, j = classList.size(); i < j; i++) {
 						DishClass dishClass = classList.get(i);

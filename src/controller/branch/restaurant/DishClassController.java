@@ -279,14 +279,16 @@ public class DishClassController {
 		ApplicationContext context = 
 				new ClassPathXmlApplicationContext("All-Modules.xml");
 		DishDAO dishDao = (DishDAO) context.getBean("DishDAO");
+		BranchDAO branchDao = (BranchDAO) context.getBean("BranchDAO");
 		((ConfigurableApplicationContext)context).close();
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		int branchSid = ((User)auth.getPrincipal()).getSid();
+		int storeSid = branchDao.getStoreSid(branchSid);
 		Gson gson = new Gson();
 		ResponseMessage message = new ResponseMessage();
 
-		int result = dishDao.updateDishClassStatus(branchSid, appid);
+		int result = dishDao.updateDishClassStatus(appid, branchSid, storeSid);
 		if (result > 0) {
 			message.setStatus(true);
 			message.setMessage("操作成功！");

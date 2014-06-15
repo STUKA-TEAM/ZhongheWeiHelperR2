@@ -98,9 +98,12 @@ public class DishController {
 		ApplicationContext context = 
 				new ClassPathXmlApplicationContext("All-Modules.xml");
 		DishDAO dishDao = (DishDAO) context.getBean("DishDAO");
+		BranchDAO branchDao = (BranchDAO) context.getBean("BranchDAO");
 		((ConfigurableApplicationContext)context).close();
 		
-		List<DishClass> classList = dishDao.getBasicClassinfos(appid);
+		int storeSid = branchDao.getStoreSid(branchSid);
+		List<DishClass> classList = dishDao.getBasicClassinfos(appid, branchSid, 
+				storeSid);
 		for (DishClass dishClass : classList) {
 			int classid = dishClass.getClassid();
 			dishClass.setDishCount(dishDao.getDishCount(classid, openid, branchSid));
@@ -113,7 +116,8 @@ public class DishController {
 		if (classList.size() > 0) {
 			DishClass dishClass = classList.get(0);
 			int classid = dishClass.getClassid();
-			List<DishBranch> dishList = dishDao.getDishClassForCustomer(classid, branchSid, openid);
+			List<DishBranch> dishList = dishDao.getDishClassForCustomer(classid, 
+					branchSid, openid);
 			model.addAttribute("dishList", dishList);
 		}
 		
