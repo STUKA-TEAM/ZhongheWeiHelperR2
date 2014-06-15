@@ -14,6 +14,7 @@ import menu.Menu;
 import order.Dish;
 import order.DishBranch;
 import order.DishClass;
+import order.DishClassBranch;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -606,6 +607,16 @@ public class CommonValidationTools {
 	 * @return
 	 */
 	public static boolean checkDishBranch(DishBranch dishBranch) {
+		return true;
+	}
+	
+	/**
+	 * @title checkDishClassBranch
+	 * @description 验证分店菜品类别信息
+	 * @param classBranch
+	 * @return
+	 */
+	public static boolean checkDishClassBranch(DishClassBranch classBranch) {
 		return true;
 	}
 }
