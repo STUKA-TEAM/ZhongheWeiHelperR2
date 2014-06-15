@@ -5,10 +5,11 @@ body{
 }
 .logo-container {
   position: absolute;
-  top: 0;
+  top: 25px;
   display: block;
   height: auto;
   width: 100%;
+  z-index: 1;
 }
 .logo {
   display: block;
@@ -19,6 +20,7 @@ body{
   margin: 5px;
   background-size: 100% 100%;
   overflow: hidden;
+  z-index: 2;
 }
 .title {
   margin: auto;

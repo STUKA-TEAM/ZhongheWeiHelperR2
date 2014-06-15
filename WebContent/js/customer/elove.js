@@ -48,13 +48,11 @@ var audio_switch = function(themeid){
  	  }
  	  if(typeof(themeid) != 'undefined') {
  		 $(".audio-logo").attr("src", "img/elove/audio_on_"+themeid+".png");
- 	 	 $("#audio-p").text("音效开启");
  	  }    
       flag="on";
  	}else{
       myAudio.pause();
       $(".audio-logo").attr("src", "img/elove/audio_off_"+themeid+".png");
-      $("#audio-p").text("音效关闭");
  	  flag="off";
  	}
 };

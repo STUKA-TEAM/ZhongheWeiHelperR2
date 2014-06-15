@@ -1,10 +1,8 @@
 html, header, body {
-  max-width: 360px;
   background-color: #ed95ae;
   font-family:"Microsoft YaHei";
 }
 div {
-  max-width: 360px;
   text-align:center; 
 }
 .footer {
@@ -157,12 +155,6 @@ div {
   margin-top:15px;
   clear: both;
 }
-.audio-logo {
-  float: left;
-  margin-left: 5px;
-  width: 20px;
-  height: auto;
-}
 .modal-content {
   position: relative;
   background-color: #f9ebed;
@@ -205,4 +197,62 @@ div {
   font-size: 16px;
   margin: 10px;
   width: 40%;
+}
+.top-nav {
+  position: fixed;
+  top: 0;
+  height: 40px;
+  width: 100%;
+  background-color: #f8e9ed;
+  z-index: 1080;
+}
+.top-navbg {
+  height: 40px;
+}
+.top-navbar {
+  clear: both;
+  height: 40px;
+  width: 800px;
+}
+.nav-logo {
+  height: 18px;
+  width: 18px;
+  margin-right: 2px;
+}
+.top-nav-item {
+  width: 110px;
+  height: 40px;
+}
+.audio-item {
+  width: 60px;
+  height: 40px;
+}
+.top-nav-item > a {
+  color: #ed94ae;
+  font-size: 18px;
+  text-decoration: none;
+  line-height: 40px;
+}
+.audio-logo {
+  margin-top: 10px;
+}
+.top-nav-item:focus,
+.top-nav-item.active {
+  border-bottom-style: solid;
+  border-bottom-color: #f3a5bd;
+  border-bottom-width: 3px;
+  background-color: #fef7f9;
+}
+.nav-btn {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index:1280;
+  height: 40px;
+  width: 25px;
+  background-color: #f8e9ed;
+}
+.nav-btn > span {
+  height: 40px;
+  line-height: 40px;
 }
