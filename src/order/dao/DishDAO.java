@@ -525,30 +525,34 @@ public class DishDAO {
 	
 	/**
 	 * @title updateDishStatus
-	 * @description 将该分店在该应用下的所有菜品设置为供应状态
+	 * @description 将该分店和总店在该应用下创建的所有菜品设置为供应状态
 	 * @param branchSid
 	 * @param appid
+	 * @param storeSid
 	 * @return
 	 */
-	public int updateDishStatus(int branchSid, String appid) {
+	public int updateDishStatus(String appid, int branchSid, int storeSid) {
 		String SQL = "UPDATE dish_branch SET available = 1 WHERE branchSid = ? "
-				+ "AND dishid in (SELECT dishid FROM dish WHERE appid = ?)";
-		int result = jdbcTemplate.update(SQL, branchSid, appid);
+				+ "AND dishid in (SELECT dishid FROM dish WHERE appid = ? AND ("
+				+ "creatorSid = ? OR creatorSid = ?))";
+		int result = jdbcTemplate.update(SQL, branchSid, appid, branchSid, storeSid);
 		return result <= 0 ? 0 : result;
 	}
 	
 	/**
 	 * @title updateDishStatus
-	 * @description 将该分店某一类别下的所有菜品设置为供应状态
+	 * @description 将该分店和总店在某一类别下创建的所有菜品设置为供应状态
 	 * @param branchSid
 	 * @param classid
+	 * @param storeSid
 	 * @return
 	 */
-	public int updateDishStatus(int branchSid, int classid) {
+	public int updateDishStatus(int classid, int branchSid, int storeSid) {
 		String SQL = "UPDATE dish_branch SET available = 1 WHERE branchSid = ? "
 				+ "AND dishid in (SELECT D.dishid FROM dish D, dish_dishclass E "
-				+ "WHERE D.dishid = E.dishid AND E.classid = ?)";
-		int result = jdbcTemplate.update(SQL, branchSid, classid);
+				+ "WHERE D.dishid = E.dishid AND E.classid = ? AND (D.creatorSid "
+				+ "= ? OR D.creatorSid = ?))";
+		int result = jdbcTemplate.update(SQL, branchSid, classid, branchSid, storeSid);
 		return result <= 0 ? 0 : result;
 	}
 	
@@ -557,12 +561,13 @@ public class DishDAO {
 	 * @description 将该分店在该应用下的所有菜品类别设置为有效状态
 	 * @param branchSid
 	 * @param appid
+	 * @param storeSid
 	 * @return
 	 */
-	public int updateDishClassStatus(int branchSid, String appid) {
+	public int updateDishClassStatus(String appid, int branchSid, int storeSid) {
 		String SQL = "INSERT INTO dishclass_branch (classid, branchSid) VALUES "
 				+ "(?, ?)";
-		List<Integer> classidList = getClassidList(appid);
+		List<Integer> classidList = getClassidList(appid, branchSid, storeSid);
 		for (Integer classid : classidList) {
 			if (getBranchDishClassCount(classid, branchSid) > 0) {
 				continue;
@@ -671,7 +676,7 @@ public class DishDAO {
 
 	/**
 	 * @title getBasicClassinfos
-	 * @description 根据appid查询应用下的菜品类别概要信息 (classid, className)
+	 * @description 查询某应用下的所有菜品类别概要信息 (classid, className)
 	 * @param appid
 	 * @return
 	 */
@@ -679,7 +684,52 @@ public class DishDAO {
 		List<DishClass> classList = null;
 		String SQL = "SELECT classid, className FROM dishclass WHERE appid = ?";
 		try {
-			classList = jdbcTemplate.query(SQL, new Object[]{appid}, new BasicClassinfoMapper());
+			classList = jdbcTemplate.query(SQL, new Object[]{appid}, new 
+					BasicClassinfoMapper());
+		} catch (Exception e) {
+			System.out.println("getBasicClassinfos: " + e.getMessage());
+			classList = new ArrayList<DishClass>();
+		}
+		return classList;
+	}
+	
+	/**
+	 * @title getBasicClassinfos
+	 * @description 查询某应用下总店创建的所有菜品类别概要信息 (classid, className)
+	 * @param appid
+	 * @param storeSid
+	 * @return
+	 */
+	public List<DishClass> getBasicClassinfos(String appid, int storeSid) {
+		List<DishClass> classList = null;
+		String SQL = "SELECT classid, className FROM dishclass WHERE appid = ? "
+				+ "AND creatorSid = ?";
+		try {
+			classList = jdbcTemplate.query(SQL, new Object[]{appid, storeSid}, 
+					new BasicClassinfoMapper());
+		} catch (Exception e) {
+			System.out.println("getBasicClassinfos: " + e.getMessage());
+			classList = new ArrayList<DishClass>();
+		}
+		return classList;
+	}
+	
+	/**
+	 * @title getBasicClassinfos
+	 * @description 查询某应用下某一分店和总店创建的所有菜品类别概要信息(classid, className)
+	 * @param appid
+	 * @param branchSid
+	 * @param storeSid
+	 * @return
+	 */
+	public List<DishClass> getBasicClassinfos(String appid, int branchSid, int 
+			storeSid) {
+		List<DishClass> classList = null;
+		String SQL = "SELECT classid, className FROM dishclass WHERE appid = ? "
+				+ "AND (creatorSid = ? OR creatorSid = ?)";
+		try {
+			classList = jdbcTemplate.query(SQL, new Object[]{appid, branchSid, 
+					storeSid}, new BasicClassinfoMapper());
 		} catch (Exception e) {
 			System.out.println("getBasicClassinfos: " + e.getMessage());
 			classList = new ArrayList<DishClass>();
@@ -965,15 +1015,15 @@ public class DishDAO {
 	
 	/**
 	 * @title getDishContent
-	 * @description 根据菜品id查询菜品详细信息 (dishid, dishName, dishPic, dishDesc, price,
-	 *  dishUnit, recomNum, classidList)
+	 * @description 根据菜品id查询菜品详细信息 (dishid, creatorSid, dishName, dishPic, 
+	 * dishDesc, price, dishUnit, recomNum, classidList)
 	 * @param dishid
 	 * @return
 	 */
 	public Dish getDishContent(int dishid) {
 		Dish dish = null;
-		String SQL = "SELECT dishid, dishName, dishPic, dishDesc, price, "
-				+ "dishUnit, recomNum FROM dish WHERE dishid = ?";
+		String SQL = "SELECT dishid, creatorSid, dishName, dishPic, dishDesc, "
+				+ "price, dishUnit, recomNum FROM dish WHERE dishid = ?";
 		try {
 			dish = jdbcTemplate.queryForObject(SQL, new Object[]{dishid}, new DishContentMapper());
 		} catch (Exception e) {
@@ -1055,6 +1105,28 @@ public class DishDAO {
 		return classidList;
 	}
 	
+	/**
+	 * @title getClassidList
+	 * @description 查询某应用下某分店和总店创建的所有菜品类别id列表
+	 * @param appid
+	 * @param branchSid
+	 * @param storeSid
+	 * @return
+	 */
+	private List<Integer> getClassidList(String appid, int branchSid, int storeSid) {
+		List<Integer> classidList = null;
+		String SQL = "SELECT classid FROM dishclass WHERE appid = ? AND (creatorSid"
+				+ " = ? OR creatorSid = ?)";
+		try {
+			classidList = jdbcTemplate.query(SQL, new Object[]{appid, branchSid, 
+					storeSid}, new ClassidMapper());
+		} catch (Exception e) {
+			System.out.println("getClassidList: " + e.getMessage());
+			classidList = new ArrayList<Integer>();
+		}
+		return classidList;
+	}
+	
 	private static final class DetailedDishinfoMapper implements RowMapper<Dish>{
 		@Override
 		public Dish mapRow(ResultSet rs, int arg1) throws SQLException {
@@ -1083,6 +1155,7 @@ public class DishDAO {
 		public Dish mapRow(ResultSet rs, int arg1) throws SQLException {
 			Dish dish = new Dish();
 			dish.setDishid(rs.getInt("dishid"));
+			dish.setCreatorSid(rs.getInt("creatorSid"));
 			dish.setDishName(rs.getString("dishName"));
 			dish.setDishPic(rs.getString("dishPic"));
 			dish.setDishDesc(rs.getString("dishDesc"));

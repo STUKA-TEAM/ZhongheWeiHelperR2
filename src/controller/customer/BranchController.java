@@ -143,11 +143,14 @@ public class BranchController {
 				new ClassPathXmlApplicationContext("All-Modules.xml");
 		AppInfoDAO appInfoDao = (AppInfoDAO) context.getBean("AppInfoDAO");
 		DishDAO dishDao = (DishDAO) context.getBean("DishDAO");
+		BranchDAO branchDao = (BranchDAO) context.getBean("BranchDAO");
 		((ConfigurableApplicationContext)context).close();
 		
 		String appid = appInfoDao.getAppidByWebsite(websiteid);
   		if (appid != null) {
- 			List<DishClass> classList = dishDao.getBasicClassinfos(appid);
+  			int storeSid = branchDao.getStoreSid(branchSid);
+ 			List<DishClass> classList = dishDao.getBasicClassinfos(appid, 
+ 					branchSid, storeSid);
  			if(classList.size() > 0){
  				classList.get(0).setSelected(true);
  			}

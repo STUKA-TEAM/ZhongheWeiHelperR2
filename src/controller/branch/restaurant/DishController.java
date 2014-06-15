@@ -88,7 +88,8 @@ public class DishController {
 		model.addAttribute("appInfoList", appInfoList);
 		
 		match = false;
-		List<DishClass> classList = dishDao.getBasicClassinfos(appid);
+		List<DishClass> classList = dishDao.getBasicClassinfos(appid, branchSid, 
+				storeSid);
 		DishClass allType = new DishClass();
 		allType.setClassid(0);
 		allType.setClassName("所有类别");
@@ -170,9 +171,16 @@ public class DishController {
 		ApplicationContext context = 
 				new ClassPathXmlApplicationContext("All-Modules.xml");
 		DishDAO dishDao = (DishDAO) context.getBean("DishDAO");
+		BranchDAO branchDao = (BranchDAO) context.getBean("BranchDAO");
 		((ConfigurableApplicationContext)context).close();
 
-		List<DishClass> classList = dishDao.getBasicClassinfos(appid);
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = (User)auth.getPrincipal();
+		int branchSid = user.getSid();
+		int storeSid = branchDao.getStoreSid(branchSid);
+		
+		List<DishClass> classList = dishDao.getBasicClassinfos(appid, branchSid, 
+				storeSid);
 		model.addAttribute("classList", classList);
 		model.addAttribute("appid", appid);
 		return "Restaurant/insertDish";
@@ -193,7 +201,13 @@ public class DishController {
 		ApplicationContext context = 
 				new ClassPathXmlApplicationContext("All-Modules.xml");
 		DishDAO dishDao = (DishDAO) context.getBean("DishDAO");
+		BranchDAO branchDao = (BranchDAO) context.getBean("BranchDAO");
 		((ConfigurableApplicationContext)context).close();
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = (User)auth.getPrincipal();
+		int branchSid = user.getSid();
+		int storeSid = branchDao.getStoreSid(branchSid);
 
 		List<Integer> selectedList = null;
 		if (dishid > 0) {
@@ -203,7 +217,8 @@ public class DishController {
 				model.addAttribute("dish", dish);
 			}
 		}
-		List<DishClass> classList = dishDao.getBasicClassinfos(appid);
+		List<DishClass> classList = dishDao.getBasicClassinfos(appid, branchSid, 
+				storeSid);
 		if (selectedList != null) {
 			for (int i = 0, j = classList.size(); i < j; i++) {
 				DishClass dishClass = classList.get(i);
@@ -338,19 +353,21 @@ public class DishController {
 		ApplicationContext context = 
 				new ClassPathXmlApplicationContext("All-Modules.xml");
 		DishDAO dishDao = (DishDAO) context.getBean("DishDAO");
+		BranchDAO branchDao = (BranchDAO) context.getBean("BranchDAO");
 		((ConfigurableApplicationContext)context).close();
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		int branchSid = ((User)auth.getPrincipal()).getSid();
+		int storeSid = branchDao.getStoreSid(branchSid);
 		Gson gson = new Gson();
 		ResponseMessage message = new ResponseMessage();
 
 		int result = 0;
 		if (classid == 0) {
-			result = dishDao.updateDishStatus(branchSid, appid);
+			result = dishDao.updateDishStatus(appid, branchSid, storeSid);
 		} else {
 			if (classid > 0) {
-				result = dishDao.updateDishStatus(branchSid, classid);
+				result = dishDao.updateDishStatus(classid, branchSid, storeSid);
 			}
 		}
 		if (result > 0) {
