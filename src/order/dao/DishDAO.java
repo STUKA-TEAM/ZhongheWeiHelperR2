@@ -503,16 +503,19 @@ public class DishDAO {
 	 * @return
 	 */
 	public int updateDishClassBranch(DishClassBranch classBranch, int branchSid) {
-		int result = 0;
+		int result = 1;
 		String SQL = null;
 		switch (classBranch.getAvailable()) {
 		case 0:
 			SQL = "DELETE FROM dishclass_branch WHERE classid = ? AND branchSid = ?";
-			result = jdbcTemplate.update(SQL, classBranch.getClassid(), branchSid);
+			jdbcTemplate.update(SQL, classBranch.getClassid(), branchSid);
 			break;
 		case 1:
 			SQL = "INSERT INTO dishclass_branch (classid, branchSid) VALUES (?, ?)";
-			result = jdbcTemplate.update(SQL, classBranch.getClassid(), branchSid);
+			int classid = classBranch.getClassid();
+			if (getBranchDishClassCount(classid, branchSid) == 0) {
+				result = jdbcTemplate.update(SQL, classid, branchSid);
+			}
 			break;
 		default:
 			break;
