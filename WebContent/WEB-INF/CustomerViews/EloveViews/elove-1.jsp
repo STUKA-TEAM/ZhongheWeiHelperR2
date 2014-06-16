@@ -80,8 +80,6 @@
         myScroll = new iScroll('wrapper', {hScrollbar:false, vScrollbar:false});
       }
       document.addEventListener('DOMContentLoaded', loaded, false);
-    </script>
-    <script type="text/javascript">
       $(".nav-btn").click(function(){
     	  myScroll.scrollToPage(3, 0, 300);
     	  $(".nav-btn").addClass("hidden");
