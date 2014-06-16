@@ -13,11 +13,13 @@ import java.util.List;
 public class DishClass {
 	private int classid;
 	private String appid;
+	private int creatorSid;
 	private String className;
 	private Timestamp createTime;
 	private List<Integer> dishidList;
 	private int dishCount;
 	private boolean selected;
+	private String creatorName;
 	
 	/**
 	 * @return the classid
@@ -42,6 +44,18 @@ public class DishClass {
 	 */
 	public void setAppid(String appid) {
 		this.appid = appid;
+	}
+	/**
+	 * @return the creatorSid
+	 */
+	public int getCreatorSid() {
+		return creatorSid;
+	}
+	/**
+	 * @param creatorSid the creatorSid to set
+	 */
+	public void setCreatorSid(int creatorSid) {
+		this.creatorSid = creatorSid;
 	}
 	/**
 	 * @return the className
@@ -102,5 +116,17 @@ public class DishClass {
 	 */
 	public void setSelected(boolean selected) {
 		this.selected = selected;
+	}
+	/**
+	 * @return the creatorName
+	 */
+	public String getCreatorName() {
+		return creatorName;
+	}
+	/**
+	 * @param creatorName the creatorName to set
+	 */
+	public void setCreatorName(String creatorName) {
+		this.creatorName = creatorName;
 	}
 }

@@ -255,6 +255,13 @@ Windows:
             key          varchar(255) No                                No                  记录标识
             contact      varchar(255) Yes        NULL                   No                  联系方式
             isUsed       int(11)      No         0                      No                  是否被使用
+[2014-06-15][index: 0051]表dishclass添加creatorSid字段     type: int(11)  NULL: No  Default: 0  Comment: 创建者id  Position: After "appid"
+[2014-06-15][index: 0052]添加表dishclass_branch
+            Name         Type         NULL       Default                Primary Key         Comment
+        ---------------------------------------------------------------------------------------------------------------------------------
+            id           int(11)      No         <auto_increment>       Yes                 
+            classid      int(11)      No         0                      No                  菜品类别id
+            branchSid    int(11)      No         0                      No                  分店id
 
 Linux:
 [2014-02-22][index: 0001]done
@@ -301,3 +308,6 @@ Linux:
 [2014-06-01][index: 0042]done
 [2014-06-01][index: 0043]done
 [2014-06-01][index: 0044]done
+[2014-06-16][index: 0045]done
+[2014-06-16][index: 0051]done
+[2014-06-16][index: 0052]done
