@@ -371,7 +371,7 @@ public class BasicController {
 	
 	/**
 	 * @title updateFollowLink
-	 * @description 更新应用的关联链接
+	 * @description 编辑关注链接（第二步）
 	 * @param appid
 	 * @param followLink
 	 * @param model
