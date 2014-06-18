@@ -1,5 +1,4 @@
 html, header, body {
-  max-width: 360px;
   font-family:"Microsoft YaHei";
 }
 body {
@@ -7,7 +6,6 @@ body {
   background-repeat: repeat;
 }
 div {
-  max-width: 360px;
   text-align:center; 
 }
 .footer {
@@ -212,4 +210,62 @@ div {
   width: 89%;
   padding: 8px;
   background-color: #ffffff; 
+}
+.top-nav {
+  position: fixed;
+  top: 0;
+  height: 40px;
+  width: 100%;
+  background-color: #F0FAFC;
+  z-index: 1080;
+}
+.top-navbg {
+  height: 40px;
+}
+.top-navbar {
+  clear: both;
+  height: 40px;
+  width: 800px;
+}
+.nav-logo {
+  height: 18px;
+  width: 18px;
+  margin-right: 2px;
+}
+.top-nav-item {
+  width: 110px;
+  height: 40px;
+}
+.audio-item {
+  width: 60px;
+  height: 40px;
+}
+.top-nav-item > a {
+  color: #2BAECC;
+  font-size: 18px;
+  text-decoration: none;
+  line-height: 40px;
+}
+.audio-logo {
+  margin-top: 10px;
+}
+.top-nav-item:focus,
+.top-nav-item.active {
+  border-bottom-style: solid;
+  border-bottom-color: #2BAECC;
+  border-bottom-width: 3px;
+  background-color: #f5fffa;
+}
+.nav-btn {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index:1280;
+  height: 40px;
+  width: 25px;
+  background-color: #F0FAFC;
+}
+.nav-btn > span {
+  height: 40px;
+  line-height: 40px;
 }

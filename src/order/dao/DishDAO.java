@@ -734,6 +734,12 @@ public class DishDAO {
 			System.out.println("getBasicClassinfos: " + e.getMessage());
 			classList = new ArrayList<DishClass>();
 		}
+		for (int i = classList.size() - 1; i >= 0; i--) {
+			int classid = classList.get(i).getClassid();
+			if (getBranchDishClassCount(classid, branchSid) <= 0) {
+				classList.remove(i);
+			}
+		}
 		return classList;
 	}
 	

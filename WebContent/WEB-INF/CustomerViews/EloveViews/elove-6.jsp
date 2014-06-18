@@ -26,37 +26,46 @@
     <link href="css/customer/elove-info-6.css" rel="stylesheet">
   </head>
   <body>
+    <div class="nav-btn">
+      <span class="glyphicon glyphicon-chevron-right"></span>
+    </div>
+    <div id="wrapper" class="top-nav">
+      <div id="scroller" class="top-navbar">
+        <div id="audio" class="audio-item pull-left" onclick="audio_switch(6)">
+          <input type="hidden" id="musicPath" value="${elove.music}"/>
+          <img src="img/elove/audio_on_6.png" class="audio-logo nav-logo"/>
+          <input id="eloveid" type="hidden" value="${elove.eloveid}" />
+        </div>
+        <div id="story" class="top-nav-item pull-left active">
+          <a href="javascript:void(0)"><img src="img/elove/encount_logo_6.png" class="nav-logo"/>相知相遇</a>
+        </div>
+        <div id="dress" class="top-nav-item pull-left">
+          <a href="javascript:void(0)"><img src="img/elove/photo_logo_6.png" class="nav-logo"/>婚纱剪影</a>
+        </div>
+        <div id="info" class="top-nav-item pull-left">
+          <a href="javascript:void(0)"><img src="img/elove/info_logo_6.png" class="nav-logo"/>婚礼信息</a>
+        </div>
+        <c:if test="${recordImages.size()!=0}">
+        <div id="record" class="top-nav-item pull-left">
+          <a href="javascript:void(0)"><img src="img/elove/record_logo_6.png" class="nav-logo"/>婚礼记录</a>
+        </div>
+        </c:if>
+        <div id="viewAccount" class="top-nav-item pull-left">
+          <a href="javascript:void(0)" onclick="switch_guide('#account_guide_bg','#account_guide_img')"><img src="img/elove/viewAcc_logo_6.png" class="nav-logo"/>关注账号</a>
+        </div>
+        <div id="intro" class="top-nav-item pull-left">
+          <a href="customer/elove/intro?eloveid=${elove.eloveid}"><img src="img/elove/intr_logo_6.png" class="nav-logo"/>${elove.sideCorpInfo}</a>
+        </div>
+      </div>
+    </div>
+    <div class="top-navbg"></div>
     <div id="content-container">
       <%@ include file="story-6.jsp"%>
     </div>
     <div class="container-fulid">
       <div id="baidumap" style="visibility:hidden;"><div id="pic"></div></div>
     </div>
-    <div class="sidebar-guide" onclick="sidebar_up()">
-      <img src="img/elove/sidebar_guide_6.png" class="sidebar-guide-logo"/>
-      <p class="sidebar-guide-tip">点点我~</p>
-    </div>
-    <div class="sidebar-bg sidebar-bg-miss hidden" onclick="sidebar_dismiss()"></div>
-    <div id="sidebar_list" class="sidebar hidden" state="down">
-      <div id="audio" class="audio" onclick="audio_switch(6)">
-        <input type="hidden" id="musicPath" value="${elove.music}"/>
-        <img src="img/elove/audio_on_6.png" class="audio-logo"/>
-        <p id="audio-p">音效开启</p>
-        <input id="eloveid" type="hidden" value="${elove.eloveid}" />
-      </div>
-      <ul class="nav nav-pills">
-        <li id="story" class="active"><a href="javascript:void(0)"><span class="sidebar-encount">相知相遇</span></a></li>
-        <li id="dress"><a href="javascript:void(0)"><span class="sidebar-photo">婚纱剪影</span></a></li>
-        <li id="info"><a href="javascript:void(0)"><span class="sidebar-info">婚礼信息</span></a></li>
-        <c:if test="${recordImages.size()!=0}">
-        <li id="record"><a href="javascript:void(0)"><span class="sidebar-record">婚礼记录</span></a></li>
-        </c:if>        
-        <li id="viewAccount"><a href="javascript:void(0)" onclick="switch_guide('#account_guide_bg','#account_guide_img')">
-          <span class="sidebar-viewAccount">关注公司</span></a>
-        </li>
-        <li id="intro"><a href="customer/elove/intro?eloveid=${elove.eloveid}"><span class="sidebar-intr">${elove.sideCorpInfo}</span></a></li>
-      </ul>
-    </div>
+    
     <div id="account_guide_bg" class="guide hidden" onclick="close_guide('#account_guide_bg','#account_guide_img')">
       <img id="account_guide_img" class="guide-pic img-responsive hidden" src="img/common/account_guide.png"/>
     </div>
@@ -64,7 +73,18 @@
     <script type="text/javascript" src="js/customer/elove.js"></script>
     <script type="text/javascript" src="js/customer/modal.min.js"></script>    
     <script type="text/javascript" src="js/customer/video.js"></script>  
-    
+    <script type="application/javascript" src="js/customer/iscroll.js"></script>
+    <script type="text/javascript">
+      var myScroll;
+      function loaded() {
+        myScroll = new iScroll('wrapper', {hScrollbar:false, vScrollbar:false});
+      }
+      document.addEventListener('DOMContentLoaded', loaded, false);
+      $(".nav-btn").click(function(){
+    	  myScroll.scrollToPage(3, 0, 300);
+    	  $(".nav-btn").addClass("hidden");
+      });
+    </script>
     <%@ include file="../CommonViews/shareJS.jsp"%>
     <script type="text/javascript">
     window.shareInfo = new Object();

@@ -12,6 +12,7 @@
 .photo {
   float: none;
   width: 50%;
+  max-width: 320px;
   min-width: 180px;
   height: auto;
   background-color: #f9f9f9;
