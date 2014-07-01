@@ -16,7 +16,7 @@
     
     <link href="./css/customer/bootstrap.min.css" rel="stylesheet">
     <link href="css/customer/mobile-common.css" rel="stylesheet">
-    <link href="./css/customer/dishes-order.css" rel="stylesheet">
+    <link href="./css/customer/dishes-order-branch.css" rel="stylesheet">
     <link href="./css/customer/dishdetail.css" rel="stylesheet">
 
     <!-- <script type="application/javascript" src="./js/customer/iscroll.js"></script>

@@ -102,8 +102,8 @@ public class DishController {
 		((ConfigurableApplicationContext)context).close();
 		
 		int storeSid = branchDao.getStoreSid(branchSid);
-		List<DishClass> classList = dishDao.getBasicClassinfos(appid, branchSid, 
-				storeSid);
+		List<DishClass> classList = dishDao.getBasicClassinfosForCustomer(appid, 
+				branchSid, storeSid);
 		for (DishClass dishClass : classList) {
 			int classid = dishClass.getClassid();
 			dishClass.setDishCount(dishDao.getDishCount(classid, openid, branchSid));

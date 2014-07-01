@@ -734,6 +734,29 @@ public class DishDAO {
 			System.out.println("getBasicClassinfos: " + e.getMessage());
 			classList = new ArrayList<DishClass>();
 		}
+		return classList;
+	}
+	
+	/**
+	 * @title getBasicClassinfosForCustomer
+	 * @description 查询某应用下某一分店和总店创建的所有菜品类别概要信息(classid, className)
+	 * @param appid
+	 * @param branchSid
+	 * @param storeSid
+	 * @return
+	 */
+	public List<DishClass> getBasicClassinfosForCustomer(String appid, int branchSid, int 
+			storeSid) {
+		List<DishClass> classList = null;
+		String SQL = "SELECT classid, className FROM dishclass WHERE appid = ? "
+				+ "AND (creatorSid = ? OR creatorSid = ?)";
+		try {
+			classList = jdbcTemplate.query(SQL, new Object[]{appid, branchSid, 
+					storeSid}, new BasicClassinfoMapper());
+		} catch (Exception e) {
+			System.out.println("getBasicClassinfosForCustomer: " + e.getMessage());
+			classList = new ArrayList<DishClass>();
+		}
 		for (int i = classList.size() - 1; i >= 0; i--) {
 			int classid = classList.get(i).getClassid();
 			if (getBranchDishClassCount(classid, branchSid) <= 0) {

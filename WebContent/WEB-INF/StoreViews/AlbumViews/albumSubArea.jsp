@@ -36,11 +36,13 @@
             <div class="form-group">
               <label class="col-md-3 control-label">相册集</label>
               <div class="col-md-9">
-                <label class="checkbox-inline">
+                
                   <c:forEach items="${classList}" var="item">
+				  <label class="checkbox-inline">
                   <input type="checkbox" name="options" value="${item.classid}" <c:if test="${item.selected}">checked</c:if> >${item.className}
-                  </c:forEach>
-                </label>
+                  </label>
+				  </c:forEach>
+                
               </div>
             </div>
             <div class="form-group" >

@@ -150,8 +150,8 @@ public class BranchController {
 		String appid = appInfoDao.getAppidByWebsite(websiteid);
   		if (appid != null) {
   			int storeSid = branchDao.getStoreSid(branchSid);
- 			List<DishClass> classList = dishDao.getBasicClassinfos(appid, 
- 					branchSid, storeSid);
+ 			List<DishClass> classList = dishDao.getBasicClassinfosForCustomer(
+ 					appid, branchSid, storeSid);
  			if(classList.size() > 0){
  				classList.get(0).setSelected(true);
  			}
@@ -159,7 +159,8 @@ public class BranchController {
  			if (classList.size() > 0) {
  				DishClass dishClass = classList.get(0);
  				int classid = dishClass.getClassid();
- 				List<DishBranch> dishList = dishDao.getDishClassForCustomer(classid, branchSid);
+ 				List<DishBranch> dishList = dishDao.getDishClassForCustomer(
+ 						classid, branchSid);
  				model.addAttribute("dishList", dishList);
  			}
   		}
