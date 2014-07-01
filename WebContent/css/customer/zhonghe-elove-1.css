@@ -81,7 +81,7 @@ div {
   height: 40px;
   width: 100%;
   background-color: #f8e9ed;
-  z-index: 1080;
+  z-index: 10;
 }
 .top-navbg {
   height: 40px;
@@ -124,7 +124,7 @@ div {
   position: fixed;
   top: 0;
   right: 0;
-  z-index:1280;
+  z-index:12;
   height: 40px;
   width: 25px;
   background-color: #f8e9ed;
