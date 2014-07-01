@@ -81,6 +81,7 @@ a:hover {
 .dishes-item-text > h5 {
   font-family:"Microsoft YaHei";
   color: #000;
+  font-size: 13px;
 }
 .dishes-item-text > h5 > small {
   color: #FF0000;

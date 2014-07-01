@@ -26,5 +26,5 @@
 }
 #dishTopInfo{
 	width:300px;
-	height:28px;
+	overflow: hidden;
 }
