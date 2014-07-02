@@ -110,7 +110,6 @@ public class WebsiteController {
 				new ClassPathXmlApplicationContext("All-Modules.xml");
 		WebsiteDAO websiteDao = (WebsiteDAO) context.getBean("WebsiteDAO");
 		AppInfoDAO appInfoDao = (AppInfoDAO) context.getBean("AppInfoDAO");
-		UserInfoDAO userInfoDao = null;
 		ArticleDAO articleDao = null;
 		AlbumDAO albumDao = null;
 		VoteDAO voteDao = null;
@@ -121,19 +120,19 @@ public class WebsiteController {
 		String viewName = "WebsiteViews/";
 		
 		if (node != null) {
-			Website website = websiteDao.getWebsiteInfoForCustomer(node.getWebsiteid());
+			int websiteid = node.getWebsiteid();
+			Website website = websiteDao.getWebsiteInfoForCustomer(websiteid);
 	        model.addAttribute("website", website);
 			
 			String childrenType = node.getChildrenType();
 			List<Integer> nodeidList = websiteDao.getNodeChildid(nodeid);
 			
 			ShareMessage message = new ShareMessage();
-			message.setWechatNumber(appInfoDao.getWechatNumberByWebsite(website.getWebsiteid()));
+			message.setWechatNumber(appInfoDao.getWechatNumberByWebsite(websiteid));
 			String followLink = null;
 			
 			switch (childrenType) {
 			case "node":
-				userInfoDao = (UserInfoDAO) context.getBean("UserInfoDAO");
 				List<WebsiteNode> nodeList = new ArrayList<WebsiteNode>();
 				for (int i = 0; i < nodeidList.size(); i++) {
 					WebsiteNode temp = websiteDao.getWebsiteNode(nodeidList.get(i));
@@ -141,11 +140,8 @@ public class WebsiteController {
 						nodeList.add(temp);
 					}
 				}
-				Integer sid = userInfoDao.getSidByWebsiteid(node.getWebsiteid());
-				List<String> imageList = null;
-				if (sid != null) {
-					imageList = userInfoDao.getUserImages(sid);
-				}
+				List<String> imageList = websiteDao.getWebsiteImagesWithType(
+						websiteid, "introduce");
 				model.addAttribute("imageList", imageList);
 				model.addAttribute("nodeList", nodeList);
 				viewName = viewName + "nodeList";
