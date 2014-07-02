@@ -15,15 +15,16 @@
     <link href="./css/customer/wei-website-c-common.css" rel="stylesheet">
     <link href="./css/customer/mobile-common.css" rel="stylesheet">
   </head>
-  <body style="background-image: url('${images[0]}_original.jpg');">
+  <body>
+    <div id='mySwipe' class='swipe swipe-bg'>
+      <div class='swipe-wrap'>
+      <c:forEach items="${images}" var="image">
+        <div><img src = '${image}_original.jpg' class="img-responsive img-responsive img-swipe center-block"></div>
+      </c:forEach>
+      </div>
+    </div>
     <div id="wrapper" class="nav-container">
       <div id="scroller" class="nav-bar">
-        <div class="nav-item">
-          <a href="customer/website/home?websiteid=${website.websiteid}" class="nav-link">
-            <p class="nav-item-text">首页</p>
-            <img src="./img/icon_lib/home-white.png" class="nav-icon" alt="home">
-          </a>
-        </div>
         <div class="nav-item">
           <a onclick="location.href='http://api.map.baidu.com/marker?location=${website.lat},${website.lng}&amp;title=${website.address}&amp;name=${website.address}&amp;content=${website.address}&amp;output=html'" class="nav-link">
             <p class="nav-item-text">导航</p>
@@ -58,6 +59,7 @@
     <script type="application/javascript" src="js/customer/iscroll.js"></script>
     <script type="text/javascript" src="js/customer/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="js/customer/website-8.js"></script>
+    <script type="text/javascript" src="js/customer/mobile-common.js"></script>
     <script type="text/javascript">
       var myScroll;
       function loaded() {
@@ -65,6 +67,19 @@
       }
       document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
       document.addEventListener('DOMContentLoaded', loaded, false);
+    </script>
+    <script src="js/customer/swipe.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function(){
+        var elem = document.getElementById('mySwipe');
+        selectedId = 0;
+        window.mySwipe = Swipe(elem, {
+          startSlide: 0,
+          auto: 4000,
+          continuous: true,
+        });
+    }
+    );
     </script>
     <%@ include file="../CommonViews/shareJS.jsp"%>
     <script type="text/javascript">
