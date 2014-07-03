@@ -47,6 +47,7 @@ import register.dao.UserInfoDAO;
 import security.User;
 import tools.CommonValidationTools;
 import vote.dao.VoteDAO;
+import voucher.dao.VoucherDAO;
 import website.dao.WebsiteDAO;
 
 /**
@@ -273,6 +274,7 @@ public class BasicController {
 		VoteDAO voteDao = (VoteDAO) context.getBean("VoteDAO");
 		LotteryWheelDAO wheelDao = (LotteryWheelDAO) context.getBean("LotteryWheelDAO");
 		DishDAO dishDao = (DishDAO) context.getBean("DishDAO");
+		VoucherDAO voucherDao = (VoucherDAO) context.getBean("VoucherDAO");
 		((ConfigurableApplicationContext)context).close();
 		
 		Gson gson = new Gson();
@@ -340,6 +342,8 @@ public class BasicController {
 				//dishclass
 				dishDao.deleteDishClass(appid);
 				
+				//voucher
+				voucherDao.deleteVoucher(appid);
 				message.setStatus(true);
 				message.setMessage("删除成功！");
 			}

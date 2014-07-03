@@ -39,6 +39,7 @@ import register.dao.InviteDAO;
 import register.dao.UserInfoDAO;
 import vote.Vote;
 import vote.VoteContent;
+import voucher.Voucher;
 import website.Website;
 import website.dao.WebsiteDAO;
 
@@ -617,6 +618,16 @@ public class CommonValidationTools {
 	 * @return
 	 */
 	public static boolean checkDishClassBranch(DishClassBranch classBranch) {
+		return true;
+	}
+
+	/**
+	 * @title checkVoucher
+	 * @description 验证优惠券信息
+	 * @param voucher
+	 * @return
+	 */
+	public static boolean checkVoucher(Voucher voucher) {
 		return true;
 	}
 }

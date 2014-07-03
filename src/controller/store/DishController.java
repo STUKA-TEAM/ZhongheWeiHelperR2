@@ -329,7 +329,7 @@ public class DishController {
 		if (result > 0) {
 			message.setStatus(true);
 			message.setMessage("菜品删除成功！");
-		}else {
+		} else {
 			message.setStatus(false);
 			message.setMessage("菜品删除失败！");
 		}

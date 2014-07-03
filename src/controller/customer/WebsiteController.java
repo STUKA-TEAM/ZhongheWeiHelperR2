@@ -121,14 +121,15 @@ public class WebsiteController {
 		String viewName = "WebsiteViews/";
 		
 		if (node != null) {
-			Website website = websiteDao.getWebsiteInfoForCustomer(node.getWebsiteid());
+			int websiteid = node.getWebsiteid();
+			Website website = websiteDao.getWebsiteInfoForCustomer(websiteid);
 	        model.addAttribute("website", website);
 			
 			String childrenType = node.getChildrenType();
 			List<Integer> nodeidList = websiteDao.getNodeChildid(nodeid);
 			
 			ShareMessage message = new ShareMessage();
-			message.setWechatNumber(appInfoDao.getWechatNumberByWebsite(website.getWebsiteid()));
+			message.setWechatNumber(appInfoDao.getWechatNumberByWebsite(websiteid));
 			String followLink = null;
 			
 			switch (childrenType) {
@@ -141,7 +142,7 @@ public class WebsiteController {
 						nodeList.add(temp);
 					}
 				}
-				Integer sid = userInfoDao.getSidByWebsiteid(node.getWebsiteid());
+				Integer sid = userInfoDao.getSidByWebsiteid(websiteid);
 				List<String> imageList = null;
 				if (sid != null) {
 					imageList = userInfoDao.getUserImages(sid);
