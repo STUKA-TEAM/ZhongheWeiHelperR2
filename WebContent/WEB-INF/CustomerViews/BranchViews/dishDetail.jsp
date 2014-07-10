@@ -10,8 +10,8 @@
             <img id="dishDetailImg" src="">
           </div>
           <div id="dishTopInfo">
-          <div id="dishTitle"></div>
-          <div id="dishLike"></div>
+            <div id="dishTitle"></div>
+            <div id="dishLike"></div>
           </div>
           <div id="dishDesc"></div>
         </div>
