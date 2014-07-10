@@ -41,7 +41,7 @@
           <div class="contentlist-item">
             <a href="customer/website/resources?nodeid=${item.nodeid}" class="noneStyleLinkGray">
             <div class="imgContainer"><c:if test="${item.nodePic!=''&&item.nodePic!=null}"><img src="${item.nodePic}_original.jpg" class="img-responsive"></c:if></div>
-            <p class="contentlist-text">${item.nodeName}</p>
+            <c:if test="${item.nodeName!=''&&item.nodeName!=null}"><p class="contentlist-text">${item.nodeName}</p></c:if>
             </a>
           </div>
       </c:forEach>
