@@ -110,6 +110,7 @@ public class WebsiteController {
 				new ClassPathXmlApplicationContext("All-Modules.xml");
 		WebsiteDAO websiteDao = (WebsiteDAO) context.getBean("WebsiteDAO");
 		AppInfoDAO appInfoDao = (AppInfoDAO) context.getBean("AppInfoDAO");
+		UserInfoDAO userInfoDao = null;
 		ArticleDAO articleDao = null;
 		AlbumDAO albumDao = null;
 		VoteDAO voteDao = null;
@@ -133,6 +134,7 @@ public class WebsiteController {
 			
 			switch (childrenType) {
 			case "node":
+				userInfoDao = (UserInfoDAO) context.getBean("UserInfoDAO");
 				List<WebsiteNode> nodeList = new ArrayList<WebsiteNode>();
 				for (int i = 0; i < nodeidList.size(); i++) {
 					WebsiteNode temp = websiteDao.getWebsiteNode(nodeidList.get(i));
@@ -140,8 +142,11 @@ public class WebsiteController {
 						nodeList.add(temp);
 					}
 				}
-				List<String> imageList = websiteDao.getWebsiteImagesWithType(
-						websiteid, "introduce");
+				Integer sid = userInfoDao.getSidByWebsiteid(websiteid);
+				List<String> imageList = null;
+				if (sid != null) {
+					imageList = userInfoDao.getUserImages(sid);
+				}
 				model.addAttribute("imageList", imageList);
 				model.addAttribute("nodeList", nodeList);
 				viewName = viewName + "nodeList";

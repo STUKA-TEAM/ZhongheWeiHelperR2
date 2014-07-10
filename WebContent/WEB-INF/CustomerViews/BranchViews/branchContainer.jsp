@@ -19,16 +19,6 @@
     <link href="./css/customer/dishes-order-branch.css" rel="stylesheet">
     <link href="./css/customer/dishdetail.css" rel="stylesheet">
 
-    <!-- <script type="application/javascript" src="./js/customer/iscroll.js"></script>
-    <script type="text/javascript">
-      var type_scroll;
-      function loaded() {
-        type_scroll = new iScroll('type_wrapper', {hScrollbar:false, vScrollbar:false});
-      }
-      document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
-      document.addEventListener('DOMContentLoaded', loaded, false);
-    </script> -->
-
   </head>
   <body>
   <body>
@@ -61,11 +51,32 @@
       </c:forEach>
       </div>
     </div>
-    <%@ include file="dishDetail.jsp"%>
+    <div class="modal fade" id="detail" tabindex="-1">
+      <div id="myModalSwipe" class="swipe modal-dialog">
+        <div class="swipe-wrap modal-content">
+        <c:forEach items="${dishList}" var="item">
+          <div>
+          <div id="modalbody" class="modal-body">
+          <c:if test="${not empty item.dishPic}">
+            <img id="dishDetailImg" src="${item.dishPic}_original.jpg">
+          </c:if>
+          </div>
+          <div id="dishTopInfo">
+            <div id="dishTitle">${item.dishName}</div>
+            <div id="dishLike">${item.recomNum}人赞过</div>
+          </div>
+          <div id="dishDesc">${item.dishDesc}</div>
+          </div>
+        </c:forEach>
+        </div>
+      </div>
+    </div>
     <script type="text/javascript" src="js/customer/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="js/customer/modal.min.js"></script> 
     <script type="text/javascript" src="js/customer/jQueryRotateCompressed.js"></script>
     <script type="text/javascript" src="js/customer/mobile-common.js"></script>
+    <script src="js/customer/swipe.js"></script>
     <script type="text/javascript" src="js/customer/onlineMenuInWebsite.js"></script>
+    
   </body>
 </html>

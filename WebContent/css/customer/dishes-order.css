@@ -60,7 +60,6 @@ a:hover {
 }
 .dishes-item {
   line-height: 78px;
-  height: 78px;
   margin-left: 70px;
   border-bottom: solid #bbb 1px;
 }
@@ -137,4 +136,13 @@ a:hover {
   bottom: 16px;
   right: 10px;
   z-index: 1080;
+}
+.swipe {
+	overflow: hidden;
+	visibility: hidden;
+	position: relative;
+}
+.swipe-wrap {
+	overflow: hidden;
+	position: relative;
 }
