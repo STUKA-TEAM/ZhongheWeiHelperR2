@@ -138,3 +138,7 @@ a:hover {
   right: 10px;
   z-index: 1080;
 }
+.dishDesc {
+  height: 36px;
+  overflow-y: scroll;
+}

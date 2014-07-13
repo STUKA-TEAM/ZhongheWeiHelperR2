@@ -11,8 +11,10 @@ function clickLike(dishid){
 		});
 }
 
-function showDishDetail(index){
+function showDishDetail(dishId, index){
 	$("#detail").modal("show");
+	var h = $("#"+dishId+"_modalbody").css("height");
+	$(".modal-dialog").css("height", h);
 	var elem = document.getElementById('myModalSwipe');
     window.myModalSwipe = Swipe(elem, {
       startSlide: index,

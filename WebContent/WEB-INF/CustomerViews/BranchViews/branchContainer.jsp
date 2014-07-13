@@ -35,11 +35,14 @@
       <c:forEach items="${dishList}" var="item" varStatus="xh">
         <div class="dishes-item">
           <c:if test="${not empty item.dishPic}">
-          <img id="${item.dishid}_dishImg" src="${item.dishPic}_small.jpg" class="dishes-item-img" onclick="showDishDetail('${xh.index}')"/>
+          <img id="${item.dishid}_dishImg" src="${item.dishPic}_small.jpg" class="dishes-item-img" onclick="showDishDetail('${item.dishid}', '${xh.index}')"/>
           <input id="${item.dishid}_dishImgID" type="hidden" value="${item.dishPic}">
           </c:if>
           <div class="dishes-item-text">
-            <h5 onclick="showDishDetail('${xh.index}')"><div id="${item.dishid}_dishName">${item.dishName}</div><c:if test="${item.price!=0}"><small>${item.price}元/${item.dishUnit}</small></c:if></h5>
+            <h5 onclick="showDishDetail('${item.dishid}', '${xh.index}')">
+              <div id="${item.dishid}_dishName">${item.dishName}</div>
+              <c:if test="${item.price!=0}"><small>${item.price}元/${item.dishUnit}</small></c:if>
+            </h5>
             <div id="${item.dishid}_good" class="good" onclick="clickLike('${item.dishid}')">
              <img id="${item.dishid}_goodImg" class="goodImg" src="./img/common/like_black.png" />
              <div class="goodText"><div id="${item.dishid}_goodNum" class="goodTextNum">${item.recomNum}</div><div class="goodTextSub">人赞过</div></div>
@@ -55,19 +58,18 @@
       <div id="myModalSwipe" class="swipe modal-dialog">
         <div class="swipe-wrap modal-content">
         <c:forEach items="${dishList}" var="item">
-          <div>
-	        <div id="modalbody" class="modal-body">
+	      <div id="${item.dishid}_modalbody" class="modal-body">
 	        <c:if test="${not empty item.dishPic}">
 	          <img id="dishDetailImg" src="${item.dishPic}_original.jpg">
 	        </c:if>
-	        </div>
+	        
 	        <div id="dishTopInfo">
 	          <div id="dishTitle">${item.dishName}</div>
 	          <div id="dishLike">${item.recomNum}人赞过</div>
 	        </div>
 	        <div id="dishDesc">${item.dishDesc}</div>
 	      </div>
-        </c:forEach>
+s        </c:forEach>
         </div>
       </div>
     </div>
