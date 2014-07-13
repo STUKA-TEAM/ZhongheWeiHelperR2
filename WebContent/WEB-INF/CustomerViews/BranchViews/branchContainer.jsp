@@ -54,8 +54,8 @@
     <div class="modal fade" id="detail" tabindex="-1">
       <div id="myModalSwipe" class="swipe modal-dialog">
         <div class="swipe-wrap modal-content">
-        <c:forEach items="${dishList}" var="item">
-          <div>
+        <c:forEach items="${dishList}" var="item" varStatus="xh">
+          <div id = "${xh.index}" >
           <div id="modalbody" class="modal-body">
           <c:if test="${not empty item.dishPic}">
             <img id="dishDetailImg" src="${item.dishPic}_original.jpg">
