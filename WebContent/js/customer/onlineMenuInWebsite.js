@@ -29,7 +29,7 @@ function changeCurrentClass(obj, openid, branchid){
 		  url: "customer/branch/branchMenuByClass",
 		  data: "branchid="+branchid+"&classid="+classid,
 		  success: function (data) {
-			  $("#dishesContent").html(data);
+			  $("#dishesListData").html(data);
 			  var oldClassid = $("#currentClass").val();
 			  $("#"+oldClassid+"_dishClass").removeClass("active");
 			  $("#currentClass").val(classid);

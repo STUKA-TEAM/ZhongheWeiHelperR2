@@ -30,6 +30,7 @@
         </c:forEach>
       </ul>
     </div>
+    <div id="dishesListData">
     <div id="dishesContent" class="dishes-content">
       <div class="dishes-list">
       <c:forEach items="${dishList}" var="item" varStatus="xh">
@@ -70,6 +71,7 @@
         </c:forEach>
         </div>
       </div>
+    </div>
     </div>
     <script type="text/javascript" src="js/customer/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="js/customer/modal.min.js"></script> 
