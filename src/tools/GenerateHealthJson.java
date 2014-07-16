@@ -46,14 +46,26 @@ public static String getAPI_1_2_true(){
 }
 
 public static String getAPI_2_1(){
-	ReportListItem reportListItem = new ReportListItem();
-	reportListItem.setArchivesNum("73082677");
-	reportListItem.setCustomerRegID("20000004026752");
-	reportListItem.setName("陈正英");
-	reportListItem.setCheckDate("2013-9-7");
-	reportListItem.setItemSuitIDName("自费2(女)");
-	reportListItem.setAddTime("2013-9-20");
-	return gson.toJson(reportListItem);
+	ReportListItem reportListItem1 = new ReportListItem();
+	reportListItem1.setArchivesNum("73082677");
+	reportListItem1.setCustomerRegID("20000004026752");
+	reportListItem1.setName("陈正英");
+	reportListItem1.setCheckDate("2013-9-7");
+	reportListItem1.setItemSuitIDName("自费2(女)");
+	reportListItem1.setAddTime("2013-9-20");
+	
+	ReportListItem reportListItem2 = new ReportListItem();
+	reportListItem2.setArchivesNum("73082688");
+	reportListItem2.setCustomerRegID("20000004026700");
+	reportListItem2.setName("刘力");
+	reportListItem2.setCheckDate("2013-9-7");
+	reportListItem2.setItemSuitIDName("自费2(男)");
+	reportListItem2.setAddTime("2013-9-20");
+	
+	ArrayList<ReportListItem> reportListItems = new ArrayList<>();
+	reportListItems.add(reportListItem1);
+	reportListItems.add(reportListItem2);
+	return gson.toJson(reportListItems);
 }
 
 public static String getAPI_2_2(){
