@@ -8,7 +8,7 @@ private boolean BandingResult;
 private String TJ_Code;
 private String Name;
 private QueueResult PD_Info;
-public boolean isBandingResult() {
+public boolean getBandingResult() {
 	return BandingResult;
 }
 public void setBandingResult(boolean bandingResult) {

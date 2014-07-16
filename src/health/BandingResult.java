@@ -6,7 +6,7 @@ package health;
 public class BandingResult {
 private boolean BandingResult;
 private String ArchivesNum;
-public boolean isBandingResult() {
+public boolean getBandingResult() {
 	return BandingResult;
 }
 public void setBandingResult(boolean bandingResult) {

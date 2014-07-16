@@ -162,16 +162,16 @@ public static String getAPI_3_1_true(){
 	return gson.toJson(queueResultTry);
 }
 public static void main(String[] arg){
-	//System.out.println(getAPI_1_1_false());
-	//System.out.println(getAPI_1_1_true());
-	//System.out.println(getAPI_1_2_false());
-	//System.out.println(getAPI_1_2_true());
-	//System.out.println(getAPI_2_1());
-	//System.out.println(getAPI_2_2());
-	//System.out.println(getAPI_3_1_false());
-	//System.out.println(getAPI_3_1_true());
-	//System.out.println(getAPI_1_3_false());
-	//System.out.println(getAPI_1_3_true());
+	System.out.println("API-1.1-false:"+"\n"+getAPI_1_1_false()+"\n");
+	System.out.println("API-1.1-true:"+"\n"+getAPI_1_1_true()+"\n");
+	System.out.println("API-1.2-false:"+"\n"+getAPI_1_2_false()+"\n");
+	System.out.println("API-1.2-true:"+"\n"+getAPI_1_2_true()+"\n");
+	System.out.println("API-2.1:"+"\n"+getAPI_2_1()+"\n");
+	System.out.println("API-2.2:"+"\n"+getAPI_2_2()+"\n");
 	
+	System.out.println("API-1.3-false:"+"\n"+getAPI_1_3_false()+"\n");
+	System.out.println("API-1.3-true:"+"\n"+getAPI_1_3_true()+"\n");
+	System.out.println("API-3.1-false:"+"\n"+getAPI_3_1_false()+"\n");
+	System.out.println("API-3.1-true:"+"\n"+getAPI_3_1_true()+"\n");
 }
 }
