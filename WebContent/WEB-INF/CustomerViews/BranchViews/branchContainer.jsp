@@ -70,7 +70,7 @@
 	        </div>
 	        <div id="dishDesc">${item.dishDesc}</div>
 	      </div>
-s        </c:forEach>
+        </c:forEach>
         </div>
       </div>
     </div>

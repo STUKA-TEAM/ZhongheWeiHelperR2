@@ -19,6 +19,10 @@ function showDishDetail(dishId, index){
     window.myModalSwipe = Swipe(elem, {
       startSlide: index,
       continuous: true,
+      callback: function(i, e) {
+    	  var h = $("#"+$(e).attr("id")).css("height");
+    	  $(".modal-dialog").css("height", h);
+      }
     });
 }
 
