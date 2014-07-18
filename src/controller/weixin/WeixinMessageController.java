@@ -86,15 +86,24 @@ public class WeixinMessageController {
 						}
 						
 						if(xmlMap.get("EventKey").equals("onlineMenu")){		
-								NewsItemToResponse theme = new NewsItemToResponse();
-								theme.setTitle("在线菜单");
-								theme.setPicUrl(MethodUtils.getApplicationPath()+"/img/wechat_newsInfo/onlineMenuInfo.jpg");
-								theme.setUrl(MethodUtils.getApplicationPath()+"customer/dish/branchlist?openid="+openid+"&appid="+appid);
-								List<NewsItemToResponse> articles = new ArrayList<NewsItemToResponse>();
-								articles.add(theme);
+							NewsItemToResponse theme = new NewsItemToResponse();
+							theme.setTitle("在线菜单");
+							theme.setPicUrl(MethodUtils.getApplicationPath()+"/img/wechat_newsInfo/onlineMenuInfo.jpg");
+							theme.setUrl(MethodUtils.getApplicationPath()+"customer/dish/branchlist?openid="+openid+"&appid="+appid);
+							List<NewsItemToResponse> articles = new ArrayList<NewsItemToResponse>();
+							articles.add(theme);
 						    return WeixinMessageUtil.newsMessageToXmlForResponse(xmlMap, articles);
 						}
 						
+						if(xmlMap.get("EventKey").equals("viewReport")){		
+							NewsItemToResponse theme = new NewsItemToResponse();
+							theme.setTitle("查看体检报表");
+							theme.setPicUrl(MethodUtils.getApplicationPath()+"");
+							theme.setUrl(MethodUtils.getApplicationPath()+"customer/health/reportlist?openid="+openid+"&appid="+appid);
+							List<NewsItemToResponse> articles = new ArrayList<NewsItemToResponse>();
+							articles.add(theme);
+						    return WeixinMessageUtil.newsMessageToXmlForResponse(xmlMap, articles);
+						}
 					}
 					((ConfigurableApplicationContext)context).close();
 				}

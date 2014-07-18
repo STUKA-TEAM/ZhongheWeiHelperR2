@@ -24,6 +24,9 @@
         <property name="suffix" value=".jsp" />
     </bean>
     
+    <bean id="Service" class="org.apache.axis.client.Service"></bean>
+    <bean id="Gson" class="com.google.gson.Gson"></bean>
+    
     <mvc:interceptors>   
         <mvc:interceptor>  
             <mvc:mapping path="/lottery/wheel/do" />  

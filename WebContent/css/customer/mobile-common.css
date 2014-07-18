@@ -60,7 +60,8 @@ a:focus.noneStyleLinkGray{
 .swipe-wrap {
   overflow: hidden;
   position: relative;
-  max-width: 36000px;
+  max-width: 360000px;
+  border:0px;
 }
 .swipe-wrap > div {
   float:left;

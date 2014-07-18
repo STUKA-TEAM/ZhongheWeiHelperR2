@@ -19,6 +19,10 @@ function showDishDetail(dishId, index){
     window.myModalSwipe = Swipe(elem, {
       startSlide: index,
       continuous: true,
+      callback: function(i, e) {
+    	  var h = $("#"+$(e).attr("id")).css("height");
+    	  $(".modal-dialog").css("height", h);
+      }
     });
 }
 
@@ -31,7 +35,7 @@ function changeCurrentClass(obj, openid, branchid){
 		  url: "customer/branch/branchMenuByClass",
 		  data: "branchid="+branchid+"&classid="+classid,
 		  success: function (data) {
-			  $("#dishesContent").html(data);
+			  $("#dishesListData").html(data);
 			  var oldClassid = $("#currentClass").val();
 			  $("#"+oldClassid+"_dishClass").removeClass("active");
 			  $("#currentClass").val(classid);
