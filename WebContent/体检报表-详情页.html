@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="tuka">
+    <title>体检报表结果</title>
+
+    <!-- Bootstrap -->
+    <link href="css/customer/bootstrap.min.css" rel="stylesheet">
+    <link href="css/customer/bingtai.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container">
+      <div class="statement-content center-block">
+        <div class="panel-group" id="accordion">
+          <div class="panel panel-info">
+            <div class="panel-heading" data-toggle="collapse" href="#info_1" onclick="change_logo('info_logo_1')">
+              <span id="info_logo_1" class="glyphicon glyphicon-minus-sign collapse-logo" clicked="true"></span> 基本信息
+            </div>
+            <div id="info_1" class="panel-collapse collapse in">
+              <div class="panel-body">
+                <ul class="statement-info list-unstyled">
+                  <li><p><strong>姓名：</strong>小明</p></li>
+                  <li><p><strong>档案号：</strong>73082690</p></li>
+                  <li><p><strong>体检套餐：</strong>普通套餐</p></li>
+                  <li><p><strong>添加时间：</strong>2014-7-18</p></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-info">
+            <div class="panel-heading" data-toggle="collapse" href="#info_2" onclick="change_logo('info_logo_2')">
+              <span id="info_logo_2" class="glyphicon glyphicon-minus-sign collapse-logo" clicked="true"></span> 总检结论
+            </div>
+            <div id="info_2" class="panel-collapse collapse in">
+              <div class="panel-body">
+                <p>昨日,茂县石大关乡山体塌方后,经过茂县公安等部门对遇难者信息的核对,现将10名遇难者的信息对外公布,其中,1人甘肃籍,9人成都籍(6人邛崃籍).我们对遇难者的不幸表示沉重的哀悼,愿逝者安息记者</p>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-info">
+            <div class="panel-heading" data-toggle="collapse" href="#info_3" onclick="change_logo('info_logo_3')">
+              <span id="info_logo_3" class="glyphicon glyphicon-minus-sign collapse-logo" clicked="true"></span> 建议汇总
+            </div>
+            <div id="info_3" class="panel-collapse collapse in">
+              <div class="panel-body">
+                <p>昨日,茂县石大关乡山体塌方后,经过茂县公安等部门对遇难者信息的核对,现将10名遇难者的信息对外公布,其中,1人甘肃籍,9人成都籍(6人邛崃籍).我们对遇难者的不幸表示沉重的哀悼,愿逝者安息记者</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel-group" id="accordion">
+          <div class="panel panel-info">
+            <div class="panel-heading" data-toggle="collapse" href="#department_1" onclick="change_logo('department_logo_1')">
+              <span id="department_logo_1" class="glyphicon glyphicon-minus-sign collapse-logo" clicked="true"></span> 外科
+            </div>
+            <div id="department_1" class="panel-collapse collapse in">
+              <table class="table">
+                <thead class="detail-title">
+                  <tr>
+                    <th>项目名称</th>
+                    <th>结果</th>
+                    <th>参考值</th>
+                    <th>单位</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>胸部</td>
+                    <td>未见异常</td>
+                    <td>140-340</td>
+                    <td>10^12/L</td>
+                  </tr>
+                  <tr>
+                    <td>肺部</td>
+                    <td>未见异常</td>
+                    <td>140-340</td>
+                    <td>10^12/L</td>
+                  </tr>
+                  <tr>
+                    <td>心脏</td>
+                    <td>未见异常</td>
+                    <td>140-340</td>
+                    <td>10^12/L</td>
+                  </tr>
+                </tbody>
+              </table>
+              <table class="table">
+                <thead class="detail-title">
+                  <tr>
+                    <th>小结</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>昨日,茂县石大关乡山体塌方后,经过茂县公安等部门对遇难者信息的核对,现将10名遇难者的信息对外公布,其中,1人甘肃籍,9人成都籍(6人邛崃籍).我们对遇难者的不幸表示沉重的哀悼,愿逝者安息记者</td>
+                  </tr>
+                </tbody>
+              </table>
+              <table class="table">
+                <thead class="detail-title">
+                  <tr>
+                    <th>体检日期</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>2014-7-18 22:08:03</td>
+                  </tr>
+                </tbody>
+              </table>
+              <table class="table">
+                <thead class="detail-title">
+                  <tr>
+                    <th>医生</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>高医生</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="panel panel-info">
+            <div class="panel-heading" data-toggle="collapse" href="#department_2" onclick="change_logo('department_logo_2')">
+              <span id="department_logo_2" class="glyphicon glyphicon-plus-sign collapse-logo" clicked="false"></span> 内科
+            </div>
+            <div id="department_2" class="panel-collapse collapse">
+              <table class="table">
+                <thead class="detail-title">
+                  <tr>
+                    <th>项目名称</th>
+                    <th>结果</th>
+                    <th>参考值</th>
+                    <th>单位</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>胸部</td>
+                    <td>未见异常</td>
+                    <td>140-340</td>
+                    <td>10^12/L</td>
+                  </tr>
+                  <tr>
+                    <td>肺部</td>
+                    <td>未见异常</td>
+                    <td>140-340</td>
+                    <td>10^12/L</td>
+                  </tr>
+                  <tr>
+                    <td>心脏</td>
+                    <td>未见异常</td>
+                    <td>140-340</td>
+                    <td>10^12/L</td>
+                  </tr>
+                </tbody>
+              </table>
+              <table class="table">
+                <thead class="detail-title">
+                  <tr>
+                    <th>小结</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>昨日,茂县石大关乡山体塌方后,经过茂县公安等部门对遇难者信息的核对,现将10名遇难者的信息对外公布,其中,1人甘肃籍,9人成都籍(6人邛崃籍).我们对遇难者的不幸表示沉重的哀悼,愿逝者安息记者</td>
+                  </tr>
+                </tbody>
+              </table>
+              <table class="table">
+                <thead class="detail-title">
+                  <tr>
+                    <th>体检日期</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>2014-7-18 22:08:03</td>
+                  </tr>
+                </tbody>
+              </table>
+              <table class="table">
+                <thead class="detail-title">
+                  <tr>
+                    <th>医生</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>高医生</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="panel panel-info">
+            <div class="panel-heading" data-toggle="collapse" href="#department_3" onclick="change_logo('department_logo_3')">
+              <span id="department_logo_3" class="glyphicon glyphicon-plus-sign collapse-logo" clicked="false"></span> 妇科
+            </div>
+            <div id="department_3" class="panel-collapse collapse">
+              <table class="table">
+                <thead class="detail-title">
+                  <tr>
+                    <th>项目名称</th>
+                    <th>结果</th>
+                    <th>参考值</th>
+                    <th>单位</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>胸部</td>
+                    <td>未见异常</td>
+                    <td>140-340</td>
+                    <td>10^12/L</td>
+                  </tr>
+                  <tr>
+                    <td>肺部</td>
+                    <td>未见异常</td>
+                    <td>140-340</td>
+                    <td>10^12/L</td>
+                  </tr>
+                  <tr>
+                    <td>心脏</td>
+                    <td>未见异常</td>
+                    <td>140-340</td>
+                    <td>10^12/L</td>
+                  </tr>
+                </tbody>
+              </table>
+              <table class="table">
+                <thead class="detail-title">
+                  <tr>
+                    <th>小结</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>昨日,茂县石大关乡山体塌方后,经过茂县公安等部门对遇难者信息的核对,现将10名遇难者的信息对外公布,其中,1人甘肃籍,9人成都籍(6人邛崃籍).我们对遇难者的不幸表示沉重的哀悼,愿逝者安息记者</td>
+                  </tr>
+                </tbody>
+              </table>
+              <table class="table">
+                <thead class="detail-title">
+                  <tr>
+                    <th>体检日期</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>2014-7-18 22:08:03</td>
+                  </tr>
+                </tbody>
+              </table>
+              <table class="table">
+                <thead class="detail-title">
+                  <tr>
+                    <th>医生</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>高医生</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p><a href="http://getbootstrap.com">图卡网络</a> | <a href="https://twitter.com/mdo">秉泰科技</a></p>
+    </div>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="js/customer/jquery-1.11.1.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/customer/bootstrap.min.js"></script>
+    <script src="js/customer/statement.js"></script>
+  </body>
+</html>

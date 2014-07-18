@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="tuka">
+    <title>排队状态</title>
+
+    <!-- Bootstrap -->
+    <link href="css/customer/bootstrap.min.css" rel="stylesheet">
+    <link href="css/customer/bingtai.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container">
+      <div class="content center-block">
+        <div class="panel-group" id="accordion">
+          <div class="panel panel-info">
+            <div class="panel-heading" data-toggle="collapse" href="#department_1" onclick="change_logo('collapse_logo_1')">
+              <span id="collapse_logo_1" class="glyphicon glyphicon-minus-sign collapse-logo" clicked="true"></span> 当前排验科室
+            </div>
+            <div id="department_1" class="panel-collapse collapse in">
+              <div class="panel-body">
+                <p>当前排验科室当前排验科室当前排验科室当前排验科室当前排验科室当前排验科室当前排验科室当前排验科室</p>
+              </div>
+            </div>
+          </div>
+          <div class="panel panel-info">
+            <div class="panel-heading" data-toggle="collapse" href="#department_2" onclick="change_logo('collapse_logo_2')">
+              <span id="collapse_logo_2" class="glyphicon glyphicon-plus-sign collapse-logo" clicked="false"></span> 剩余检查科室
+            </div>
+            <ul id="department_2" class="panel-collapse collapse list-group">
+              <li class="list-group-item">妇科</li>
+              <li class="list-group-item">神经科</li>
+            </ul>
+          </div>
+          <div class="panel panel-info">
+            <div class="panel-heading" data-toggle="collapse" href="#department_3" onclick="change_logo('collapse_logo_3')">
+              <span id="collapse_logo_3" class="glyphicon glyphicon-plus-sign collapse-logo" clicked="false"></span> 剩余空腹科室
+            </div>
+            <ul id="department_3" class="panel-collapse collapse list-group">
+              <li class="list-group-item">消化科</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p><a href="http://getbootstrap.com">图卡网络</a> | <a href="https://twitter.com/mdo">秉泰科技</a></p>
+    </div>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="js/customer/jquery-1.11.1.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/customer/bootstrap.min.js"></script>
+    <script src="js/customer/queue.js"></script>
+  </body>
+</html>
