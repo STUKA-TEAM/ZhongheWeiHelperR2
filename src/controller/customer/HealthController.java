@@ -7,7 +7,6 @@ import health.BandingState;
 import health.QueueResultBanding;
 import health.QueueResultTry;
 import health.Report;
-import health.ReportList;
 import health.ReportListItem;
 import health.dao.HealthDAO;
 
@@ -28,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 /**
  * @Title: HealthController
@@ -153,7 +153,8 @@ public class HealthController {
 				call.setReturnType(org.apache.axis.encoding.XMLType.XSD_STRING);
 				Object[] params = new Object[] {appid, openid};
 				String json = (String) call.invoke(params);
-				itemList = gson.fromJson(json, ReportList.class).getDs();
+				itemList = gson.fromJson(json, new TypeToken<List<ReportListItem
+						>>(){}.getType());
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 			}
