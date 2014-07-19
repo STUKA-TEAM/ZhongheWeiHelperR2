@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="tuka">
+    <title>绑定档案号</title>
+
+    <!-- Bootstrap -->
+    <link href="css/customer/bootstrap.min.css" rel="stylesheet">
+    <link href="css/customer/bingtai.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container">
+      <div class="content center-block">
+        <div class="form-group has-feedback">
+          <label class="control-label sr-only" for="archive_id">请输入您的体检档案号</label>
+          <input type="text" class="form-control input-archive-id" id="archive_id" placeholder="请输入您的体检档案号">
+          <span class="glyphicon glyphicon-remove form-control-feedback hidden"></span>
+        </div>
+        <div class="archive-btn">
+          <button id="archive_id_confirm" type="button" class="btn btn-info btn-sm btn-block btn-archive-id">确定</button>
+        </div>
+        <div class="archive-btn">
+          <button id="archive_id_cancel" type="button" class="btn btn-default btn-sm btn-block btn-archive-id">取消</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p><a href="http://getbootstrap.com">图卡网络</a> | <a href="https://twitter.com/mdo">秉泰科技</a></p>
+    </div>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="js/customer/jquery-1.11.1.min.js"></script>
+    <script src="js/customer/archive-id.js"></script>
+  </body>
+</html>
