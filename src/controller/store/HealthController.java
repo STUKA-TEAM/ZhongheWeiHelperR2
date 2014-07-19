@@ -1,5 +1,7 @@
 package controller.store;
 
+import javax.servlet.http.HttpServletRequest;
+
 import health.StationInfo;
 import health.dao.HealthDAO;
 import message.ResponseMessage;
@@ -8,13 +10,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import register.dao.AppInfoDAO;
+import security.User;
 
 import com.google.gson.Gson;
 
@@ -39,16 +46,33 @@ public class HealthController {
 	 * @return
 	 */
 	@RequestMapping(value = "/gethost", method = RequestMethod.GET)
-	public String getHost(@RequestParam(value = "appid", required = true) String 
-			appid, Model model){
+	public String getHost(@CookieValue(value = "appid", required = true) String 
+			appid, Model model, HttpServletRequest request){
 		ApplicationContext context = 
 				new ClassPathXmlApplicationContext("All-Modules.xml");
 		HealthDAO healthDao = (HealthDAO) context.getBean("HealthDAO");
+		AppInfoDAO appInfoDao = (AppInfoDAO) context.getBean("AppInfoDAO");
 		((ConfigurableApplicationContext)context).close();
 		
-		StationInfo stationInfo = healthDao.getStationInfo(appid);
-		model.addAttribute("stationInfo", stationInfo);
-		return "HealthViews/stationInfo";
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = (User)auth.getPrincipal();
+
+		if (appid == null) {
+			return "redirect:/store/account";
+		}
+		else {
+			if (appid.trim().equals("") || appInfoDao.checkAppExistsByUser(user.getSid(), 
+					appid) == 0) {
+				request.setAttribute("message", "当前管理的公众账号无效，请先选择或关联微信公众账号!");
+				request.setAttribute("jumpLink", "store/account");
+				return "forward:/store/transfer";   
+			}
+			else {
+				StationInfo stationInfo = healthDao.getStationInfo(appid);
+				model.addAttribute("stationInfo", stationInfo);
+				return "HealthViews/stationInfo";
+			}
+		}
 	}
 	
 	/**

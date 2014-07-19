@@ -17,8 +17,9 @@
     ----------------------------------------------
     	1			微官网			website
     	2			elove           elove
-    	3                                      分店管理                                      branch
-    	4                                      菜品管理                                     dish
+    	3                                 分店管理                                branch
+    	4                                 菜品管理                                dish
+    	5                                 体检站管理                            station
 
 3. elove_theme表导入数据
 	default:
