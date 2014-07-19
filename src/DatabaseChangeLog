@@ -262,6 +262,12 @@ Windows:
             id           int(11)      No         <auto_increment>       Yes                 
             classid      int(11)      No         0                      No                  菜品类别id
             branchSid    int(11)      No         0                      No                  分店id
+[2014-07-19][index: 0053]添加表medicalstation
+            Name         Type         NULL       Default                Primary Key         Comment
+        ---------------------------------------------------------------------------------------------------------------------------------
+            mid          int(11)      No         <auto_increment>       Yes                 记录id
+            appid        varchar(255) No                                No                  应用标识
+            host         varchar(255) No                                No                  主机地址
 
 Linux:
 [2014-02-22][index: 0001]done

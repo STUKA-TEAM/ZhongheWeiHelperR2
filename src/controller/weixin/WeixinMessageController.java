@@ -104,6 +104,16 @@ public class WeixinMessageController {
 							articles.add(theme);
 						    return WeixinMessageUtil.newsMessageToXmlForResponse(xmlMap, articles);
 						}
+						
+						if(xmlMap.get("EventKey").equals("viewQueueState")){		
+							NewsItemToResponse theme = new NewsItemToResponse();
+							theme.setTitle("查看排检状态");
+							theme.setPicUrl(MethodUtils.getApplicationPath()+"");
+							theme.setUrl(MethodUtils.getApplicationPath()+"customer/health/queuestate?openid="+openid+"&appid="+appid);
+							List<NewsItemToResponse> articles = new ArrayList<NewsItemToResponse>();
+							articles.add(theme);
+						    return WeixinMessageUtil.newsMessageToXmlForResponse(xmlMap, articles);
+						}
 					}
 					((ConfigurableApplicationContext)context).close();
 				}

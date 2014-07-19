@@ -37,5 +37,6 @@
 	<import resource="feedback/dao/FeedbackDAO-Beans.xml"/>
 	<import resource="menu/dao/MenuDAO-Beans.xml"/>
 	<import resource="branch/dao/BranchDAO-Beans.xml"/>
+	<import resource="health/dao/HealthDAO-Beans.xml"/>
 
 </beans>
