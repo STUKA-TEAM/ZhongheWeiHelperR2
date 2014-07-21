@@ -220,7 +220,7 @@ public class HealthController {
 		
 		String host = healthDao.getHostInfo(appid);
 		String url = prefix + host + postfix_B;
-		String method = "BT_QUEQUE_Info";
+		String method = "BT_PD_Info";
 		Call call = null;
 		QueueResultTry result = null;
 		try {
